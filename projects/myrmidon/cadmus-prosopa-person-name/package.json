@@ -1,0 +1,24 @@
+{
+  "name": "@myrmidon/cadmus-prosopa-person-name",
+  "version": "0.0.1",
+  "description": "Cadmus - shared sub-model components.",
+  "keywords": [
+    "Cadmus",
+    "bricks"
+  ],
+  "homepage": "https://github.com/vedph/cadmus-bricks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedph/cadmus-bricks"
+  },
+  "author": {
+    "name": "Daniele Fusi"
+  },
+  "peerDependencies": {
+    "@angular/common": "^12.0.5",
+    "@angular/core": "^12.0.5"
+  },
+  "dependencies": {
+    "tslib": "^2.1.0"
+  }
+}

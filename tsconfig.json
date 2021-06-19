@@ -2,6 +2,12 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@myrmidon/cadmus-prosopa-person-name": [
+        "dist/myrmidon/cadmus-prosopa-person-name/myrmidon-cadmus-prosopa-person-name",
+        "dist/myrmidon/cadmus-prosopa-person-name"
+      ]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

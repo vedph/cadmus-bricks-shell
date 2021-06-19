@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -37,7 +38,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -94,9 +95,41 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
+          }
+        }
+      }
+    },
+    "@myrmidon/cadmus-prosopa-person-name": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-prosopa-person-name",
+      "sourceRoot": "projects/myrmidon/cadmus-prosopa-person-name/src",
+      "prefix": "cadmus-prosopa",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-prosopa-person-name/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-prosopa-person-name/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-prosopa-person-name/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-prosopa-person-name/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-prosopa-person-name/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-prosopa-person-name/karma.conf.js"
           }
         }
       }

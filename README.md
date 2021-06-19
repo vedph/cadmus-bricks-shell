@@ -2,26 +2,23 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
 
-## Development server
+This project is a shell for incubating a number of Cadmus sub-models, implemented as Angular components with their editing UI.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+As Cadmus projects increase, the prototype code needs to be chopped into smaller portions, so that they can be easily reused with minimal overhead. Yet, we need a smooth migration because most Cadmus projects are in a production stage, nor I have time to refactor everything at once.
 
-## Code scaffolding
+The upgrade strategy is thus starting with the creation of "bricks", i.e. the sub-model components shared by many projects. Each of these bricks should be wrapped in its own module. So, in the end we will have a library project for each brick.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+To better organize the library projects, I adopt a namespace-like naming convention: all the libraries start with `cadmus-` followed by a namespace roughly representing its conceptual domain. For instance, we start with `PersonName`, which belongs to the prosopographic components; its library is thus named `cadmus-prosopa-person-name`. Any other component belonging to the same domain will add the `cadmus-prosopa-` prefix to the name of the component it contains.
 
-## Build
+At this stage, the bricks themselves depend on more monolithic Cadmus libraries, like the Cadmus core. In future these will be split; but at this time, we just depend on them, so that nothing gets broken in the dependencies chain, and new projects can leverage the new bricks while still using the traditional dependencies.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Roadmap
 
-## Running unit tests
+The roadmap for bricks is as follows:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- whenever a general purpose brick is required, it gets added as a library to this shell.
+- new projects import and use its library.
+- old projects are usually unaffected, unless the components promoted to bricks come from their context. In this case, when there is time they get removed from the original context and the corresponding brick is imported there instead.
+- when time allows it, old projects can be refactored so that they can take advantage of bricks instead of their monolithic dependencies.
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+In the end, the ideal target is having a lot of small libraries working together, each with minimal dependencies.

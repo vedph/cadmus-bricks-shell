@@ -6,18 +6,26 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build-prosopa": "ng build @myrmidon/cadmus-prosopa-person-name --configuration=production"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.0.4",
+    "@angular/cdk": "^12.0.5",
     "@angular/common": "~12.0.4",
     "@angular/compiler": "~12.0.4",
     "@angular/core": "~12.0.4",
+    "@angular/flex-layout": "^12.0.0-beta.34",
     "@angular/forms": "~12.0.4",
+    "@angular/material": "^12.0.5",
     "@angular/platform-browser": "~12.0.4",
     "@angular/platform-browser-dynamic": "~12.0.4",
     "@angular/router": "~12.0.4",
+    "@myrmidon/cadmus-core": "0.0.23",
+    "@myrmidon/cadmus-material": "0.0.6",
+    "gravatar": "^1.8.1",
+    "rangy": "^1.3.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
@@ -34,6 +42,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "ng-packagr": "^12.0.0",
     "typescript": "~4.2.3"
   }
 }
