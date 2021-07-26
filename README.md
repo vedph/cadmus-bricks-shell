@@ -22,3 +22,13 @@ The roadmap for bricks is as follows:
 - when time allows it, old projects can be refactored so that they can take advantage of bricks instead of their monolithic dependencies.
 
 In the end, the ideal target is having a lot of small libraries working together, each with minimal dependencies.
+
+## Adding a Brick
+
+To add a brick:
+
+1. add a library project to this workspace: `ng add @myrmidon/LIBNS-LIBNAME --prefix cadmus-LIBNS`.
+
+2. add a control in the library.
+
+3. add a corresponding host page in the app, with its menu and route.

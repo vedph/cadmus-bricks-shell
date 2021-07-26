@@ -14,9 +14,11 @@ import { HomeComponent } from './home/home.component';
 // prosopa bricks
 import { CadmusProsopaPersonNameModule } from 'projects/myrmidon/cadmus-prosopa-person-name/src/public-api';
 import { PersonNamePgComponent } from './prosopa/person-name-pg/person-name-pg.component';
+import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
+import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc-references/src/public-api';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, PersonNamePgComponent],
+  declarations: [AppComponent, HomeComponent, PersonNamePgComponent, DocReferencesPgComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -28,6 +30,7 @@ import { PersonNamePgComponent } from './prosopa/person-name-pg/person-name-pg.c
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: HomeComponent },
         { path: 'prosopa/person-name', component: PersonNamePgComponent },
+        { path: 'refs/doc-references', component: DocReferencesPgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -41,7 +44,8 @@ import { PersonNamePgComponent } from './prosopa/person-name-pg/person-name-pg.c
     // Cadmus
     CadmusCoreModule,
     CadmusMaterialModule,
-    CadmusProsopaPersonNameModule
+    CadmusProsopaPersonNameModule,
+    CadmusRefsDocReferencesModule
   ],
   providers: [],
   bootstrap: [AppComponent],

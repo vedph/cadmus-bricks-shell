@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Doc References</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-refs-doc-references
+      [references]="initialReferences"
+      (referencesChange)="onReferencesChange($event)"
+    ></cadmus-refs-doc-references>
+    <div *ngIf="references">
+      <pre>{{ references | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

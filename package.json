@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-prosopa": "ng build @myrmidon/cadmus-prosopa-person-name --configuration=production"
+    "build-prosopa": "ng build @myrmidon/cadmus-prosopa-person-name --configuration=production",
+    "build-refs": "ng build @myrmidon/cadmus-refs-doc-references --configuration=production"
   },
   "private": true,
   "dependencies": {

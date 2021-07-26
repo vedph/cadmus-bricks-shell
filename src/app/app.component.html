@@ -6,6 +6,11 @@
       /></span>
       <a mat-button routerLink="/home">Cadmus Bricks</a>
 
+      <button mat-button [matMenuTriggerFor]="refsMenu">Refs</button>
+      <mat-menu #refsMenu>
+        <a mat-menu-item routerLink="/refs/doc-references">Doc references</a>
+      </mat-menu>
+
       <button mat-button [matMenuTriggerFor]="prosopaMenu">Prosopa</button>
       <mat-menu #prosopaMenu>
         <a mat-menu-item routerLink="/prosopa/person-name">Person name</a>

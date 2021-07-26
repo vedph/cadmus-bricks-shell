@@ -6,6 +6,10 @@
       "@myrmidon/cadmus-prosopa-person-name": [
         "dist/myrmidon/cadmus-prosopa-person-name/myrmidon-cadmus-prosopa-person-name",
         "dist/myrmidon/cadmus-prosopa-person-name"
+      ],
+      "@myrmidon/cadmus-refs-doc-references": [
+        "dist/myrmidon/cadmus-refs-doc-references/myrmidon-cadmus-refs-doc-references",
+        "dist/myrmidon/cadmus-refs-doc-references"
       ]
     },
     "baseUrl": "./",

@@ -1,0 +1,156 @@
+<form [formGroup]="form">
+  <div formArrayName="refsArr">
+    <!-- add -->
+    <div>
+      <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="addReference()"
+        matTooltip="Add a new reference"
+      >
+        <mat-icon>add_circle</mat-icon> add
+      </button>
+    </div>
+    <!-- list -->
+    <div
+      *ngFor="
+        let item of refsArr.controls;
+        let i = index;
+        let first = first;
+        let last = last
+      "
+    >
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <!-- child actions -->
+        {{ i + 1 }}.
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Remove this reference"
+          color="warn"
+          (click)="removeReference(i)"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+        <button
+          [disabled]="first"
+          mat-icon-button
+          type="button"
+          matTooltip="Move reference up"
+          (click)="moveReferenceUp(i)"
+        >
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          [disabled]="last"
+          mat-icon-button
+          type="button"
+          matTooltip="Move reference down"
+          (click)="moveReferenceDown(i)"
+        >
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+
+        <!-- child controls -->
+        <!-- row 1 -->
+        <!-- tag (bound) -->
+        <ng-container *ngIf="tagEntries">
+          <mat-form-field style="width: 8em">
+            <mat-select formControlName="tag" placeholder="tag">
+              <mat-option *ngFor="let e of tagEntries" [value]="e.id">
+                {{ e.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- tag (free) -->
+        <ng-container *ngIf="!tagEntries">
+          <mat-form-field style="width: 8em">
+            <input matInput formControlName="tag" placeholder="tag" />
+            <mat-error
+              *ngIf="
+                $any(item)['controls'].tag.hasError('max-length') &&
+                ($any(item)['controls'].tag.dirty ||
+                  $any(item)['controls'].tag.touched)
+              "
+              >tag too long
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- author -->
+        &nbsp;
+        <mat-form-field>
+          <input
+            #author
+            matInput
+            formControlName="author"
+            placeholder="author"
+          />
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].author.hasError('max-length') &&
+              ($any(item)['controls'].author.dirty ||
+                $any(item)['controls'].author.touched)
+            "
+            >author too long
+          </mat-error>
+        </mat-form-field>
+
+        <!-- work -->
+        &nbsp;
+        <mat-form-field>
+          <input matInput formControlName="work" placeholder="work" />
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].work.hasError('required') &&
+              ($any(item)['controls'].work.dirty ||
+                $any(item)['controls'].work.touched)
+            "
+            >work required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].work.hasError('max-length') &&
+              ($any(item)['controls'].work.dirty ||
+                $any(item)['controls'].work.touched)
+            "
+            >work too long
+          </mat-error>
+        </mat-form-field>
+
+        <!-- location -->
+        &nbsp;
+        <mat-form-field style="width: 6em">
+          <input matInput formControlName="location" placeholder="location" />
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].location.hasError('max-length') &&
+              ($any(item)['controls'].location.dirty ||
+                $any(item)['controls'].location.touched)
+            "
+            >location too long
+          </mat-error>
+        </mat-form-field>
+        <!-- row 2-->
+        <div style="margin-left: 2em">
+          <!-- note -->
+          <mat-form-field style="width: 690px">
+            <input matInput formControlName="note" placeholder="note" />
+            <mat-error
+              *ngIf="
+                $any(item)['controls'].note.hasError('max-length') &&
+                ($any(item)['controls'].note.dirty ||
+                  $any(item)['controls'].note.touched)
+              "
+              >note too long
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

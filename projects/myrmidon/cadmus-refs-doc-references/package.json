@@ -1,7 +1,7 @@
 {
-  "name": "@myrmidon/cadmus-prosopa-person-name",
+  "name": "@myrmidon/cadmus-refs-doc-references",
   "version": "0.0.1",
-  "description": "Cadmus - person name component.",
+  "description": "Cadmus - document references component.",
   "keywords": [
     "Cadmus",
     "bricks"
@@ -15,10 +15,10 @@
     "name": "Daniele Fusi"
   },
   "peerDependencies": {
-    "@angular/common": "^12.0.5",
-    "@angular/core": "^12.0.5"
+    "@angular/common": "^12.1.0-",
+    "@angular/core": "^12.1.0-"
   },
   "dependencies": {
-    "tslib": "^2.1.0"
+    "tslib": "^2.2.0"
   }
 }
