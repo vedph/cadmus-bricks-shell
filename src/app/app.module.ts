@@ -14,11 +14,20 @@ import { HomeComponent } from './home/home.component';
 // prosopa bricks
 import { CadmusProsopaPersonNameModule } from 'projects/myrmidon/cadmus-prosopa-person-name/src/public-api';
 import { PersonNamePgComponent } from './prosopa/person-name-pg/person-name-pg.component';
-import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
+// refs bricks
 import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc-references/src/public-api';
+import { CadmusRefsDecoratedIdsModule } from 'projects/myrmidon/cadmus-refs-decorated-ids/src/public-api';
+import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
+import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, PersonNamePgComponent, DocReferencesPgComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    PersonNamePgComponent,
+    DocReferencesPgComponent,
+    DecoratedIdsPgComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -31,6 +40,7 @@ import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc
         { path: 'home', component: HomeComponent },
         { path: 'prosopa/person-name', component: PersonNamePgComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
+        { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -45,7 +55,8 @@ import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc
     CadmusCoreModule,
     CadmusMaterialModule,
     CadmusProsopaPersonNameModule,
-    CadmusRefsDocReferencesModule
+    CadmusRefsDocReferencesModule,
+    CadmusRefsDecoratedIdsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

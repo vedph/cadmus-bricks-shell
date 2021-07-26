@@ -1,0 +1,140 @@
+<form [formGroup]="form">
+  <!-- list -->
+  <div>
+    <button mat-stroked-button (click)="addId()" color="primary">
+      <mat-icon>add_circle</mat-icon> add ID
+    </button>
+  </div>
+  <table *ngIf="ids?.length">
+    <thead>
+      <tr>
+        <th></th>
+        <th>id</th>
+        <th>rnk</th>
+        <th>tag</th>
+        <th>src</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let id of ids; let i = index"
+        [class.selected]="i === editedIndex"
+      >
+        <td>
+          <button
+            type="button"
+            color="primary"
+            mat-icon-button
+            matTooltip="Edit this ID"
+            (click)="editId(i)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            type="button"
+            color="warn"
+            mat-icon-button
+            matTooltip="Delete this ID"
+            (click)="deleteId(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </td>
+        <td>{{ id.id }}</td>
+        <td style="text-align: center">{{ id.rank }}</td>
+        <td>{{ id.tag }}</td>
+        <td style="text-align: center">{{ id.sources?.length || 0 }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- editor -->
+  <mat-expansion-panel
+    [(expanded)]="editorOpen"
+    [disabled]="!editorOpen"
+    class="boxed"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>ID</mat-panel-title>
+      <mat-panel-description>
+        {{ editedId?.id }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <form [formGroup]="subForm" (submit)="saveEditedId()">
+      <!-- id -->
+      <div>
+        <mat-form-field>
+          <input matInput [formControl]="id" placeholder="ID" />
+          <mat-error *ngIf="id.hasError('required') && (id.dirty || id.touched)"
+            >enter ID</mat-error
+          >
+          <mat-error
+            *ngIf="id.hasError('max-length') && (id.dirty || id.touched)"
+            >ID too long</mat-error
+          >
+        </mat-form-field>
+        &nbsp;
+        <!-- rank -->
+        <mat-form-field style="width: 3em">
+          <input
+            matInput
+            [formControl]="rank"
+            placeholder="rank"
+            type="number"
+            min="0"
+          />
+        </mat-form-field>
+        &nbsp;
+        <!-- tag (bound) -->
+        <ng-container *ngIf="tagEntries">
+          <mat-form-field style="width: 8em">
+            <mat-select [formControl]="tag" placeholder="tag">
+              <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <!-- tag (free) -->
+        <ng-container *ngIf="!tagEntries">
+          <mat-form-field style="width: 6em">
+            <input matInput [formControl]="tag" placeholder="tag" />
+            <mat-error
+              *ngIf="tag.hasError('max-length') && (tag.dirty || tag.touched)"
+              >tag too long</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+      </div>
+      <div>
+        <!-- sources -->
+        <h4>ID sources</h4>
+        <cadmus-refs-doc-references
+          [tagEntries]="docRefTagEntries"
+          [references]="initialSources"
+          (referencesChange)="onSourcesChange($event)"
+        ></cadmus-refs-doc-references>
+      </div>
+      <div>
+        <button
+          (click)="closeEditedId()"
+          type="button"
+          mat-icon-button
+          matTooltip="Discard ID changes"
+          color="warn"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+        <button
+          type="submit"
+          [disabled]="form.invalid || form.pristine"
+          mat-icon-button
+          matTooltip="Save ID changes"
+          color="primary"
+        >
+          <mat-icon>check_circle</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+</form>

@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Doc References</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-refs-decorated-ids
+      (idsChange)="onIdsChange($event)"
+    ></cadmus-refs-decorated-ids>
+    <div *ngIf="ids">
+      <pre>{{ ids | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>
