@@ -27,7 +27,7 @@ In the end, the ideal target is having a lot of small libraries working together
 
 To add a brick:
 
-1. add a library project to this workspace: `ng add @myrmidon/LIBNS-LIBNAME --prefix cadmus-LIBNS`.
+1. add a library project to this workspace: `ng g library @myrmidon/LIBNS-LIBNAME --prefix cadmus-LIBNS`.
 
 2. add a control in the library.
 

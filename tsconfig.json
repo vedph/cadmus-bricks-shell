@@ -3,6 +3,10 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@myrmidon/cadmus-prosopa-cited-person": [
+        "dist/myrmidon/cadmus-prosopa-cited-person/myrmidon-cadmus-prosopa-cited-person",
+        "dist/myrmidon/cadmus-prosopa-cited-person"
+      ],
       "@myrmidon/cadmus-prosopa-person-name": [
         "dist/myrmidon/cadmus-prosopa-person-name/myrmidon-cadmus-prosopa-person-name",
         "dist/myrmidon/cadmus-prosopa-person-name"

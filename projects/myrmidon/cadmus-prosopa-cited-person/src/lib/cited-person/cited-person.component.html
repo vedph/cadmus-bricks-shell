@@ -1,0 +1,240 @@
+<form [formGroup]="form" (submit)="save()">
+  <h4>name</h4>
+  <div>
+    <!-- language (bound) -->
+    <ng-container *ngIf="!langEntries?.length">
+      <mat-form-field style="width: 6em">
+        <input matInput placeholder="language" [formControl]="language" />
+        <mat-error
+          *ngIf="
+            language.errors?.required && (language.dirty || language.touched)
+          "
+          >enter a language</mat-error
+        >
+        <mat-error
+          *ngIf="
+            language.errors?.maxLength && (language.dirty || language.touched)
+          "
+          >language too long</mat-error
+        >
+      </mat-form-field>
+    </ng-container>
+    <!-- language (free) -->
+    <ng-container *ngIf="langEntries?.length">
+      <mat-form-field style="width: 6em">
+        <mat-select [formControl]="language" placeholder="language">
+          <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
+            e.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+    &nbsp;
+    <!-- tag (free) -->
+    <mat-form-field style="width: 8em" *ngIf="!nameTagEntries?.length">
+      <input matInput placeholder="tag" [formControl]="tag" />
+      <mat-error *ngIf="tag.errors?.required && (tag.dirty || tag.touched)"
+        >enter a tag</mat-error
+      >
+      <mat-error *ngIf="tag.errors?.maxLength && (tag.dirty || tag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
+    <!-- tag (bound) -->
+    <mat-form-field style="width: 8em" *ngIf="nameTagEntries?.length">
+      <mat-select [formControl]="tag" placeholder="tag">
+        <mat-option *ngFor="let e of nameTagEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- rank -->
+    &nbsp;
+    <mat-form-field style="width: 4em">
+      <input
+        type="number"
+        min="0"
+        matInput
+        [formControl]="rank"
+        placeholder="rank"
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- parts -->
+  <div formArrayName="parts">
+    <div>
+      <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="addPart()"
+        matTooltip="Add a new part to the name"
+      >
+        <mat-icon>add_circle</mat-icon> add part
+      </button>
+    </div>
+    <div
+      *ngFor="
+        let item of parts.controls;
+        let i = index;
+        let first = first;
+        let last = last
+      "
+    >
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <!-- child actions -->
+        {{ i + 1 }}.
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Remove this part"
+          color="warn"
+          (click)="removePart(i)"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+        <button
+          [disabled]="first"
+          mat-icon-button
+          type="button"
+          matTooltip="Move part up"
+          (click)="movePartUp(i)"
+        >
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          [disabled]="last"
+          mat-icon-button
+          type="button"
+          matTooltip="Move part down"
+          (click)="movePartDown(i)"
+        >
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+
+        <!-- child controls -->
+        <!-- type (bound) -->
+        <mat-form-field style="width: 8em" *ngIf="nameTypeEntries?.length">
+          <mat-select formControlName="type" placeholder="type">
+            <mat-option *ngFor="let e of nameTypeEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].type.errors?.required &&
+              ($any(item)['controls'].type.dirty ||
+                $any(item)['controls'].type.touched)
+            "
+            >select a type
+          </mat-error>
+        </mat-form-field>
+
+        <!-- type (free) -->
+        <mat-form-field style="width: 8em" *ngIf="!nameTypeEntries?.length">
+          <input matInput formControlName="type" placeholder="type" />
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].type.errors?.required &&
+              ($any(item)['controls'].type.dirty ||
+                $any(item)['controls'].type.touched)
+            "
+            >enter a type
+          </mat-error>
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].type.errors?.maxLength &&
+              ($any(item)['controls'].type.dirty ||
+                $any(item)['controls'].type.touched)
+            "
+            >type too long
+          </mat-error>
+        </mat-form-field>
+
+        <!-- value -->
+        <mat-form-field>
+          <input
+            #partValue
+            matInput
+            maxlength="50"
+            formControlName="value"
+            placeholder="value"
+            autofocus
+          />
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].value.errors?.required &&
+              ($any(item)['controls'].value.dirty ||
+                $any(item)['controls'].value.touched)
+            "
+            >enter a value
+          </mat-error>
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].value.errors?.maxLength &&
+              ($any(item)['controls'].value.dirty ||
+                $any(item)['controls'].value.touched)
+            "
+            >value too long
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <br />
+  <!-- ids -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h4>identifications</h4>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <cadmus-refs-decorated-ids
+      [tagEntries]="idTagEntries"
+      [ids]="initialIds"
+      (idsChange)="onIdsChange($event)"
+    ></cadmus-refs-decorated-ids>
+  </mat-expansion-panel>
+
+  <br />
+  <!-- sources -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h4>sources</h4>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <cadmus-refs-doc-references
+      [tagEntries]="idTagEntries"
+      [references]="initialSources"
+      (referencesChange)="onSourcesChange($event)"
+    ></cadmus-refs-doc-references>
+  </mat-expansion-panel>
+
+  <br />
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      (click)="cancel()"
+      matTooltip="Close this person"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Save this person"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

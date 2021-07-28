@@ -1,0 +1,19 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Cited Person</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-prosopa-cited-person
+      [langEntries]="langEntries"
+      [nameTypeEntries]="namePartTypeEntries"
+      [person]="initialCitedPerson"
+      (personChange)="onCitedPersonChange($event)"
+    >
+    </cadmus-prosopa-cited-person>
+    <div *ngIf="citedPerson">
+      <pre>{{ citedPerson | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

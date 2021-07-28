@@ -1,0 +1,11 @@
+{
+  "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../../dist/myrmidon/cadmus-prosopa-cited-person",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@myrmidon/cadmus-core": "@myrmidon/cadmus-core",
+      "@myrmidon/cadmus-material": "@myrmidon/cadmus-material"
+    }
+  }
+}
