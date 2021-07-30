@@ -1,0 +1,154 @@
+<form [formGroup]="form">
+  <div formArrayName="idsArr">
+    <div>
+      <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="addId()"
+        matTooltip="Add a new ID"
+      >
+        <mat-icon>add_circle</mat-icon> add ID
+      </button>
+    </div>
+    <div
+      *ngFor="
+        let item of idsArr.controls;
+        let i = index;
+        let first = first;
+        let last = last
+      "
+    >
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <!-- child actions -->
+        {{ i + 1 }}.
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Remove this ID"
+          color="warn"
+          (click)="removeId(i)"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+        <button
+          [disabled]="first"
+          mat-icon-button
+          type="button"
+          matTooltip="Move ID up"
+          (click)="moveIdUp(i)"
+        >
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          [disabled]="last"
+          mat-icon-button
+          type="button"
+          matTooltip="Move ID down"
+          (click)="moveIdDown(i)"
+        >
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+
+        <!-- child controls -->
+        <!-- value -->
+        <mat-form-field>
+          <input
+            #id
+            autofocus
+            matInput
+            formControlName="value"
+            placeholder="external ID"
+          />
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].value.hasError('required') &&
+              ($any(item)['controls'].value.dirty ||
+                $any(item)['controls'].value.touched)
+            "
+            >ID required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              $any(item)['controls'].value.hasError('max-length') &&
+              ($any(item)['controls'].value.dirty ||
+                $any(item)['controls'].value.touched)
+            "
+            >ID too long
+          </mat-error>
+        </mat-form-field>
+
+        &nbsp;
+        <!-- type (bound) -->
+        <ng-container *ngIf="typeEntries">
+          <mat-form-field style="width: 8em">
+            <mat-select formControlName="type" placeholder="type">
+              <mat-option *ngFor="let e of typeEntries" [value]="e.id">
+                {{ e.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- type (free) -->
+        <ng-container *ngIf="!typeEntries">
+          <mat-form-field style="width: 8em">
+            <input matInput formControlName="type" placeholder="type" />
+            <mat-error
+              *ngIf="
+                $any(item)['controls'].type.hasError('max-length') &&
+                ($any(item)['controls'].type.dirty ||
+                  $any(item)['controls'].type.touched)
+              "
+              >type too long
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        &nbsp;
+        <!-- tag (bound) -->
+        <ng-container *ngIf="tagEntries">
+          <mat-form-field style="width: 8em">
+            <mat-select formControlName="tag" placeholder="tag">
+              <mat-option *ngFor="let e of tagEntries" [value]="e.id">
+                {{ e.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- tag (free) -->
+        <ng-container *ngIf="!tagEntries">
+          <mat-form-field style="width: 8em">
+            <input matInput formControlName="tag" placeholder="tag" />
+            <mat-error
+              *ngIf="
+                $any(item)['controls'].tag.hasError('max-length') &&
+                ($any(item)['controls'].tag.dirty ||
+                  $any(item)['controls'].tag.touched)
+              "
+              >tag too long
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- note -->
+        <div style="margin-left: 135px">
+          <!-- value -->
+          <mat-form-field style="width: 90%; max-width: 800px">
+            <input matInput formControlName="note" placeholder="note" />
+            <mat-error
+              *ngIf="
+                $any(item)['controls'].note.hasError('max-length') &&
+                ($any(item)['controls'].note.dirty ||
+                  $any(item)['controls'].note.touched)
+              "
+              >note too long
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

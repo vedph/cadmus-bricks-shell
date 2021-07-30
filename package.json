@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build-prosopa": "ng build @myrmidon/cadmus-prosopa-person-name --configuration=production && ng build @myrmidon/cadmus-prosopa-cited-person --configuration=production",
-    "build-refs": "ng build @myrmidon/cadmus-refs-doc-references --configuration=production && ng build @myrmidon/cadmus-refs-decorated-ids --configuration=production"
+    "build-refs": "ng build @myrmidon/cadmus-refs-doc-references --configuration=production && ng build @myrmidon/cadmus-refs-decorated-ids --configuration=production && ng build @myrmidon/cadmus-refs-external-ids --configuration=production"
   },
   "private": true,
   "dependencies": {

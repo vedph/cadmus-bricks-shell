@@ -18,6 +18,10 @@
       "@myrmidon/cadmus-refs-doc-references": [
         "dist/myrmidon/cadmus-refs-doc-references/myrmidon-cadmus-refs-doc-references",
         "dist/myrmidon/cadmus-refs-doc-references"
+      ],
+      "@myrmidon/cadmus-refs-external-ids": [
+        "dist/myrmidon/cadmus-refs-external-ids/myrmidon-cadmus-refs-external-ids",
+        "dist/myrmidon/cadmus-refs-external-ids"
       ]
     },
     "baseUrl": "./",

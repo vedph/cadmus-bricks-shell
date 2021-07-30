@@ -1,13 +1,15 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <h2>Decorated IDs</h2>
+      <h2>External IDs</h2>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <cadmus-refs-decorated-ids
+    <cadmus-refs-external-ids
+      [typeEntries]="typeEntries"
+      [tagEntries]="tagEntries"
       (idsChange)="onIdsChange($event)"
-    ></cadmus-refs-decorated-ids>
+    ></cadmus-refs-external-ids>
     <div *ngIf="ids">
       <pre>{{ ids | json }}</pre>
     </div>

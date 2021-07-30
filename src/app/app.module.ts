@@ -21,6 +21,8 @@ import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-reference
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
 import { CitedPersonPgComponent } from './prosopa/cited-person-pg/cited-person-pg.component';
 import { CadmusProsopaCitedPersonModule } from 'projects/myrmidon/cadmus-prosopa-cited-person/src/public-api';
+import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
+import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { CadmusProsopaCitedPersonModule } from 'projects/myrmidon/cadmus-prosopa
     DocReferencesPgComponent,
     DecoratedIdsPgComponent,
     CitedPersonPgComponent,
+    ExternalIdsPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { CadmusProsopaCitedPersonModule } from 'projects/myrmidon/cadmus-prosopa
         { path: 'prosopa/person-name', component: PersonNamePgComponent },
         { path: 'prosopa/cited-person', component: CitedPersonPgComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
+        { path: 'refs/external-ids', component: ExternalIdsPgComponent },
         { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
         { path: '**', component: HomeComponent },
       ],
@@ -62,6 +66,7 @@ import { CadmusProsopaCitedPersonModule } from 'projects/myrmidon/cadmus-prosopa
     CadmusProsopaCitedPersonModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
+    CadmusRefsExternalIdsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
