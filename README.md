@@ -32,3 +32,10 @@ To add a brick:
 2. add a control in the library.
 
 3. add a corresponding host page in the app, with its menu and route.
+
+## Publishing
+
+1. update the library version numbers
+2. `npm run build-refs`
+3. `npm run build-prosopa`
+4. `./publish`
