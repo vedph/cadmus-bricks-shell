@@ -9,9 +9,16 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
+export interface DocReference {
+  type?: string;
+  tag?: string;
+  citation: string;
+  note?: string;
+}
 
 /**
  * Real-time editor for a set of DocReference's.
@@ -53,6 +60,9 @@ export class DocReferencesComponent implements AfterViewInit, OnDestroy {
     this._references = value || [];
     this.updateForm(value);
   }
+
+  @Input()
+  public typeEntries: ThesaurusEntry[] | undefined;
 
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
@@ -102,19 +112,16 @@ export class DocReferencesComponent implements AfterViewInit, OnDestroy {
   // #region Authors
   private getReferenceGroup(reference?: DocReference): FormGroup {
     return this._formBuilder.group({
+      type: this._formBuilder.control(
+        reference?.type,
+        Validators.maxLength(50)
+      ),
       tag: this._formBuilder.control(reference?.tag, [
         Validators.maxLength(50),
       ]),
-      author: this._formBuilder.control(
-        reference?.author,
-        Validators.maxLength(50)
-      ),
-      work: this._formBuilder.control(reference?.work, [
+      citation: this._formBuilder.control(reference?.citation, [
         Validators.required,
         Validators.maxLength(100),
-      ]),
-      location: this._formBuilder.control(reference?.location, [
-        Validators.maxLength(20),
       ]),
       note: this._formBuilder.control(reference?.note, [
         Validators.maxLength(300),
@@ -213,10 +220,9 @@ export class DocReferencesComponent implements AfterViewInit, OnDestroy {
     for (let i = 0; i < this.refsArr.length; i++) {
       const g = this.refsArr.controls[i] as FormGroup;
       references.push({
+        type: g.controls.type.value?.trim(),
         tag: g.controls.tag.value?.trim(),
-        author: g.controls.author.value?.trim(),
-        work: g.controls.work.value?.trim(),
-        location: g.controls.location.value?.trim(),
+        citation: g.controls.citation?.value?.trim(),
         note: g.controls.note.value?.trim(),
       });
     }

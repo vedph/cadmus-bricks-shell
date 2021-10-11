@@ -33,9 +33,8 @@ export class CitedPersonPgComponent implements OnInit {
           sources: [
             {
               tag: 'tag',
-              author: 'Chantraine',
-              work: 'EtGr',
-              location: '1.23',
+              type: 'book',
+              citation: 'EtGr. 1.23',
               note: "wow, that's a note!",
             },
           ],
@@ -44,9 +43,7 @@ export class CitedPersonPgComponent implements OnInit {
       sources: [
         {
           tag: 'tag',
-          author: 'Allen',
-          work: 'Wk',
-          location: '245',
+          citation: 'Allen 1967 234'
         },
       ],
     };

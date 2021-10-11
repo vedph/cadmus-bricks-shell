@@ -6,16 +6,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  ThesaurusEntry,
-  DocReference,
-  CadmusValidators,
-} from '@myrmidon/cadmus-core';
+import { ThesaurusEntry, CadmusValidators } from '@myrmidon/cadmus-core';
 import {
   PersonName,
   PersonNamePart,
 } from '@myrmidon/cadmus-prosopa-person-name';
 import { DecoratedId } from '@myrmidon/cadmus-refs-decorated-ids';
+import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
 
 /**
  * A person cited in a documental source, optionally with a set of

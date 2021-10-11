@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DocReference } from '@myrmidon/cadmus-core';
+import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
 
 @Component({
   selector: 'app-doc-references-pg',

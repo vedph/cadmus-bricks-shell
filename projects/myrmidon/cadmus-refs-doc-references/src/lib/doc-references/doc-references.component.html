@@ -55,7 +55,34 @@
 
         <!-- child controls -->
         <!-- row 1 -->
+        <!-- type (bound) -->
+        <ng-container *ngIf="typeEntries">
+          <mat-form-field style="width: 8em">
+            <mat-select formControlName="type" placeholder="type">
+              <mat-option *ngFor="let e of typeEntries" [value]="e.id">
+                {{ e.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- type (free) -->
+        <ng-container *ngIf="!typeEntries">
+          <mat-form-field style="width: 8em">
+            <input matInput formControlName="type" placeholder="type" />
+            <mat-error
+              *ngIf="
+                $any(item)['controls'].type.hasError('max-length') &&
+                ($any(item)['controls'].type.dirty ||
+                  $any(item)['controls'].type.touched)
+              "
+              >type too long
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
         <!-- tag (bound) -->
+        &nbsp;
         <ng-container *ngIf="tagEntries">
           <mat-form-field style="width: 8em">
             <mat-select formControlName="tag" placeholder="tag">
@@ -81,60 +108,20 @@
           </mat-form-field>
         </ng-container>
 
-        <!-- author -->
-        &nbsp;
-        <mat-form-field>
-          <input
-            #author
-            matInput
-            formControlName="author"
-            placeholder="author"
-          />
-          <mat-error
-            *ngIf="
-              $any(item)['controls'].author.hasError('max-length') &&
-              ($any(item)['controls'].author.dirty ||
-                $any(item)['controls'].author.touched)
-            "
-            >author too long
-          </mat-error>
-        </mat-form-field>
-
-        <!-- work -->
-        &nbsp;
-        <mat-form-field>
-          <input matInput formControlName="work" placeholder="work" />
-          <mat-error
-            *ngIf="
-              $any(item)['controls'].work.hasError('required') &&
-              ($any(item)['controls'].work.dirty ||
-                $any(item)['controls'].work.touched)
-            "
-            >work required
-          </mat-error>
-          <mat-error
-            *ngIf="
-              $any(item)['controls'].work.hasError('max-length') &&
-              ($any(item)['controls'].work.dirty ||
-                $any(item)['controls'].work.touched)
-            "
-            >work too long
-          </mat-error>
-        </mat-form-field>
-
-        <!-- location -->
+        <!-- citation -->
         &nbsp;
         <mat-form-field style="width: 6em">
-          <input matInput formControlName="location" placeholder="location" />
+          <input matInput formControlName="citation" placeholder="citation" />
           <mat-error
             *ngIf="
-              $any(item)['controls'].location.hasError('max-length') &&
-              ($any(item)['controls'].location.dirty ||
-                $any(item)['controls'].location.touched)
+              $any(item)['controls'].citation.hasError('max-length') &&
+              ($any(item)['controls'].citation.dirty ||
+                $any(item)['controls'].citation.touched)
             "
-            >location too long
+            >citation too long
           </mat-error>
         </mat-form-field>
+
         <!-- row 2-->
         <div style="margin-left: 2em">
           <!-- note -->
