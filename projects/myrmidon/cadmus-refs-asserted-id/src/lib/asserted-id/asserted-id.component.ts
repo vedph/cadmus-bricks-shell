@@ -86,6 +86,7 @@ export class AssertedIdComponent implements OnInit {
 
   public onAssertionChange(assertion: Assertion | undefined): void {
     this.assertion = assertion;
+    setTimeout(() => this.emitIdChange(), 0);
   }
 
   private updateForm(value: AssertedId | undefined): void {

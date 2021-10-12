@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-refs": "ng build @myrmidon/cadmus-refs-doc-references && ng build @myrmidon/cadmus-refs-decorated-ids && ng build @myrmidon/cadmus-refs-external-ids && ng build @myrmidon/cadmus-refs-proper-name && ng build @myrmidon/cadmus-refs-assertion && ng build @myrmidon/cadmus-refs-asserted-id"
+    "build-lib": "ng build @myrmidon/cadmus-refs-doc-references && ng build @myrmidon/cadmus-refs-decorated-ids && ng build @myrmidon/cadmus-refs-external-ids && ng build @myrmidon/cadmus-refs-proper-name && ng build @myrmidon/cadmus-refs-assertion && ng build @myrmidon/cadmus-refs-asserted-id"
   },
   "private": true,
   "dependencies": {

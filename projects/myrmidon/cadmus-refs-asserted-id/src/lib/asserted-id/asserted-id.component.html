@@ -33,9 +33,8 @@
         >scope too long</mat-error
       >
     </mat-form-field>
-  </div>
-  <div>
     <!-- value -->
+    &nbsp;
     <mat-form-field>
       <input matInput [formControl]="value" placeholder="value" />
       <mat-error
@@ -50,12 +49,15 @@
   </div>
 
   <!-- assertion -->
-  <cadmus-refs-assertion
-    [assTagEntries]="assTagEntries"
-    [refTypeEntries]="refTypeEntries"
-    [refTagEntries]="refTagEntries"
-    [assertion]="initialAssertion"
-    (assertionChange)="onAssertionChange($event)"
-  >
-  </cadmus-refs-assertion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>assertion</mat-expansion-panel-header>
+    <cadmus-refs-assertion
+      [assTagEntries]="assTagEntries"
+      [refTypeEntries]="refTypeEntries"
+      [refTagEntries]="refTagEntries"
+      [assertion]="initialAssertion"
+      (assertionChange)="onAssertionChange($event)"
+    >
+    </cadmus-refs-assertion>
+  </mat-expansion-panel>
 </form>

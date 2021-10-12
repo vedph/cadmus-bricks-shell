@@ -12,6 +12,7 @@ import { debounceTime } from 'rxjs/operators';
 export interface Assertion {
   tag?: string;
   rank: number;
+  note?: string;
   references?: DocReference[];
 }
 
@@ -88,6 +89,7 @@ export class AssertionComponent implements OnInit {
     } else {
       this.tag.setValue(value.tag);
       this.rank.setValue(value.rank);
+      this.note.setValue(value.note);
       this.initialReferences = value.references || [];
       this.form.markAsPristine();
     }
@@ -98,7 +100,8 @@ export class AssertionComponent implements OnInit {
   private getAssertion(): Assertion {
     return {
       tag: this.tag.value?.trim(),
-      rank: +this.rank.value,
+      rank: this.rank.value,
+      note: this.note.value?.trim(),
       references: this.references,
     };
   }
