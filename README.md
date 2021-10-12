@@ -14,7 +14,11 @@ At this stage, the bricks themselves depend on more monolithic Cadmus libraries,
 
 ## List
 
-- cadmus-refs-decorated-ids
+- `cadmus-refs-assertion`: an assertion connected to some statement to qualify its level of certainty and eventually allege documental references supporting it.
+- `cadmus-refs-decorated-ids`: to replace with asserted-ids.
+- `cadmus-refs-doc-references`: a list of documental references.
+- `cadmus-refs-external-ids`: a list of external IDs.
+- `cadmus-refs-proper-name`: a composite proper name.
 
 ## Roadmap
 
