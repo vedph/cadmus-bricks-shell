@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Asserted ID</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-refs-asserted-id
+      [id]="initialId"
+      (idChange)="onIdChange($event)"
+    ></cadmus-refs-asserted-id>
+    <div *ngIf="id">
+      <pre>{{ id | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

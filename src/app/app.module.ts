@@ -23,6 +23,8 @@ import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-p
 import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
 import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
 import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
+import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
+import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component
     DecoratedIdsPgComponent,
     ExternalIdsPgComponent,
     AssertionPgComponent,
+    AssertedIdPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component
         { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
         { path: 'refs/proper-name', component: ProperNamePgComponent },
         { path: 'refs/assertion', component: AssertionPgComponent },
+        { path: 'refs/asserted-id', component: AssertedIdPgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -66,7 +70,8 @@ import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component
     CadmusRefsDecoratedIdsModule,
     CadmusRefsExternalIdsModule,
     CadmusRefsProperNameModule,
-    CadmusRefsAssertionModule
+    CadmusRefsAssertionModule,
+    CadmusRefsAssertedIdModule
   ],
   providers: [],
   bootstrap: [AppComponent],

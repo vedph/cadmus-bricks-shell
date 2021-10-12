@@ -1,0 +1,61 @@
+<form [formGroup]="form">
+  <div>
+    <!-- tag (bound) -->
+    <mat-form-field *ngIf="idTagEntries?.length" style="width: 8em">
+      <mat-select [formControl]="tag" placeholder="tag">
+        <mat-option *ngFor="let e of idTagEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- tag (free) -->
+    <mat-form-field *ngIf="!idTagEntries?.length" style="width: 8em">
+      <input matInput [formControl]="tag" placeholder="tag" />
+      <mat-error *ngIf="tag.errors?.maxLength && (tag.dirty || tag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
+    &nbsp;
+
+    <!-- scope (bound) -->
+    <mat-form-field *ngIf="scopeEntries?.length" style="width: 8em">
+      <mat-select [formControl]="scope" placeholder="scope">
+        <mat-option *ngFor="let e of scopeEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- scope (free) -->
+    <mat-form-field *ngIf="!scopeEntries?.length" style="width: 8em">
+      <input matInput [formControl]="scope" placeholder="scope" />
+      <mat-error
+        *ngIf="scope.errors?.maxLength && (scope.dirty || scope.touched)"
+        >scope too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- value -->
+    <mat-form-field>
+      <input matInput [formControl]="value" placeholder="value" />
+      <mat-error
+        *ngIf="value.errors?.required && (value.dirty || value.touched)"
+        >value required</mat-error
+      >
+      <mat-error
+        *ngIf="value.errors?.maxLength && (value.dirty || value.touched)"
+        >value too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- assertion -->
+  <cadmus-refs-assertion
+    [assTagEntries]="assTagEntries"
+    [refTypeEntries]="refTypeEntries"
+    [refTagEntries]="refTagEntries"
+    [assertion]="initialAssertion"
+    (assertionChange)="onAssertionChange($event)"
+  >
+  </cadmus-refs-assertion>
+</form>

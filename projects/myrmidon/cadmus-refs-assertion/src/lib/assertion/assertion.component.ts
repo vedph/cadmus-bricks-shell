@@ -69,7 +69,9 @@ export class AssertionComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
-      this.emitAssertionChange();
+      if (!this._updatingForm) {
+        this.emitAssertionChange();
+      }
     });
   }
 
