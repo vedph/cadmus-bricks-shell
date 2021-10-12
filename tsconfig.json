@@ -11,6 +11,10 @@
         "dist/myrmidon/cadmus-prosopa-person-name/myrmidon-cadmus-prosopa-person-name",
         "dist/myrmidon/cadmus-prosopa-person-name"
       ],
+      "@myrmidon/cadmus-refs-assertion": [
+        "dist/myrmidon/cadmus-refs-assertion/myrmidon-cadmus-refs-assertion",
+        "dist/myrmidon/cadmus-refs-assertion"
+      ],
       "@myrmidon/cadmus-refs-decorated-ids": [
         "dist/myrmidon/cadmus-refs-decorated-ids/myrmidon-cadmus-refs-decorated-ids",
         "dist/myrmidon/cadmus-refs-decorated-ids"

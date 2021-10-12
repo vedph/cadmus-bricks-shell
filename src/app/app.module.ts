@@ -16,11 +16,13 @@ import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc
 import { CadmusRefsDecoratedIdsModule } from 'projects/myrmidon/cadmus-refs-decorated-ids/src/public-api';
 import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
 import { CadmusRefsProperNameModule } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
+import { CadmusRefsAssertionModule } from 'projects/myrmidon/cadmus-refs-assertion/src/public-api';
 
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
 import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
 import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
+import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.comp
     DocReferencesPgComponent,
     DecoratedIdsPgComponent,
     ExternalIdsPgComponent,
+    AssertionPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,7 @@ import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.comp
         { path: 'refs/external-ids', component: ExternalIdsPgComponent },
         { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
         { path: 'refs/proper-name', component: ProperNamePgComponent },
+        { path: 'refs/assertion', component: AssertionPgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -61,7 +65,8 @@ import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.comp
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
     CadmusRefsExternalIdsModule,
-    CadmusRefsProperNameModule
+    CadmusRefsProperNameModule,
+    CadmusRefsAssertionModule
   ],
   providers: [],
   bootstrap: [AppComponent],

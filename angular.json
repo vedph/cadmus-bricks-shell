@@ -226,6 +226,37 @@
           }
         }
       }
+    },
+    "@myrmidon/cadmus-refs-assertion": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-refs-assertion",
+      "sourceRoot": "projects/myrmidon/cadmus-refs-assertion/src",
+      "prefix": "cadmus-refs",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-refs-assertion/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-assertion/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-assertion/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-refs-assertion/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-refs-assertion/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-refs-assertion/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "cadmus-bricks"
