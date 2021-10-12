@@ -28,6 +28,7 @@ export class AssertionComponent implements OnInit {
   public rank: FormControl;
   public note: FormControl;
   public form: FormGroup;
+  public initialReferences: DocReference[];
   public references: DocReference[];
 
   @Input()
@@ -52,6 +53,7 @@ export class AssertionComponent implements OnInit {
   public assertionChange: EventEmitter<Assertion | undefined>;
 
   constructor(formBuilder: FormBuilder) {
+    this.initialReferences = [];
     this.references = [];
     this.assertionChange = new EventEmitter<Assertion | undefined>();
     // form
@@ -72,21 +74,19 @@ export class AssertionComponent implements OnInit {
   }
 
   public onReferencesChange(references: DocReference[]): void {
-    if (this.references !== references) {
-      this.references = references;
-      this.emitAssertionChange();
-    }
+    this.references = references;
+    this.emitAssertionChange();
   }
 
   private updateForm(value: Assertion | undefined): void {
     this._updatingForm = true;
-    this.references = [];
+    this.initialReferences = [];
     if (!value) {
       this.form.reset();
     } else {
       this.tag.setValue(value.tag);
       this.rank.setValue(value.rank);
-      this.references = value.references || [];
+      this.initialReferences = value.references || [];
       this.form.markAsPristine();
     }
     this._updatingForm = false;

@@ -17,26 +17,20 @@
     </mat-form-field>
     &nbsp;
     <!-- rank -->
-    <mat-form-field>
+    <mat-form-field style="width: 4em">
       <input
         matInput
         [formControl]="rank"
         placeholder="rank"
         type="number"
         min="0"
-        style="width: 6em"
       />
     </mat-form-field>
   </div>
   <div>
     <!-- note -->
-    <mat-form-field>
-      <textarea
-        matInput
-        [formControl]="note"
-        placeholder="note"
-        style="width: 95%"
-      ></textarea>
+    <mat-form-field style="width: 100%; max-width: 600px">
+      <textarea matInput [formControl]="note" placeholder="note"></textarea>
       <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
         >note too long</mat-error
       >
@@ -51,7 +45,7 @@
       <cadmus-refs-doc-references
         [typeEntries]="refTypeEntries"
         [tagEntries]="refTagEntries"
-        [references]="references"
+        [references]="initialReferences"
         (referencesChange)="onReferencesChange($event)"
       ></cadmus-refs-doc-references>
     </mat-expansion-panel>
