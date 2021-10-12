@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { PersonName } from 'projects/myrmidon/cadmus-prosopa-person-name/src/public-api';
+import { ProperName } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
 
 @Component({
-  selector: 'app-person-name-pg',
-  templateUrl: './person-name-pg.component.html',
-  styleUrls: ['./person-name-pg.component.css'],
+  selector: 'app-proper-name-pg',
+  templateUrl: './proper-name-pg.component.html',
+  styleUrls: ['./proper-name-pg.component.css'],
 })
-export class PersonNamePgComponent implements OnInit {
-  public initialPersonName: PersonName | undefined;
-  public lastPersonName: PersonName | undefined;
+export class ProperNamePgComponent implements OnInit {
+  public name: ProperName | undefined;
   public langEntries: ThesaurusEntry[] | undefined;
-  public namePartTypeEntries: ThesaurusEntry[] | undefined;
+  public namePieceTypeEntries: ThesaurusEntry[] | undefined;
 
   constructor() {}
 
@@ -26,7 +25,7 @@ export class PersonNamePgComponent implements OnInit {
       { id: 'grc', value: 'Greek' },
       { id: 'gre', value: 'Modern Greek' },
     ];
-    this.namePartTypeEntries = [
+    this.namePieceTypeEntries = [
       { id: 'first', value: 'first' },
       { id: 'last', value: 'last' },
       { id: 'name', value: 'name' },
@@ -36,10 +35,10 @@ export class PersonNamePgComponent implements OnInit {
       { id: 'cognomen', value: 'cognomen' },
     ];
 
-    this.initialPersonName = {
+    this.name = {
       language: 'lat',
       tag: 'free',
-      parts: [
+      pieces: [
         { type: 'praenomen', value: 'Publius' },
         { type: 'nomen', value: 'Vergilius' },
         { type: 'cognomen', value: 'Maro' },
@@ -47,7 +46,7 @@ export class PersonNamePgComponent implements OnInit {
     };
   }
 
-  public onPersonNameChange(model: PersonName): void {
-    this.lastPersonName = model;
+  public onNameChange(model: ProperName): void {
+    this.name = model;
   }
 }

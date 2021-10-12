@@ -1,6 +1,6 @@
 {
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../../dist/myrmidon/cadmus-prosopa-person-name",
+  "dest": "../../../dist/myrmidon/cadmus-refs-proper-name",
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {

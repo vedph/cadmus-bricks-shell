@@ -5,7 +5,8 @@
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "@myrmidon/cadmus-core": "@myrmidon/cadmus-core",
-      "@myrmidon/cadmus-material": "@myrmidon/cadmus-material"
+      "@myrmidon/cadmus-material": "@myrmidon/cadmus-material",
+      "@myrmidon/cadmus-refs-doc-references": "@myrmidon/cadmus-refs-doc-references"
     }
   }
 }

@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Person Name</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-refs-proper-name
+      [langEntries]="langEntries"
+      [typeEntries]="namePieceTypeEntries"
+      [name]="name"
+      (nameChange)="onNameChange($event)"
+    ></cadmus-refs-proper-name>
+    <div *ngIf="name">
+      <pre>{{ name | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

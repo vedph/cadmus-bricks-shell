@@ -11,27 +11,24 @@ import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HomeComponent } from './home/home.component';
 
-// prosopa bricks
-import { CadmusProsopaPersonNameModule } from 'projects/myrmidon/cadmus-prosopa-person-name/src/public-api';
-import { PersonNamePgComponent } from './prosopa/person-name-pg/person-name-pg.component';
 // refs bricks
 import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc-references/src/public-api';
 import { CadmusRefsDecoratedIdsModule } from 'projects/myrmidon/cadmus-refs-decorated-ids/src/public-api';
+import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
+import { CadmusRefsProperNameModule } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
+
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
-import { CitedPersonPgComponent } from './prosopa/cited-person-pg/cited-person-pg.component';
-import { CadmusProsopaCitedPersonModule } from 'projects/myrmidon/cadmus-prosopa-cited-person/src/public-api';
 import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
-import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
+import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    PersonNamePgComponent,
+    ProperNamePgComponent,
     DocReferencesPgComponent,
     DecoratedIdsPgComponent,
-    CitedPersonPgComponent,
     ExternalIdsPgComponent,
   ],
   imports: [
@@ -44,11 +41,10 @@ import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-exter
       [
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: HomeComponent },
-        { path: 'prosopa/person-name', component: PersonNamePgComponent },
-        { path: 'prosopa/cited-person', component: CitedPersonPgComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
         { path: 'refs/external-ids', component: ExternalIdsPgComponent },
         { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
+        { path: 'refs/proper-name', component: ProperNamePgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -62,11 +58,10 @@ import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-exter
     // Cadmus
     CadmusCoreModule,
     CadmusMaterialModule,
-    CadmusProsopaPersonNameModule,
-    CadmusProsopaCitedPersonModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
     CadmusRefsExternalIdsModule,
+    CadmusRefsProperNameModule
   ],
   providers: [],
   bootstrap: [AppComponent],

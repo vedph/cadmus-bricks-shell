@@ -19,40 +19,50 @@ import {
 import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { PersonName, PersonNamePart } from '../person-name';
+
+export interface ProperName {
+  language: string;
+  tag?: string;
+  pieces: ProperNamePiece[];
+}
+
+export interface ProperNamePiece {
+  type: string;
+  value: string;
+}
 
 /**
- * Person name real-time editor (cadmus-prosopa-person-name).
+ * Proper name real-time editor (cadmus-refs-proper-name).
  * To use, add to the consumer component an initialName property to be
  * bound to name, and handle nameChange to setValue the received name.
  */
 @Component({
-  selector: 'cadmus-prosopa-person-name',
-  templateUrl: './person-name.component.html',
-  styleUrls: ['./person-name.component.css'],
+  selector: 'cadmus-refs-proper-name',
+  templateUrl: './proper-name.component.html',
+  styleUrls: ['./proper-name.component.css'],
 })
-export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
-  private _name: PersonName | undefined;
+export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
+  private _name: ProperName | undefined;
   private _updatingForm?: boolean;
-  private _partSubs: Subscription[];
-  private _partValueSubscription?: Subscription;
+  private _pieceSubs: Subscription[];
+  private _pieceValueSubscription?: Subscription;
 
-  @ViewChildren('partValue') partValueQueryList?: QueryList<any>;
+  @ViewChildren('pieceValue') pieceValueQueryList?: QueryList<any>;
 
   /**
-   * The person name.
+   * The proper name.
    */
   @Input()
-  public get name(): PersonName | undefined {
+  public get name(): ProperName | undefined {
     return this._name;
   }
-  public set name(value: PersonName | undefined) {
+  public set name(value: ProperName | undefined) {
     this._name = value;
     this.updateForm(value);
   }
 
   /**
-   * The optional thesaurus person name languages entries.
+   * The optional thesaurus proper name languages entries.
    */
   @Input()
   public langEntries: ThesaurusEntry[] | undefined;
@@ -62,7 +72,7 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
   /**
-   * The optional thesaurus name part's type entries.
+   * The optional thesaurus name piece's type entries.
    */
   @Input()
   public typeEntries: ThesaurusEntry[] | undefined;
@@ -71,30 +81,30 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
    * Emitted whenever the name changes.
    */
   @Output()
-  public nameChange: EventEmitter<PersonName>;
+  public nameChange: EventEmitter<ProperName>;
 
   public language: FormControl;
   public tag: FormControl;
-  public parts: FormArray;
+  public pieces: FormArray;
   public form: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {
-    this._partSubs = [];
-    this.nameChange = new EventEmitter<PersonName>();
+    this._pieceSubs = [];
+    this.nameChange = new EventEmitter<ProperName>();
     // form
     this.language = _formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
     ]);
     this.tag = _formBuilder.control(null, Validators.maxLength(50));
-    this.parts = _formBuilder.array(
+    this.pieces = _formBuilder.array(
       [],
       CadmusValidators.strictMinLengthValidator(1)
     );
     this.form = _formBuilder.group({
       language: this.language,
       tag: this.tag,
-      parts: this.parts,
+      pieces: this.pieces,
     });
   }
 
@@ -112,9 +122,9 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    // focus on newly added part
-    if (this.partValueQueryList) {
-      this._partValueSubscription = this.partValueQueryList.changes
+    // focus on newly added piece
+    if (this.pieceValueQueryList) {
+      this._pieceValueSubscription = this.pieceValueQueryList.changes
         .pipe(debounceTime(300))
         .subscribe((lst: QueryList<any>) => {
           if (!this._updatingForm && lst.length > 0) {
@@ -124,49 +134,49 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private unsubscribeParts(): void {
-    for (let i = 0; i < this._partSubs.length; i++) {
-      this._partSubs[i].unsubscribe();
+  private unsubscribePieces(): void {
+    for (let i = 0; i < this._pieceSubs.length; i++) {
+      this._pieceSubs[i].unsubscribe();
     }
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribeParts();
-    this._partValueSubscription?.unsubscribe();
+    this.unsubscribePieces();
+    this._pieceValueSubscription?.unsubscribe();
   }
 
-  //#region Parts
-  private getPartGroup(part?: PersonNamePart): FormGroup {
+  //#region Pieces
+  private getPieceGroup(piece?: ProperNamePiece): FormGroup {
     return this._formBuilder.group({
-      type: this._formBuilder.control(part?.type, [
+      type: this._formBuilder.control(piece?.type, [
         Validators.required,
         Validators.maxLength(20),
       ]),
-      value: this._formBuilder.control(part?.value, [
+      value: this._formBuilder.control(piece?.value, [
         Validators.required,
         Validators.maxLength(50),
       ]),
     });
   }
 
-  public addPart(part?: PersonNamePart): void {
-    const g = this.getPartGroup(part);
-    this._partSubs.push(
+  public addPiece(piece?: ProperNamePiece): void {
+    const g = this.getPieceGroup(piece);
+    this._pieceSubs.push(
       g.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
         this.emitNameChange();
       })
     );
-    this.parts.push(g);
+    this.pieces.push(g);
 
     if (!this._updatingForm) {
       this.emitNameChange();
     }
   }
 
-  public removePart(index: number): void {
-    this._partSubs[index].unsubscribe();
-    this._partSubs.splice(index, 1);
-    this.parts.removeAt(index);
+  public removePiece(index: number): void {
+    this._pieceSubs[index].unsubscribe();
+    this._pieceSubs.splice(index, 1);
+    this.pieces.removeAt(index);
     this.emitNameChange();
   }
 
@@ -179,74 +189,74 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
     a[j] = t;
   }
 
-  public movePartUp(index: number): void {
+  public movePieceUp(index: number): void {
     if (index < 1) {
       return;
     }
-    const ctl = this.parts.controls[index];
-    this.parts.removeAt(index);
-    this.parts.insert(index - 1, ctl);
+    const ctl = this.pieces.controls[index];
+    this.pieces.removeAt(index);
+    this.pieces.insert(index - 1, ctl);
 
-    this.swapArrElems(this._partSubs, index, index - 1);
+    this.swapArrElems(this._pieceSubs, index, index - 1);
 
     this.emitNameChange();
   }
 
-  public movePartDown(index: number): void {
-    if (index + 1 >= this.parts.length) {
+  public movePieceDown(index: number): void {
+    if (index + 1 >= this.pieces.length) {
       return;
     }
-    const ctl = this.parts.controls[index];
-    this.parts.removeAt(index);
-    this.parts.insert(index + 1, ctl);
+    const ctl = this.pieces.controls[index];
+    this.pieces.removeAt(index);
+    this.pieces.insert(index + 1, ctl);
 
-    this.swapArrElems(this._partSubs, index, index + 1);
+    this.swapArrElems(this._pieceSubs, index, index + 1);
 
     this.emitNameChange();
   }
 
-  public clearParts(): void {
-    this.parts.clear();
-    this.unsubscribeParts();
-    this._partSubs = [];
+  public clearPieces(): void {
+    this.pieces.clear();
+    this.unsubscribePieces();
+    this._pieceSubs = [];
     if (!this._updatingForm) {
       this.emitNameChange();
     }
   }
   //#endregion
 
-  private updateForm(name?: PersonName): void {
+  private updateForm(name?: ProperName): void {
     if (!this.language) {
       return;
     }
     if (!name) {
-      this.clearParts();
+      this.clearPieces();
       this.form.reset();
       return;
     }
     this._updatingForm = true;
-    this.clearParts();
+    this.clearPieces();
 
     if (!name) {
       this.form.reset();
     } else {
       this.language.setValue(name.language);
       this.tag.setValue(name.tag);
-      this.parts.clear();
-      for (const p of name.parts || []) {
-        this.addPart(p);
+      this.pieces.clear();
+      for (const p of name.pieces || []) {
+        this.addPiece(p);
       }
       this.form.markAsPristine();
     }
     this._updatingForm = false;
   }
 
-  private getName(): PersonName {
-    const parts: PersonNamePart[] = [];
+  private getName(): ProperName {
+    const pieces: ProperNamePiece[] = [];
 
-    for (let i = 0; i < this.parts.length; i++) {
-      const g = this.parts.controls[i] as FormGroup;
-      parts.push({
+    for (let i = 0; i < this.pieces.length; i++) {
+      const g = this.pieces.controls[i] as FormGroup;
+      pieces.push({
         type: g.controls.type.value,
         value: g.controls.value.value?.trim(),
       });
@@ -255,7 +265,7 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       language: this.language.value,
       tag: this.tag.value,
-      parts,
+      pieces: pieces,
     };
   }
 

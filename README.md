@@ -12,6 +12,10 @@ To better organize the library projects, I adopt a namespace-like naming convent
 
 At this stage, the bricks themselves depend on more monolithic Cadmus libraries, like the Cadmus core. In future these will be split; but at this time, we just depend on them, so that nothing gets broken in the dependencies chain, and new projects can leverage the new bricks while still using the traditional dependencies.
 
+## List
+
+- cadmus-refs-decorated-ids
+
 ## Roadmap
 
 The roadmap for bricks is as follows:

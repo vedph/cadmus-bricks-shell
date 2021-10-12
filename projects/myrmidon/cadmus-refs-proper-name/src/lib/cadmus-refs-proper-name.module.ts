@@ -1,21 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
-import { PersonNameComponent } from './person-name/person-name.component';
+
+import { ProperNameComponent } from './proper-name/proper-name.component';
 
 @NgModule({
-  declarations: [
-    PersonNameComponent
-  ],
+  declarations: [ProperNameComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CadmusMaterialModule,
+    CadmusCoreModule,
+    CadmusMaterialModule
   ],
-  exports: [
-    PersonNameComponent
-  ],
+  exports: [ProperNameComponent],
 })
-export class CadmusProsopaPersonNameModule {}
+export class CadmusRefsProperNameModule {}

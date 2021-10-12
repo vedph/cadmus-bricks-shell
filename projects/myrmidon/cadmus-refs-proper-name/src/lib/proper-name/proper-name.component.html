@@ -57,24 +57,24 @@
       </mat-form-field>
     </ng-container>
 
-    <!-- add part -->
+    <!-- add piece -->
     &nbsp;
     <button
       type="button"
       mat-stroked-button
       color="primary"
-      (click)="addPart()"
-      matTooltip="Add a new part to the name"
+      (click)="addPiece()"
+      matTooltip="Add a new piece to the name"
     >
-      <mat-icon>add_circle</mat-icon> part
+      <mat-icon>add_circle</mat-icon> piece
     </button>
   </div>
 
-  <!-- parts -->
-  <div formArrayName="parts">
+  <!-- pieces -->
+  <div formArrayName="pieces">
     <div
       *ngFor="
-        let item of parts.controls;
+        let item of pieces.controls;
         let i = index;
         let first = first;
         let last = last
@@ -87,9 +87,9 @@
         <button
           mat-icon-button
           type="button"
-          matTooltip="Remove this part"
+          matTooltip="Remove this piece"
           color="warn"
-          (click)="removePart(i)"
+          (click)="removePiece(i)"
         >
           <mat-icon>remove_circle</mat-icon>
         </button>
@@ -97,8 +97,8 @@
           [disabled]="first"
           mat-icon-button
           type="button"
-          matTooltip="Move part up"
-          (click)="movePartUp(i)"
+          matTooltip="Move piece up"
+          (click)="movePieceUp(i)"
         >
           <mat-icon>arrow_upward</mat-icon>
         </button>
@@ -106,8 +106,8 @@
           [disabled]="last"
           mat-icon-button
           type="button"
-          matTooltip="Move part down"
-          (click)="movePartDown(i)"
+          matTooltip="Move piece down"
+          (click)="movePieceDown(i)"
         >
           <mat-icon>arrow_downward</mat-icon>
         </button>
@@ -159,7 +159,7 @@
         &nbsp;
         <mat-form-field>
           <input
-            #partValue
+            #pieceValue
             matInput
             maxlength="50"
             formControlName="value"

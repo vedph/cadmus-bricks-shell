@@ -103,37 +103,6 @@
         }
       }
     },
-    "@myrmidon/cadmus-prosopa-person-name": {
-      "projectType": "library",
-      "root": "projects/myrmidon/cadmus-prosopa-person-name",
-      "sourceRoot": "projects/myrmidon/cadmus-prosopa-person-name/src",
-      "prefix": "cadmus-prosopa",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/myrmidon/cadmus-prosopa-person-name/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/myrmidon/cadmus-prosopa-person-name/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/myrmidon/cadmus-prosopa-person-name/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/myrmidon/cadmus-prosopa-person-name/src/test.ts",
-            "tsConfig": "projects/myrmidon/cadmus-prosopa-person-name/tsconfig.spec.json",
-            "karmaConfig": "projects/myrmidon/cadmus-prosopa-person-name/karma.conf.js"
-          }
-        }
-      }
-    },
     "@myrmidon/cadmus-refs-doc-references": {
       "projectType": "library",
       "root": "projects/myrmidon/cadmus-refs-doc-references",
@@ -196,37 +165,6 @@
         }
       }
     },
-    "@myrmidon/cadmus-prosopa-cited-person": {
-      "projectType": "library",
-      "root": "projects/myrmidon/cadmus-prosopa-cited-person",
-      "sourceRoot": "projects/myrmidon/cadmus-prosopa-cited-person/src",
-      "prefix": "cadmus-prosopa",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/myrmidon/cadmus-prosopa-cited-person/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/myrmidon/cadmus-prosopa-cited-person/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/myrmidon/cadmus-prosopa-cited-person/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/myrmidon/cadmus-prosopa-cited-person/src/test.ts",
-            "tsConfig": "projects/myrmidon/cadmus-prosopa-cited-person/tsconfig.spec.json",
-            "karmaConfig": "projects/myrmidon/cadmus-prosopa-cited-person/karma.conf.js"
-          }
-        }
-      }
-    },
     "@myrmidon/cadmus-refs-external-ids": {
       "projectType": "library",
       "root": "projects/myrmidon/cadmus-refs-external-ids",
@@ -254,6 +192,37 @@
             "main": "projects/myrmidon/cadmus-refs-external-ids/src/test.ts",
             "tsConfig": "projects/myrmidon/cadmus-refs-external-ids/tsconfig.spec.json",
             "karmaConfig": "projects/myrmidon/cadmus-refs-external-ids/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@myrmidon/cadmus-refs-proper-name": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-refs-proper-name",
+      "sourceRoot": "projects/myrmidon/cadmus-refs-proper-name/src",
+      "prefix": "cadmus-refs",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-refs-proper-name/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-proper-name/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-proper-name/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-refs-proper-name/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-refs-proper-name/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-refs-proper-name/karma.conf.js"
           }
         }
       }

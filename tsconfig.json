@@ -22,6 +22,14 @@
       "@myrmidon/cadmus-refs-external-ids": [
         "dist/myrmidon/cadmus-refs-external-ids/myrmidon-cadmus-refs-external-ids",
         "dist/myrmidon/cadmus-refs-external-ids"
+      ],
+      "@myrmidon/cadmus-refs-proper-name": [
+        "dist/myrmidon/cadmus-refs-proper-name/myrmidon-cadmus-refs-proper-name",
+        "dist/myrmidon/cadmus-refs-proper-name"
+      ],
+      "cadmus-refs-proper-name": [
+        "dist/cadmus-refs-proper-name/cadmus-refs-proper-name",
+        "dist/cadmus-refs-proper-name"
       ]
     },
     "baseUrl": "./",
