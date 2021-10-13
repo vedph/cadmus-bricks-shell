@@ -6,12 +6,12 @@ import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-references';
-
-import { AssertedIdComponent } from './asserted-id/asserted-id.component';
+import { CadmusRefsHistoricalDateModule } from '@myrmidon/cadmus-refs-historical-date';
+import { ChronotopeComponent } from './chronotope/chronotope.component';
 
 @NgModule({
   declarations: [
-    AssertedIdComponent
+    ChronotopeComponent
   ],
   imports: [
     CommonModule,
@@ -20,8 +20,9 @@ import { AssertedIdComponent } from './asserted-id/asserted-id.component';
     CadmusCoreModule,
     CadmusMaterialModule,
     CadmusRefsDocReferencesModule,
-    CadmusRefsAssertionModule
+    CadmusRefsAssertionModule,
+    CadmusRefsHistoricalDateModule
   ],
-  exports: [AssertedIdComponent],
+  exports: [ChronotopeComponent],
 })
-export class CadmusRefsAssertedIdModule {}
+export class CadmusRefsChronotopeModule {}

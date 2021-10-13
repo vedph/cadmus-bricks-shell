@@ -1,0 +1,66 @@
+<h4 *ngIf="label">{{ label }}</h4>
+<form role="form" [formGroup]="form">
+  <!-- value -->
+  <div>
+    <mat-form-field style="width: 4em">
+      <input matInput [formControl]="value" placeholder="value" type="number" />
+    </mat-form-field>
+    &nbsp;
+    <!-- month -->
+    <mat-form-field style="width: 3em">
+      <input
+        matInput
+        [formControl]="month"
+        placeholder="month"
+        type="number"
+        min="0"
+        max="12"
+      />
+      <mat-error *ngIf="month.hasError('min') && (month.touched || month.dirty)"
+        >month less than 0</mat-error
+      >
+      <mat-error *ngIf="month.hasError('max') && (month.touched || month.dirty)"
+        >month greater than 12</mat-error
+      >
+    </mat-form-field>
+    &nbsp;
+    <!-- day -->
+    <mat-form-field style="width: 3em">
+      <input
+        matInput
+        [formControl]="day"
+        placeholder="day"
+        type="number"
+        min="0"
+        max="31"
+      />
+      <mat-error *ngIf="day.hasError('min') && (day.touched || day.dirty)"
+        >day less than 0</mat-error
+      >
+      <mat-error *ngIf="day.hasError('max') && (day.touched || day.dirty)"
+        >day greater than 31</mat-error
+      >
+    </mat-form-field>
+
+    <!-- century, span, about, dubious -->
+    &nbsp;
+    <mat-checkbox [formControl]="century">century</mat-checkbox>
+    &nbsp;
+    <mat-checkbox [formControl]="span">span</mat-checkbox>
+    &nbsp;
+    <mat-checkbox [formControl]="about">about</mat-checkbox>
+    &nbsp;
+    <mat-checkbox [formControl]="dubious">dubious</mat-checkbox>
+  </div>
+
+  <!-- hint -->
+  <div>
+    <mat-form-field style="width: 95%">
+      <input matInput [formControl]="hint" placeholder="hint" />
+      <mat-error
+        *ngIf="hint.hasError('maxLength') && (hint.touched || hint.dirty)"
+        >hint too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+</form>

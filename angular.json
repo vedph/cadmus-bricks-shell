@@ -37,7 +37,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "1mb",
                   "maximumError": "3mb"
                 },
                 {
@@ -285,6 +285,68 @@
             "main": "projects/myrmidon/cadmus-refs-asserted-id/src/test.ts",
             "tsConfig": "projects/myrmidon/cadmus-refs-asserted-id/tsconfig.spec.json",
             "karmaConfig": "projects/myrmidon/cadmus-refs-asserted-id/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@myrmidon/cadmus-refs-chronotope": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-refs-chronotope",
+      "sourceRoot": "projects/myrmidon/cadmus-refs-chronotope/src",
+      "prefix": "cadmus-refs",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-refs-chronotope/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-chronotope/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-chronotope/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-refs-chronotope/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-refs-chronotope/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-refs-chronotope/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@myrmidon/cadmus-refs-historical-date": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-refs-historical-date",
+      "sourceRoot": "projects/myrmidon/cadmus-refs-historical-date/src",
+      "prefix": "cadmus-refs",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-refs-historical-date/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-historical-date/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-historical-date/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-refs-historical-date/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-refs-historical-date/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-refs-historical-date/karma.conf.js"
           }
         }
       }

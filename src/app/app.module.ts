@@ -25,6 +25,10 @@ import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.comp
 import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
 import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
 import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
+import { ChronotopePgComponent } from './refs/chronotope-pg/chronotope-pg.component';
+import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-date-pg.component';
+import { CadmusRefsChronotopeModule } from 'projects/myrmidon/cadmus-refs-chronotope/src/public-api';
+import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-historical-date/src/public-api';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,8 @@ import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-assert
     ExternalIdsPgComponent,
     AssertionPgComponent,
     AssertedIdPgComponent,
+    ChronotopePgComponent,
+    HistoricalDatePgComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +59,8 @@ import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-assert
         { path: 'refs/proper-name', component: ProperNamePgComponent },
         { path: 'refs/assertion', component: AssertionPgComponent },
         { path: 'refs/asserted-id', component: AssertedIdPgComponent },
+        { path: 'refs/chronotope', component: ChronotopePgComponent },
+        { path: 'refs/historical-date', component: HistoricalDatePgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -71,7 +79,9 @@ import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-assert
     CadmusRefsExternalIdsModule,
     CadmusRefsProperNameModule,
     CadmusRefsAssertionModule,
-    CadmusRefsAssertedIdModule
+    CadmusRefsAssertedIdModule,
+    CadmusRefsChronotopeModule,
+    CadmusRefsHistoricalDateModule
   ],
   providers: [],
   bootstrap: [AppComponent],

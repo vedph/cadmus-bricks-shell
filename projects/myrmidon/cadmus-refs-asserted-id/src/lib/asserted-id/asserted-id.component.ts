@@ -93,6 +93,7 @@ export class AssertedIdComponent implements OnInit {
     this._updatingForm = true;
     if (!value) {
       this.form.reset();
+      this.assertion = undefined;
     } else {
       this.tag.setValue(value.tag);
       this.value.setValue(value.value);

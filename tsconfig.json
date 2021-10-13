@@ -19,6 +19,10 @@
         "dist/myrmidon/cadmus-refs-assertion/myrmidon-cadmus-refs-assertion",
         "dist/myrmidon/cadmus-refs-assertion"
       ],
+      "@myrmidon/cadmus-refs-chronotope": [
+        "dist/myrmidon/cadmus-refs-chronotope/myrmidon-cadmus-refs-chronotope",
+        "dist/myrmidon/cadmus-refs-chronotope"
+      ],
       "@myrmidon/cadmus-refs-decorated-ids": [
         "dist/myrmidon/cadmus-refs-decorated-ids/myrmidon-cadmus-refs-decorated-ids",
         "dist/myrmidon/cadmus-refs-decorated-ids"
@@ -30,6 +34,10 @@
       "@myrmidon/cadmus-refs-external-ids": [
         "dist/myrmidon/cadmus-refs-external-ids/myrmidon-cadmus-refs-external-ids",
         "dist/myrmidon/cadmus-refs-external-ids"
+      ],
+      "@myrmidon/cadmus-refs-historical-date": [
+        "dist/myrmidon/cadmus-refs-historical-date/myrmidon-cadmus-refs-historical-date",
+        "dist/myrmidon/cadmus-refs-historical-date"
       ],
       "@myrmidon/cadmus-refs-proper-name": [
         "dist/myrmidon/cadmus-refs-proper-name/myrmidon-cadmus-refs-proper-name",

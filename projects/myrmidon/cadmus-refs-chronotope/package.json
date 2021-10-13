@@ -1,0 +1,24 @@
+{
+  "name": "@myrmidon/cadmus-refs-chronotope",
+  "version": "0.0.1",
+  "description": "Cadmus - chronotope component.",
+  "keywords": [
+    "Cadmus",
+    "bricks"
+  ],
+  "homepage": "https://github.com/vedph/cadmus-bricks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedph/cadmus-bricks"
+  },
+  "author": {
+    "name": "Daniele Fusi"
+  },
+  "peerDependencies": {
+    "@angular/common": "^12.2.0",
+    "@angular/core": "^12.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}
