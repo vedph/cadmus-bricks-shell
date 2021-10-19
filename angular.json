@@ -350,6 +350,37 @@
           }
         }
       }
+    },
+    "@myrmidon/cadmus-ui-flags-picker": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-ui-flags-picker",
+      "sourceRoot": "projects/myrmidon/cadmus-ui-flags-picker/src",
+      "prefix": "cadmus-ui",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-ui-flags-picker/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-ui-flags-picker/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-ui-flags-picker/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-ui-flags-picker/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-ui-flags-picker/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-ui-flags-picker/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "cadmus-bricks"
