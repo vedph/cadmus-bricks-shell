@@ -1,1 +1,41 @@
-<p>flags-picker works!</p>
+<form [formGroup]="form" *ngIf="flags?.length">
+  <div *ngIf="toolbar">
+    <button
+      type="button"
+      mat-icon-button
+      matTooltip="Toggle all"
+      (click)="toggleAll()"
+    >
+      <mat-icon>published_with_changes</mat-icon>
+    </button>
+    <button
+      type="button"
+      color="primary"
+      mat-icon-button
+      matTooltip="Select all"
+      (click)="selectAll()"
+    >
+      <mat-icon>done_all</mat-icon>
+    </button>
+    <button
+      type="button"
+      mat-icon-button
+      matTooltip="Deselect all"
+      color="warn"
+      (click)="deselectAll()"
+    >
+      <mat-icon>remove_done</mat-icon>
+    </button>
+  </div>
+  <div formArrayName="flagsArr" class="cols">
+    <div *ngFor="let item of flagsArr.controls; let i = index">
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <span class="numbering" *ngIf="numbering">{{ i + 1 }}.</span>
+        <mat-checkbox formControlName="flag">{{
+          $any(flags)[i].label
+        }}</mat-checkbox>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,10 @@
+.numbering {
+  color: silver;
+  margin-right: 6px;
+  font-size: 95%;
+}
+.cols {
+  column-count: 4;
+  column-width: 250px;
+  column-rule: 1px solid #ddd;
+}

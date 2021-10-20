@@ -17,6 +17,9 @@ import { CadmusRefsDecoratedIdsModule } from 'projects/myrmidon/cadmus-refs-deco
 import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
 import { CadmusRefsProperNameModule } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
 import { CadmusRefsAssertionModule } from 'projects/myrmidon/cadmus-refs-assertion/src/public-api';
+import { CadmusRefsChronotopeModule } from 'projects/myrmidon/cadmus-refs-chronotope/src/public-api';
+import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-historical-date/src/public-api';
+import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
 
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
@@ -24,11 +27,10 @@ import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.c
 import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
 import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
 import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
-import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
 import { ChronotopePgComponent } from './refs/chronotope-pg/chronotope-pg.component';
 import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-date-pg.component';
-import { CadmusRefsChronotopeModule } from 'projects/myrmidon/cadmus-refs-chronotope/src/public-api';
-import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-historical-date/src/public-api';
+import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
+import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-hi
     AssertedIdPgComponent,
     ChronotopePgComponent,
     HistoricalDatePgComponent,
+    FlagsPickerPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +64,7 @@ import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-hi
         { path: 'refs/asserted-id', component: AssertedIdPgComponent },
         { path: 'refs/chronotope', component: ChronotopePgComponent },
         { path: 'refs/historical-date', component: HistoricalDatePgComponent },
+        { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -81,7 +85,8 @@ import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-hi
     CadmusRefsAssertionModule,
     CadmusRefsAssertedIdModule,
     CadmusRefsChronotopeModule,
-    CadmusRefsHistoricalDateModule
+    CadmusRefsHistoricalDateModule,
+    CadmusUiFlagsPickerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

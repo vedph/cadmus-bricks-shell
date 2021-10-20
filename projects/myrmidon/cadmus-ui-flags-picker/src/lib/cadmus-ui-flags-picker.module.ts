@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import { FlagsPickerComponent } from './flags-picker/flags-picker.component';
 
@@ -10,6 +10,7 @@ import { FlagsPickerComponent } from './flags-picker/flags-picker.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     CadmusMaterialModule
   ],

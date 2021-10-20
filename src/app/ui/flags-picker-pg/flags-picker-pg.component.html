@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Flags Picker</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-ui-flags-picker
+      [selectedIds]="ids"
+      [flags]="flags"
+      [numbering]="true"
+      [toolbar]="true"
+      (selectionChange)="onIdsChange($event)"
+    >
+    </cadmus-ui-flags-picker>
+    <div *ngIf="ids">
+      <pre>{{ ids | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>
