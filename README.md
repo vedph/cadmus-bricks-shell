@@ -47,3 +47,7 @@ To add a brick:
 2. `npm run build-refs`
 3. `npm run build-prosopa`
 4. `./publish`
+
+## History
+
+- 2021-12-10 upgraded Angular and refactored historical date editor implementation by replacing legacy code.
