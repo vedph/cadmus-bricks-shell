@@ -7,18 +7,21 @@
         [formControl]="dateText"
         [placeholder]="label || 'datation'"
       />
-      <button
+      <!-- <button
         type="submit"
         [disabled]="disabled || invalidDateText"
         mat-icon-button
         matSuffix
         color="primary"
+        [disabled]="!visualExpanded"
       >
         <mat-icon>check_circle</mat-icon>
-      </button>
+      </button> -->
     </mat-form-field>
     <span>
-      <mat-icon *ngIf="invalidDateText" color="warn">error</mat-icon>
+      <mat-icon *ngIf="dateText?.value && invalidDateText" color="warn"
+        >error</mat-icon
+      >
     </span>
     <span>
       <span *ngIf="!invalidDateText" class="date-sort-value">
@@ -37,17 +40,20 @@
     </button>
   </div>
 
-  <mat-expansion-panel [(expanded)]="!disabled && visualExpanded" style="max-width: 500px">
+  <mat-expansion-panel
+    [(expanded)]="!disabled && visualExpanded"
+    style="max-width: 500px"
+  >
     <cadmus-refs-datation
-      [model$]="a$"
-      (modelChange)="onDatationAChange($event)"
+      [datation]="a"
+      (datationChange)="onDatationAChange($event)"
       [label]="'A'"
     ></cadmus-refs-datation>
 
     <cadmus-refs-datation
       *ngIf="range?.value"
-      [model$]="b$"
-      (modelChange)="onDatationBChange($event)"
+      [datation]="b"
+      (datationChange)="onDatationBChange($event)"
       [label]="'B'"
     ></cadmus-refs-datation>
 

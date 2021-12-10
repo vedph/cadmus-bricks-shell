@@ -12,7 +12,6 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -54,8 +53,6 @@ export class HistoricalDateComponent implements OnInit {
   public dateChange: EventEmitter<HistoricalDateModel>;
 
   // set by date text:
-  public a$: BehaviorSubject<DatationModel>;
-  public b$: BehaviorSubject<DatationModel>;
   public invalidDateText?: boolean;
   public dateValue?: number;
   public visualExpanded?: boolean;
@@ -72,13 +69,6 @@ export class HistoricalDateComponent implements OnInit {
     this._disabled = false;
     // events
     this.dateChange = new EventEmitter<HistoricalDateModel>();
-    // data
-    this.a$ = new BehaviorSubject<DatationModel>({
-      value: 0,
-    });
-    this.b$ = new BehaviorSubject<DatationModel>({
-      value: 0,
-    });
     // form
     this.dateText = formBuilder.control(null, Validators.required);
     this.range = formBuilder.control(false);
@@ -98,9 +88,9 @@ export class HistoricalDateComponent implements OnInit {
           this.invalidDateText = false;
           this.dateValue = hd.getSortValue();
           this.range.setValue(hd.getDateType() === HistoricalDateType.range);
-          this.a$.next(hd.a);
-          this.b$.next(hd.b);
-          // this.dateChange.emit(hd);
+          this.a = hd.a;
+          this.b = hd.b;
+          this.dateChange.emit(hd);
         } else {
           this.invalidDateText = true;
           this.dateValue = 0;
@@ -126,18 +116,18 @@ export class HistoricalDateComponent implements OnInit {
     event.stopPropagation();
   }
 
-  public onDatationAChange(model: DatationModel): void {
-    this.a = model;
+  public onDatationAChange(datation: DatationModel | undefined): void {
+    this.a = datation;
   }
 
-  public onDatationBChange(model: DatationModel): void {
-    this.b = model;
+  public onDatationBChange(datation: DatationModel | undefined): void {
+    this.b = datation;
   }
 
   public resetDatations(): void {
     this.range.setValue(false);
-    this.a$.next({ value: 0 });
-    this.b$.next({ value: 0 });
+    this.a = undefined;
+    this.b = undefined;
   }
 
   public setDatations(): void {
@@ -149,17 +139,18 @@ export class HistoricalDateComponent implements OnInit {
 
     this.dateText.setValue(hd.toString());
     this.visualExpanded = false;
+    this.updateFromText();
   }
 
-  public save(): void {
+  private updateFromText(): void {
     try {
       const hd = HistoricalDate.parse(this.dateText.value);
       if (hd) {
         this.invalidDateText = false;
         this.dateValue = hd.getSortValue();
         this.range.setValue(hd.getDateType() === HistoricalDateType.range);
-        this.a$.next(hd.a);
-        this.b$.next(hd.b);
+        this.a = hd.a;
+        this.b = hd.b;
         this.dateChange.emit(hd);
       } else {
         this.invalidDateText = true;
@@ -170,5 +161,9 @@ export class HistoricalDateComponent implements OnInit {
       this.invalidDateText = true;
       this.dateValue = 0;
     }
+  }
+
+  public save(): void {
+    this.updateFromText();
   }
 }

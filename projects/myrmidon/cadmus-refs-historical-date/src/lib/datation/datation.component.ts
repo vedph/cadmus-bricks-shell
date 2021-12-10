@@ -1,9 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  FormControl,
+  FormBuilder,
+  Validators,
+  FormGroup,
+} from '@angular/forms';
 
 import { Datation, DatationModel } from '@myrmidon/cadmus-core';
-
-import { InplaceEditorComponentBase } from '../inplace-editor-component-base';
+import { debounceTime } from 'rxjs/operators';
 
 /**
  * Editor for a single point in a historical date.
@@ -13,10 +17,22 @@ import { InplaceEditorComponentBase } from '../inplace-editor-component-base';
   templateUrl: './datation.component.html',
   styleUrls: ['./datation.component.css'],
 })
-export class DatationComponent
-  extends InplaceEditorComponentBase<DatationModel>
-  implements OnInit
-{
+export class DatationComponent implements OnInit {
+  private _changeFrozen?: boolean;
+  private _datation: DatationModel | undefined;
+
+  @Input()
+  public get datation(): DatationModel | undefined {
+    return this._datation;
+  }
+  public set datation(value: DatationModel | undefined) {
+    this._datation = value;
+    this.updateForm(value);
+  }
+
+  @Output()
+  public datationChange: EventEmitter<DatationModel | undefined>;
+
   public value: FormControl;
   public century: FormControl;
   public span: FormControl;
@@ -25,39 +41,28 @@ export class DatationComponent
   public about: FormControl;
   public dubious: FormControl;
   public hint: FormControl;
+  public form: FormGroup;
 
   /**
    * The optional label to display for this datation.
    */
   @Input() public label?: string;
 
-  /**
-   * The optional custom ID to be assigned to this component's
-   * form as a child of the parentForm. The default is "datation".
-   */
-  @Input() public idInParentForm: string;
-
   constructor(formBuilder: FormBuilder) {
-    super(formBuilder);
-    this.value = this.formBuilder.control(0);
-    this.century = this.formBuilder.control(false);
-    this.span = this.formBuilder.control(false);
-    this.month = this.formBuilder.control(0, [
+    this.datationChange = new EventEmitter<DatationModel | undefined>();
+    // form
+    this.value = formBuilder.control(0);
+    this.century = formBuilder.control(false);
+    this.span = formBuilder.control(false);
+    this.month = formBuilder.control(0, [
       Validators.min(0),
       Validators.max(12),
     ]);
-    this.day = this.formBuilder.control(0, [
-      Validators.min(0),
-      Validators.max(31),
-    ]);
-    this.about = this.formBuilder.control(false);
-    this.dubious = this.formBuilder.control(false);
-    this.hint = this.formBuilder.control(null, Validators.maxLength(500));
-    this.idInParentForm = 'datation';
-  }
-
-  public ngOnInit(): void {
-    this.initEditor(this.idInParentForm || 'datation', {
+    this.day = formBuilder.control(0, [Validators.min(0), Validators.max(31)]);
+    this.about = formBuilder.control(false);
+    this.dubious = formBuilder.control(false);
+    this.hint = formBuilder.control(null, Validators.maxLength(500));
+    this.form = formBuilder.group({
       value: this.value,
       century: this.century,
       span: this.span,
@@ -69,10 +74,16 @@ export class DatationComponent
     });
   }
 
-  protected setModel(model: DatationModel): void {
-    if (!this.form) {
-      return;
-    }
+  public ngOnInit(): void {
+    this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
+      if (!this._changeFrozen) {
+        this.emitChange();
+      }
+    });
+  }
+
+  private updateForm(model: DatationModel | undefined): void {
+    this._changeFrozen = true;
     if (!model) {
       this.form.reset();
     } else {
@@ -86,9 +97,10 @@ export class DatationComponent
       this.hint.setValue(model.hint);
       this.form.markAsPristine();
     }
+    this._changeFrozen = false;
   }
 
-  protected getModel(): DatationModel {
+  private getDatation(): DatationModel {
     return {
       value: this.value.value ? +this.value.value : 0,
       isCentury: this.century.value || false,
@@ -99,5 +111,9 @@ export class DatationComponent
       isDubious: this.dubious.value || false,
       hint: Datation.sanitizeHint(this.hint.value),
     };
+  }
+
+  private emitChange(): void {
+    this.datationChange.emit(this.getDatation());
   }
 }
