@@ -1,1 +1,47 @@
-<p>ref-lookup works!</p>
+<form [formGroup]="form">
+  <mat-autocomplete #lookupAuto="matAutocomplete" [displayWith]="getLookupName">
+    <mat-option
+      *ngFor="let i of items$ | async"
+      [value]="i"
+      (onSelectionChange)="pickItem(i)"
+      >{{ getLookupName(i) }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <!-- active -->
+  <mat-form-field *ngIf="lookupActive">
+    <input
+      matInput
+      type="text"
+      [placeholder]="label || 'lookup'"
+      [formControl]="lookup"
+      [matAutocomplete]="lookupAuto"
+    />
+    <button
+      type="button"
+      mat-icon-button
+      matSuffix
+      color="warn"
+      (click)="clear()"
+      [disabled]="!item"
+      matTooltip="Clear"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- inactive -->
+  <button
+    type="button"
+    mat-stroked-button
+    style="width: 200px; height: 54px"
+    *ngIf="!lookupActive"
+    (click)="lookupActive = true"
+  >
+    {{ getLookupName(item) || "-" }}
+  </button>
+
+  <button *ngIf="hasMore" type="button" mat-icon-button (click)="requestMore()">
+    <mat-icon>more</mat-icon>
+  </button>
+</form>

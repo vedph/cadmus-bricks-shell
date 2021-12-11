@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
-import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 // refs bricks
@@ -20,6 +21,8 @@ import { CadmusRefsAssertionModule } from 'projects/myrmidon/cadmus-refs-asserti
 import { CadmusRefsChronotopeModule } from 'projects/myrmidon/cadmus-refs-chronotope/src/public-api';
 import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-historical-date/src/public-api';
 import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
+import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
+import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
 
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
@@ -29,8 +32,8 @@ import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component
 import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
 import { ChronotopePgComponent } from './refs/chronotope-pg/chronotope-pg.component';
 import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-date-pg.component';
+import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
 import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
-import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-pic
     ChronotopePgComponent,
     HistoricalDatePgComponent,
     FlagsPickerPgComponent,
+    RefLookupPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +68,7 @@ import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-pic
         { path: 'refs/asserted-id', component: AssertedIdPgComponent },
         { path: 'refs/chronotope', component: ChronotopePgComponent },
         { path: 'refs/historical-date', component: HistoricalDatePgComponent },
+        { path: 'refs/lookup', component: RefLookupPgComponent },
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
         { path: '**', component: HomeComponent },
       ],
@@ -86,7 +91,8 @@ import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-pic
     CadmusRefsAssertedIdModule,
     CadmusRefsChronotopeModule,
     CadmusRefsHistoricalDateModule,
-    CadmusUiFlagsPickerModule
+    CadmusRefsLookupModule,
+    CadmusUiFlagsPickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
