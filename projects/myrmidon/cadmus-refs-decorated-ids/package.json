@@ -1,6 +1,6 @@
 {
   "name": "@myrmidon/cadmus-refs-decorated-ids",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Cadmus - decorated IDs component.",
   "keywords": [
     "Cadmus",
@@ -15,8 +15,8 @@
     "name": "Daniele Fusi"
   },
   "peerDependencies": {
-    "@angular/common": "^12.1.0-",
-    "@angular/core": "^12.1.0-"
+    "@angular/common": "^13.1.0",
+    "@angular/core": "^13.1.0"
   },
   "dependencies": {
     "tslib": "^2.2.0"

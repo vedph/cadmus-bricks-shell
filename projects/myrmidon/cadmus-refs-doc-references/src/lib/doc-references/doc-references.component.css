@@ -1,0 +1,11 @@
+.row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  margin: 0 6px;
+}
+mat-form-field {
+  width: auto !important;
+}
