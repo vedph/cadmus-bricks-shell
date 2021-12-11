@@ -1,3 +1,4 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -40,7 +41,19 @@ export interface RefLookupService {
 @Component({
   selector: 'cadmus-ref-lookup',
   templateUrl: './ref-lookup.component.html',
-  styleUrls: ['./ref-lookup.component.css'],
+  styleUrls: ['./ref-lookup.component.css']
+  // animations: [
+  //   trigger('inOutAnimation', [
+  //     transition(':enter', [
+  //       style({ opacity: 0 }),
+  //       animate('0.5s', style({ opacity: 1 })),
+  //     ]),
+  //     transition(':leave', [
+  //       style({ opacity: 1 }),
+  //       animate('0.5s', style({ opacity: 0 })),
+  //     ]),
+  //   ]),
+  // ],
 })
 export class RefLookupComponent implements OnInit {
   private _service: RefLookupService | undefined;

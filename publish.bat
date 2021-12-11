@@ -40,6 +40,11 @@ call npm publish --access=public
 cd ..\..\..
 pause
 
+cd .\dist\myrmidon\cadmus-refs-lookup
+call npm publish --access=public
+cd ..\..\..
+pause
+
 cd .\dist\myrmidon\cadmus-refs-proper-name
 call npm publish --access=public
 cd ..\..\..
