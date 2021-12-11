@@ -39,6 +39,10 @@
         "dist/myrmidon/cadmus-refs-historical-date/myrmidon-cadmus-refs-historical-date",
         "dist/myrmidon/cadmus-refs-historical-date"
       ],
+      "@myrmidon/cadmus-refs-lookup": [
+        "dist/myrmidon/cadmus-refs-lookup/myrmidon-cadmus-refs-lookup",
+        "dist/myrmidon/cadmus-refs-lookup"
+      ],
       "@myrmidon/cadmus-refs-proper-name": [
         "dist/myrmidon/cadmus-refs-proper-name/myrmidon-cadmus-refs-proper-name",
         "dist/myrmidon/cadmus-refs-proper-name"
