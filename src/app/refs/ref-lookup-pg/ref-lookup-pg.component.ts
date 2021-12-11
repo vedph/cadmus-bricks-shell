@@ -199,7 +199,11 @@ export class RefLookupPgComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public onItemChange(item: any | undefined) : void {
+  public onItemChange(item: any | undefined): void {
     this.item = item;
+  }
+
+  public onMoreRequest(): void {
+    alert('More...');
   }
 }

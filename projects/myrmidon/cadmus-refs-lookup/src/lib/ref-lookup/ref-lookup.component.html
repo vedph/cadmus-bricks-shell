@@ -32,17 +32,27 @@
   </mat-form-field>
 
   <!-- inactive -->
-  <button
-    type="button"
-    mat-stroked-button
-    style="width: 200px; height: 54px"
+  <div
     *ngIf="!lookupActive"
-    (click)="lookupActive = true"
+    style="width: fit-content"
+    [class]="required && !item ? 'invalid' : 'valid'"
   >
-    {{ getLookupName(item) || "-" }}
-  </button>
-
-  <button *ngIf="hasMore" type="button" mat-icon-button (click)="requestMore()">
-    <mat-icon>more</mat-icon>
-  </button>
+    <button
+      type="button"
+      mat-stroked-button
+      style="width: 200px; height: 54px"
+      *ngIf="!lookupActive"
+      (click)="lookupActive = true"
+    >
+      {{ getLookupName(item) || "-" }}
+    </button>
+    <button
+      *ngIf="hasMore"
+      type="button"
+      mat-icon-button
+      (click)="requestMore()"
+    >
+      <mat-icon>more</mat-icon>
+    </button>
+  </div>
 </form>

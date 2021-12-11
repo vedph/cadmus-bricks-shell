@@ -102,6 +102,12 @@ export class RefLookupComponent implements OnInit {
   }
 
   /**
+   * True if a value is required.
+   */
+  @Input()
+  public required: boolean | undefined;
+
+  /**
    * Fired whenever an item is picked up.
    */
   @Output()

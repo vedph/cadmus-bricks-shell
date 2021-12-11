@@ -8,8 +8,11 @@
     <cadmus-ref-lookup
       [service]="service"
       [item]="item"
+      [required]="true"
+      [hasMore]="true"
       label="color"
       (itemChange)="onItemChange($event)"
+      (moreRequest)="onMoreRequest()"
     ></cadmus-ref-lookup>
     <div *ngIf="item">
       <pre>{{ item | json }}</pre>

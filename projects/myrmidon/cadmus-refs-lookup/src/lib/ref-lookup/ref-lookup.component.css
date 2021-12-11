@@ -1,0 +1,10 @@
+.invalid {
+  border: 1px solid red;
+  border-radius: 4px;
+  padding: 4px;
+}
+.valid {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px;
+}
