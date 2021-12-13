@@ -50,6 +50,8 @@ To add a brick:
 
 ## History
 
+- 2021-12-13: added link button to ref-lookup component.
+
 - 2021-12-11: updated lib dependencies to 13.1.0, improved doc references visuals.
 
 - 2021-12-10: upgraded Angular and refactored historical date editor implementation by replacing legacy code.

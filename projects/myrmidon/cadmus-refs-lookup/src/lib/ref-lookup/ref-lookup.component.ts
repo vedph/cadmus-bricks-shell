@@ -41,7 +41,7 @@ export interface RefLookupService {
 @Component({
   selector: 'cadmus-ref-lookup',
   templateUrl: './ref-lookup.component.html',
-  styleUrls: ['./ref-lookup.component.css']
+  styleUrls: ['./ref-lookup.component.css'],
   // animations: [
   //   trigger('inOutAnimation', [
   //     transition(':enter', [
@@ -108,18 +108,28 @@ export class RefLookupComponent implements OnInit {
   public required: boolean | undefined;
 
   /**
-   * Fired whenever an item is picked up.
-   */
-  @Output()
-  public itemChange: EventEmitter<any | null>;
-
-  /**
    * True to add a More button for more complex lookup.
    * When the user clicks it, the corresponding moreRequest
    * event will be emitted.
    */
   @Input()
   public hasMore: boolean | undefined;
+
+  /**
+   * The optional template to be used when building the
+   * URI pointing to the external resource and linked by
+   * the Link button. The ID placeholder is represented by
+   * a property path included in {}, e.g. {id} or {some.id}.
+   * If undefined, no link button will be displayed.
+   */
+  @Input()
+  public linkTemplate: string | undefined;
+
+  /**
+   * Fired whenever an item is picked up.
+   */
+  @Output()
+  public itemChange: EventEmitter<any | null>;
 
   /**
    * The request for a more complex lookup, getting the
@@ -181,5 +191,60 @@ export class RefLookupComponent implements OnInit {
   public requestMore(): void {
     this.lookupActive = false;
     this.moreRequest.emit(this.item);
+  }
+
+  private resolvePlaceholder(value: string): string | null {
+    const steps = value.split('.');
+    let p: any = this.item;
+    for (let i = 0; i < steps.length; i++) {
+      p = p[steps[i]];
+      if (!p) {
+        return null;
+      }
+    }
+    return p?.toString() || null;
+  }
+
+  public openLink(): void {
+    if (!this.item || !this.linkTemplate) {
+      return;
+    }
+
+    // find the 1st '{' (there must be one)
+    let i = this.linkTemplate.indexOf('{');
+    if (i === -1) {
+      return;
+    }
+    const sb: string[] = [];
+    let prev = 0;
+
+    while (i > -1) {
+      // '{' found: first append left stuff if any
+      const start = i + 1;
+      if (prev < i) {
+        sb.push(this.linkTemplate.substring(prev, i));
+      }
+      // then find closing '}', assuming it at end
+      // if not found (defensive)
+      i = this.linkTemplate.indexOf('}', i + 1);
+      if (i === -1) {
+        i = this.linkTemplate.length;
+        break;
+      }
+      // append the resolved placeholder
+      const resolved = this.resolvePlaceholder(
+        this.linkTemplate.substring(start, i)
+      );
+      if (resolved) {
+        sb.push(resolved);
+      }
+      // move to next placeholder
+      prev = ++i;
+      i = this.linkTemplate.indexOf('{', i);
+    }
+    const uri = sb.join('');
+    if (uri) {
+      window.open(uri, '_blank');
+    }
   }
 }

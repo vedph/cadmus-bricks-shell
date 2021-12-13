@@ -9,7 +9,7 @@
   </mat-autocomplete>
 
   <!-- active -->
-  <mat-form-field style="width: 200px" *ngIf="lookupActive">
+  <mat-form-field *ngIf="lookupActive">
     <input
       matInput
       type="text"
@@ -40,16 +40,26 @@
     <button
       type="button"
       mat-stroked-button
-      style="width: 200px; height: 54px"
       *ngIf="!lookupActive"
       (click)="lookupActive = true"
     >
       {{ getLookupName(item) || "-" }}
     </button>
+    <!-- buttons -->
+    <button
+      *ngIf="linkTemplate"
+      type="button"
+      mat-icon-button
+      (click)="openLink()"
+      [disabled]="!item"
+    >
+      <mat-icon>link</mat-icon>
+    </button>
     <button
       *ngIf="hasMore"
       type="button"
       mat-icon-button
+      color="primary"
       (click)="requestMore()"
     >
       <mat-icon>more</mat-icon>
