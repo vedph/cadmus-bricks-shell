@@ -1,0 +1,18 @@
+<form [formGroup]="form" (submit)="save()">
+  <p>Here are some options</p>
+  <mat-form-field>
+    <mat-select [formControl]="letter">
+      <mat-option value="a">alpha</mat-option>
+      <mat-option value="b">beta</mat-option>
+      <mat-option value="g">gamma</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div>
+    <button type="button" color="warn" mat-icon-button (click)="cancel()">
+      <mat-icon>cancel</mat-icon>
+    </button>
+    <button type="submit" color="primary" mat-icon-button>
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

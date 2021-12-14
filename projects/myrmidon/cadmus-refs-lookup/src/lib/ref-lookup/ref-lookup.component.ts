@@ -1,8 +1,10 @@
-import { trigger, transition, style, animate } from '@angular/animations';
+// import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { RefLookupOptionsComponent } from '../ref-lookup-options/ref-lookup-options.component';
 
 /**
  * A generic item lookup filter used by RefLookupComponent.
@@ -22,8 +24,9 @@ export interface RefLookupService {
   /**
    * Lookup the items matching filter.
    * @param filter The filter.
+   * @param options Additional options.
    */
-  lookup<T>(filter: RefLookupFilter): Observable<T[]>;
+  lookup<T>(filter: RefLookupFilter, options?: any): Observable<T[]>;
   /**
    * Get a display name for the specified item.
    * @param item The item.
@@ -126,6 +129,19 @@ export class RefLookupComponent implements OnInit {
   public linkTemplate: string | undefined;
 
   /**
+   * When using quick options, this is a component used to
+   * customize the options bound to options.
+   */
+  @Input()
+  public optDialog: any;
+
+  /**
+   * The quick options for the lookup service.
+   */
+  @Input()
+  public options: any;
+
+  /**
    * Fired whenever an item is picked up.
    */
   @Output()
@@ -142,7 +158,7 @@ export class RefLookupComponent implements OnInit {
   public lookup: FormControl;
   public items$: Observable<any[]>;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: FormBuilder, private _dialog: MatDialog) {
     this.lookupActive = false;
     this.lookup = formBuilder.control(null);
     this.form = formBuilder.group({
@@ -158,10 +174,13 @@ export class RefLookupComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((value: any | string) => {
         if (typeof value === 'string' && this._service) {
-          return this._service.lookup<any>({
-            limit: this.limit || 10,
-            text: value,
-          });
+          return this._service.lookup<any>(
+            {
+              limit: this.limit || 10,
+              text: value,
+            },
+            this.options
+          );
         } else {
           return of([value]);
         }
@@ -246,5 +265,24 @@ export class RefLookupComponent implements OnInit {
     if (uri) {
       window.open(uri, '_blank');
     }
+  }
+
+  public showOptions(): void {
+    if (!this.optDialog) {
+      return;
+    }
+    // open the lookup options dialog using optDialog as its content
+    // and passing the options via data
+    this._dialog
+      .open(RefLookupOptionsComponent, {
+        data: {
+          component: this.optDialog,
+          options: this.options,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        this.options = result;
+      });
   }
 }

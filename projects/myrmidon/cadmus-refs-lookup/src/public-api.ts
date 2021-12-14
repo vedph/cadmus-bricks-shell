@@ -3,5 +3,6 @@
  */
 
 export * from './lib/ref-lookup/ref-lookup.component';
+export * from './lib/ref-lookup-options/ref-lookup-options.component';
 export * from './lib/auto-focus.directive';
 export * from './lib/cadmus-refs-lookup.module';

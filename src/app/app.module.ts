@@ -34,6 +34,7 @@ import { ChronotopePgComponent } from './refs/chronotope-pg/chronotope-pg.compon
 import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-date-pg.component';
 import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
 import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
+import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.com
     HistoricalDatePgComponent,
     FlagsPickerPgComponent,
     RefLookupPgComponent,
+    RefLookupDummyOptComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type } from '@angular/core';
 import {
   RefLookupFilter,
   RefLookupService,
 } from '@myrmidon/cadmus-refs-lookup';
 import { Observable, of } from 'rxjs';
+import { RefLookupDummyOptComponent } from '../ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
 
 export interface WebColor {
   name: string;
@@ -162,7 +163,7 @@ const COLORS: WebColor[] = [
 ];
 
 export class WebColorLookup implements RefLookupService {
-  public lookup<T>(filter: RefLookupFilter): Observable<T[]> {
+  public lookup<T>(filter: RefLookupFilter, options?: any): Observable<T[]> {
     if (!filter.text) {
       return of([]);
     }
@@ -191,10 +192,13 @@ export class WebColorLookup implements RefLookupService {
 export class RefLookupPgComponent implements OnInit {
   public item: WebColor;
   public service: WebColorLookup;
+  public optDialog: Type<any> = RefLookupDummyOptComponent;
+  public options: any;
 
   constructor() {
     this.item = COLORS[0];
     this.service = new WebColorLookup();
+    this.options = { letter: 'b' };
   }
 
   ngOnInit(): void {}

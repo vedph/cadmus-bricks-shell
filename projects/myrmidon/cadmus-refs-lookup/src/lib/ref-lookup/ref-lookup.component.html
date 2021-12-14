@@ -52,8 +52,18 @@
       mat-icon-button
       (click)="openLink()"
       [disabled]="!item"
+      matTooltip="Open the web resource"
     >
       <mat-icon>link</mat-icon>
+    </button>
+    <button
+      *ngIf="optDialog"
+      type="button"
+      mat-icon-button
+      (click)="showOptions()"
+      matTooltip="Change quick options"
+    >
+      <mat-icon>settings</mat-icon>
     </button>
     <button
       *ngIf="hasMore"
@@ -61,6 +71,7 @@
       mat-icon-button
       color="primary"
       (click)="requestMore()"
+      matTooltip="Search with more details"
     >
       <mat-icon>more</mat-icon>
     </button>
