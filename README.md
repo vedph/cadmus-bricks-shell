@@ -8,8 +8,6 @@ As Cadmus projects increase, the prototype code needs to be chopped into smaller
 
 The upgrade strategy is thus starting with the creation of "bricks", i.e. the sub-model components shared by many projects. Each of these bricks should be wrapped in its own module. So, in the end we will have a library project for each brick.
 
-To better organize the library projects, I adopt a namespace-like naming convention: all the libraries start with `cadmus-` followed by a namespace roughly representing its conceptual domain. For instance, we start with `PersonName`, which belongs to the prosopographic components; its library is thus named `cadmus-prosopa-person-name`. Any other component belonging to the same domain will add the `cadmus-prosopa-` prefix to the name of the component it contains.
-
 At this stage, the bricks themselves depend on more monolithic Cadmus libraries, like the Cadmus core. In future these will be split; but at this time, we just depend on them, so that nothing gets broken in the dependencies chain, and new projects can leverage the new bricks while still using the traditional dependencies.
 
 ## Roadmap
