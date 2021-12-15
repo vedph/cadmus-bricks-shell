@@ -51,6 +51,10 @@
         "dist/myrmidon/cadmus-refs-viaf-lookup/myrmidon-cadmus-refs-viaf-lookup",
         "dist/myrmidon/cadmus-refs-viaf-lookup"
       ],
+      "@myrmidon/cadmus-text-block-view": [
+        "dist/myrmidon/cadmus-text-block-view/myrmidon-cadmus-text-block-view",
+        "dist/myrmidon/cadmus-text-block-view"
+      ],
       "@myrmidon/cadmus-ui-flags-picker": [
         "dist/myrmidon/cadmus-ui-flags-picker/myrmidon-cadmus-ui-flags-picker",
         "dist/myrmidon/cadmus-ui-flags-picker"

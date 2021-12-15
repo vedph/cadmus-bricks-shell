@@ -2,3 +2,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Styles for text-block-view demo, each corresponds to a layer ID */
+.alpha {
+  background-color: lightsalmon;
+}
+.beta {
+  background-color: paleturquoise;
+}

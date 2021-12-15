@@ -37,6 +37,7 @@ import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-hi
 import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
 import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
+import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
 
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
@@ -50,6 +51,7 @@ import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.compone
 import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
 import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
+import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     RefLookupPgComponent,
     RefLookupDummyOptComponent,
     ViafRefLookupPgComponent,
+    TextBlockViewPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,6 +93,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
         { path: 'refs/lookup', component: RefLookupPgComponent },
         { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
+        { path: 'text/text-block-view', component: TextBlockViewPgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -126,6 +130,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     CadmusRefsChronotopeModule,
     CadmusRefsHistoricalDateModule,
     CadmusRefsLookupModule,
+    CadmusTextBlockViewModule,
     CadmusUiFlagsPickerModule,
   ],
   providers: [],

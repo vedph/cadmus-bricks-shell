@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+  bricks-app:
+    image: vedph2020/cadmus-bricks-app:0.0.1
+    ports:
+      - 4200:80

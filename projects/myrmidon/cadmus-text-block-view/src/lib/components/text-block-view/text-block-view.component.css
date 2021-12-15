@@ -1,0 +1,28 @@
+.row {
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 8px;
+  align-items: flex-start;
+  z-index: 0;
+}
+.col {
+  flex: 0 0 auto;
+  cursor: default;
+  z-index: 1;
+}
+.col .th {
+  font-size: 1.25rem;
+  text-align: center;
+  z-index: 2;
+}
+.col .dh {
+  font-size: 0.75rem;
+  color: silver;
+  text-align: center;
+  margin: 0 2px;
+  z-index: 2;
+}
+.col .dh:hover {
+  color: white;
+  background-color: silver;
+}

@@ -6,6 +6,7 @@
       /></span>
       <a mat-button routerLink="/home">Cadmus Bricks</a>
 
+      <!-- refs -->
       <button mat-button [matMenuTriggerFor]="refsMenu">Refs</button>
       <mat-menu #refsMenu>
         <a mat-menu-item routerLink="/refs/doc-references">Doc references</a>
@@ -20,6 +21,13 @@
         <a mat-menu-item routerLink="/refs/viaf-lookup">VIAF lookup</a>
       </mat-menu>
 
+      <!-- text -->
+      <button mat-button [matMenuTriggerFor]="textMenu">Text</button>
+      <mat-menu #textMenu>
+        <a mat-menu-item routerLink="/text/text-block-view">Text blocks view</a>
+      </mat-menu>
+
+      <!-- ui -->
       <button mat-button [matMenuTriggerFor]="uiMenu">UI</button>
       <mat-menu #uiMenu>
         <a mat-menu-item routerLink="/ui/flags-picker">Flags picker</a>

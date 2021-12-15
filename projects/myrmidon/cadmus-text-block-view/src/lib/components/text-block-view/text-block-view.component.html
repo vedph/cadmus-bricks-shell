@@ -1,0 +1,24 @@
+<div class="row">
+  <div *ngFor="let block of blocks; trackBy: getBlockId" class="col">
+    <div
+      class="th"
+      [ngClass]="(block.layerIds || [] | arrayIntersect: selectedIds)"
+      (click)="onBlockClick(block, false)"
+    >
+      {{ block.text }}
+    </div>
+    <div
+      class="dh"
+      (click)="onBlockClick(block, true)"
+      *ngIf="!block.htmlDecoration"
+    >
+      {{ block.decoration }}
+    </div>
+    <div
+      class="dh"
+      (click)="onBlockClick(block, true)"
+      *ngIf="block.htmlDecoration"
+      [innerHtml]="block.decoration | safeHtml: 'html'"
+    ></div>
+  </div>
+</div>

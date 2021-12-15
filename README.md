@@ -10,6 +10,12 @@ The upgrade strategy is thus starting with the creation of "bricks", i.e. the su
 
 At this stage, the bricks themselves depend on more monolithic Cadmus libraries, like the Cadmus core. In future these will be split; but at this time, we just depend on them, so that nothing gets broken in the dependencies chain, and new projects can leverage the new bricks while still using the traditional dependencies.
 
+Quick Docker image build (the only purpose of this image is letting testers play with controls in the incubator):
+
+1. `npm run build-lib`
+2. `ng build --configuration production`
+3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.1 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+
 ## Roadmap
 
 The roadmap for bricks is as follows:
