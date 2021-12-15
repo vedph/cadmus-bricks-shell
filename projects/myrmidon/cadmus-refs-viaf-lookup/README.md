@@ -1,24 +1,7 @@
-# CadmusRefsViafLookup
+# Cadmus Refs VIAF Lookup
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.0.
 
-## Code scaffolding
+This is preliminary work. This should wrap VIAF for quick lookup. TODO: add VIAF options component, and use query to allow users pick a subject and/or an index.
 
-Run `ng generate component component-name --project cadmus-refs-viaf-lookup` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project cadmus-refs-viaf-lookup`.
-> Note: Don't forget to add `--project cadmus-refs-viaf-lookup` or else it will be added to the default project in your `angular.json` file. 
-
-## Build
-
-Run `ng build cadmus-refs-viaf-lookup` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Publishing
-
-After building your library with `ng build cadmus-refs-viaf-lookup`, go to the dist folder `cd dist/cadmus-refs-viaf-lookup` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test cadmus-refs-viaf-lookup` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Note that VIAF requires JSONP, and thus also `HttpClientJsonpModule`.

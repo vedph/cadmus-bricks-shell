@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -48,6 +49,7 @@ import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-
 import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
 import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
 import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
+import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
 
 @NgModule({
   declarations: [
@@ -64,12 +66,14 @@ import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-look
     FlagsPickerPgComponent,
     RefLookupPgComponent,
     RefLookupDummyOptComponent,
+    ViafRefLookupPgComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     ReactiveFormsModule,
     RouterModule.forRoot(
       [
@@ -84,6 +88,7 @@ import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-look
         { path: 'refs/chronotope', component: ChronotopePgComponent },
         { path: 'refs/historical-date', component: HistoricalDatePgComponent },
         { path: 'refs/lookup', component: RefLookupPgComponent },
+        { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
         { path: '**', component: HomeComponent },
       ],
@@ -106,6 +111,7 @@ import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-look
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatSelectModule,
     MatSlideToggleModule,
     MatToolbarModule,

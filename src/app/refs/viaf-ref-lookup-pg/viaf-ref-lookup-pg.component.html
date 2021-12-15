@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>VIAF Reference Lookup</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-ref-lookup
+      [service]="service"
+      [item]="item"
+      [required]="true"
+      [hasMore]="true"
+      linkTemplate="http://www.viaf.org/viaf/{viafid}"
+      label="VIAF"
+      (itemChange)="onItemChange($event)"
+      (moreRequest)="onMoreRequest()"
+    ></cadmus-ref-lookup>
+    <div *ngIf="item">
+      <pre>{{ item | json }}</pre>
+    </div>
+    <hr />
+    <h3>Direct VIAF Access</h3>
+    <p>
+      This is the simplest VIAF term suggestion query. Type something and press
+      enter.
+    </p>
+    <form [formGroup]="form" (submit)="suggestTerm()">
+      <mat-form-field>
+        <input matInput placeholder="term" [formControl]="term" />
+      </mat-form-field>
+    </form>
+    <div *ngIf="suggesting">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="suggestResult">
+      <pre>{{ suggestResult | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>
