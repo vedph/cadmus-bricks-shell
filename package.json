@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-lib": "ng build @myrmidon/cadmus-refs-doc-references && ng build @myrmidon/cadmus-refs-decorated-ids && ng build @myrmidon/cadmus-refs-external-ids && ng build @myrmidon/cadmus-refs-proper-name && ng build @myrmidon/cadmus-refs-assertion && ng build @myrmidon/cadmus-refs-asserted-id && ng build @myrmidon/cadmus-refs-historical-date && ng build @myrmidon/cadmus-ui-flags-picker && ng build @myrmidon/cadmus-refs-chronotope && ng build @myrmidon/cadmus-refs-lookup"
+    "build-lib": "ng build @myrmidon/cadmus-refs-doc-references && ng build @myrmidon/cadmus-refs-decorated-ids && ng build @myrmidon/cadmus-refs-external-ids && ng build @myrmidon/cadmus-refs-proper-name && ng build @myrmidon/cadmus-refs-assertion && ng build @myrmidon/cadmus-refs-asserted-id && ng build @myrmidon/cadmus-refs-historical-date && ng build @myrmidon/cadmus-ui-flags-picker && ng build @myrmidon/cadmus-refs-chronotope && ng build @myrmidon/cadmus-refs-lookup && ng build @myrmidon/cadmus-refs-viaf-lookup"
   },
   "private": true,
   "dependencies": {
@@ -23,7 +23,6 @@
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
     "@myrmidon/cadmus-core": "0.3.0",
-    "@myrmidon/cadmus-material": "0.1.0",
     "@myrmidon/ng-tools": "0.0.3",
     "gravatar": "^1.8.2",
     "rangy": "^1.3.0",

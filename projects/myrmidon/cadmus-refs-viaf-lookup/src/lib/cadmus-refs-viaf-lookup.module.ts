@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import { CadmusRefsLookupModule } from '@myrmidon/cadmus-refs-lookup';
 
 @NgModule({
@@ -11,8 +10,7 @@ import { CadmusRefsLookupModule } from '@myrmidon/cadmus-refs-lookup';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CadmusMaterialModule,
-    CadmusRefsLookupModule
+    CadmusRefsLookupModule,
   ],
   exports: [],
 })

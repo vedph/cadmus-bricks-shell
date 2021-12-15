@@ -2,7 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { RefLookupComponent } from './ref-lookup/ref-lookup.component';
 import { AutoFocusDirective } from './auto-focus.directive';
@@ -18,7 +23,13 @@ import { RefLookupOptionsComponent } from './ref-lookup-options/ref-lookup-optio
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CadmusMaterialModule,
+    // material
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule
   ],
   exports: [RefLookupComponent, AutoFocusDirective, RefLookupOptionsComponent],
 })

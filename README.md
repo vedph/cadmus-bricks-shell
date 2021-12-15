@@ -12,14 +12,6 @@ To better organize the library projects, I adopt a namespace-like naming convent
 
 At this stage, the bricks themselves depend on more monolithic Cadmus libraries, like the Cadmus core. In future these will be split; but at this time, we just depend on them, so that nothing gets broken in the dependencies chain, and new projects can leverage the new bricks while still using the traditional dependencies.
 
-## List
-
-- `cadmus-refs-assertion`: an assertion connected to some statement to qualify its level of certainty and eventually allege documental references supporting it.
-- `cadmus-refs-decorated-ids`: to replace with asserted-ids.
-- `cadmus-refs-doc-references`: a list of documental references.
-- `cadmus-refs-external-ids`: a list of external IDs.
-- `cadmus-refs-proper-name`: a composite proper name.
-
 ## Roadmap
 
 The roadmap for bricks is as follows:
@@ -41,14 +33,9 @@ To add a brick:
 
 3. add a corresponding host page in the app, with its menu and route.
 
-## Publishing
-
-1. update the library version numbers
-2. `npm run build-refs`
-3. `npm run build-prosopa`
-4. `./publish`
-
 ## History
+
+- 2021-12-15: removed dependencies from `@myrmidon/cadmus-material` and bumped all version numbers accordingly.
 
 - 2021-12-13: added link button to ref-lookup component.
 
