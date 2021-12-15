@@ -26,7 +26,7 @@ export interface RefLookupService {
    * @param filter The filter.
    * @param options Additional options.
    */
-  lookup<T>(filter: RefLookupFilter, options?: any): Observable<T[]>;
+  lookup(filter: RefLookupFilter, options?: any): Observable<any[]>;
   /**
    * Get a display name for the specified item.
    * @param item The item.
@@ -174,7 +174,7 @@ export class RefLookupComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((value: any | string) => {
         if (typeof value === 'string' && this._service) {
-          return this._service.lookup<any>(
+          return this._service.lookup(
             {
               limit: this.limit || 10,
               text: value,

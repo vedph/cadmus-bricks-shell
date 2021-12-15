@@ -4,6 +4,7 @@ import {
   RefLookupService,
 } from '@myrmidon/cadmus-refs-lookup';
 import { Observable, of } from 'rxjs';
+
 import { RefLookupDummyOptComponent } from '../ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
 
 export interface WebColor {
@@ -163,7 +164,7 @@ const COLORS: WebColor[] = [
 ];
 
 export class WebColorLookup implements RefLookupService {
-  public lookup<T>(filter: RefLookupFilter, options?: any): Observable<T[]> {
+  public lookup(filter: RefLookupFilter, options?: any): Observable<any[]> {
     if (!filter.text) {
       return of([]);
     }
@@ -176,7 +177,7 @@ export class WebColorLookup implements RefLookupService {
         }
       }
     }
-    return of(matches as T[]);
+    return of(matches);
   }
 
   public getName(item: any): string {

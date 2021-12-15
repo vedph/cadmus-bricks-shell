@@ -47,6 +47,10 @@
         "dist/myrmidon/cadmus-refs-proper-name/myrmidon-cadmus-refs-proper-name",
         "dist/myrmidon/cadmus-refs-proper-name"
       ],
+      "@myrmidon/cadmus-refs-viaf-lookup": [
+        "dist/myrmidon/cadmus-refs-viaf-lookup/myrmidon-cadmus-refs-viaf-lookup",
+        "dist/myrmidon/cadmus-refs-viaf-lookup"
+      ],
       "@myrmidon/cadmus-ui-flags-picker": [
         "dist/myrmidon/cadmus-ui-flags-picker/myrmidon-cadmus-ui-flags-picker",
         "dist/myrmidon/cadmus-ui-flags-picker"
