@@ -1,18 +1,18 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import {
-  HistoricalDate,
-  Datation,
-  HistoricalDateModel,
-  DatationModel,
-  HistoricalDateType,
-} from '@myrmidon/cadmus-core';
-import {
   FormGroup,
   FormControl,
   FormBuilder,
   Validators,
 } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
+import {
+  HistoricalDate,
+  HistoricalDateModel,
+  HistoricalDateType,
+} from './historical-date';
+import { Datation, DatationModel } from '../datation/datation';
 
 @Component({
   selector: 'cadmus-refs-historical-date',

@@ -6,8 +6,8 @@ import {
   FormGroup,
 } from '@angular/forms';
 
-import { Datation, DatationModel } from '@myrmidon/cadmus-core';
 import { debounceTime } from 'rxjs/operators';
+import { Datation, DatationModel } from './datation';
 
 /**
  * Editor for a single point in a historical date.

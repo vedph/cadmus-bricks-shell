@@ -17,9 +17,8 @@ import { debounceTime } from 'rxjs/operators';
  */
 export interface ExternalId {
   value: string;
-  type?: string;
+  scope?: string;
   tag?: string;
-  note?: string;
 }
 
 @Component({
@@ -48,10 +47,10 @@ export class ExternalIdsComponent implements OnDestroy {
   }
 
   /**
-   * The ID types thesaurus entries.
+   * The ID scopes thesaurus entries.
    */
   @Input()
-  public typeEntries: ThesaurusEntry[] | undefined;
+  public scopeEntries: ThesaurusEntry[] | undefined;
 
   /**
    * The ID tags thesaurus entries.
@@ -107,9 +106,8 @@ export class ExternalIdsComponent implements OnDestroy {
         Validators.required,
         Validators.maxLength(500),
       ]),
-      type: this._formBuilder.control(id?.type, Validators.maxLength(50)),
+      scope: this._formBuilder.control(id?.scope, Validators.maxLength(50)),
       tag: this._formBuilder.control(id?.tag, Validators.maxLength(50)),
-      note: this._formBuilder.control(id?.note, Validators.maxLength(1000)),
     });
   }
 
@@ -202,9 +200,8 @@ export class ExternalIdsComponent implements OnDestroy {
       const g = this.idsArr.controls[i] as FormGroup;
       ids.push({
         value: g.controls.value.value?.trim(),
-        type: g.controls.type.value?.trim(),
+        scope: g.controls.scope.value?.trim(),
         tag: g.controls.tag.value?.trim(),
-        note: g.controls.note.value?.trim(),
       });
     }
     return ids;

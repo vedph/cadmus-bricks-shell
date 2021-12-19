@@ -63,7 +63,7 @@
           />
           <mat-error
             *ngIf="
-              $any(item)['controls'].value.hasError('required') &&
+              $any(item)['controls'].value?.hasError('required') &&
               ($any(item)['controls'].value.dirty ||
                 $any(item)['controls'].value.touched)
             "
@@ -71,7 +71,7 @@
           </mat-error>
           <mat-error
             *ngIf="
-              $any(item)['controls'].value.hasError('max-length') &&
+              $any(item)['controls'].value?.hasError('max-length') &&
               ($any(item)['controls'].value.dirty ||
                 $any(item)['controls'].value.touched)
             "
@@ -80,28 +80,28 @@
         </mat-form-field>
 
         &nbsp;
-        <!-- type (bound) -->
-        <ng-container *ngIf="typeEntries">
+        <!-- scope (bound) -->
+        <ng-container *ngIf="scopeEntries">
           <mat-form-field style="width: 8em">
-            <mat-select formControlName="type" placeholder="type">
-              <mat-option *ngFor="let e of typeEntries" [value]="e.id">
+            <mat-select formControlName="scope" placeholder="scope">
+              <mat-option *ngFor="let e of scopeEntries" [value]="e.id">
                 {{ e.value }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </ng-container>
 
-        <!-- type (free) -->
-        <ng-container *ngIf="!typeEntries">
+        <!-- scope (free) -->
+        <ng-container *ngIf="!scopeEntries">
           <mat-form-field style="width: 8em">
-            <input matInput formControlName="type" placeholder="type" />
+            <input matInput formControlName="scope" placeholder="scope" />
             <mat-error
               *ngIf="
-                $any(item)['controls'].type.hasError('max-length') &&
-                ($any(item)['controls'].type.dirty ||
-                  $any(item)['controls'].type.touched)
+                $any(item)['controls'].scope?.hasError('max-length') &&
+                ($any(item)['controls'].scope.dirty ||
+                  $any(item)['controls'].scope.touched)
               "
-              >type too long
+              >scope too long
             </mat-error>
           </mat-form-field>
         </ng-container>
@@ -124,7 +124,7 @@
             <input matInput formControlName="tag" placeholder="tag" />
             <mat-error
               *ngIf="
-                $any(item)['controls'].tag.hasError('max-length') &&
+                $any(item)['controls'].tag?.hasError('max-length') &&
                 ($any(item)['controls'].tag.dirty ||
                   $any(item)['controls'].tag.touched)
               "
@@ -132,22 +132,6 @@
             </mat-error>
           </mat-form-field>
         </ng-container>
-
-        <!-- note -->
-        <div style="margin-left: 135px">
-          <!-- value -->
-          <mat-form-field style="width: 90%; max-width: 800px">
-            <input matInput formControlName="note" placeholder="note" />
-            <mat-error
-              *ngIf="
-                $any(item)['controls'].note.hasError('max-length') &&
-                ($any(item)['controls'].note.dirty ||
-                  $any(item)['controls'].note.touched)
-              "
-              >note too long
-            </mat-error>
-          </mat-form-field>
-        </div>
       </div>
     </div>
   </div>

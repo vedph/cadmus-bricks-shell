@@ -10,8 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { CadmusCoreModule } from '@myrmidon/cadmus-core';
-
 import { DatationComponent } from './datation/datation.component';
 import { HistoricalDateComponent } from './historical-date/historical-date.component';
 
@@ -29,8 +27,6 @@ import { HistoricalDateComponent } from './historical-date/historical-date.compo
     MatIconModule,
     MatInputModule,
     MatSlideToggleModule,
-    // Cadmus
-    CadmusCoreModule,
   ],
   exports: [DatationComponent, HistoricalDateComponent],
 })

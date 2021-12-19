@@ -9,11 +9,11 @@ import { ExternalId } from 'projects/myrmidon/cadmus-refs-external-ids/src/publi
 })
 export class ExternalIdsPgComponent implements OnInit {
   public ids: ExternalId[] | undefined;
-  public typeEntries: ThesaurusEntry[];
+  public scopeEntries: ThesaurusEntry[];
   public tagEntries: ThesaurusEntry[];
 
   constructor() {
-    this.typeEntries = [
+    this.scopeEntries = [
       {
         id: 'red',
         value: 'red',
