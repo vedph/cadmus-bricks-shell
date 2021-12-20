@@ -1,0 +1,24 @@
+{
+  "name": "@myrmidon/cadmus-mat-physical-size",
+  "version": "0.0.1",
+  "description": "Cadmus - material description: physical size.",
+  "keywords": [
+    "Cadmus",
+    "bricks"
+  ],
+  "homepage": "https://github.com/vedph/cadmus-bricks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedph/cadmus-bricks"
+  },
+  "author": {
+    "name": "Daniele Fusi"
+  },
+  "peerDependencies": {
+    "@angular/common": "^13.1.0",
+    "@angular/core": "^13.1.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

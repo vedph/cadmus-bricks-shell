@@ -1,0 +1,43 @@
+<form [formGroup]="form">
+  <span *ngIf="label">{{ label }}&nbsp;</span>
+  <!-- value -->
+  <mat-form-field style="width: 5em">
+    <input
+      matInput
+      type="number"
+      min="0"
+      [formControl]="value"
+      placeholder="value"
+    />
+  </mat-form-field>
+  &nbsp;
+  <!-- unit -->
+  <mat-form-field style="width: 6em">
+    <mat-select [formControl]="unit" placeholder="unit">
+      <mat-option *ngFor="let e of unitEntries" [value]="e.id">{{
+        e.value
+      }}</mat-option>
+    </mat-select>
+    <mat-error
+      *ngIf="$any(unit).errors?.required && (unit.dirty || unit.touched)"
+      >unit required</mat-error
+    >
+  </mat-form-field>
+  &nbsp;
+  <!-- tag (bound) -->
+  <mat-form-field style="width: 6em" *ngIf="tagEntries?.length">
+    <mat-select [formControl]="tag" placeholder="tag">
+      <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+        e.value
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- tag (free) -->
+  <mat-form-field style="width: 5em" *ngIf="!tagEntries?.length">
+    <input matInput [formControl]="tag" placeholder="tag" />
+    <mat-error *ngIf="$any(tag).errors?.maxLength && (tag.dirty || tag.touched)"
+      >tag too long</mat-error
+    >
+  </mat-form-field>
+</form>

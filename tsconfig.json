@@ -3,6 +3,10 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@myrmidon/cadmus-mat-physical-size": [
+        "dist/myrmidon/cadmus-mat-physical-size/myrmidon-cadmus-mat-physical-size",
+        "dist/myrmidon/cadmus-mat-physical-size"
+      ],
       "@myrmidon/cadmus-prosopa-cited-person": [
         "dist/myrmidon/cadmus-prosopa-cited-person/myrmidon-cadmus-prosopa-cited-person",
         "dist/myrmidon/cadmus-prosopa-cited-person"
