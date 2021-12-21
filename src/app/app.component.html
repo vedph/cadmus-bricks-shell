@@ -32,6 +32,12 @@
       <mat-menu #uiMenu>
         <a mat-menu-item routerLink="/ui/flags-picker">Flags picker</a>
       </mat-menu>
+
+      <!-- material -->
+      <button mat-button [matMenuTriggerFor]="matMenu">Material</button>
+      <mat-menu #matMenu>
+        <a mat-menu-item routerLink="/mat/physical-size">Physical size</a>
+      </mat-menu>
     </mat-toolbar>
   </header>
 

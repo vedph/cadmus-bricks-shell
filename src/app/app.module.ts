@@ -96,6 +96,7 @@ import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg
         { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
         { path: 'text/text-block-view', component: TextBlockViewPgComponent },
+        { path: 'mat/physical-size', component: PhysicalSizePgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
