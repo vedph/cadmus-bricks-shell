@@ -53,6 +53,7 @@ import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-look
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg.component';
+import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physical-size/src/public-api';
 
 @NgModule({
   declarations: [
@@ -134,6 +135,7 @@ import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg
     CadmusRefsHistoricalDateModule,
     CadmusRefsLookupModule,
     CadmusTextBlockViewModule,
+    CadmusMatPhysicalSizeModule,
     CadmusUiFlagsPickerModule,
   ],
   providers: [],
