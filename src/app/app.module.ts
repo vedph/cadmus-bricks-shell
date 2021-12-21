@@ -52,6 +52,7 @@ import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.com
 import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
+import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-v
     RefLookupDummyOptComponent,
     ViafRefLookupPgComponent,
     TextBlockViewPgComponent,
+    PhysicalSizePgComponent,
   ],
   imports: [
     BrowserModule,

@@ -24,7 +24,7 @@ import { PhysicalDimension } from '../physical-dimension/physical-dimension.comp
 }
 
 @Component({
-  selector: 'cadmus-physical-size',
+  selector: 'cadmus-mat-physical-size',
   templateUrl: './physical-size.component.html',
   styleUrls: ['./physical-size.component.css'],
 })

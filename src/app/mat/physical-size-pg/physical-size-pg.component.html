@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Physical Size</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-mat-physical-size [size]="size" (sizeChange)="onSizeChange($event)">
+    </cadmus-mat-physical-size>
+    <div *ngIf="size">
+      <pre>{{ size | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>
