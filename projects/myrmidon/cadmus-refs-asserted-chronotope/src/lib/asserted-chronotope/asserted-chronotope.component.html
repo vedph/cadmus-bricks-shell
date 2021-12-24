@@ -1,0 +1,89 @@
+<form [formGroup]="form">
+  <!-- place -->
+  <div>
+    <!-- tag (bound) -->
+    <ng-container *ngIf="tagEntries">
+      <mat-form-field>
+        <mat-select [formControl]="plTag" placeholder="tag">
+          <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+            e.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+    <!-- tag (free) -->
+    <ng-container *ngIf="!tagEntries">
+      <mat-form-field>
+        <input matInput [formControl]="plTag" placeholder="tag" />
+        <mat-error
+          *ngIf="plTag.hasError('max-length') && (plTag.dirty || plTag.touched)"
+          >tag too long</mat-error
+        >
+      </mat-form-field>
+    </ng-container>
+    &nbsp;
+    <mat-form-field>
+      <input matInput [formControl]="place" placeholder="place" />
+      <mat-error
+        *ngIf="place.hasError('max-length') && (place.dirty || place.touched)"
+        >place too long</mat-error
+      >
+    </mat-form-field>
+    <!-- assertion -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>place assertion</mat-expansion-panel-header>
+      <cadmus-refs-assertion
+        [assTagEntries]="assTagEntries"
+        [refTypeEntries]="refTypeEntries"
+        [refTagEntries]="refTagEntries"
+        [assertion]="initialPlAssertion"
+        (assertionChange)="onPlAssertionChange($event)"
+      >
+      </cadmus-refs-assertion>
+    </mat-expansion-panel>
+  </div>
+
+  <!-- date -->
+  <div>
+    <mat-checkbox [formControl]="hasDate">has date</mat-checkbox>
+    &nbsp;
+    <!-- tag (bound) -->
+    <mat-form-field *ngIf="hasDate?.value && tagEntries?.length">
+      <mat-select [formControl]="dtTag" placeholder="tag">
+        <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- tag (free) -->
+    <mat-form-field *ngIf="hasDate?.value && !tagEntries?.length">
+      <input matInput [formControl]="dtTag" placeholder="tag" />
+      <mat-error
+        *ngIf="dtTag.hasError('max-length') && (dtTag.dirty || dtTag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
+    <div>
+      <cadmus-refs-historical-date
+        *ngIf="hasDate?.value"
+        [date]="initialDate"
+        (dateChange)="onDateChange($event)"
+      ></cadmus-refs-historical-date>
+
+      <mat-expansion-panel *ngIf="hasDate?.value">
+      <!-- assertion -->
+        <mat-expansion-panel-header>date assertion</mat-expansion-panel-header>
+        <cadmus-refs-assertion
+          [assTagEntries]="assTagEntries"
+          [refTypeEntries]="refTypeEntries"
+          [refTagEntries]="refTagEntries"
+          [assertion]="initialDtAssertion"
+          (assertionChange)="onDtAssertionChange($event)"
+        >
+        </cadmus-refs-assertion>
+      </mat-expansion-panel>
+    </div>
+  </div>
+</form>

@@ -15,6 +15,10 @@
         "dist/myrmidon/cadmus-prosopa-person-name/myrmidon-cadmus-prosopa-person-name",
         "dist/myrmidon/cadmus-prosopa-person-name"
       ],
+      "@myrmidon/cadmus-refs-asserted-chronotope": [
+        "dist/myrmidon/cadmus-refs-asserted-chronotope/myrmidon-cadmus-refs-asserted-chronotope",
+        "dist/myrmidon/cadmus-refs-asserted-chronotope"
+      ],
       "@myrmidon/cadmus-refs-asserted-id": [
         "dist/myrmidon/cadmus-refs-asserted-id/myrmidon-cadmus-refs-asserted-id",
         "dist/myrmidon/cadmus-refs-asserted-id"

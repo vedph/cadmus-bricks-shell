@@ -11,14 +11,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
+import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-references';
 import { CadmusRefsHistoricalDateModule } from '@myrmidon/cadmus-refs-historical-date';
 
-import { ChronotopeComponent } from './chronotope/chronotope.component';
+import { AssertedChronotopeComponent } from './asserted-chronotope/asserted-chronotope.component';
 
 @NgModule({
   declarations: [
-    ChronotopeComponent
+    AssertedChronotopeComponent
   ],
   imports: [
     CommonModule,
@@ -35,8 +36,11 @@ import { ChronotopeComponent } from './chronotope/chronotope.component';
     // Cadmus
     CadmusCoreModule,
     CadmusRefsDocReferencesModule,
-    CadmusRefsHistoricalDateModule
+    CadmusRefsAssertionModule,
+    CadmusRefsHistoricalDateModule,
   ],
-  exports: [ChronotopeComponent],
+  exports: [
+    AssertedChronotopeComponent
+  ],
 })
-export class CadmusRefsChronotopeModule {}
+export class CadmusRefsAssertedChronotopeModule {}

@@ -30,28 +30,14 @@
       >place too long</mat-error
     >
   </mat-form-field>
+  <mat-checkbox [formControl]="hasDate">has date</mat-checkbox>
 
   <!-- date -->
-  <h4>date</h4>
   <div>
-    <mat-checkbox [formControl]="hasDate">has date</mat-checkbox>
     <cadmus-refs-historical-date
       *ngIf="hasDate?.value"
       [date]="initialDate"
       (dateChange)="onDateChange($event)"
     ></cadmus-refs-historical-date>
   </div>
-
-  <!-- assertion -->
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>assertion</mat-expansion-panel-header>
-    <cadmus-refs-assertion
-      [assTagEntries]="assTagEntries"
-      [refTypeEntries]="refTypeEntries"
-      [refTagEntries]="refTagEntries"
-      [assertion]="initialAssertion"
-      (assertionChange)="onAssertionChange($event)"
-    >
-    </cadmus-refs-assertion>
-  </mat-expansion-panel>
 </form>

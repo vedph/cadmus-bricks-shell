@@ -1,7 +1,7 @@
 {
-  "name": "@myrmidon/cadmus-refs-chronotope",
-  "version": "0.0.4",
-  "description": "Cadmus - chronotope component.",
+  "name": "@myrmidon/cadmus-refs-asserted-chronotope",
+  "version": "0.0.1",
+  "description": "Cadmus - asserted chronotope component.",
   "keywords": [
     "Cadmus",
     "bricks"

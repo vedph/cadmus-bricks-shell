@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Asserted Chronotope</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-refs-asserted-chronotope
+      [chronotope]="initialChronotope"
+      (chronotopeChange)="onChronotopeChange($event)"
+    ></cadmus-refs-asserted-chronotope>
+    <div *ngIf="chronotope">
+      <pre>{{ chronotope | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

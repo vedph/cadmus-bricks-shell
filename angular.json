@@ -505,6 +505,37 @@
           }
         }
       }
+    },
+    "@myrmidon/cadmus-refs-asserted-chronotope": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-refs-asserted-chronotope",
+      "sourceRoot": "projects/myrmidon/cadmus-refs-asserted-chronotope/src",
+      "prefix": "cadmus",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-refs-asserted-chronotope/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-asserted-chronotope/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-asserted-chronotope/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-refs-asserted-chronotope/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-refs-asserted-chronotope/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-refs-asserted-chronotope/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "cadmus-bricks"

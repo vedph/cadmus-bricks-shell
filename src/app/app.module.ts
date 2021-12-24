@@ -38,13 +38,14 @@ import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-assert
 import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
 import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
+import { CadmusRefsAssertedChronotopeModule } from 'projects/myrmidon/cadmus-refs-asserted-chronotope/src/public-api';
 
+import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
+import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
 import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
 import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
-import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
-import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
 import { ChronotopePgComponent } from './refs/chronotope-pg/chronotope-pg.component';
 import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-date-pg.component';
 import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
@@ -54,6 +55,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg.component';
 import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physical-size/src/public-api';
+import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/asserted-chronotope-pg.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physic
     DocReferencesPgComponent,
     DecoratedIdsPgComponent,
     ExternalIdsPgComponent,
+    AssertedChronotopePgComponent,
     AssertionPgComponent,
     AssertedIdPgComponent,
     ChronotopePgComponent,
@@ -92,6 +95,7 @@ import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physic
         { path: 'refs/assertion', component: AssertionPgComponent },
         { path: 'refs/asserted-id', component: AssertedIdPgComponent },
         { path: 'refs/chronotope', component: ChronotopePgComponent },
+        { path: 'refs/asserted-chronotope', component: AssertedChronotopePgComponent },
         { path: 'refs/historical-date', component: HistoricalDatePgComponent },
         { path: 'refs/lookup', component: RefLookupPgComponent },
         { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
@@ -132,6 +136,7 @@ import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physic
     CadmusRefsAssertionModule,
     CadmusRefsAssertedIdModule,
     CadmusRefsChronotopeModule,
+    CadmusRefsAssertedChronotopeModule,
     CadmusRefsHistoricalDateModule,
     CadmusRefsLookupModule,
     CadmusTextBlockViewModule,
