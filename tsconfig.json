@@ -3,6 +3,10 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@myrmidon/cadmus-cod-location": [
+        "dist/myrmidon/cadmus-cod-location/myrmidon-cadmus-cod-location",
+        "dist/myrmidon/cadmus-cod-location"
+      ],
       "@myrmidon/cadmus-mat-physical-size": [
         "dist/myrmidon/cadmus-mat-physical-size/myrmidon-cadmus-mat-physical-size",
         "dist/myrmidon/cadmus-mat-physical-size"
