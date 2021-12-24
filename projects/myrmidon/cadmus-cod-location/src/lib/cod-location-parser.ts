@@ -209,10 +209,10 @@ export class CodLocationParser {
     }
     // a falsy vs non-falsy location comes before
     if (!a) {
-      return 1;
+      return -1;
     }
     if (!b) {
-      return -1;
+      return 1;
     }
     if ((!a.s && !b.s) || a.s === b.s) {
       // systems are equal: compare n
