@@ -5,6 +5,11 @@ echo - you are logged in (npm whoami)
 echo - you have successfully rebuilt all the libraries (npm run...)
 pause
 
+cd .\dist\myrmidon\cadmus-cod-location
+call npm publish --access=public
+cd ..\..\..
+pause
+
 cd .\dist\myrmidon\cadmus-mat-physical-size
 call npm publish --access=public
 cd ..\..\..
