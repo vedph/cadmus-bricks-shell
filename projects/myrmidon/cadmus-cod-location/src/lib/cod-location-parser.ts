@@ -43,7 +43,10 @@ export interface CodLocationRange {
  * [5]=line: the line number preceded by dot.
  */
 export const COD_LOCATION_PATTERN =
-  /(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)(?:([rv])([a-z])?)?(?:\.([0-9]+))?/;
+  /^(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)(?:([rv])([a-z])?)?(?:\.([0-9]+))?$/;
+
+export const COD_LOCATION_RANGES_PATTERN =
+  /^(?:(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)(?:([rv])([a-z])?)?(?:\.([0-9]+))?[- ]?)+$/;
 
 /**
  * Manuscript's location parser.

@@ -10,6 +10,7 @@ import {
   CodLocationParser,
   CodLocationRange,
   COD_LOCATION_PATTERN,
+  COD_LOCATION_RANGES_PATTERN,
 } from '../cod-location-parser';
 
 @Component({
@@ -100,9 +101,7 @@ export class CodLocationComponent implements OnInit {
     if (this.single) {
       this.text.addValidators(Validators.pattern(COD_LOCATION_PATTERN));
     } else {
-      this.text.addValidators(
-        Validators.pattern('(' + COD_LOCATION_PATTERN + '[- ]?)+')
-      );
+      this.text.addValidators(Validators.pattern(COD_LOCATION_RANGES_PATTERN));
     }
     this._updatingVals = false;
   }
@@ -123,20 +122,24 @@ export class CodLocationComponent implements OnInit {
 
   private emitLocationChange(): void {
     if (this._single) {
-      const loc = CodLocationParser.parseLocation(this.text.value);
+      const loc = this.text.valid
+        ? CodLocationParser.parseLocation(this.text.value)
+        : null;
       if (loc) {
         this.locationChange.emit([{ start: loc, end: loc }]);
       } else {
-        if (!this._required) {
+        if (!this._required && !this.text.value?.length) {
           this.locationChange.emit(null);
         }
       }
     } else {
-      const ranges = CodLocationParser.parseLocationRanges(this.text.value);
-      if (ranges) {
+      const ranges = this.text.valid
+        ? CodLocationParser.parseLocationRanges(this.text.value)
+        : null;
+      if (ranges?.length) {
         this.locationChange.emit(ranges);
       } else {
-        if (!this._required) {
+        if (!this._required && !this.text.value?.length) {
           this.locationChange.emit(null);
         }
       }

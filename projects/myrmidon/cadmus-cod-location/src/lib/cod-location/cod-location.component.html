@@ -4,5 +4,8 @@
     <mat-error *ngIf="text.errors?.required && (text.dirty || text.touched)"
       >required</mat-error
     >
+    <mat-error *ngIf="text.errors?.pattern && (text.dirty || text.touched)"
+      >invalid</mat-error
+    >
   </mat-form-field>
 </form>
