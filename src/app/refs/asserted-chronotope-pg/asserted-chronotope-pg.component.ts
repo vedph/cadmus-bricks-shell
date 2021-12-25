@@ -4,7 +4,7 @@ import { AssertedChronotope } from 'projects/myrmidon/cadmus-refs-asserted-chron
 @Component({
   selector: 'app-asserted-chronotope-pg',
   templateUrl: './asserted-chronotope-pg.component.html',
-  styleUrls: ['./asserted-chronotope-pg.component.css']
+  styleUrls: ['./asserted-chronotope-pg.component.css'],
 })
 export class AssertedChronotopePgComponent implements OnInit {
   public initialChronotope?: AssertedChronotope;

@@ -5,7 +5,16 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <div>
+      <form [formGroup]="form">
+        <mat-checkbox [formControl]="single">single</mat-checkbox>
+        &nbsp;
+        <mat-checkbox [formControl]="required">required</mat-checkbox>
+      </form>
+    </div>
     <cadmus-cod-location
+      [single]="single?.value"
+      [required]="required?.value"
       [location]="ranges"
       (locationChange)="onRangesChange($event)"
     ></cadmus-cod-location>

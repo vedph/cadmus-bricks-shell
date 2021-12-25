@@ -104,6 +104,7 @@ export class CodLocationComponent implements OnInit {
       this.text.addValidators(Validators.pattern(COD_LOCATION_RANGES_PATTERN));
     }
     this._updatingVals = false;
+    this.form.updateValueAndValidity();
   }
 
   ngOnInit(): void {

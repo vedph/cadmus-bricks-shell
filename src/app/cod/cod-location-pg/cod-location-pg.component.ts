@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
 import { CodLocationRange } from 'projects/myrmidon/cadmus-cod-location/src/public-api';
 
 @Component({
@@ -9,7 +11,11 @@ import { CodLocationRange } from 'projects/myrmidon/cadmus-cod-location/src/publ
 export class CodLocationPgComponent implements OnInit {
   public ranges: CodLocationRange[] | null;
 
-  constructor() {
+  public single: FormControl;
+  public required: FormControl;
+  public form: FormGroup;
+
+  constructor(formBuilder: FormBuilder) {
     this.ranges = [
       {
         start: {
@@ -28,6 +34,13 @@ export class CodLocationPgComponent implements OnInit {
         },
       },
     ];
+    // form
+    this.single = formBuilder.control(false);
+    this.required = formBuilder.control(false);
+    this.form = formBuilder.group({
+      single: this.single,
+      required: this.required,
+    });
   }
 
   ngOnInit(): void {}
