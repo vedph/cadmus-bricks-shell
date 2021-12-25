@@ -28,6 +28,12 @@
         <a mat-menu-item routerLink="/text/text-block-view">Text blocks view</a>
       </mat-menu>
 
+      <!-- cod -->
+      <button mat-button [matMenuTriggerFor]="codMenu">Codicology</button>
+      <mat-menu #codMenu>
+        <a mat-menu-item routerLink="/cod/location">Manuscript location</a>
+      </mat-menu>
+
       <!-- ui -->
       <button mat-button [matMenuTriggerFor]="uiMenu">UI</button>
       <mat-menu #uiMenu>

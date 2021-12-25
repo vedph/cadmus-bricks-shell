@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Manuscript Location</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-cod-location
+      [location]="ranges"
+      (locationChange)="onRangesChange($event)"
+    ></cadmus-cod-location>
+    <div *ngIf="ranges">
+      <pre>{{ ranges | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

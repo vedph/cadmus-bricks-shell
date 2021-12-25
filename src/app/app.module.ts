@@ -39,6 +39,7 @@ import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-pic
 import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
 import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
 import { CadmusRefsAssertedChronotopeModule } from 'projects/myrmidon/cadmus-refs-asserted-chronotope/src/public-api';
+import { CadmusCodLocationModule } from 'projects/myrmidon/cadmus-cod-location/src/public-api';
 
 import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
 import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
@@ -56,6 +57,7 @@ import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-v
 import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg.component';
 import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physical-size/src/public-api';
 import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/asserted-chronotope-pg.component';
+import { CodLocationPgComponent } from './cod/cod-location-pg/cod-location-pg.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,7 @@ import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/ass
     ViafRefLookupPgComponent,
     TextBlockViewPgComponent,
     PhysicalSizePgComponent,
+    CodLocationPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,6 +105,7 @@ import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/ass
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
         { path: 'text/text-block-view', component: TextBlockViewPgComponent },
         { path: 'mat/physical-size', component: PhysicalSizePgComponent },
+        { path: 'cod/location', component: CodLocationPgComponent },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -141,6 +145,7 @@ import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/ass
     CadmusRefsLookupModule,
     CadmusTextBlockViewModule,
     CadmusMatPhysicalSizeModule,
+    CadmusCodLocationModule,
     CadmusUiFlagsPickerModule,
   ],
   providers: [],

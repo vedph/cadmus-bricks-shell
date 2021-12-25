@@ -1,3 +1,8 @@
-<mat-form-field>
-  <input type="text" matInput />
-</mat-form-field>
+<form [formGroup]="form">
+  <mat-form-field>
+    <input type="text" matInput [formControl]="text" maxlength="500" />
+    <mat-error *ngIf="text.errors?.required && (text.dirty || text.touched)"
+      >required</mat-error
+    >
+  </mat-form-field>
+</form>
