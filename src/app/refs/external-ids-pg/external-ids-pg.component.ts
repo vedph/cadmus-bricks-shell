@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { ExternalId } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
 
@@ -8,11 +9,15 @@ import { ExternalId } from 'projects/myrmidon/cadmus-refs-external-ids/src/publi
   styleUrls: ['./external-ids-pg.component.css'],
 })
 export class ExternalIdsPgComponent implements OnInit {
+  public hasRank: FormControl;
+
   public ids: ExternalId[] | undefined;
   public scopeEntries: ThesaurusEntry[];
   public tagEntries: ThesaurusEntry[];
 
-  constructor() {
+  constructor(formBuilder: FormBuilder) {
+    this.hasRank = formBuilder.control(false);
+
     this.scopeEntries = [
       {
         id: 'red',

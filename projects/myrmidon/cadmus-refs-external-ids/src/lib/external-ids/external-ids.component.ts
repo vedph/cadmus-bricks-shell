@@ -21,6 +21,13 @@ export interface ExternalId {
   tag?: string;
 }
 
+/**
+ * An external ID plus a rank.
+ */
+export interface RankedExternalId extends ExternalId {
+  rank?: number;
+}
+
 @Component({
   selector: 'cadmus-refs-external-ids',
   templateUrl: './external-ids.component.html',
@@ -38,13 +45,19 @@ export class ExternalIdsComponent implements OnDestroy {
    * The external IDs.
    */
   @Input()
-  public get ids(): ExternalId[] {
+  public get ids(): RankedExternalId[] {
     return this._ids;
   }
-  public set ids(value: ExternalId[]) {
+  public set ids(value: RankedExternalId[]) {
     this._ids = value || [];
     this.updateForm(value);
   }
+
+  /**
+   * True if IDs include a rank.
+   */
+  @Input()
+  public hasRank: boolean | undefined;
 
   /**
    * The ID scopes thesaurus entries.
@@ -62,7 +75,7 @@ export class ExternalIdsComponent implements OnDestroy {
    * Emitted whenever any ID changes.
    */
   @Output()
-  public idsChange: EventEmitter<ExternalId[]>;
+  public idsChange: EventEmitter<RankedExternalId[]>;
 
   public idsArr: FormArray;
   public form: FormGroup;
@@ -70,7 +83,7 @@ export class ExternalIdsComponent implements OnDestroy {
   constructor(private _formBuilder: FormBuilder) {
     this._ids = [];
     this._idsSubs = [];
-    this.idsChange = new EventEmitter<ExternalId[]>();
+    this.idsChange = new EventEmitter<RankedExternalId[]>();
     // form
     this.idsArr = _formBuilder.array([]);
     this.form = _formBuilder.group({
@@ -100,7 +113,7 @@ export class ExternalIdsComponent implements OnDestroy {
     this._idSubscription?.unsubscribe();
   }
 
-  private getIdGroup(id?: ExternalId): FormGroup {
+  private getIdGroup(id?: RankedExternalId): FormGroup {
     return this._formBuilder.group({
       value: this._formBuilder.control(id?.value, [
         Validators.required,
@@ -108,10 +121,11 @@ export class ExternalIdsComponent implements OnDestroy {
       ]),
       scope: this._formBuilder.control(id?.scope, Validators.maxLength(50)),
       tag: this._formBuilder.control(id?.tag, Validators.maxLength(50)),
+      rank: this._formBuilder.control(id?.rank)
     });
   }
 
-  public addId(id?: ExternalId): void {
+  public addId(id?: RankedExternalId): void {
     const g = this.getIdGroup(id);
     this._idsSubs.push(
       g.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
@@ -175,7 +189,7 @@ export class ExternalIdsComponent implements OnDestroy {
     }
   }
 
-  private updateForm(ids: ExternalId[]): void {
+  private updateForm(ids: RankedExternalId[]): void {
     if (!this.idsArr) {
       return;
     }
@@ -194,14 +208,15 @@ export class ExternalIdsComponent implements OnDestroy {
     this.emitIdsChange();
   }
 
-  private getIds(): ExternalId[] {
-    const ids: ExternalId[] = [];
+  private getIds(): RankedExternalId[] {
+    const ids: RankedExternalId[] = [];
     for (let i = 0; i < this.idsArr.length; i++) {
       const g = this.idsArr.controls[i] as FormGroup;
       ids.push({
         value: g.controls.value.value?.trim(),
         scope: g.controls.scope.value?.trim(),
         tag: g.controls.tag.value?.trim(),
+        rank: g.controls.rank.value? g.controls.rank.value : undefined
       });
     }
     return ids;

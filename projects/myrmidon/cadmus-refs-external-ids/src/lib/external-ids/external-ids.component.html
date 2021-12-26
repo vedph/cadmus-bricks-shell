@@ -132,6 +132,19 @@
             </mat-error>
           </mat-form-field>
         </ng-container>
+
+        <!-- rank -->
+        <ng-container *ngIf="hasRank">
+          &nbsp;
+          <mat-form-field style="width:4em">
+            <input
+              matInput
+              type="number"
+              formControlName="rank"
+              placeholder="rank"
+            />
+          </mat-form-field>
+        </ng-container>
       </div>
     </div>
   </div>
