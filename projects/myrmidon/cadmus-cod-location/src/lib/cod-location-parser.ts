@@ -39,14 +39,14 @@ export interface CodLocationRange {
  * a-z or A-Z, underscores, or digits 0-9. It is terminated by colon.
  * [2]=sheet: the sheet number. This is the only required component.
  * [3]=recto/verso: 'r' or 'v'.
- * [4]=column: the column letter(s) (column 1=a, 2=b, etc.).
+ * [4]=column: the column letter(s) (column 1=a, 2=b, etc.: a-q).
  * [5]=line: the line number preceded by dot.
  */
 export const COD_LOCATION_PATTERN =
-  /^(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)(?:([rv])([a-z])?)?(?:\.([0-9]+))?$/;
+  /^(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)([rv])?([a-q])?(?:\.([0-9]+))?$/;
 
 export const COD_LOCATION_RANGES_PATTERN =
-  /^(?:(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)(?:([rv])([a-z])?)?(?:\.([0-9]+))?[- ]?)+$/;
+  /^(?:(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)([rv])?([a-q])?(?:\.([0-9]+))?[- ]?)+$/;
 
 /**
  * Manuscript's location parser.
@@ -101,10 +101,10 @@ export class CodLocationParser {
     // v or r
     if (location.v !== undefined) {
       sb.push(location.v ? 'v' : 'r');
-      // c
-      if (location.c) {
-        sb.push(location.c);
-      }
+    }
+    // c
+    if (location.c) {
+      sb.push(location.c);
     }
     // .l
     if (location.l) {
