@@ -11,7 +11,15 @@ export interface CodLocation {
    */
   n: number;
   /**
-   * True if verso, false if recto.
+   * True if n is to be displayed with the Roman numeral system.
+   */
+  rmn?: boolean;
+  /**
+   * An arbitrary suffix appended to n (e.g. "bis").
+   */
+  sfx?: string;
+  /**
+   * True if verso, false if recto; undefined if not specified/applicable.
    */
   v?: boolean;
   /**
@@ -37,16 +45,27 @@ export interface CodLocationRange {
  * [SYSTEM:]N[(r|v)[COLUMN]].LINE. Match groups are:
  * [1]=system: starts with a-z or A-Z and then contains only letters
  * a-z or A-Z, underscores, or digits 0-9. It is terminated by colon.
- * [2]=sheet: the sheet number. This is the only required component.
- * [3]=recto/verso: 'r' or 'v'.
- * [4]=column: the column letter(s) (column 1=a, 2=b, etc.: a-q).
- * [5]=line: the line number preceded by dot.
+ * [2]='^' for a Roman number.
+ * [3]=sheet: the sheet number. This is the only required component.
+ * [4]=suffix between "".
+ * [5]=recto/verso: 'r' or 'v', otherwise unspecified/not applicable.
+ * [6]=column: the column letter(s) (column 1=a, 2=b, etc.: a-q).
+ * [7]=line: the line number preceded by dot.
  */
 export const COD_LOCATION_PATTERN =
-  /^(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)([rv])?([a-q])?(?:\.([0-9]+))?$/;
+  /^(?:([a-zA-Z][_a-zA-Z0-9]*):)?(\^)?([0-9]+)(?:\"([^"]*)\")?([rv])?([a-q])?(?:\.([0-9]+))?$/;
 
 export const COD_LOCATION_RANGES_PATTERN =
-  /^(?:(?:([a-zA-Z][_a-zA-Z0-9]*):)?([0-9]+)([rv])?([a-q])?(?:\.([0-9]+))?[- ]?)+$/;
+  /^(?:(?:([a-zA-Z][_a-zA-Z0-9]*):)?(\\^)?([0-9]+)(\"[^"]*\")?([rv])?([a-q])?(?:\.([0-9]+))?[- ]?)+$/;
+
+// group numbers in pattern
+const P_S = 1;
+const P_RMN = 2;
+const P_N = 3;
+const P_SFX = 4;
+const P_V = 5;
+const P_C = 6;
+const P_L = 7;
 
 /**
  * Manuscript's location parser.
@@ -69,11 +88,13 @@ export class CodLocationParser {
       return null;
     }
     return {
-      s: m[1],
-      n: +m[2],
-      v: m[3] ? m[3] === 'v' : undefined,
-      c: m[4],
-      l: m[5] ? +m[5] : undefined,
+      s: m[P_S],
+      n: +m[P_N],
+      rmn: m[P_RMN] ? true : undefined,
+      sfx: m[P_SFX],
+      v: m[P_V] ? m[P_V] === 'v' : undefined,
+      c: m[P_C],
+      l: m[P_L] ? +m[P_L] : undefined,
     };
   }
 
@@ -96,8 +117,16 @@ export class CodLocationParser {
       sb.push(location.s);
       sb.push(':');
     }
+    // rmn
+    if (location.rmn) {
+      sb.push('^');
+    }
     // n
     sb.push(location.n.toString());
+    // sfx
+    if (location.sfx) {
+      sb.push(`"${location.sfx}"`);
+    }
     // v or r
     if (location.v !== undefined) {
       sb.push(location.v ? 'v' : 'r');
@@ -222,7 +251,11 @@ export class CodLocationParser {
       if (a.n !== b.n) {
         return a.n - b.n;
       }
-      // n are equal: compare rv (r precedes v)
+      // n are equal: compare sfx
+      if ((a.sfx || b.sfx) && a.sfx !== b.sfx) {
+        return a.sfx ? 1 : -1;
+      }
+      // sfx are equal: compare rv (r precedes v)
       if (a.v !== b.v) {
         return a.v ? 1 : -1;
       }

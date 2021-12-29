@@ -11,11 +11,46 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse empty as null', () => {
     expect(CodLocationParser.parseLocation('')).toBeNull();
   });
+  it('parseLocation should parse "x:^12"bis"ra.3"', () => {
+    const l = CodLocationParser.parseLocation('x:^12"bis"ra.3');
+    expect(l).toBeTruthy();
+    expect(l?.s).toBe('x');
+    expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeTrue();
+    expect(l?.sfx).toBe('bis');
+    expect(l?.v).toBeFalse();
+    expect(l?.c).toBe('a');
+    expect(l?.l).toBe(3);
+  });
+  it('parseLocation should parse "x:^12ra.3"', () => {
+    const l = CodLocationParser.parseLocation('x:^12ra.3');
+    expect(l).toBeTruthy();
+    expect(l?.s).toBe('x');
+    expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeTrue();
+    expect(l?.sfx).toBeUndefined();
+    expect(l?.v).toBeFalse();
+    expect(l?.c).toBe('a');
+    expect(l?.l).toBe(3);
+  });
+  it('parseLocation should parse "x:12"bis"ra.3"', () => {
+    const l = CodLocationParser.parseLocation('x:12"bis"ra.3');
+    expect(l).toBeTruthy();
+    expect(l?.s).toBe('x');
+    expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBe('bis');
+    expect(l?.v).toBeFalse();
+    expect(l?.c).toBe('a');
+    expect(l?.l).toBe(3);
+  });
   it('parseLocation should parse "x:12ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:12ra.3');
     expect(l).toBeTruthy();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
     expect(l?.v).toBeFalse();
     expect(l?.c).toBe('a');
     expect(l?.l).toBe(3);
@@ -25,6 +60,8 @@ describe('CodLocationParser', () => {
     expect(l).toBeTruthy();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
     expect(l?.v).toBeTrue();
     expect(l?.c).toBe('a');
     expect(l?.l).toBe(3);
@@ -34,6 +71,8 @@ describe('CodLocationParser', () => {
     expect(l).toBeTruthy();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
     expect(l?.v).toBeFalse();
     expect(l?.c).toBe('a');
     expect(l?.l).toBeUndefined();
@@ -43,6 +82,8 @@ describe('CodLocationParser', () => {
     expect(l).toBeTruthy();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
     expect(l?.v).toBeFalse();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBeUndefined();
@@ -52,6 +93,8 @@ describe('CodLocationParser', () => {
     expect(l).toBeTruthy();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBe('a');
     expect(l?.l).toBeUndefined();
@@ -61,6 +104,8 @@ describe('CodLocationParser', () => {
     expect(l).toBeTruthy();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBeUndefined();
@@ -70,6 +115,8 @@ describe('CodLocationParser', () => {
     expect(l).toBeTruthy();
     expect(l?.s).toBeUndefined();
     expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBeUndefined();
@@ -79,6 +126,8 @@ describe('CodLocationParser', () => {
     expect(l).toBeTruthy();
     expect(l?.s).toBeUndefined();
     expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBe(3);
