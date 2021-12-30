@@ -1,7 +1,20 @@
 /**
+ * Endleaf type in CodLocation.
+ */
+export enum CodLocationEndleaf {
+  None = 0,
+  Start = 1,
+  End = 2,
+}
+
+/**
  * Location in a manuscript's sheet.
  */
 export interface CodLocation {
+  /**
+   * Endleaf type.
+   */
+  endleaf?: CodLocationEndleaf;
   /**
    * Reference system.
    */
@@ -42,30 +55,32 @@ export interface CodLocationRange {
 
 /**
  * Manuscript's location pattern. This refers to a text with format
- * [SYSTEM:]N[(r|v)[COLUMN]].LINE. Match groups are:
- * [1]=system: starts with a-z or A-Z and then contains only letters
+ * (/[SYSTEM:]N[(r|v)[COLUMN]].LINE). Match groups are:
+ * [1]=endleaf, optional: ( for start or (/ for end.
+ * [2]=system: starts with a-z or A-Z and then contains only letters
  * a-z or A-Z, underscores, or digits 0-9. It is terminated by colon.
- * [2]='^' for a Roman number.
- * [3]=sheet: the sheet number. This is the only required component.
- * [4]=suffix between "".
- * [5]=recto/verso: 'r' or 'v', otherwise unspecified/not applicable.
- * [6]=column: the column letter(s) (column 1=a, 2=b, etc.: a-q).
- * [7]=line: the line number preceded by dot.
+ * [3]='^' for a Roman number.
+ * [4]=sheet: the sheet number. This is the only required component.
+ * [5]=suffix between "".
+ * [6]=recto/verso: 'r' or 'v', otherwise unspecified/not applicable.
+ * [7]=column: the column letter(s) (column 1=a, 2=b, etc.: a-q).
+ * [8]=line: the line number preceded by dot.
  */
 export const COD_LOCATION_PATTERN =
-  /^(?:([a-zA-Z][_a-zA-Z0-9]*):)?(\^)?([0-9]+)(?:\"([^"]*)\")?([rv])?([a-q])?(?:\.([0-9]+))?$/;
+  /^(\(\/?)?(?:([a-zA-Z][_a-zA-Z0-9]*):)?(\^)?([0-9]+)(?:\"([^"]*)\")?([rv])?([a-q])?(?:\.([0-9]+))?\)?$/;
 
 export const COD_LOCATION_RANGES_PATTERN =
-  /^(?:(?:([a-zA-Z][_a-zA-Z0-9]*):)?(\\^)?([0-9]+)(\"[^"]*\")?([rv])?([a-q])?(?:\.([0-9]+))?[- ]?)+$/;
+  /^(?:(?:\(\/?)?(?:(?:[a-zA-Z][_a-zA-Z0-9]*):)?(?:\^)?(?:[0-9]+)(?:\"([^"]*)\")?(?:[rv])?(?:[a-q])?(?:\.(?:[0-9]+))?\)?[- ]?)+$/;
 
 // group numbers in pattern
-const P_S = 1;
-const P_RMN = 2;
-const P_N = 3;
-const P_SFX = 4;
-const P_V = 5;
-const P_C = 6;
-const P_L = 7;
+const P_LEAF = 1;
+const P_S = 2;
+const P_RMN = 3;
+const P_N = 4;
+const P_SFX = 5;
+const P_V = 6;
+const P_C = 7;
+const P_L = 8;
 
 /**
  * Manuscript's location parser.
@@ -88,6 +103,11 @@ export class CodLocationParser {
       return null;
     }
     return {
+      endleaf: m[P_LEAF]
+        ? m[P_LEAF] === '(/'
+          ? CodLocationEndleaf.End
+          : CodLocationEndleaf.Start
+        : undefined,
       s: m[P_S],
       n: +m[P_N],
       rmn: m[P_RMN] ? true : undefined,
@@ -112,6 +132,10 @@ export class CodLocationParser {
       return null;
     }
     const sb: string[] = [];
+    // leaf
+    if (location.endleaf) {
+      sb.push(location.endleaf === CodLocationEndleaf.End ? '(/' : '(');
+    }
     // s:
     if (location.s) {
       sb.push(location.s);
@@ -139,6 +163,10 @@ export class CodLocationParser {
     if (location.l) {
       sb.push('.');
       sb.push(location.l.toString());
+    }
+    // leaf
+    if (location.endleaf) {
+      sb.push(')');
     }
     return sb.join('');
   }
@@ -206,6 +234,9 @@ export class CodLocationParser {
     }
     const sb: string[] = [];
     ranges.forEach((range) => {
+      if (sb.length) {
+        sb.push(' ');
+      }
       if (CodLocationParser.compareLocations(range.start, range.end) === 0) {
         const loc = CodLocationParser.locationToString(range.start);
         if (loc) {
@@ -246,6 +277,23 @@ export class CodLocationParser {
     if (!b) {
       return 1;
     }
+
+    // endleaf: start endleaf always comes before any other type;
+    // end endleaf always come after any other type.
+    if (
+      (a.endleaf || CodLocationEndleaf.None) !==
+      (b.endleaf || CodLocationEndleaf.None)
+    ) {
+      // a=start, b=none/end
+      if (a.endleaf === CodLocationEndleaf.Start) return -1;
+      // b=start, a=none/end
+      if (b.endleaf === CodLocationEndleaf.Start) return 1;
+      // a=none, b=end / a=end, b=none
+      return (a.endleaf || CodLocationEndleaf.None) === CodLocationEndleaf.None
+        ? -1
+        : 1;
+    }
+    // systems
     if ((!a.s && !b.s) || a.s === b.s) {
       // systems are equal: compare n
       if (a.n !== b.n) {

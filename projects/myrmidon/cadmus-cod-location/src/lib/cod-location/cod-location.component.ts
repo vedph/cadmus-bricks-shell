@@ -137,7 +137,7 @@ export class CodLocationComponent implements OnInit {
       const ranges = this.text.valid
         ? CodLocationParser.parseLocationRanges(this.text.value)
         : null;
-      if (ranges?.length) {
+      if (ranges) {
         this.locationChange.emit(ranges);
       } else {
         if (!this._required && !this.text.value?.length) {

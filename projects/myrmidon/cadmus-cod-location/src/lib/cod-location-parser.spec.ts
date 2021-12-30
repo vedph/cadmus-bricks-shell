@@ -1,4 +1,4 @@
-import { CodLocationParser } from './cod-location-parser';
+import { CodLocationEndleaf, CodLocationParser } from './cod-location-parser';
 
 describe('CodLocationParser', () => {
   // #region parseLocation
@@ -11,9 +11,34 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse empty as null', () => {
     expect(CodLocationParser.parseLocation('')).toBeNull();
   });
+  it('parseLocation should parse "(x:^12)"', () => {
+    const l = CodLocationParser.parseLocation('(x:^12)');
+    expect(l).toBeTruthy();
+    expect(l?.endleaf).toBe(CodLocationEndleaf.Start);
+    expect(l?.s).toBe('x');
+    expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeTrue();
+    expect(l?.sfx).toBeUndefined();
+    expect(l?.v).toBeUndefined();
+    expect(l?.c).toBeUndefined();
+    expect(l?.l).toBeUndefined();
+  });
+  it('parseLocation should parse "(/x:^12)"', () => {
+    const l = CodLocationParser.parseLocation('(/x:^12)');
+    expect(l).toBeTruthy();
+    expect(l?.endleaf).toBe(CodLocationEndleaf.End);
+    expect(l?.s).toBe('x');
+    expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeTrue();
+    expect(l?.sfx).toBeUndefined();
+    expect(l?.v).toBeUndefined();
+    expect(l?.c).toBeUndefined();
+    expect(l?.l).toBeUndefined();
+  });
   it('parseLocation should parse "x:^12"bis"ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:^12"bis"ra.3');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeTrue();
@@ -25,6 +50,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "x:^12ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:^12ra.3');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeTrue();
@@ -36,6 +62,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "x:12"bis"ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:12"bis"ra.3');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -47,6 +74,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "x:12ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:12ra.3');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -58,6 +86,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "x:12va.3"', () => {
     const l = CodLocationParser.parseLocation('x:12va.3');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -69,6 +98,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "x:12ra"', () => {
     const l = CodLocationParser.parseLocation('x:12ra');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -80,6 +110,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "x:12r"', () => {
     const l = CodLocationParser.parseLocation('x:12r');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -91,6 +122,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "x:12a"', () => {
     const l = CodLocationParser.parseLocation('x:12a');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -102,6 +134,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "x:12"', () => {
     const l = CodLocationParser.parseLocation('x:12');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -113,6 +146,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "12"', () => {
     const l = CodLocationParser.parseLocation('12');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBeUndefined();
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -124,6 +158,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "12.3"', () => {
     const l = CodLocationParser.parseLocation('12.3');
     expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
     expect(l?.s).toBeUndefined();
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeUndefined();
@@ -167,6 +202,26 @@ describe('CodLocationParser', () => {
     expect(
       CodLocationParser.locationToString({ s: 'x', n: 12, v: false, l: 3 })
     ).toBe('x:12r.3');
+  });
+  it('locationToString should ret "(x:^12)" from (x:^12)', () => {
+    expect(
+      CodLocationParser.locationToString({
+        endleaf: CodLocationEndleaf.Start,
+        s: 'x',
+        n: 12,
+        rmn: true,
+      })
+    ).toBe('(x:^12)');
+  });
+  it('locationToString should ret "(/x:^12)" from (/x:^12)', () => {
+    expect(
+      CodLocationParser.locationToString({
+        endleaf: CodLocationEndleaf.End,
+        s: 'x',
+        n: 12,
+        rmn: true,
+      })
+    ).toBe('(/x:^12)');
   });
   // #endregion
 
