@@ -12,9 +12,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { DatationComponent } from './datation/datation.component';
 import { HistoricalDateComponent } from './historical-date/historical-date.component';
+import { HistoricalDatePipe } from './historical-date.pipe';
 
 @NgModule({
-  declarations: [DatationComponent, HistoricalDateComponent],
+  declarations: [
+    DatationComponent,
+    HistoricalDateComponent,
+    HistoricalDatePipe,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +33,6 @@ import { HistoricalDateComponent } from './historical-date/historical-date.compo
     MatInputModule,
     MatSlideToggleModule,
   ],
-  exports: [DatationComponent, HistoricalDateComponent],
+  exports: [DatationComponent, HistoricalDateComponent, HistoricalDatePipe],
 })
 export class CadmusRefsHistoricalDateModule {}

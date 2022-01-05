@@ -7,5 +7,6 @@ export * from './lib/datation/datation.component';
 
 export * from './lib/historical-date/historical-date';
 export * from './lib/historical-date/historical-date.component';
+export * from './lib/historical-date.pipe';
 
 export * from './lib/cadmus-refs-historical-date.module';

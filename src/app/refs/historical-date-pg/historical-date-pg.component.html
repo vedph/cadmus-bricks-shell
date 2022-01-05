@@ -12,5 +12,10 @@
     <div *ngIf="date">
       <pre>{{ date | json }}</pre>
     </div>
+    <h3>Pipes</h3>
+    <ul>
+      <li>{{ date | historicalDate }}</li>
+      <li>{{ date | historicalDate: "value" }}</li>
+    </ul>
   </mat-card-content>
 </mat-card>
