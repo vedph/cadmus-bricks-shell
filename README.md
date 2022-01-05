@@ -39,7 +39,7 @@ To add a brick:
 
 ## History
 
-- 2022-01-05: added `HistoricalDatePipe`.
+- 2022-01-05: added `HistoricalDatePipe` and updated dependencies from Cadmus core.
 - 2021-12-24: refactored chronotopes, Docker image 0.0.3.
 - 2021-12-22: generated Docker image 0.0.2.
 - 2021-12-20: added physical size. This was taken from Cadmus UI, so this will be refactored later.

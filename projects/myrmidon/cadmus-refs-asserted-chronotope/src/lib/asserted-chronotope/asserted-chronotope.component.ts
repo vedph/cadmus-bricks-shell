@@ -5,9 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { Assertion } from '@myrmidon/cadmus-refs-assertion';
 import { debounceTime } from 'rxjs/operators';
+
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { Assertion } from '@myrmidon/cadmus-refs-assertion';
+import { HistoricalDateModel } from '@myrmidon/cadmus-refs-historical-date';
 
 export interface AssertedPlace {
   tag?: string;

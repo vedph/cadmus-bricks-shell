@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HistoricalDateModel } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel } from '@myrmidon/cadmus-refs-historical-date';
 
 @Component({
   selector: 'app-historical-date-pg',
