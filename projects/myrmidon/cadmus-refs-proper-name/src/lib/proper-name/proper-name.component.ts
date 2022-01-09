@@ -16,9 +16,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
+import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { Assertion } from '@myrmidon/cadmus-refs-assertion';
 
 export interface ProperName {
   language: string;
@@ -29,6 +31,10 @@ export interface ProperName {
 export interface ProperNamePiece {
   type: string;
   value: string;
+}
+
+export interface AssertedProperName extends ProperName {
+  assertion?: Assertion;
 }
 
 /**
@@ -42,7 +48,7 @@ export interface ProperNamePiece {
   styleUrls: ['./proper-name.component.css'],
 })
 export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
-  private _name: ProperName | undefined;
+  private _name: AssertedProperName | undefined;
   private _updatingForm?: boolean;
   private _pieceSubs: Subscription[];
   private _pieceValueSubscription?: Subscription;
@@ -53,10 +59,10 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
    * The proper name.
    */
   @Input()
-  public get name(): ProperName | undefined {
+  public get name(): AssertedProperName | undefined {
     return this._name;
   }
-  public set name(value: ProperName | undefined) {
+  public set name(value: AssertedProperName | undefined) {
     this._name = value;
     this.updateForm(value);
   }
@@ -77,20 +83,35 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   public typeEntries: ThesaurusEntry[] | undefined;
 
+  // thesauri for assertions
+  @Input()
+  public assTagEntries?: ThesaurusEntry[];
+
+  @Input()
+  public refTypeEntries: ThesaurusEntry[] | undefined;
+
+  @Input()
+  public refTagEntries: ThesaurusEntry[] | undefined;
+
   /**
    * Emitted whenever the name changes.
    */
   @Output()
-  public nameChange: EventEmitter<ProperName>;
+  public nameChange: EventEmitter<AssertedProperName | undefined>;
 
   public language: FormControl;
   public tag: FormControl;
   public pieces: FormArray;
+  public assertion: FormControl;
   public form: FormGroup;
+  // edited assertion
+  public assEdOpen: boolean;
+  public initialAssertion?: Assertion;
 
   constructor(private _formBuilder: FormBuilder) {
     this._pieceSubs = [];
-    this.nameChange = new EventEmitter<ProperName>();
+    this.nameChange = new EventEmitter<AssertedProperName | undefined>();
+    this.assEdOpen = false;
     // form
     this.language = _formBuilder.control(null, [
       Validators.required,
@@ -101,10 +122,12 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       [],
       CadmusValidators.strictMinLengthValidator(1)
     );
+    this.assertion = _formBuilder.control(null);
     this.form = _formBuilder.group({
       language: this.language,
       tag: this.tag,
       pieces: this.pieces,
+      assertion: this.assertion
     });
   }
 
@@ -155,7 +178,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       value: this._formBuilder.control(piece?.value, [
         Validators.required,
         Validators.maxLength(50),
-      ]),
+      ])
     });
   }
 
@@ -225,7 +248,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //#endregion
 
-  private updateForm(name?: ProperName): void {
+  private updateForm(name?: AssertedProperName): void {
     if (!this.language) {
       return;
     }
@@ -246,12 +269,22 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       for (const p of name.pieces || []) {
         this.addPiece(p);
       }
+      this.initialAssertion = name.assertion;
       this.form.markAsPristine();
     }
     this._updatingForm = false;
   }
 
-  private getName(): ProperName {
+  public onAssertionChange(assertion: Assertion | undefined): void {
+    this.assertion.setValue(assertion);
+  }
+
+  public saveAssertion(): void {
+    this.emitNameChange();
+    this.assEdOpen = false;
+  }
+
+  private getName(): AssertedProperName | undefined {
     const pieces: ProperNamePiece[] = [];
 
     for (let i = 0; i < this.pieces.length; i++) {
@@ -262,10 +295,15 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
 
+    if (!this.pieces?.length) {
+      return undefined;
+    }
+
     return {
       language: this.language.value,
       tag: this.tag.value,
       pieces: pieces,
+      assertion: this.assertion.value
     };
   }
 

@@ -186,4 +186,23 @@
       </div>
     </div>
   </div>
+  <!-- assertion -->
+  <mat-expansion-panel [(expanded)]="assEdOpen">
+    <mat-expansion-panel-header>assertion</mat-expansion-panel-header>
+    <cadmus-refs-assertion
+      [assertion]="initialAssertion"
+      [assTagEntries]="assTagEntries"
+      [refTagEntries]="refTagEntries"
+      [refTypeEntries]="refTypeEntries"
+      (assertionChange)="onAssertionChange($event)"
+    ></cadmus-refs-assertion>
+    <button
+      color="primary"
+      type="button"
+      mat-icon-button
+      (click)="saveAssertion()"
+    >
+      <mat-icon>check_circle</mat-icon> save assertion
+    </button>
+  </mat-expansion-panel>
 </form>

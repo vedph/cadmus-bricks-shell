@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { ProperName } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
+
+import { AssertedProperName } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
 
 @Component({
   selector: 'app-proper-name-pg',
@@ -8,7 +9,7 @@ import { ProperName } from 'projects/myrmidon/cadmus-refs-proper-name/src/public
   styleUrls: ['./proper-name-pg.component.css'],
 })
 export class ProperNamePgComponent implements OnInit {
-  public name: ProperName | undefined;
+  public name: AssertedProperName | undefined;
   public langEntries: ThesaurusEntry[] | undefined;
   public namePieceTypeEntries: ThesaurusEntry[] | undefined;
 
@@ -46,7 +47,7 @@ export class ProperNamePgComponent implements OnInit {
     };
   }
 
-  public onNameChange(model: ProperName): void {
+  public onNameChange(model: AssertedProperName | undefined): void {
     this.name = model;
   }
 }
