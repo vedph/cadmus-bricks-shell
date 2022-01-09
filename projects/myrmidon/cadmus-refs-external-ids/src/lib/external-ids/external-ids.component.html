@@ -133,19 +133,43 @@
           </mat-form-field>
         </ng-container>
 
-        <!-- rank -->
-        <ng-container *ngIf="hasRank">
-          &nbsp;
-          <mat-form-field style="width:4em">
-            <input
-              matInput
-              type="number"
-              formControlName="rank"
-              placeholder="rank"
-            />
-          </mat-form-field>
-        </ng-container>
+        <!-- assertion -->
+        &nbsp;
+        <button
+          type="button"
+          color="primary"
+          mat-icon-button
+          matTooltip="Edit assertion"
+          (click)="editAssertion(i)"
+        >
+          <mat-icon>feedback</mat-icon>
+        </button>
       </div>
     </div>
+    <!-- assertion -->
+    <mat-expansion-panel
+      *ngIf="idsArr?.length"
+      [disabled]="!assertionNr"
+      [(expanded)]="assEdOpen"
+    >
+      <mat-expansion-panel-header
+        >#{{ assertionNr }} assertion</mat-expansion-panel-header
+      >
+      <cadmus-refs-assertion
+        [assertion]="initialAssertion"
+        [assTagEntries]="assTagEntries"
+        [refTagEntries]="refTagEntries"
+        [refTypeEntries]="refTypeEntries"
+        (assertionChange)="onAssertionChange($event)"
+      ></cadmus-refs-assertion>
+      <button
+        color="primary"
+        type="button"
+        mat-icon-button
+        (click)="saveAssertion()"
+      >
+        <mat-icon>check_circle</mat-icon> save assertion
+      </button>
+    </mat-expansion-panel>
   </div>
 </form>

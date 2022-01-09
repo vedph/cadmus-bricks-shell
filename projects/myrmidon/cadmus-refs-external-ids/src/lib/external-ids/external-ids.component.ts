@@ -8,7 +8,10 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { Assertion } from '@myrmidon/cadmus-refs-assertion';
+
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -19,6 +22,7 @@ export interface ExternalId {
   value: string;
   scope?: string;
   tag?: string;
+  assertion?: Assertion;
 }
 
 /**
@@ -54,12 +58,6 @@ export class ExternalIdsComponent implements OnDestroy {
   }
 
   /**
-   * True if IDs include a rank.
-   */
-  @Input()
-  public hasRank: boolean | undefined;
-
-  /**
    * The ID scopes thesaurus entries.
    */
   @Input()
@@ -71,6 +69,16 @@ export class ExternalIdsComponent implements OnDestroy {
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
 
+  // thesauri for assertions
+  @Input()
+  public assTagEntries?: ThesaurusEntry[];
+
+  @Input()
+  public refTypeEntries: ThesaurusEntry[] | undefined;
+
+  @Input()
+  public refTagEntries: ThesaurusEntry[] | undefined;
+
   /**
    * Emitted whenever any ID changes.
    */
@@ -79,11 +87,17 @@ export class ExternalIdsComponent implements OnDestroy {
 
   public idsArr: FormArray;
   public form: FormGroup;
+  // edited assertion
+  public assEdOpen: boolean;
+  public assertionNr?: number;
+  public initialAssertion?: Assertion;
+  public assertion?: Assertion;
 
   constructor(private _formBuilder: FormBuilder) {
     this._ids = [];
     this._idsSubs = [];
     this.idsChange = new EventEmitter<RankedExternalId[]>();
+    this.assEdOpen = false;
     // form
     this.idsArr = _formBuilder.array([]);
     this.form = _formBuilder.group({
@@ -121,7 +135,8 @@ export class ExternalIdsComponent implements OnDestroy {
       ]),
       scope: this._formBuilder.control(id?.scope, Validators.maxLength(50)),
       tag: this._formBuilder.control(id?.tag, Validators.maxLength(50)),
-      rank: this._formBuilder.control(id?.rank)
+      rank: this._formBuilder.control(id?.rank),
+      assertion: this._formBuilder.control(id?.assertion),
     });
   }
 
@@ -139,6 +154,7 @@ export class ExternalIdsComponent implements OnDestroy {
   }
 
   public removeId(index: number): void {
+    this.closeAssertion();
     this._idsSubs[index].unsubscribe();
     this._idsSubs.splice(index, 1);
     this.idsArr.removeAt(index);
@@ -158,6 +174,7 @@ export class ExternalIdsComponent implements OnDestroy {
     if (index < 1) {
       return;
     }
+    this.closeAssertion();
     const ctl = this.idsArr.controls[index];
     this.idsArr.removeAt(index);
     this.idsArr.insert(index - 1, ctl);
@@ -171,6 +188,7 @@ export class ExternalIdsComponent implements OnDestroy {
     if (index + 1 >= this.idsArr.length) {
       return;
     }
+    this.closeAssertion();
     const item = this.idsArr.controls[index];
     this.idsArr.removeAt(index);
     this.idsArr.insert(index + 1, item);
@@ -181,11 +199,45 @@ export class ExternalIdsComponent implements OnDestroy {
   }
 
   public clearIds(): void {
+    this.closeAssertion();
     this.idsArr.clear();
     this.unsubscribeIds();
     this._idsSubs = [];
     if (!this._updatingForm) {
       this.emitIdsChange();
+    }
+  }
+
+  public editAssertion(index: number): void {
+    // save the currently edited assertion if any
+    this.saveAssertion();
+    // edit the new assertion
+    this.initialAssertion = (this.idsArr.at(index) as FormGroup).controls[
+      'assertion'
+    ].value;
+    this.assertionNr = index + 1;
+    this.assEdOpen = true;
+  }
+
+  public onAssertionChange(assertion: Assertion | undefined): void {
+    this.assertion = assertion;
+  }
+
+  public saveAssertion(): void {
+    // save the currently edited assertion if any
+    if (this.assertionNr) {
+      const g = this.idsArr.at(this.assertionNr - 1) as FormGroup;
+      g.controls['assertion'].setValue(this.assertion);
+      this.closeAssertion();
+      this.emitIdsChange();
+    }
+  }
+
+  private closeAssertion(): void {
+    if (this.assertionNr) {
+      this.assEdOpen = false;
+      this.assertionNr = 0;
+      this.initialAssertion = undefined;
     }
   }
 
@@ -216,7 +268,7 @@ export class ExternalIdsComponent implements OnDestroy {
         value: g.controls.value.value?.trim(),
         scope: g.controls.scope.value?.trim(),
         tag: g.controls.tag.value?.trim(),
-        rank: g.controls.rank.value? g.controls.rank.value : undefined
+        assertion: g.controls.assertion.value
       });
     }
     return ids;

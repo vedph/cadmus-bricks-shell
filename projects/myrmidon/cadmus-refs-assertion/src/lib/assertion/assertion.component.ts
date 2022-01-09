@@ -97,13 +97,22 @@ export class AssertionComponent implements OnInit {
     this.emitAssertionChange();
   }
 
-  private getAssertion(): Assertion {
-    return {
+  private getAssertion(): Assertion | undefined {
+    const assertion = {
       tag: this.tag.value?.trim(),
       rank: this.rank.value,
       note: this.note.value?.trim(),
       references: this.references,
     };
+    if (
+      !assertion.tag &&
+      !assertion.rank &&
+      !assertion.note &&
+      !assertion.references?.length
+    ) {
+      return undefined;
+    }
+    return assertion;
   }
 
   public emitAssertionChange(): void {

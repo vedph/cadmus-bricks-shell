@@ -16,29 +16,18 @@ Quick Docker image build (the only purpose of this image is letting testers play
 2. `ng build --configuration production`
 3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.3 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
-## Roadmap
-
-The roadmap for bricks is as follows:
-
-- whenever a general purpose brick is required, it gets added as a library to this shell.
-- new projects import and use its library.
-- old projects are usually unaffected, unless the components promoted to bricks come from their context. In this case, when there is time they get removed from the original context and the corresponding brick is imported there instead.
-- when time allows it, old projects can be refactored so that they can take advantage of bricks instead of their monolithic dependencies.
-
-In the end, the ideal target is having a lot of small libraries working together, each with minimal dependencies.
-
 ## Adding a Brick
 
 To add a brick:
 
 1. add a library project to this workspace: `ng g library @myrmidon/LIBNS-LIBNAME --prefix cadmus-LIBNS`.
-
 2. add a control in the library.
-
 3. add a corresponding host page in the app, with its menu and route.
 
 ## History
 
+- 2022-01-09: added assertion to external IDs.
+- 2022-01-06: added `word` to `CodLocation`.
 - 2022-01-05: added `HistoricalDatePipe` and updated dependencies from Cadmus core.
 - 2021-12-24: refactored chronotopes, Docker image 0.0.3.
 - 2021-12-22: generated Docker image 0.0.2.

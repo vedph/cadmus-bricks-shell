@@ -43,6 +43,12 @@ export interface CodLocation {
    * Line number.
    */
   l?: number;
+  /**
+   * The word we refer to. By scholarly convention, this is a word
+   * picked from the line so that it cannot be ambiguous, i.e. confused
+   * with other instances of the same word in its line.
+   */
+  word?: string;
 }
 
 /**
@@ -65,12 +71,13 @@ export interface CodLocationRange {
  * [6]=recto/verso: 'r' or 'v', otherwise unspecified/not applicable.
  * [7]=column: the column letter(s) (column 1=a, 2=b, etc.: a-q).
  * [8]=line: the line number preceded by dot.
+ * [9]=word preceded by @.
  */
 export const COD_LOCATION_PATTERN =
-  /^(\(\/?)?(?:([a-zA-Z][_a-zA-Z0-9]*):)?(\^)?([0-9]+)(?:\"([^"]*)\")?([rv])?([a-q])?(?:\.([0-9]+))?\)?$/;
+  /^(\(\/?)?(?:([a-zA-Z][_a-zA-Z0-9]*):)?(\^)?([0-9]+)(?:"([^"]*)")?([rv])?([a-q])?(?:\.([0-9]+))?(?:@([\p{L}]+))?\)?$/u;
 
 export const COD_LOCATION_RANGES_PATTERN =
-  /^(?:(?:\(\/?)?(?:(?:[a-zA-Z][_a-zA-Z0-9]*):)?(?:\^)?(?:[0-9]+)(?:\"([^"]*)\")?(?:[rv])?(?:[a-q])?(?:\.(?:[0-9]+))?\)?[- ]?)+$/;
+  /^(?:(?:\(\/?)?(?:(?:[a-zA-Z][_a-zA-Z0-9]*):)?(?:\^)?(?:[0-9]+)(?:"([^"]*)")?(?:[rv])?(?:[a-q])?(?:\.(?:[0-9]+))?(?:@([\p{L}]+))?\)?[- ]?)+$/u;
 
 // group numbers in pattern
 const P_LEAF = 1;
@@ -81,6 +88,7 @@ const P_SFX = 5;
 const P_V = 6;
 const P_C = 7;
 const P_L = 8;
+const P_WORD = 9;
 
 /**
  * Manuscript's location parser.
@@ -115,6 +123,7 @@ export class CodLocationParser {
       v: m[P_V] ? m[P_V] === 'v' : undefined,
       c: m[P_C],
       l: m[P_L] ? +m[P_L] : undefined,
+      word: m[P_WORD],
     };
   }
 
@@ -163,6 +172,11 @@ export class CodLocationParser {
     if (location.l) {
       sb.push('.');
       sb.push(location.l.toString());
+    }
+    // @word
+    if (location.word) {
+      sb.push('@');
+      sb.push(location.word);
     }
     // leaf
     if (location.endleaf) {
@@ -321,7 +335,22 @@ export class CodLocationParser {
       if ((!a.l && !b.l) || a.l === b.l) {
         return 0;
       }
-      return a.l! - b.l!;
+      if (a.l !== b.l) {
+        return a.l! - b.l!;
+      }
+      // l are equal: compare word.
+      // Note that in this case we just sort by word alphabetically,
+      // as we could not know which of 2 words comes first.
+      if (!a.word && !b.word) {
+        return 0;
+      }
+      if (!a.word) {
+        return -1;
+      }
+      if (!b.word) {
+        return 1;
+      }
+      return a.word.localeCompare(b.word);
     } else {
       // systems are different, just compare them
       if (!a.s) {

@@ -22,6 +22,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBeUndefined();
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "(/x:^12)"', () => {
     const l = CodLocationParser.parseLocation('(/x:^12)');
@@ -34,6 +35,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBeUndefined();
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "x:^12"bis"ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:^12"bis"ra.3');
@@ -46,6 +48,20 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeFalse();
     expect(l?.c).toBe('a');
     expect(l?.l).toBe(3);
+    expect(l?.word).toBeUndefined();
+  });
+  it('parseLocation should parse "x:^12"bis"ra.3@exemplum"', () => {
+    const l = CodLocationParser.parseLocation('x:^12"bis"ra.3@exemplum');
+    expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
+    expect(l?.s).toBe('x');
+    expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeTrue();
+    expect(l?.sfx).toBe('bis');
+    expect(l?.v).toBeFalse();
+    expect(l?.c).toBe('a');
+    expect(l?.l).toBe(3);
+    expect(l?.word).toBe('exemplum');
   });
   it('parseLocation should parse "x:^12ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:^12ra.3');
@@ -58,6 +74,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeFalse();
     expect(l?.c).toBe('a');
     expect(l?.l).toBe(3);
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "x:12"bis"ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:12"bis"ra.3');
@@ -70,6 +87,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeFalse();
     expect(l?.c).toBe('a');
     expect(l?.l).toBe(3);
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "x:12ra.3"', () => {
     const l = CodLocationParser.parseLocation('x:12ra.3');
@@ -82,6 +100,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeFalse();
     expect(l?.c).toBe('a');
     expect(l?.l).toBe(3);
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "x:12va.3"', () => {
     const l = CodLocationParser.parseLocation('x:12va.3');
@@ -94,6 +113,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeTrue();
     expect(l?.c).toBe('a');
     expect(l?.l).toBe(3);
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "x:12ra"', () => {
     const l = CodLocationParser.parseLocation('x:12ra');
@@ -106,6 +126,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeFalse();
     expect(l?.c).toBe('a');
     expect(l?.l).toBeUndefined();
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "x:12r"', () => {
     const l = CodLocationParser.parseLocation('x:12r');
@@ -118,6 +139,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeFalse();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBeUndefined();
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "x:12a"', () => {
     const l = CodLocationParser.parseLocation('x:12a');
@@ -130,6 +152,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBe('a');
     expect(l?.l).toBeUndefined();
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "x:12"', () => {
     const l = CodLocationParser.parseLocation('x:12');
@@ -142,6 +165,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBeUndefined();
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "12"', () => {
     const l = CodLocationParser.parseLocation('12');
@@ -154,6 +178,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBeUndefined();
+    expect(l?.word).toBeUndefined();
   });
   it('parseLocation should parse "12.3"', () => {
     const l = CodLocationParser.parseLocation('12.3');
@@ -166,6 +191,7 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBe(3);
+    expect(l?.word).toBeUndefined();
   });
   // #endregion
 
@@ -399,6 +425,30 @@ describe('CodLocationParser', () => {
         },
       ])
     ).toBe('x:12va.3');
+  });
+  it('rangesToString should ret x:12va.3@exemplum from x:12va.3@exemplum', () => {
+    expect(
+      CodLocationParser.rangesToString([
+        {
+          start: {
+            s: 'x',
+            n: 12,
+            v: true,
+            c: 'a',
+            l: 3,
+            word: 'exemplum'
+          },
+          end: {
+            s: 'x',
+            n: 12,
+            v: true,
+            c: 'a',
+            l: 3,
+            word: 'exemplum'
+          },
+        },
+      ])
+    ).toBe('x:12va.3@exemplum');
   });
   it('rangesToString should ret x:12va.3-x:13r.2 from x:12va.3-x:13r.2', () => {
     expect(

@@ -5,6 +5,27 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <p>
+      A location in a manuscript, expressed with a reference system, sheet
+      number (eventually Roman and/or suffixed), recto/verso, column number, and
+      reference word. The sheet number is the only required field. Location
+      ranges are separated by dash. Each location can be inside brackets when
+      referring to an endleaf, and has these components (in this order):
+    </p>
+    <ol>
+      <li><strong>system</strong>: <code>system_name:</code>.</li>
+      <li>
+        <strong>sheet</strong>: <code>^N</code> where <code>^</code>=Roman.
+      </li>
+      <li><strong>suffix</strong>: <code>between ""</code>.</li>
+      <li>
+        <strong>recto/verso</strong>: <code>r</code> or <code>v</code>;
+        otherwise is unspecified or unapplicable.
+      </li>
+      <li><strong>column</strong>: column letter(s) a-q.</li>
+      <li><strong>line</strong>: <code>.N</code>.</li>
+      <li><strong>word</strong>: <code>@word</code>.</li>
+    </ol>
     <div>
       <form [formGroup]="form">
         <mat-checkbox [formControl]="single">single</mat-checkbox>
@@ -12,6 +33,7 @@
         <mat-checkbox [formControl]="required">required</mat-checkbox>
       </form>
     </div>
+    <hr />
     <cadmus-cod-location
       [single]="single?.value"
       [required]="required?.value"
