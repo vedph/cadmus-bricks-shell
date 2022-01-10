@@ -2,23 +2,23 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.0.
 
-## Code scaffolding
+The text blocks view displays a text modeled as a sequence of blocks. Each block implements the `TextBlock` interface, including these properties:
 
-Run `ng generate component component-name --project cadmus-text-block-view` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project cadmus-text-block-view`.
-> Note: Don't forget to add `--project cadmus-text-block-view` or else it will be added to the default project in your `angular.json` file. 
+- `id`: some ID for the block.
+- `text`: the block's plain text.
+- `decoration`: optional decoration to add to this text. This can be plain text or HTML (including SVG).
+- `htmlDecoration`: true if decoration is HTML.
+- `layerIds`: array of layer IDs this block is linked to.
 
-## Build
+The text is displayed by appending one block after the other, with text above and decoration below.
 
-Run `ng build cadmus-text-block-view` to build the project. The build artifacts will be stored in the `dist/` directory.
+Input properties:
 
-## Publishing
+- `blocks`: the text blocks.
+- `selectedIds`: optional layer IDs to be initially selected.
 
-After building your library with `ng build cadmus-text-block-view`, go to the dist folder `cd dist/cadmus-text-block-view` and run `npm publish`.
+Events:
 
-## Running unit tests
+- `blockClick`: emitted when a block is clicked. The handler gets an object including the block itself and a decoration flag which is true if user clicked on the block's decoration rather than on its text.
 
-Run `ng test cadmus-text-block-view` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Typically you set CSS styles for blocks layers in the app's styles, one class per layer ID.
