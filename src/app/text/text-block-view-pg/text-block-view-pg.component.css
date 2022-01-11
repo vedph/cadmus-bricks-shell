@@ -1,0 +1,10 @@
+.cadmus-text-block-view-col:hover {
+  background-color: #FFDD26;
+}
+/* Styles for text-block-view demo, each corresponds to a layer ID */
+.alpha {
+  background-color: lightsalmon;
+}
+.beta {
+  background-color: paleturquoise;
+}

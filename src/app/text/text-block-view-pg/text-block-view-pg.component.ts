@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -14,6 +14,8 @@ import {
   selector: 'app-text-block-view-pg',
   templateUrl: './text-block-view-pg.component.html',
   styleUrls: ['./text-block-view-pg.component.css'],
+  // let styles flow down this component
+  encapsulation: ViewEncapsulation.None
 })
 export class TextBlockViewPgComponent {
   public text: FormControl;

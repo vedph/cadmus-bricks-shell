@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-01-11: style customization for `CadmusTextBlockView`.
 - 2022-01-09: added assertion to external IDs and proper name.
 - 2022-01-06: added `word` to `CodLocation`.
 - 2022-01-05: added `HistoricalDatePipe` and updated dependencies from Cadmus core.

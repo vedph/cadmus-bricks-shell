@@ -1,21 +1,24 @@
-<div class="row">
-  <div *ngFor="let block of blocks; trackBy: getBlockId" class="col">
+<div class="cadmus-text-block-view-row">
+  <div
+    *ngFor="let block of blocks; trackBy: getBlockId"
+    class="cadmus-text-block-view-col"
+  >
     <div
-      class="th"
-      [ngClass]="(block.layerIds || [] | arrayIntersect: selectedIds)"
+      class="cadmus-text-block-view-t"
+      [ngClass]="block.layerIds || [] | arrayIntersect: selectedIds"
       (click)="onBlockClick(block, false)"
     >
       {{ block.text }}
     </div>
     <div
-      class="dh"
+      class="cadmus-text-block-view-d"
       (click)="onBlockClick(block, true)"
       *ngIf="!block.htmlDecoration"
     >
       {{ block.decoration }}
     </div>
     <div
-      class="dh"
+      class="cadmus-text-block-view-row"
       (click)="onBlockClick(block, true)"
       *ngIf="block.htmlDecoration"
       [innerHtml]="block.decoration | safeHtml: 'html'"
