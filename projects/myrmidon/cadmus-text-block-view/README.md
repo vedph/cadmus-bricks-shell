@@ -7,6 +7,7 @@ The text blocks view displays a text modeled as a sequence of blocks. Each block
 - `id`: some ID for the block.
 - `text`: the block's plain text.
 - `decoration`: optional decoration to add to this text. This can be plain text or HTML (including SVG).
+- `tip`: optional tip to be rendered as HTML title attribute on the decoration element.
 - `htmlDecoration`: true if decoration is HTML.
 - `layerIds`: array of layer IDs this block is linked to.
 

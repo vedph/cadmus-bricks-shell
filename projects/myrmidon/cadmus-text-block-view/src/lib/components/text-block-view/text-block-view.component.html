@@ -13,6 +13,7 @@
     <div
       class="cadmus-text-block-view-d"
       (click)="onBlockClick(block, true)"
+      [title]="block.tip"
       *ngIf="!block.htmlDecoration"
     >
       {{ block.decoration }}
@@ -21,6 +22,7 @@
       class="cadmus-text-block-view-row"
       (click)="onBlockClick(block, true)"
       *ngIf="block.htmlDecoration"
+      [title]="block.tip"
       [innerHtml]="block.decoration | safeHtml: 'html'"
     ></div>
   </div>

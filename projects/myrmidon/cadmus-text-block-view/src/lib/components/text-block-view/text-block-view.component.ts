@@ -4,6 +4,7 @@ export interface TextBlock {
   id: string;
   text: string;
   decoration?: string;
+  tip?: string;
   htmlDecoration?: boolean;
   layerIds?: string[];
 }

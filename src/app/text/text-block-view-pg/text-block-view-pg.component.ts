@@ -48,8 +48,9 @@ export class TextBlockViewPgComponent {
       blocks.push({
         id: 'b' + i,
         text: text.charAt(i) === ' ' ? '\u2000' : text.charAt(i),
-        decoration: i === 21 ? svg : i.toString(),
-        htmlDecoration: i === 21,
+        decoration: i % 20 == 0 ? svg : i.toString(),
+        tip: 'Tip for #' + i,
+        htmlDecoration: i % 20 == 0,
         // note: each of these IDs has a corresponding CSS class in styles.css
         layerIds: i > 9 && i < 20 ? ['alpha', 'beta'] : undefined,
       });
