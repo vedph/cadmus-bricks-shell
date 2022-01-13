@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -15,9 +15,9 @@ import {
   templateUrl: './text-block-view-pg.component.html',
   styleUrls: ['./text-block-view-pg.component.css'],
   // let styles flow down this component
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class TextBlockViewPgComponent {
+export class TextBlockViewPgComponent implements OnInit {
   public text: FormControl;
   public layerId: FormControl;
   public form: FormGroup;
@@ -35,6 +35,10 @@ export class TextBlockViewPgComponent {
     this.form = formBuilder.group({
       text: this.text,
     });
+  }
+
+  public ngOnInit(): void {
+    this.layerId.setValue('-');
   }
 
   private toBlocks(text: string): TextBlock[] {
