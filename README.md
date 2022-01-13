@@ -14,7 +14,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 
 1. `npm run build-lib`
 2. `ng build --configuration production`
-3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.3 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.4 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 ## Adding a Brick
 
@@ -26,7 +26,7 @@ To add a brick:
 
 ## History
 
-- 2022-01-13: block id as div id in `CadmusTextBlockView`. Upgraded Angular.
+- 2022-01-13: block id as div id in `CadmusTextBlockView`. Upgraded Angular. Docker image 0.0.4.
 - 2022-01-11: style customization for `CadmusTextBlockView`.
 - 2022-01-09: added assertion to external IDs and proper name.
 - 2022-01-06: added `word` to `CodLocation`.
