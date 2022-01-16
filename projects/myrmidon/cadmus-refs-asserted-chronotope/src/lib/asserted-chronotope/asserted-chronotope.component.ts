@@ -133,7 +133,7 @@ export class AssertedChronotopeComponent implements OnInit {
       this.form.markAsPristine();
     }
     this._updatingForm = false;
-    this.emitChronotopeChange();
+    //this.emitChronotopeChange();
   }
 
   private getChronotope(): AssertedChronotope {

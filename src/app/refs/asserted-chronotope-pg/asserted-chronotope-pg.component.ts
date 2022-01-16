@@ -12,7 +12,21 @@ export class AssertedChronotopePgComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initialChronotope = {
+      place: {
+        value: 'Rome',
+        assertion: {
+          rank: 2,
+        },
+      },
+      date: {
+        a: {
+          value: 123,
+        },
+      },
+    };
+  }
 
   public onChronotopeChange(chronotope?: AssertedChronotope): void {
     this.chronotope = chronotope;
