@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-01-16: fixed model of `AssertedChronotope`.
 - 2022-01-13: block id as div id in `CadmusTextBlockView`. Upgraded Angular. Docker image 0.0.4.
 - 2022-01-11: style customization for `CadmusTextBlockView`.
 - 2022-01-09: added assertion to external IDs and proper name.

@@ -17,9 +17,8 @@ export interface AssertedPlace {
   assertion?: Assertion;
 }
 
-export interface AssertedDate {
+export interface AssertedDate extends HistoricalDateModel {
   tag?: string;
-  value: HistoricalDateModel;
   assertion?: Assertion;
 }
 
@@ -123,13 +122,14 @@ export class AssertedChronotopeComponent implements OnInit {
       this.initialDtAssertion = undefined;
       this.form.reset();
     } else {
-      this.initialDate = value.date?.value;
+      this.initialDate = value.date;
       this.initialPlAssertion = value.place?.assertion;
+      this.initialDtAssertion = value.date?.assertion;
       this.plTag.setValue(value.place?.tag);
       this.place.setValue(value.place?.value);
-      this.hasDate.setValue(value.date?.value ? true : false);
-      this.dtTag.setValue(value.date?.value);
-      this.date.setValue(value.date?.value);
+      this.hasDate.setValue(value.date ? true : false);
+      this.dtTag.setValue(value.date?.tag);
+      this.date.setValue(value.date as HistoricalDateModel);
       this.form.markAsPristine();
     }
     this._updatingForm = false;
@@ -145,8 +145,8 @@ export class AssertedChronotopeComponent implements OnInit {
       },
       date: this.hasDate.value
         ? {
+            ...this.date.value,
             tag: this.dtTag.value?.trim(),
-            value: this.date.value,
             assertion: this.dtAssertion,
           }
         : undefined,
