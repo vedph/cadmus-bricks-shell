@@ -8,9 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { NgToolsModule } from '@myrmidon/ng-tools';
 
 import { CodLocationComponent } from './cod-location/cod-location.component';
+import { CodLocationPipe } from './cod-location.pipe';
+import { CodLocationRangePipe } from './cod-location-range.pipe';
 
 @NgModule({
-  declarations: [CodLocationComponent],
+  declarations: [CodLocationComponent, CodLocationPipe, CodLocationRangePipe],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,6 +23,6 @@ import { CodLocationComponent } from './cod-location/cod-location.component';
     MatIconModule,
     MatInputModule,
   ],
-  exports: [CodLocationComponent],
+  exports: [CodLocationComponent, CodLocationPipe, CodLocationRangePipe],
 })
 export class CadmusCodLocationModule {}

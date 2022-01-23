@@ -12,9 +12,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PhysicalDimensionComponent } from './components/physical-dimension/physical-dimension.component';
 import { PhysicalSizeComponent } from './components/physical-size/physical-size.component';
+import { PhysicalSizePipe } from './components/physical-size.pipe';
 
 @NgModule({
-  declarations: [PhysicalDimensionComponent, PhysicalSizeComponent],
+  declarations: [PhysicalDimensionComponent, PhysicalSizeComponent, PhysicalSizePipe],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +29,6 @@ import { PhysicalSizeComponent } from './components/physical-size/physical-size.
     MatSelectModule,
     MatTooltipModule,
   ],
-  exports: [PhysicalDimensionComponent, PhysicalSizeComponent],
+  exports: [PhysicalDimensionComponent, PhysicalSizeComponent, PhysicalSizePipe],
 })
 export class CadmusMatPhysicalSizeModule {}

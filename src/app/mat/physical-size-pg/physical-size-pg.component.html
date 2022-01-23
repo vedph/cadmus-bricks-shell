@@ -14,5 +14,8 @@
     <div *ngIf="size">
       <pre>{{ size | json }}</pre>
     </div>
+    <div>
+      {{ size | physicalSize }}
+    </div>
   </mat-card-content>
 </mat-card>
