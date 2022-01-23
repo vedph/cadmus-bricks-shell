@@ -27,6 +27,12 @@ export class CodLocationComponent implements OnInit {
   private _single: boolean | undefined;
 
   /**
+   * The label to display in the control (default="location").
+   */
+  @Input()
+  public label: string | undefined;
+
+  /**
    * True if this location is required.
    */
   @Input()
@@ -80,6 +86,7 @@ export class CodLocationComponent implements OnInit {
   constructor(formBuilder: FormBuilder) {
     this.locationChange = new EventEmitter<CodLocationRange[] | null>();
     this._location = null;
+    this.label = 'location';
     // form
     this.text = formBuilder.control(null);
     this.form = formBuilder.group({
