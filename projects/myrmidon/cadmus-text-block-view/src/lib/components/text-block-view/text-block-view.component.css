@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: row wrap;
   row-gap: 8px;
-  align-items: flex-start;
+  align-items: stretch;
   z-index: 0;
 }
 .cadmus-text-block-view-col {
