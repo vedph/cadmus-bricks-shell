@@ -1,0 +1,108 @@
+<form [formGroup]="form">
+  <div>
+    <button
+      type="button"
+      mat-icon-button
+      color="primary"
+      (click)="addChronotope()"
+    >
+      <mat-icon>add_circle</mat-icon> add chronotope
+    </button>
+  </div>
+  <table *ngIf="entries?.value?.length">
+    <thead>
+      <tr>
+        <th></th>
+        <th>place</th>
+        <th>date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let entry of entries?.value;
+          let i = index;
+          let first = first;
+          let last = last
+        "
+      >
+        <td>
+          <button
+            type="button"
+            mat-icon-button
+            color="primary"
+            matTooltip="Edit this chronotope"
+            (click)="editChronotope(i)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Move this chronotope up"
+            [disabled]="first"
+            (click)="moveChronotopeUp(i)"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Move this chronotope down"
+            [disabled]="last"
+            (click)="moveChronotopeDown(i)"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            color="warn"
+            matTooltip="Delete this chronotope"
+            (click)="deleteChronotope(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </td>
+        <td>{{ entry.place?.value }}</td>
+        <td>{{ entry.date | historicalDate }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <mat-expansion-panel
+    [disabled]="editedIndex < 0"
+    [expanded]="editedIndex > -1"
+  >
+    <mat-expansion-panel-header
+      >chronotope #{{ editedIndex + 1 }}</mat-expansion-panel-header
+    >
+    <cadmus-refs-asserted-chronotope
+      [tagEntries]="tagEntries"
+      [assTagEntries]="assTagEntries"
+      [refTagEntries]="refTagEntries"
+      [refTypeEntries]="refTypeEntries"
+      [chronotope]="initialChronotope"
+      (chronotopeChange)="onChronotopeChange($event)"
+    ></cadmus-refs-asserted-chronotope>
+    <div>
+      <button
+        type="button"
+        (click)="onChronotopeClose()"
+        mat-icon-button
+        color="warn"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+      <button
+        type="button"
+        (click)="onChronotopeSave()"
+        mat-icon-button
+        color="primary"
+      >
+        <mat-icon>check_circle</mat-icon>
+        chronotope
+      </button>
+    </div>
+  </mat-expansion-panel>
+</form>

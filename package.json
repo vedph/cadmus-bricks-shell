@@ -9,7 +9,7 @@
     "test": "ng test",
     "build-ct": "ng build @myrmidon/cadmus-refs-chronotope",
     "build-act": "ng build @myrmidon/cadmus-refs-asserted-chronotope",
-    "build-lib": "ng build @myrmidon/cadmus-refs-doc-references && ng build @myrmidon/cadmus-refs-decorated-ids && ng build @myrmidon/cadmus-refs-external-ids && ng build @myrmidon/cadmus-refs-proper-name && ng build @myrmidon/cadmus-refs-assertion && ng build @myrmidon/cadmus-refs-asserted-id && ng build @myrmidon/cadmus-refs-historical-date && ng build @myrmidon/cadmus-ui-flags-picker && ng build @myrmidon/cadmus-refs-chronotope && ng build @myrmidon/cadmus-refs-lookup && ng build @myrmidon/cadmus-refs-viaf-lookup && ng build @myrmidon/cadmus-text-block-view && ng build @myrmidon/cadmus-mat-physical-size"
+    "build-lib": "ng build @myrmidon/cadmus-refs-doc-references && ng build @myrmidon/cadmus-refs-decorated-ids && ng build @myrmidon/cadmus-refs-external-ids && ng build @myrmidon/cadmus-refs-proper-name && ng build @myrmidon/cadmus-refs-assertion && ng build @myrmidon/cadmus-refs-asserted-id && ng build @myrmidon/cadmus-refs-historical-date && ng build @myrmidon/cadmus-ui-flags-picker && ng build @myrmidon/cadmus-refs-chronotope && ng build @myrmidon/cadmus-refs-lookup && ng build @myrmidon/cadmus-refs-viaf-lookup && ng build @myrmidon/cadmus-text-block-view && ng build @myrmidon/cadmus-mat-physical-size && ng build @myrmidon/cadmus-cod-location"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~13.1.2",
     "@angular/router": "~13.1.2",
     "@myrmidon/cadmus-core": "1.0.0",
+    "@myrmidon/ng-mat-tools": "0.0.3",
     "@myrmidon/ng-tools": "0.0.3",
     "gravatar": "^1.8.2",
     "rangy": "^1.3.0",
