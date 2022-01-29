@@ -36,7 +36,7 @@ To add a brick:
 - 2022-01-06: added `word` to `CodLocation`.
 - 2022-01-05: added `HistoricalDatePipe` and updated dependencies from Cadmus core.
 - 2021-12-24: refactored chronotopes, Docker image 0.0.3.
-- 2021-12-22: generated Docker image 0.0.2.
+- 2021-12-22: Docker image 0.0.2.
 - 2021-12-20: added physical size. This was taken from Cadmus UI, so this will be refactored later.
 - 2021-12-15: removed dependencies from `@myrmidon/cadmus-material` and bumped all version numbers accordingly.
 - 2021-12-13: added link button to ref-lookup component.
