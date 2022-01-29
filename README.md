@@ -14,7 +14,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 
 1. `npm run build-lib`
 2. `ng build --configuration production`
-3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.5 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.6 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 ## Adding a Brick
 
@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-01-29: added decorated counts library. Docker image 0.0.6.
 - 2022-01-26: added `AssertedChronotopeSet` editor. Docker image 0.0.5.
 - 2022-01-23: added pipes for `CodLocation`, `CodLocationRange`, and `PhysicalSize`.
 - 2022-01-16: fixed model of `AssertedChronotope`.

@@ -35,6 +35,10 @@
         "dist/myrmidon/cadmus-refs-chronotope/myrmidon-cadmus-refs-chronotope",
         "dist/myrmidon/cadmus-refs-chronotope"
       ],
+      "@myrmidon/cadmus-refs-decorated-counts": [
+        "dist/myrmidon/cadmus-refs-decorated-counts/myrmidon-cadmus-refs-decorated-counts",
+        "dist/myrmidon/cadmus-refs-decorated-counts"
+      ],
       "@myrmidon/cadmus-refs-decorated-ids": [
         "dist/myrmidon/cadmus-refs-decorated-ids/myrmidon-cadmus-refs-decorated-ids",
         "dist/myrmidon/cadmus-refs-decorated-ids"

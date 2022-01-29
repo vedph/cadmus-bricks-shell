@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Decorated Counts</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-refs-decorated-counts
+      (countsChange)="onCountsChange($event)"
+    ></cadmus-refs-decorated-counts>
+    <div *ngIf="counts">
+      <pre>{{ counts | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -27,20 +27,21 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 // refs bricks
+import { CadmusCodLocationModule } from 'projects/myrmidon/cadmus-cod-location/src/public-api';
 import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physical-size/src/public-api';
+import { CadmusRefsAssertedChronotopeModule } from 'projects/myrmidon/cadmus-refs-asserted-chronotope/src/public-api';
 import { CadmusRefsAssertionModule } from 'projects/myrmidon/cadmus-refs-assertion/src/public-api';
 import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
-import { CadmusRefsAssertedChronotopeModule } from 'projects/myrmidon/cadmus-refs-asserted-chronotope/src/public-api';
 import { CadmusRefsChronotopeModule } from 'projects/myrmidon/cadmus-refs-chronotope/src/public-api';
 import { CadmusRefsDecoratedIdsModule } from 'projects/myrmidon/cadmus-refs-decorated-ids/src/public-api';
 import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc-references/src/public-api';
 import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
 import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-historical-date/src/public-api';
 import { CadmusRefsProperNameModule } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
-import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
+import { CadmusRefsDecoratedCountsModule } from 'projects/myrmidon/cadmus-refs-decorated-counts/src/public-api';
 import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
-import { CadmusCodLocationModule } from 'projects/myrmidon/cadmus-cod-location/src/public-api';
+import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 
 import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/asserted-chronotope-pg.component';
 import { AssertedChronotopeSetPgComponent } from './refs/asserted-chronotope-set-pg/asserted-chronotope-set-pg.component';
@@ -59,6 +60,7 @@ import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-look
 import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
+import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated-counts-pg.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +83,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     TextBlockViewPgComponent,
     PhysicalSizePgComponent,
     CodLocationPgComponent,
+    DecoratedCountsPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,6 +98,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
         { path: 'home', component: HomeComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
         { path: 'refs/external-ids', component: ExternalIdsPgComponent },
+        { path: 'refs/decorated-counts', component: DecoratedCountsPgComponent },
         { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
         { path: 'refs/proper-name', component: ProperNamePgComponent },
         { path: 'refs/assertion', component: AssertionPgComponent },
@@ -140,10 +144,11 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     CadmusRefsDecoratedIdsModule,
     CadmusRefsExternalIdsModule,
     CadmusRefsProperNameModule,
+    CadmusRefsAssertedChronotopeModule,
     CadmusRefsAssertionModule,
     CadmusRefsAssertedIdModule,
     CadmusRefsChronotopeModule,
-    CadmusRefsAssertedChronotopeModule,
+    CadmusRefsDecoratedCountsModule,
     CadmusRefsHistoricalDateModule,
     CadmusRefsLookupModule,
     CadmusTextBlockViewModule,

@@ -15,7 +15,7 @@ export class DecoratedIdsPgComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public onIdsChange(model: DecoratedId[]): void {
-    this.ids = model;
+  public onIdsChange(ids: DecoratedId[]): void {
+    this.ids = ids;
   }
 }
