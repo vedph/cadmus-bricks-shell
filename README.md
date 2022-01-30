@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-01-30: minor fixes to asserted chronotopes set.
 - 2022-01-29: added decorated counts library. Docker image 0.0.6.
 - 2022-01-26: added `AssertedChronotopeSet` editor. Docker image 0.0.5.
 - 2022-01-23: added pipes for `CodLocation`, `CodLocationRange`, and `PhysicalSize`.

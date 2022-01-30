@@ -79,7 +79,7 @@ export class AssertedChronotopeSetComponent implements OnInit {
   }
 
   public addChronotope(): void {
-    this.entries.setValue([...this.entries.value, {}]);
+    this.entries.setValue([...this.entries.value || [], {}]);
     this.editChronotope(this.entries.value.length - 1);
   }
 
