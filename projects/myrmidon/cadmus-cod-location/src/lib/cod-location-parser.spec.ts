@@ -141,6 +141,19 @@ describe('CodLocationParser', () => {
     expect(l?.l).toBeUndefined();
     expect(l?.word).toBeUndefined();
   });
+  fit('parseLocation should parse "x:12"bis"r"', () => {
+    const l = CodLocationParser.parseLocation('x:12"bis"r');
+    expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
+    expect(l?.s).toBe('x');
+    expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBe('bis');
+    expect(l?.v).toBeFalse();
+    expect(l?.c).toBeUndefined();
+    expect(l?.l).toBeUndefined();
+    expect(l?.word).toBeUndefined();
+  });
   it('parseLocation should parse "x:12a"', () => {
     const l = CodLocationParser.parseLocation('x:12a');
     expect(l).toBeTruthy();
