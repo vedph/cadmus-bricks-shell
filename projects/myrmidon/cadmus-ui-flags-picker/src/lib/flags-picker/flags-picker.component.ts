@@ -24,7 +24,7 @@ export interface Flag {
  *        [flags]="arrayOfAvailableFlags"
  *        [numbering]="false"
  *        [toolbar]="false"
- *        (selectionChange)="theHandlerGettingIdsArray"
+ *        (selectedIdsChange)="theHandlerGettingIdsArray"
  *        ></cadmus-ui-flags-picker>
  */
 @Component({
@@ -88,7 +88,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
    * Emitted whenever selected IDs change.
    */
   @Output()
-  public selectionChange: EventEmitter<string[]>;
+  public selectedIdsChange: EventEmitter<string[]>;
 
   public flagsArr: FormArray;
   public form: FormGroup;
@@ -100,7 +100,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       selectedIds: string[];
       flags: Flag[];
     }>({ selectedIds: [], flags: [] });
-    this.selectionChange = new EventEmitter<string[]>();
+    this.selectedIdsChange = new EventEmitter<string[]>();
     this._subs = [];
     // form
     this.flagsArr = _formBuilder.array([]);
@@ -128,7 +128,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
         .pipe(distinctUntilChanged(), debounceTime(200))
         .subscribe((_) => {
           if (!this._changeFrozen) {
-            this.selectionChange.emit(this.getSelectedIds());
+            this.selectedIdsChange.emit(this.getSelectedIds());
           }
         })
     );
@@ -164,7 +164,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       g.controls.flag.setValue(!g.controls.flag.value);
     }
     this._changeFrozen = false;
-    this.selectionChange.emit(this.getSelectedIds());
+    this.selectedIdsChange.emit(this.getSelectedIds());
   }
 
   public deselectAll(): void {
@@ -174,7 +174,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       g.controls.flag.setValue(false);
     }
     this._changeFrozen = false;
-    this.selectionChange.emit(this.getSelectedIds());
+    this.selectedIdsChange.emit(this.getSelectedIds());
   }
 
   public selectAll(): void {
@@ -184,6 +184,6 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       g.controls.flag.setValue(true);
     }
     this._changeFrozen = false;
-    this.selectionChange.emit(this.getSelectedIds());
+    this.selectedIdsChange.emit(this.getSelectedIds());
   }
 }

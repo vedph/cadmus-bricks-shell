@@ -11,6 +11,7 @@
     "build-ct": "ng build @myrmidon/cadmus-refs-chronotope",
     "build-act": "ng build @myrmidon/cadmus-refs-asserted-chronotope",
     "build-decc": "ng build @myrmidon/cadmus-refs-decorated-counts",
+    "build-flg": "ng build @myrmidon/cadmus-ui-flags-picker",
     "build-lib": "ng build @myrmidon/cadmus-refs-doc-references && ng build @myrmidon/cadmus-refs-decorated-ids && ng build @myrmidon/cadmus-refs-external-ids && ng build @myrmidon/cadmus-refs-proper-name && ng build @myrmidon/cadmus-refs-assertion && ng build @myrmidon/cadmus-refs-asserted-id && ng build @myrmidon/cadmus-refs-historical-date && ng build @myrmidon/cadmus-ui-flags-picker && npm run build-ct && npm run build-act && ng build @myrmidon/cadmus-refs-lookup && ng build @myrmidon/cadmus-refs-viaf-lookup && ng build @myrmidon/cadmus-text-block-view && ng build @myrmidon/cadmus-mat-physical-size && ng build @myrmidon/cadmus-cod-location && npm run build-decc"
   },
   "private": true,
