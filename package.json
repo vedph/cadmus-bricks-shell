@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "build-cl": "ng build @myrmidon/cadmus-cod-location",
     "build-ct": "ng build @myrmidon/cadmus-refs-chronotope",
     "build-act": "ng build @myrmidon/cadmus-refs-asserted-chronotope",
     "build-decc": "ng build @myrmidon/cadmus-refs-decorated-counts",
