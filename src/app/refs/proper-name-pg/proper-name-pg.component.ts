@@ -9,13 +9,12 @@ import { AssertedProperName } from 'projects/myrmidon/cadmus-refs-proper-name/sr
   styleUrls: ['./proper-name-pg.component.css'],
 })
 export class ProperNamePgComponent implements OnInit {
+  public initialName: AssertedProperName;
   public name: AssertedProperName | undefined;
   public langEntries: ThesaurusEntry[] | undefined;
   public namePieceTypeEntries: ThesaurusEntry[] | undefined;
 
-  constructor() {}
-
-  ngOnInit(): void {
+  constructor() {
     this.langEntries = [
       { id: 'ita', value: 'Italian' },
       { id: 'eng', value: 'English' },
@@ -36,7 +35,7 @@ export class ProperNamePgComponent implements OnInit {
       { id: 'cognomen', value: 'cognomen' },
     ];
 
-    this.name = {
+    this.initialName = {
       language: 'lat',
       tag: 'free',
       pieces: [
@@ -46,6 +45,8 @@ export class ProperNamePgComponent implements OnInit {
       ],
     };
   }
+
+  ngOnInit(): void {}
 
   public onNameChange(model: AssertedProperName | undefined): void {
     this.name = model;
