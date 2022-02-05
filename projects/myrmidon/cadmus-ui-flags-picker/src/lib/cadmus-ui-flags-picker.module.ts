@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FlagsPickerComponent } from './flags-picker/flags-picker.component';
 
@@ -21,7 +22,8 @@ import { FlagsPickerComponent } from './flags-picker/flags-picker.component';
     MatButtonModule,
     MatCheckboxModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
   ],
   exports: [FlagsPickerComponent],
 })

@@ -10,11 +10,19 @@
       [flags]="flags"
       [numbering]="true"
       [toolbar]="true"
+      [allowUserFlags]="true"
       (selectedIdsChange)="onIdsChange($event)"
+      (flagsChange)="onFlagsChange($event)"
     >
     </cadmus-ui-flags-picker>
+    <hr>
+    <h3>IDs</h3>
     <div *ngIf="ids">
       <pre>{{ ids | json }}</pre>
     </div>
+    <h3>Flags</h3>
+    <ol>
+      <li *ngFor="let f of flags">{{ f.id }}={{ f.label }}</li>
+    </ol>
   </mat-card-content>
 </mat-card>

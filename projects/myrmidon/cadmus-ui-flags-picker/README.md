@@ -2,23 +2,25 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.0.
 
-## Code scaffolding
+The flags picker allows to select 1 or more flags (i.e. entries which are either present or absent) from a list. Each flag has a string ID and a human-friendly label, and implements interface `Flag`. Optionally users can add new flags to the list.
 
-Run `ng generate component component-name --project cadmus-ui-flags-picker` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project cadmus-ui-flags-picker`.
-> Note: Don't forget to add `--project cadmus-ui-flags-picker` or else it will be added to the default project in your `angular.json` file. 
+## API
 
-## Build
+Each flag has:
 
-Run `ng build cadmus-ui-flags-picker` to build the project. The build artifacts will be stored in the `dist/` directory.
+- `id`: the ID for this flag.
+- `label`: the human-friendly label for this flag.
+- `user`: optionally set to true when this flag was added by user.
 
-## Publishing
+Component's properties:
 
-After building your library with `ng build cadmus-ui-flags-picker`, go to the dist folder `cd dist/cadmus-ui-flags-picker` and run `npm publish`.
+- `selectedIds`: array of selected flag IDs.
+- `flags`: the list of flags available for selection.
+- `numbering`: true to show an ordinal number next to each flag.
+- `toolbar`: true to show the toolbar including quick selection buttons and the UI for adding new flags.
+- `allowUserFlags`: true to allow users add new flags.
 
-## Running unit tests
+Component's events:
 
-Run `ng test cadmus-ui-flags-picker` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- `selectedIdsChange`: emitted when selection changes.
+- `flagsChange`: emitted when flags have changed.

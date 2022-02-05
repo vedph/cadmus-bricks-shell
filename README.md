@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-02-05: added user-defined flags to flags picker.
 - 2022-02-03: Docker image 0.0.7.
 - 2022-01-30: minor fixes to asserted chronotopes set.
 - 2022-01-29: added decorated counts library. Docker image 0.0.6.

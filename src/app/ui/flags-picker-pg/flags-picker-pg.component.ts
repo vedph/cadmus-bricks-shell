@@ -28,4 +28,8 @@ export class FlagsPickerPgComponent implements OnInit {
   public onIdsChange(ids: string[]): void {
     this.ids = ids;
   }
+
+  public onFlagsChange(flags: Flag[]): void {
+    this.flags = flags;
+  }
 }

@@ -1,4 +1,5 @@
 <form [formGroup]="form" *ngIf="flags?.length">
+  <!-- toolbar -->
   <div *ngIf="toolbar">
     <button
       type="button"
@@ -26,15 +27,52 @@
     >
       <mat-icon>remove_done</mat-icon>
     </button>
+
+    <!-- user -->
+    <form
+      style="display: inline-block"
+      *ngIf="allowUserFlags"
+      [formGroup]="userForm"
+      (submit)="addUserFlag()"
+    >
+      <mat-form-field>
+        <input matInput [formControl]="userFlag" placeholder="id=label" />
+      </mat-form-field>
+      <button
+        [disabled]="userForm.invalid"
+        type="submit"
+        mat-icon-button
+        color="primary"
+        matTooltip="Add a new entry"
+      >
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </form>
   </div>
+  <!-- flags -->
   <div formArrayName="flagsArr" class="cols">
     <div *ngFor="let item of flagsArr.controls; let i = index">
       <!-- child form -->
-      <div [formGroupName]="i">
-        <span class="numbering" *ngIf="numbering">{{ i + 1 }}.</span>
+      <div
+        [formGroupName]="i"
+        style="display: flex; align-items: center; gap: 6px"
+      >
+        <span class="numbering" *ngIf="numbering" style="flex: 0 0 auto"
+          >{{ i + 1 }}.</span
+        >
         <mat-checkbox formControlName="flag">{{
           $any(flags)[i].label
         }}</mat-checkbox>
+        <button
+          *ngIf="$any(flags)[i].user"
+          style="flex: 0 0 auto"
+          mat-icon-button
+          color="warn"
+          (click)="onRemoveFlag(i)"
+          matTooltip="Remove this flag"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
       </div>
     </div>
   </div>

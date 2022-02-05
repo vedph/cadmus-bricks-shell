@@ -6,13 +6,19 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 export interface Flag {
   id: string;
   label: string;
+  user?: boolean;
 }
 
 /**
@@ -23,8 +29,10 @@ export interface Flag {
  *        [selectedIds]="arrayOfSelectedIds"
  *        [flags]="arrayOfAvailableFlags"
  *        [numbering]="false"
- *        [toolbar]="false"
+ *        [toolbar]="true"
+ *        [allowUserFlags]="true"
  *        (selectedIdsChange)="theHandlerGettingIdsArray"
+ *        (flagsChange)="theHandlerGettingFlags"
  *        ></cadmus-ui-flags-picker>
  */
 @Component({
@@ -33,8 +41,6 @@ export interface Flag {
   styleUrls: ['./flags-picker.component.css'],
 })
 export class FlagsPickerComponent implements OnInit, OnDestroy {
-  private _ids: string[];
-  private _flags: Flag[];
   private _data$: BehaviorSubject<{
     selectedIds: string[];
     flags: Flag[];
@@ -47,13 +53,12 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
    */
   @Input()
   public get selectedIds(): string[] | undefined {
-    return this._ids;
+    return this._data$.value.selectedIds;
   }
   public set selectedIds(value: string[] | undefined) {
-    this._ids = value || [];
     this._data$.next({
-      selectedIds: this._ids,
-      flags: this._flags,
+      selectedIds: value || [],
+      flags: this._data$.value.flags,
     });
   }
 
@@ -62,13 +67,12 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
    */
   @Input()
   public get flags(): Flag[] | undefined {
-    return this._flags;
+    return this._data$.value.flags;
   }
   public set flags(value: Flag[] | undefined) {
-    this._flags = value || [];
     this._data$.next({
-      selectedIds: this._ids,
-      flags: this._flags,
+      selectedIds: this._data$.value.selectedIds,
+      flags: value || [],
     });
   }
 
@@ -85,27 +89,47 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
   public toolbar = true;
 
   /**
+   * True to allow user-defined flags.
+   */
+  @Input()
+  public allowUserFlags = false;
+
+  /**
    * Emitted whenever selected IDs change.
    */
   @Output()
   public selectedIdsChange: EventEmitter<string[]>;
 
+  /**
+   * Emitted when a new flag has been added by user.
+   */
+  @Output()
+  public flagsChange: EventEmitter<Flag[]>;
+
   public flagsArr: FormArray;
   public form: FormGroup;
 
+  public userFlag: FormControl;
+  public userForm: FormGroup;
+
   constructor(private _formBuilder: FormBuilder) {
-    this._ids = [];
-    this._flags = [];
     this._data$ = new BehaviorSubject<{
       selectedIds: string[];
       flags: Flag[];
     }>({ selectedIds: [], flags: [] });
     this.selectedIdsChange = new EventEmitter<string[]>();
+    this.flagsChange = new EventEmitter<Flag[]>();
     this._subs = [];
     // form
     this.flagsArr = _formBuilder.array([]);
     this.form = _formBuilder.group({
       flagsArr: this.flagsArr,
+    });
+
+    // user
+    this.userFlag = _formBuilder.control(null);
+    this.userForm = _formBuilder.group({
+      userFlag: this.userFlag,
     });
   }
 
@@ -117,6 +141,51 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._subs.forEach((s) => s.unsubscribe());
+  }
+
+  public addUserFlag(): void {
+    if (this.userForm.invalid) {
+      return;
+    }
+    const text = this.userFlag.value?.trim();
+    if (!text) {
+      return;
+    }
+
+    // parse id=label
+    const i = text.indexOf('=');
+    let flag: Flag;
+    if (i === -1) {
+      flag = {
+        id: text,
+        label: text,
+        user: true,
+      };
+    } else {
+      flag = {
+        id: text.substr(0, i),
+        label: text.substr(i + 1),
+        user: true,
+      };
+    }
+
+    // do not add if the ID/label already exists
+    const flags = this._data$.value.flags;
+    if (flags.some((f) => f.id === flag.id || f.label === flag.label)) {
+      return;
+    }
+
+    // add flag (checked)
+    this._data$.next({
+      selectedIds: [...this._data$.value.selectedIds, flag.id],
+      flags: [...flags, flag],
+    });
+
+    this.userFlag.reset();
+    this.userFlag.markAsPristine();
+
+    this.flagsChange.emit(this._data$.value.flags);
+    this.emitIdsChange();
   }
 
   private getFlagGroup(selected: boolean): FormGroup {
@@ -137,21 +206,22 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
 
   private updateForm(): void {
     this.flagsArr.clear();
-    if (this._flags?.length) {
-      this._flags.forEach((flag) => {
-        this.flagsArr.controls.push(
-          this.getFlagGroup(this._ids?.includes(flag.id))
-        );
+    const flags = this._data$.value.flags;
+    const ids = this._data$.value.selectedIds;
+    if (flags.length) {
+      flags.forEach((flag) => {
+        this.flagsArr.controls.push(this.getFlagGroup(ids.includes(flag.id)));
       });
     }
   }
 
   private getSelectedIds(): string[] {
     const selectedIds: string[] = [];
+    const flags = this._data$.value.flags;
     for (let i = 0; i < this.flagsArr.controls.length; i++) {
       const g = this.flagsArr.at(i) as FormGroup;
       if (g.controls.flag.value) {
-        selectedIds.push(this._flags[i].id);
+        selectedIds.push(flags[i].id);
       }
     }
     return selectedIds;
@@ -164,7 +234,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       g.controls.flag.setValue(!g.controls.flag.value);
     }
     this._changeFrozen = false;
-    this.selectedIdsChange.emit(this.getSelectedIds());
+    this.emitIdsChange();
   }
 
   public deselectAll(): void {
@@ -174,7 +244,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       g.controls.flag.setValue(false);
     }
     this._changeFrozen = false;
-    this.selectedIdsChange.emit(this.getSelectedIds());
+    this.emitIdsChange();
   }
 
   public selectAll(): void {
@@ -184,6 +254,32 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       g.controls.flag.setValue(true);
     }
     this._changeFrozen = false;
+    this.emitIdsChange();
+  }
+
+  public onRemoveFlag(index: number): void {
+    const flag = this._data$.value.flags[index];
+
+    // emit ids change if the flag being removed involved it
+    const ids = this.getSelectedIds();
+    const i = ids.indexOf(flag.id);
+    if (i > -1) {
+      ids.splice(i, 1);
+      this.selectedIdsChange.emit(ids);
+    }
+
+    // remove flag
+    const flags = [...this._data$.value.flags];
+    flags.splice(index, 1);
+    this._data$.next({
+      ...this._data$.value,
+      flags: flags,
+    });
+
+    this.flagsChange.emit(flags);
+  }
+
+  private emitIdsChange(): void {
     this.selectedIdsChange.emit(this.getSelectedIds());
   }
 }
