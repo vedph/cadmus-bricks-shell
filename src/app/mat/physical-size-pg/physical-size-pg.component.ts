@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PhysicalSize, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { PhysicalSize } from '@myrmidon/cadmus-mat-physical-size';
 
 @Component({
   selector: 'app-physical-size-pg',
