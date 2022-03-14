@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-03-14: better lookup UI.
 - 2022-03-10: upgraded Angular to 13.2.6.
 
 ### 0.0.7
