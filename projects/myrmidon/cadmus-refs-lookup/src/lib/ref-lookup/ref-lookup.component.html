@@ -32,19 +32,24 @@
   </mat-form-field>
 
   <!-- inactive -->
-  <div
-    *ngIf="!lookupActive"
-    style="width: fit-content"
-    [class]="required && !item ? 'invalid' : 'valid'"
-  >
-    <button
-      type="button"
-      mat-stroked-button
-      *ngIf="!lookupActive"
-      (click)="lookupActive = true"
-    >
-      {{ getLookupName(item) || "-" }}
-    </button>
+  <div *ngIf="!lookupActive" class="flex-row">
+    <div class="labeled">
+      <div
+        class="label"
+        *ngIf="label"
+        [style.color]="required && !item ? 'red' : 'inherited'"
+      >
+        {{ label }}
+      </div>
+      <button
+        type="button"
+        mat-stroked-button
+        *ngIf="!lookupActive"
+        (click)="lookupActive = true"
+      >
+        {{ getLookupName(item) || label }}
+      </button>
+    </div>
     <!-- buttons -->
     <button
       *ngIf="linkTemplate"
