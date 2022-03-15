@@ -14,9 +14,11 @@ export class CodLocationPgComponent implements OnInit {
   public single: FormControl;
   public required: FormControl;
   public form: FormGroup;
+  public initialRanges: CodLocationRange[];
 
   constructor(formBuilder: FormBuilder) {
-    this.ranges = [
+    this.ranges = null;
+    this.initialRanges = [
       {
         start: {
           s: 'x',
