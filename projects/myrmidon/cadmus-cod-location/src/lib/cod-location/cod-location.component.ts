@@ -126,6 +126,8 @@ export class CodLocationComponent implements OnInit {
           this.emitLocationChange();
         }
       });
+    // initial value
+    this.emitLocationChange();
   }
 
   private emitLocationChange(): void {
