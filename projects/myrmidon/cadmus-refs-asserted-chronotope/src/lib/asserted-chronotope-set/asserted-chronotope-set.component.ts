@@ -67,6 +67,7 @@ export class AssertedChronotopeSetComponent implements OnInit {
     if (this._chronotopes?.length) {
       this.updateForm(this._chronotopes);
     }
+    this.emitChronotopesChange();
   }
 
   private updateForm(model: AssertedChronotope[] | undefined): void {
@@ -79,7 +80,7 @@ export class AssertedChronotopeSetComponent implements OnInit {
   }
 
   public addChronotope(): void {
-    this.entries.setValue([...this.entries.value || [], {}]);
+    this.entries.setValue([...(this.entries.value || []), {}]);
     this.editChronotope(this.entries.value.length - 1);
   }
 
@@ -103,6 +104,8 @@ export class AssertedChronotopeSetComponent implements OnInit {
         i === this.editedIndex ? this.editedChronotope : e
       )
     );
+    this.entries.updateValueAndValidity();
+    this.entries.markAsDirty();
     this.editChronotope(-1);
     this.emitChronotopesChange();
   }
@@ -120,6 +123,8 @@ export class AssertedChronotopeSetComponent implements OnInit {
           const entries = [...this.entries.value];
           entries.splice(index, 1);
           this.entries.setValue(entries);
+          this.entries.updateValueAndValidity();
+          this.entries.markAsDirty();
           this.emitChronotopesChange();
         }
       });
@@ -134,6 +139,8 @@ export class AssertedChronotopeSetComponent implements OnInit {
     entries.splice(index, 1);
     entries.splice(index - 1, 0, entry);
     this.entries.setValue(entries);
+    this.entries.updateValueAndValidity();
+    this.entries.markAsDirty();
     this.emitChronotopesChange();
   }
 
@@ -146,6 +153,8 @@ export class AssertedChronotopeSetComponent implements OnInit {
     entries.splice(index, 1);
     entries.splice(index + 1, 0, entry);
     this.entries.setValue(entries);
+    this.entries.updateValueAndValidity();
+    this.entries.markAsDirty();
     this.emitChronotopesChange();
   }
 

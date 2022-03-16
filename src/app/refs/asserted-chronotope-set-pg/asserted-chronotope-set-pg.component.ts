@@ -12,7 +12,11 @@ export class AssertedChronotopeSetPgComponent implements OnInit {
 
   constructor() {
     this.chronotopes = [];
-    this.initialChronotopes = [];
+    this.initialChronotopes = [{
+      place: {
+        value: 'Rome'
+      }
+    }];
   }
 
   ngOnInit(): void {}
