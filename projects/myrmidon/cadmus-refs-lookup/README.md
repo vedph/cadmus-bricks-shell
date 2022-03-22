@@ -20,7 +20,7 @@ For an example, serverless implementation see `WebColorLookup` in the demo app.
 
 This service is then injected into the component hosting the lookup control, and passed to it via its `service` property.
 
-(2) if your service requires **additional options**, just extend `RefLookupFilters` if they are provided by your program. If instead they can be changed by users, create a component representing these options, like  `RefLookupDummyOptComponent` in the demo project.
+(2) if your service requires **additional options**, just extend `RefLookupFilters` if they are provided by your program. In this case, typically your code will set the lookup's component `baseFilter` property so that it represents the additional filter criteria you want to preset. If instead the additional options can be changed by users, create a component representing these options, like  `RefLookupDummyOptComponent` in the demo project.
 
 This component is a normal Angular component, but you should get injected in its constructor:
 
@@ -30,7 +30,7 @@ This component is a normal Angular component, but you should get injected in its
 Once you have created this options component, the component hosting the lookup control should provide two public properties:
 
 - a property for the options component: e.g. `public optDialog: Type<any> = RefLookupDummyOptComponent;`
-- a propeorty for the options data, e.g. `public options: any;`
+- a property for the options data, e.g. `public options: any;`
 
 These must then be bound to the lookup control, e.g.:
 
@@ -53,6 +53,7 @@ Once this is in place, when the user clicks the options button he gets to a dial
 
 (3) apart from the required properties `service` (and `optDialog` and `options` for user-defined options), when using your control you can also set:
 
+- `baseFilter`: an object to be augmented with `text` and `limit` by the lookup component when fetching data from its service. This can contain additional filtering criteria, preset by your consumer code.
 - `hasMore`: true to show the More button to open an advanced search.
 - `item`: the currently picked item. The corresponding event is `itemChange`.
 - `label`: the label to show in the lookup control.
@@ -62,4 +63,4 @@ Once this is in place, when the user clicks the options button he gets to a dial
 Useful events:
 
 - `itemChange` fired when the user picks an item from the list resulting from a quick search.
-- `moreRequest` fired when the user requests the advanced search by clicking the More button. The component hosting the lookup control should handle this event and typically open some dialog with a search, lending back the item to be picked.
+- `moreRequest` fired when the user requests the advanced search by clicking the *More* button. The component hosting the lookup control should handle this event and typically open some dialog with a search, lending back the item to be picked.

@@ -78,6 +78,16 @@ export class RefLookupComponent implements OnInit {
   public limit: number;
 
   /**
+   * The base filter object to supply when filtering data
+   * in this lookup. If you have more filtering criteria
+   * set by your client code, set this property to an object
+   * representing the filter criteria. This object will be
+   * used as the base object when invoking the lookup service.
+   */
+  @Input()
+  public baseFilter: any;
+
+  /**
    * The lookup service to use.
    */
   @Input()
@@ -176,6 +186,7 @@ export class RefLookupComponent implements OnInit {
         if (typeof value === 'string' && this._service) {
           return this._service.lookup(
             {
+              ...(this.baseFilter || {}),
               limit: this.limit || 10,
               text: value,
             },

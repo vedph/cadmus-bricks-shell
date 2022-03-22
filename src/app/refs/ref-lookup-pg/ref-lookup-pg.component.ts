@@ -195,11 +195,13 @@ export class RefLookupPgComponent implements OnInit {
   public service: WebColorLookup;
   public optDialog: Type<any> = RefLookupDummyOptComponent;
   public options: any;
+  public baseFilter: any;
 
   constructor() {
     this.item = COLORS[0];
     this.service = new WebColorLookup();
     this.options = { letter: 'b' };
+    this.baseFilter = { yearMax: new Date().getFullYear() };
   }
 
   ngOnInit(): void {}
