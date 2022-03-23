@@ -52,9 +52,9 @@
         </button>
 
         <!-- child controls -->
-        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <div class="form-row">
           <!-- id -->
-          <mat-form-field style="flex: 0 0 auto">
+          <mat-form-field>
             <input matInput formControlName="id" placeholder="ID" />
             <mat-error
               *ngIf="
@@ -75,7 +75,7 @@
           </mat-form-field>
 
           <!-- value -->
-          <mat-form-field style="flex: 0 0 auto">
+          <mat-form-field style="width: 4em;">
             <input
               matInput
               type="number"
@@ -99,10 +99,9 @@
               >value too long</mat-error
             >
           </mat-form-field>
-        </div>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+
           <!-- tag (bound) -->
-          <mat-form-field *ngIf="tagEntries?.length" style="flex: 0 0 auto">
+          <mat-form-field *ngIf="tagEntries?.length">
             <mat-select formControlName="tag" placeholder="tag">
               <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
                 e.value
@@ -110,7 +109,7 @@
             </mat-select>
           </mat-form-field>
           <!-- tag (free) -->
-          <mat-form-field *ngIf="!tagEntries?.length" style="flex: 0 0 auto">
+          <mat-form-field *ngIf="!tagEntries?.length">
             <input matInput formControlName="tag" placeholder="tag" />
             <mat-error
               *ngIf="
@@ -121,9 +120,10 @@
               >tag too long</mat-error
             >
           </mat-form-field>
-
+        </div>
+        <div>
           <!-- note -->
-          <mat-form-field style="flex: 1 0 auto">
+          <mat-form-field class="long-text">
             <input matInput formControlName="note" placeholder="note" />
             <mat-error
               *ngIf="

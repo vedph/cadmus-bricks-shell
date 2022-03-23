@@ -81,7 +81,13 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
     this.entries.clear();
     if (counts?.length) {
       for (let e of counts) {
-        this.entries.controls.push(this.getCountGroup(e));
+        const g = this.getCountGroup(e);
+        this.entries.controls.push(g);
+        this._subs.push(
+          g.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
+            this.emitCountsChange();
+          })
+        );
       }
     }
     this.form.markAsPristine();
@@ -116,6 +122,7 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
       })
     );
     this.entries.push(g);
+    this.entries.updateValueAndValidity();
     this.entries.markAsDirty();
     this.emitCountsChange();
   }
@@ -124,6 +131,7 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
     this._subs[index].unsubscribe();
     this._subs.splice(index, 1);
     this.entries.removeAt(index);
+    this.entries.updateValueAndValidity();
     this.entries.markAsDirty();
     this.emitCountsChange();
   }
@@ -138,6 +146,7 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
     this.entries.removeAt(index);
     this.entries.insert(index - 1, item);
     this.entries.markAsDirty();
+    this.entries.updateValueAndValidity();
     this.emitCountsChange();
   }
 
@@ -151,6 +160,7 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
     this.entries.removeAt(index);
     this.entries.insert(index + 1, item);
     this.entries.markAsDirty();
+    this.entries.updateValueAndValidity();
     this.emitCountsChange();
   }
 
