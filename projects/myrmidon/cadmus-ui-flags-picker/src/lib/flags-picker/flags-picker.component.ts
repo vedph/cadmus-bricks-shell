@@ -141,6 +141,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._subs.forEach((s) => s.unsubscribe());
+    this._data$.unsubscribe();
   }
 
   public addUserFlag(): void {

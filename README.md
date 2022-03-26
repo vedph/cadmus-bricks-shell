@@ -14,7 +14,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 
 1. `npm run build-lib`
 2. `ng build --configuration production`
-3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.7 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.8 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 ## Adding a Brick
 
@@ -25,6 +25,8 @@ To add a brick:
 3. add a corresponding host page in the app, with its menu and route.
 
 ## History
+
+## 0.0.8
 
 - 2022-03-25: fix validation check in lookup.
 - 2022-03-23: fixes to decorated counts.

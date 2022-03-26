@@ -20,7 +20,7 @@ export class FlagsPickerPgComponent implements OnInit {
       { id: 'blue', label: 'blue' },
       { id: 'indigo', label: 'indigo' },
       { id: 'violet', label: 'violet' },
-    ]
+    ];
   }
 
   ngOnInit(): void {}
@@ -31,5 +31,16 @@ export class FlagsPickerPgComponent implements OnInit {
 
   public onFlagsChange(flags: Flag[]): void {
     this.flags = flags;
+  }
+
+  private getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    // maximum is exclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  public setRandomId(): void {
+    this.ids = [this.flags[this.getRandomInt(0, this.flags.length)].id];
   }
 }

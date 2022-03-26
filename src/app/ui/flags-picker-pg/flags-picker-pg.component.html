@@ -15,7 +15,7 @@
       (flagsChange)="onFlagsChange($event)"
     >
     </cadmus-ui-flags-picker>
-    <hr>
+    <hr />
     <h3>IDs</h3>
     <div *ngIf="ids">
       <pre>{{ ids | json }}</pre>
@@ -24,5 +24,9 @@
     <ol>
       <li *ngFor="let f of flags">{{ f.id }}={{ f.label }}</li>
     </ol>
+    <hr />
+    <button type="button" mat-flat-button (click)="setRandomId()">
+      set random ID
+    </button>
   </mat-card-content>
 </mat-card>
