@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-03-25: fix validation check in lookup.
 - 2022-03-23: fixes to decorated counts.
 - 2022-03-22: added `baseFilter` to lookup.
 - 2022-03-15: cod location: properly react to single/required changes.

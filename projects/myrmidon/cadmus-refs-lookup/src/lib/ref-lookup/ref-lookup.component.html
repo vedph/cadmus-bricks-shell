@@ -34,12 +34,9 @@
   <!-- inactive -->
   <div *ngIf="!lookupActive" class="flex-row">
     <div class="labeled">
-      <div
-        class="label"
-        *ngIf="label"
-        [style.color]="required && !item ? 'red' : 'inherited'"
-      >
+      <div class="label" *ngIf="label">
         {{ label }}
+        <span style="color:red" *ngIf="invalid$ | async">&nbsp;required</span>
       </div>
       <button
         type="button"

@@ -191,14 +191,14 @@ export class WebColorLookup implements RefLookupService {
   styleUrls: ['./ref-lookup-pg.component.css'],
 })
 export class RefLookupPgComponent implements OnInit {
-  public item: WebColor;
+  public item?: WebColor;
   public service: WebColorLookup;
   public optDialog: Type<any> = RefLookupDummyOptComponent;
   public options: any;
   public baseFilter: any;
 
   constructor() {
-    this.item = COLORS[0];
+    //this.item = COLORS[0];
     this.service = new WebColorLookup();
     this.options = { letter: 'b' };
     this.baseFilter = { yearMax: new Date().getFullYear() };
@@ -212,5 +212,16 @@ export class RefLookupPgComponent implements OnInit {
 
   public onMoreRequest(): void {
     alert('More...');
+  }
+
+  private getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    // maximum is exclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  public onSetValue(): void {
+    this.item = COLORS[this.getRandomInt(0, COLORS.length)];
   }
 }

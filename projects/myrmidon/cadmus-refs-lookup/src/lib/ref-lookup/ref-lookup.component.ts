@@ -2,8 +2,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { RefLookupOptionsComponent } from '../ref-lookup-options/ref-lookup-options.component';
 
 /**
@@ -61,8 +66,10 @@ export interface RefLookupService {
 export class RefLookupComponent implements OnInit {
   private _service: RefLookupService | undefined;
   private _item: any | undefined;
+  private _required: boolean | undefined;
 
   public lookupActive: boolean;
+  public invalid$: BehaviorSubject<boolean>;
 
   /**
    * The label to be displayed in the lookup control.
@@ -111,6 +118,7 @@ export class RefLookupComponent implements OnInit {
   }
   public set item(value: any | undefined) {
     this._item = value;
+    this.updateValidity();
     this.lookup.setValue(value);
   }
 
@@ -118,7 +126,13 @@ export class RefLookupComponent implements OnInit {
    * True if a value is required.
    */
   @Input()
-  public required: boolean | undefined;
+  public get required(): boolean | undefined {
+    return this._required;
+  }
+  public set required(value: boolean | undefined) {
+    this._required = value;
+    this.updateValidity();
+  }
 
   /**
    * True to add a More button for more complex lookup.
@@ -169,6 +183,7 @@ export class RefLookupComponent implements OnInit {
   public items$: Observable<any[]>;
 
   constructor(formBuilder: FormBuilder, private _dialog: MatDialog) {
+    this.invalid$ = new BehaviorSubject<boolean>(false);
     this.lookupActive = false;
     this.lookup = formBuilder.control(null);
     this.form = formBuilder.group({
@@ -184,15 +199,22 @@ export class RefLookupComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((value: any | string) => {
         if (typeof value === 'string' && this._service) {
-          return this._service.lookup(
-            {
-              ...(this.baseFilter || {}),
-              limit: this.limit || 10,
-              text: value,
-            },
-            this.options
-          );
+          return this._service
+            .lookup(
+              {
+                ...(this.baseFilter || {}),
+                limit: this.limit || 10,
+                text: value,
+              },
+              this.options
+            )
+            .pipe(
+              tap((v) => {
+                this.invalid$.next(this._required && !v ? true : false);
+              })
+            );
         } else {
+          this.invalid$.next(value? false : true);
           return of([value]);
         }
       })
@@ -200,6 +222,10 @@ export class RefLookupComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  private updateValidity(): void {
+    this.invalid$.next(this._required && !this._item ? true : false);
+  }
 
   public getLookupName(item: any): string {
     return this._service?.getName(item) || '';
