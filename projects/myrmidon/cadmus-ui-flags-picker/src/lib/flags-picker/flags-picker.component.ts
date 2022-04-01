@@ -137,6 +137,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
     this._data$.subscribe((_) => {
       this.updateForm();
     });
+    this.emitIdsChange();
   }
 
   ngOnDestroy(): void {

@@ -26,6 +26,8 @@ To add a brick:
 
 ## History
 
+- 2022-04-01: fire IDs change on init in flags picker.
+
 ## 0.0.8
 
 - 2022-03-25: fix validation check in lookup.
