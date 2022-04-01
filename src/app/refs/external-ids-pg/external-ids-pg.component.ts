@@ -11,7 +11,8 @@ import { ExternalId } from 'projects/myrmidon/cadmus-refs-external-ids/src/publi
 export class ExternalIdsPgComponent implements OnInit {
   public hasRank: FormControl;
 
-  public ids: ExternalId[] | undefined;
+  public initialIds?: ExternalId[];
+  public ids?: ExternalId[];
   public scopeEntries: ThesaurusEntry[];
   public tagEntries: ThesaurusEntry[];
 
@@ -36,12 +37,18 @@ export class ExternalIdsPgComponent implements OnInit {
     this.tagEntries = [
       {
         id: 'alpha',
-        value: 'alpha'
+        value: 'alpha',
       },
       {
         id: 'beta',
-        value: 'beta'
-      }
+        value: 'beta',
+      },
+    ];
+
+    this.initialIds = [
+      {
+        value: 'http://some-resources/alpha',
+      },
     ];
   }
 
