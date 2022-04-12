@@ -70,6 +70,11 @@ call npm publish --access=public
 cd ..\..\..
 pause
 
+cd .\dist\myrmidon\cadmus-refs-viaf-lookup
+call npm publish --access=public
+cd ..\..\..
+pause
+
 cd .\dist\myrmidon\cadmus-text-block-view
 call npm publish --access=public
 cd ..\..\..
