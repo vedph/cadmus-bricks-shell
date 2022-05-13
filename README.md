@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-05-13: upgraded Angular.
 - 2022-04-01: fire IDs change on init in flags picker.
 
 ## 0.0.8
