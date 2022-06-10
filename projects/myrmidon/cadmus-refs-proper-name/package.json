@@ -1,6 +1,6 @@
 {
   "name": "@myrmidon/cadmus-refs-proper-name",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Cadmus - proper name component.",
   "keywords": [
     "Cadmus",
@@ -15,8 +15,8 @@
     "name": "Daniele Fusi"
   },
   "peerDependencies": {
-    "@angular/common": "^13.1.0",
-    "@angular/core": "^13.1.0"
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

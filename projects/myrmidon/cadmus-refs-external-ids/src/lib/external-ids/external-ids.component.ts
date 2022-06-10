@@ -212,9 +212,9 @@ export class ExternalIdsComponent implements OnDestroy {
     // save the currently edited assertion if any
     this.saveAssertion();
     // edit the new assertion
-    this.initialAssertion = (this.idsArr.at(index) as FormGroup).controls[
-      'assertion'
-    ].value;
+    this.initialAssertion = (
+      this.idsArr.at(index) as FormGroup
+    ).controls['assertion'].value;
     this.assertionNr = index + 1;
     this.assEdOpen = true;
   }
@@ -268,7 +268,7 @@ export class ExternalIdsComponent implements OnDestroy {
         value: g.controls.value.value?.trim(),
         scope: g.controls.scope.value?.trim(),
         tag: g.controls.tag.value?.trim(),
-        assertion: g.controls.assertion.value
+        assertion: g.controls.assertion.value,
       });
     }
     return ids;

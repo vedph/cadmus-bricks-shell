@@ -1,6 +1,6 @@
 // import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
@@ -178,11 +178,11 @@ export class RefLookupComponent implements OnInit {
   @Output()
   public moreRequest: EventEmitter<any | undefined>;
 
-  public form: FormGroup;
-  public lookup: FormControl;
+  public form: UntypedFormGroup;
+  public lookup: UntypedFormControl;
   public items$: Observable<any[]>;
 
-  constructor(formBuilder: FormBuilder, private _dialog: MatDialog) {
+  constructor(formBuilder: UntypedFormBuilder, private _dialog: MatDialog) {
     this.invalid$ = new BehaviorSubject<boolean>(false);
     this.lookupActive = false;
     this.lookup = formBuilder.control(null);

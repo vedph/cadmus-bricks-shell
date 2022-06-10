@@ -88,7 +88,7 @@ export class Datation implements DatationModel {
    * @param hint The hint or null/undefined.
    * @returns The sanitized hint or undefined.
    */
-  public static sanitizeHint(hint: string): string | undefined {
+  public static sanitizeHint(hint?: string | null): string | undefined {
     if (!hint || !hint.trim()) {
       return undefined;
     }

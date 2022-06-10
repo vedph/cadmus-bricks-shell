@@ -18,8 +18,8 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class TextBlockViewPgComponent implements OnInit {
-  public text: FormControl;
-  public layerId: FormControl;
+  public text: FormControl<string | null>;
+  public layerId: FormControl<string | null>;
   public form: FormGroup;
 
   public blocks: TextBlock[];
@@ -63,7 +63,7 @@ export class TextBlockViewPgComponent implements OnInit {
   }
 
   public setText(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.text.value) {
       return;
     }
     this.blocks = this.toBlocks(this.text.value);

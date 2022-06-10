@@ -11,9 +11,10 @@ import { CodLocationRange } from 'projects/myrmidon/cadmus-cod-location/src/publ
 export class CodLocationPgComponent implements OnInit {
   public ranges: CodLocationRange[] | null;
 
-  public single: FormControl;
-  public required: FormControl;
+  public single: FormControl<boolean>;
+  public required: FormControl<boolean>;
   public form: FormGroup;
+
   public initialRanges: CodLocationRange[];
 
   constructor(formBuilder: FormBuilder) {
@@ -37,8 +38,8 @@ export class CodLocationPgComponent implements OnInit {
       },
     ];
     // form
-    this.single = formBuilder.control(false);
-    this.required = formBuilder.control(false);
+    this.single = formBuilder.control(false, { nonNullable: true });
+    this.required = formBuilder.control(false, { nonNullable: true });
     this.form = formBuilder.group({
       single: this.single,
       required: this.required,

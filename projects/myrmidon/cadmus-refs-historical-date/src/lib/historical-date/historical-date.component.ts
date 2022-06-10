@@ -62,8 +62,8 @@ export class HistoricalDateComponent implements OnInit {
 
   // form
   public form: FormGroup;
-  public dateText: FormControl;
-  public range: FormControl;
+  public dateText: FormControl<string | null>;
+  public range: FormControl<boolean>;
 
   constructor(formBuilder: FormBuilder) {
     this._disabled = false;
@@ -71,7 +71,7 @@ export class HistoricalDateComponent implements OnInit {
     this.dateChange = new EventEmitter<HistoricalDateModel>();
     // form
     this.dateText = formBuilder.control(null, Validators.required);
-    this.range = formBuilder.control(false);
+    this.range = formBuilder.control(false, { nonNullable: true });
     this.form = formBuilder.group({
       dateText: this.dateText,
       range: this.range,

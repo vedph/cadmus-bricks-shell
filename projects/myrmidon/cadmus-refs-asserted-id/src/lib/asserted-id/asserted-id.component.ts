@@ -25,9 +25,9 @@ export class AssertedIdComponent implements OnInit {
   private _updatingForm: boolean | undefined;
   private _id: AssertedId | undefined;
 
-  public tag: FormControl;
-  public value: FormControl;
-  public scope: FormControl;
+  public tag: FormControl<string | null>;
+  public value: FormControl<string | null>;
+  public scope: FormControl<string | null>;
   public form: FormGroup;
 
   public initialAssertion?: Assertion;
@@ -95,7 +95,7 @@ export class AssertedIdComponent implements OnInit {
       this.form.reset();
       this.assertion = undefined;
     } else {
-      this.tag.setValue(value.tag);
+      this.tag.setValue(value.tag || null);
       this.value.setValue(value.value);
       this.scope.setValue(value.scope);
       this.initialAssertion = value.assertion;
@@ -108,8 +108,8 @@ export class AssertedIdComponent implements OnInit {
   private getId(): AssertedId {
     return {
       tag: this.tag.value?.trim(),
-      value: this.value.value?.trim(),
-      scope: this.scope.value?.trim(),
+      value: this.value.value?.trim() || '',
+      scope: this.scope.value?.trim() || '',
       assertion: this.assertion,
     };
   }

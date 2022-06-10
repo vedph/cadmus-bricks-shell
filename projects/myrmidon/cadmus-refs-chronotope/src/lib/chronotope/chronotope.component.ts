@@ -51,9 +51,9 @@ export class ChronotopeComponent implements OnInit {
   @Output()
   public chronotopeChange: EventEmitter<Chronotope>;
 
-  public tag: FormControl;
-  public place: FormControl;
-  public hasDate: FormControl;
+  public tag: FormControl<string | null>;
+  public place: FormControl<string | null>;
+  public hasDate: FormControl<boolean>;
   public form: FormGroup;
 
   public initialDate?: HistoricalDateModel;
@@ -64,7 +64,7 @@ export class ChronotopeComponent implements OnInit {
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.place = formBuilder.control(null, Validators.maxLength(50));
-    this.hasDate = formBuilder.control(false);
+    this.hasDate = formBuilder.control(false, { nonNullable: true });
     this.form = formBuilder.group({
       tag: this.tag,
       place: this.place,
@@ -92,8 +92,8 @@ export class ChronotopeComponent implements OnInit {
       this.form.reset();
     } else {
       this.initialDate = value.date;
-      this.tag.setValue(value.tag);
-      this.place.setValue(value.place);
+      this.tag.setValue(value.tag || null);
+      this.place.setValue(value.place || null);
       this.hasDate.setValue(value.date ? true : false);
       this.form.markAsPristine();
     }

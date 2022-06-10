@@ -99,10 +99,10 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output()
   public nameChange: EventEmitter<AssertedProperName | undefined>;
 
-  public language: FormControl;
-  public tag: FormControl;
+  public language: FormControl<string | null>;
+  public tag: FormControl<string | null>;
   public pieces: FormArray;
-  public assertion: FormControl;
+  public assertion: FormControl<Assertion | null>;
   public form: FormGroup;
   // edited assertion
   public assEdOpen: boolean;
@@ -127,7 +127,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       language: this.language,
       tag: this.tag,
       pieces: this.pieces,
-      assertion: this.assertion
+      assertion: this.assertion,
     });
   }
 
@@ -178,7 +178,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       value: this._formBuilder.control(piece?.value, [
         Validators.required,
         Validators.maxLength(50),
-      ])
+      ]),
     });
   }
 
@@ -264,7 +264,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       this.form.reset();
     } else {
       this.language.setValue(name.language);
-      this.tag.setValue(name.tag);
+      this.tag.setValue(name.tag || null);
       this.pieces.clear();
       for (const p of name.pieces || []) {
         this.addPiece(p);
@@ -276,7 +276,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onAssertionChange(assertion: Assertion | undefined): void {
-    this.assertion.setValue(assertion);
+    this.assertion.setValue(assertion || null);
   }
 
   public saveAssertion(): void {
@@ -300,10 +300,10 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     return {
-      language: this.language.value,
-      tag: this.tag.value,
+      language: this.language.value || '',
+      tag: this.tag.value || undefined,
       pieces: pieces,
-      assertion: this.assertion.value
+      assertion: this.assertion.value || undefined,
     };
   }
 

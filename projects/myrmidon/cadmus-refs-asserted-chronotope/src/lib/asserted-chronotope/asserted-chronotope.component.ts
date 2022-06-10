@@ -60,11 +60,11 @@ export class AssertedChronotopeComponent implements OnInit {
   @Output()
   public chronotopeChange: EventEmitter<AssertedChronotope>;
 
-  public plTag: FormControl;
-  public place: FormControl;
-  public dtTag: FormControl;
-  public date: FormControl;
-  public hasDate: FormControl;
+  public plTag: FormControl<string | null>;
+  public place: FormControl<string | null>;
+  public dtTag: FormControl<string | null>;
+  public date: FormControl<HistoricalDateModel | null>;
+  public hasDate: FormControl<boolean>;
   public form: FormGroup;
 
   public initialDate?: HistoricalDateModel;
@@ -80,7 +80,7 @@ export class AssertedChronotopeComponent implements OnInit {
     this.plTag = formBuilder.control(null, Validators.maxLength(50));
     this.place = formBuilder.control(null, Validators.maxLength(50));
     this.dtTag = formBuilder.control(null, Validators.maxLength(50));
-    this.hasDate = formBuilder.control(false);
+    this.hasDate = formBuilder.control(false, { nonNullable: true });
     this.date = formBuilder.control(null);
     this.form = formBuilder.group({
       plTag: this.plTag,
@@ -110,7 +110,7 @@ export class AssertedChronotopeComponent implements OnInit {
   }
 
   public onDateChange(date?: HistoricalDateModel): void {
-    this.date.setValue(date);
+    this.date.setValue(date || null);
     setTimeout(() => this.emitChronotopeChange(), 0);
   }
 
@@ -125,31 +125,33 @@ export class AssertedChronotopeComponent implements OnInit {
       this.initialDate = value.date;
       this.initialPlAssertion = value.place?.assertion;
       this.initialDtAssertion = value.date?.assertion;
-      this.plTag.setValue(value.place?.tag);
-      this.place.setValue(value.place?.value);
+      this.plTag.setValue(value.place?.tag || null);
+      this.place.setValue(value.place?.value || null);
       this.hasDate.setValue(value.date ? true : false);
-      this.dtTag.setValue(value.date?.tag);
+      this.dtTag.setValue(value.date?.tag || null);
       this.date.setValue(value.date as HistoricalDateModel);
       this.form.markAsPristine();
     }
     this._updatingForm = false;
-    //this.emitChronotopeChange();
   }
 
   private getChronotope(): AssertedChronotope {
     return {
-      place: {
-        tag: this.plTag.value?.trim(),
-        value: this.place.value?.trim(),
-        assertion: this.plAssertion,
-      },
-      date: this.hasDate.value
+      place: this.place.value
         ? {
-            ...this.date.value,
-            tag: this.dtTag.value?.trim(),
-            assertion: this.dtAssertion,
+            tag: this.plTag.value?.trim(),
+            value: this.place.value?.trim(),
+            assertion: this.plAssertion,
           }
         : undefined,
+      date:
+        this.hasDate.value && this.date.value
+          ? {
+              ...this.date.value,
+              tag: this.dtTag.value?.trim(),
+              assertion: this.dtAssertion,
+            }
+          : undefined,
     };
   }
 

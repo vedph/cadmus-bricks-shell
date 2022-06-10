@@ -20,7 +20,7 @@ import { take } from 'rxjs/operators';
 })
 export class ViafRefLookupPgComponent implements OnInit {
   public item?: ViafSearchResult;
-  public term: FormControl;
+  public term: FormControl<string | null>;
   public form: FormGroup;
   public suggestResult: ViafSuggestResult | undefined;
   public suggesting?: boolean;
@@ -47,22 +47,25 @@ export class ViafRefLookupPgComponent implements OnInit {
   }
 
   public suggestTerm(): void {
-    if (this.form.invalid || this.suggesting) {
+    if (this.form.invalid || !this.term.value || this.suggesting) {
       return;
     }
     this.suggesting = true;
     this._viaf
       .suggest(this.term.value)
       .pipe(take(1))
-      .subscribe((r) => {
-        this.suggestResult = r;
-        this.suggesting = false;
-      }, error => {
-        console.error('Error!');
-        if (error) {
-          console.log(JSON.stringify(error));
-        }
-        this.suggesting = false;
+      .subscribe({
+        next: (r) => {
+          this.suggestResult = r;
+          this.suggesting = false;
+        },
+        error: (error) => {
+          console.error('Error!');
+          if (error) {
+            console.log(JSON.stringify(error));
+          }
+          this.suggesting = false;
+        },
       });
   }
 }

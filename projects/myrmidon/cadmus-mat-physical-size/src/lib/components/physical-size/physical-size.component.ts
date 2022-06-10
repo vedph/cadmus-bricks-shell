@@ -7,15 +7,13 @@ import {
 } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
-import {
-  ThesaurusEntry,
-} from '@myrmidon/cadmus-core';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PhysicalDimension } from '../physical-dimension/physical-dimension.component';
 
 /**
  * A physical 1D, 2D or 3D size.
  */
- export interface PhysicalSize {
+export interface PhysicalSize {
   tag?: string;
   w?: PhysicalDimension;
   h?: PhysicalDimension;
@@ -54,17 +52,17 @@ export class PhysicalSizeComponent implements OnInit {
   public sizeChange: EventEmitter<PhysicalSize>;
 
   public form: FormGroup;
-  public tag: FormControl;
-  public wValue: FormControl;
-  public wUnit: FormControl;
-  public wTag: FormControl;
-  public hValue: FormControl;
-  public hUnit: FormControl;
-  public hTag: FormControl;
-  public dValue: FormControl;
-  public dUnit: FormControl;
-  public dTag: FormControl;
-  public note: FormControl;
+  public tag: FormControl<string | null>;
+  public wValue: FormControl<number>;
+  public wUnit: FormControl<string>;
+  public wTag: FormControl<string | null>;
+  public hValue: FormControl<number>;
+  public hUnit: FormControl<string>;
+  public hTag: FormControl<string | null>;
+  public dValue: FormControl<number>;
+  public dUnit: FormControl<string>;
+  public dTag: FormControl<string | null>;
+  public note: FormControl<string | null>;
 
   public label?: string;
 
@@ -74,16 +72,16 @@ export class PhysicalSizeComponent implements OnInit {
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
 
-    this.wValue = formBuilder.control(0);
-    this.wUnit = formBuilder.control('cm');
+    this.wValue = formBuilder.control(0, { nonNullable: true });
+    this.wUnit = formBuilder.control('cm', { nonNullable: true });
     this.wTag = formBuilder.control(null, Validators.maxLength(50));
 
-    this.hValue = formBuilder.control(0);
-    this.hUnit = formBuilder.control('cm');
+    this.hValue = formBuilder.control(0, { nonNullable: true });
+    this.hUnit = formBuilder.control('cm', { nonNullable: true });
     this.hTag = formBuilder.control(null, Validators.maxLength(50));
 
-    this.dValue = formBuilder.control(0);
-    this.dUnit = formBuilder.control('cm');
+    this.dValue = formBuilder.control(0, { nonNullable: true });
+    this.dUnit = formBuilder.control('cm', { nonNullable: true });
     this.dTag = formBuilder.control(null, Validators.maxLength(50));
 
     this.note = formBuilder.control(null, Validators.maxLength(100));
@@ -149,7 +147,7 @@ export class PhysicalSizeComponent implements OnInit {
     return null;
   }
 
-  private getDimensionLabel(value: number, unit: string): string {
+  private getDimensionLabel(value: number, unit?: string | null): string {
     if (!value) {
       return '';
     }
@@ -236,13 +234,13 @@ export class PhysicalSizeComponent implements OnInit {
       this.form.reset();
       this.label = undefined;
     } else {
-      this.tag.setValue(model.tag);
-      this.note.setValue(model.note);
+      this.tag.setValue(model.tag || null);
+      this.note.setValue(model.note || null);
 
       if (model.w?.value) {
         this.wValue.setValue(model.w.value);
         this.wUnit.setValue(model.w.unit);
-        this.wTag.setValue(model.w.tag);
+        this.wTag.setValue(model.w.tag || null);
       } else {
         this.wValue.reset();
         this.wUnit.reset();
@@ -252,7 +250,7 @@ export class PhysicalSizeComponent implements OnInit {
       if (model.h?.value) {
         this.hValue.setValue(model.h.value);
         this.hUnit.setValue(model.h.unit);
-        this.hTag.setValue(model.h.tag);
+        this.hTag.setValue(model.h.tag || null);
       } else {
         this.hValue.reset();
         this.hUnit.reset();
@@ -262,7 +260,7 @@ export class PhysicalSizeComponent implements OnInit {
       if (model.d?.value) {
         this.dValue.setValue(model.d.value);
         this.dUnit.setValue(model.d.unit);
-        this.dTag.setValue(model.d.tag);
+        this.dTag.setValue(model.d.tag || null);
       } else {
         this.dValue.reset();
         this.dUnit.reset();

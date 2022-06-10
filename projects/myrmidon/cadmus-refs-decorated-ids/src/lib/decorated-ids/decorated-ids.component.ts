@@ -36,10 +36,10 @@ export class DecoratedIdsComponent implements OnInit {
   public editorOpen: boolean;
 
   public subForm: FormGroup;
-  public id: FormControl;
-  public rank: FormControl;
-  public tag: FormControl;
-  public sources: FormControl;
+  public id: FormControl<string | null>;
+  public rank: FormControl<number>;
+  public tag: FormControl<string | null>;
+  public sources: FormControl<DocReference[]>;
   public form: FormGroup;
 
   public initialSources: DocReference[];
@@ -72,9 +72,9 @@ export class DecoratedIdsComponent implements OnInit {
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.rank = formBuilder.control(0);
+    this.rank = formBuilder.control(0, { nonNullable: true });
     this.tag = formBuilder.control(null, Validators.maxLength(50));
-    this.sources = formBuilder.control([]);
+    this.sources = formBuilder.control([], { nonNullable: true });
     this.subForm = formBuilder.group({
       id: this.id,
       rank: this.rank,
@@ -105,8 +105,8 @@ export class DecoratedIdsComponent implements OnInit {
     this.editedId = id;
     this.initialSources = id.sources || [];
     this.id.setValue(id.id);
-    this.rank.setValue(id.rank);
-    this.tag.setValue(id.tag);
+    this.rank.setValue(id.rank || 0);
+    this.tag.setValue(id.tag || null);
 
     this.subForm.markAsPristine();
     this.editorOpen = true;
@@ -127,7 +127,7 @@ export class DecoratedIdsComponent implements OnInit {
       return null;
     }
     return {
-      id: this.id.value?.trim(),
+      id: this.id.value?.trim() || '',
       rank: this.rank.value || 0,
       tag: this.tag.value?.trim(),
       sources: this.sources.value?.length ? this.sources.value : undefined,

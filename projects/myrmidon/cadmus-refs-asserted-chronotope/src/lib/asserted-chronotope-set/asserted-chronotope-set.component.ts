@@ -47,17 +47,17 @@ export class AssertedChronotopeSetComponent implements OnInit {
   @Output()
   public chronotopesChange: EventEmitter<AssertedChronotope[]>;
 
-  public entries: FormControl;
+  public entries: FormControl<AssertedChronotope[]>;
   public form: FormGroup;
 
   constructor(formBuilder: FormBuilder, private _dialogService: DialogService) {
     this.editedIndex = -1;
     this.chronotopesChange = new EventEmitter<AssertedChronotope[]>();
     // form
-    this.entries = formBuilder.control(
-      [],
-      NgToolsValidators.strictMinLengthValidator(1)
-    );
+    this.entries = formBuilder.control([], {
+      validators: NgToolsValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
     this.form = formBuilder.group({
       entries: this.entries,
     });
@@ -101,7 +101,7 @@ export class AssertedChronotopeSetComponent implements OnInit {
   public onChronotopeSave(): void {
     this.entries.setValue(
       this.entries.value.map((e: AssertedChronotope, i: number) =>
-        i === this.editedIndex ? this.editedChronotope : e
+        i === this.editedIndex ? this.editedChronotope! : e
       )
     );
     this.entries.updateValueAndValidity();

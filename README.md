@@ -14,7 +14,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 
 1. `npm run build-lib`
 2. `ng build --configuration production`
-3. `docker build . -t vedph2020/cadmus-bricks-app:0.0.8 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:0.1.0 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 ## Adding a Brick
 
@@ -26,6 +26,9 @@ To add a brick:
 
 ## History
 
+## 0.1.0
+
+- 2022-06-10: upgraded to Angular 14.
 - 2022-05-13: upgraded Angular.
 - 2022-04-01: fire IDs change on init in flags picker.
 

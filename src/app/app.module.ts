@@ -116,7 +116,7 @@ import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated
         { path: '**', component: HomeComponent },
       ],
       {
-        initialNavigation: 'enabled',
+        initialNavigation: 'enabledBlocking',
         useHash: true,
         relativeLinkResolution: 'legacy',
       }

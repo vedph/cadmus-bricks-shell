@@ -25,10 +25,11 @@ export class AssertionComponent implements OnInit {
   private _updatingForm: boolean | undefined;
   private _assertion: Assertion | undefined;
 
-  public tag: FormControl;
-  public rank: FormControl;
-  public note: FormControl;
+  public tag: FormControl<string | null>;
+  public rank: FormControl<number>;
+  public note: FormControl<string | null>;
   public form: FormGroup;
+
   public initialReferences: DocReference[];
   public references: DocReference[];
 
@@ -59,7 +60,7 @@ export class AssertionComponent implements OnInit {
     this.assertionChange = new EventEmitter<Assertion | undefined>();
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
-    this.rank = formBuilder.control(0);
+    this.rank = formBuilder.control(0, { nonNullable: true });
     this.note = formBuilder.control(null, Validators.maxLength(500));
     this.form = formBuilder.group({
       tag: this.tag,
@@ -87,9 +88,9 @@ export class AssertionComponent implements OnInit {
     if (!value) {
       this.form.reset();
     } else {
-      this.tag.setValue(value.tag);
+      this.tag.setValue(value.tag || null);
       this.rank.setValue(value.rank);
-      this.note.setValue(value.note);
+      this.note.setValue(value.note || null);
       this.initialReferences = value.references || [];
       this.form.markAsPristine();
     }

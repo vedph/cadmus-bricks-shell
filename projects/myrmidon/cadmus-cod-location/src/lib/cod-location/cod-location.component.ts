@@ -80,7 +80,7 @@ export class CodLocationComponent implements OnInit {
   @Output()
   public locationChange: EventEmitter<CodLocationRange[] | null>;
 
-  public text: FormControl;
+  public text: FormControl<string | null>;
   public form: FormGroup;
 
   constructor(formBuilder: FormBuilder) {

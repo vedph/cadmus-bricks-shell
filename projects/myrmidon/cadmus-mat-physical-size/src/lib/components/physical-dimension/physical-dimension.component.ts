@@ -64,16 +64,16 @@ export class PhysicalDimensionComponent implements OnInit {
   @Output()
   public dimensionChange: EventEmitter<PhysicalDimension>;
 
+  public value: FormControl<number>;
+  public unit: FormControl<string | null>;
+  public tag: FormControl<string | null>;
   public form: FormGroup;
-  public value: FormControl;
-  public unit: FormControl;
-  public tag: FormControl;
 
   constructor(formBuilder: FormBuilder) {
     // events
     this.dimensionChange = new EventEmitter<PhysicalDimension>();
     // form
-    this.value = formBuilder.control(0);
+    this.value = formBuilder.control(0, { nonNullable: true });
     this.unit = formBuilder.control(null, Validators.required);
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.form = formBuilder.group({
@@ -112,7 +112,7 @@ export class PhysicalDimensionComponent implements OnInit {
     } else {
       this.value.setValue(model.value);
       this.unit.setValue(model.unit);
-      this.tag.setValue(model.tag);
+      this.tag.setValue(model.tag || null);
       this.form.markAsPristine();
     }
     this._changeFrozen = false;
@@ -121,8 +121,8 @@ export class PhysicalDimensionComponent implements OnInit {
   private getModel(): PhysicalDimension {
     return {
       value: this.value.value || 0,
-      unit: this.unit.value,
-      tag: this.tag.value,
+      unit: this.unit.value || '',
+      tag: this.tag.value || undefined,
     };
   }
 }

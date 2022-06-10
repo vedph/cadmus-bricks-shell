@@ -33,14 +33,14 @@ export class DatationComponent implements OnInit {
   @Output()
   public datationChange: EventEmitter<DatationModel | undefined>;
 
-  public value: FormControl;
-  public century: FormControl;
-  public span: FormControl;
-  public month: FormControl;
-  public day: FormControl;
-  public about: FormControl;
-  public dubious: FormControl;
-  public hint: FormControl;
+  public value: FormControl<number>;
+  public century: FormControl<boolean>;
+  public span: FormControl<boolean>;
+  public month: FormControl<number>;
+  public day: FormControl<number>;
+  public about: FormControl<boolean>;
+  public dubious: FormControl<boolean>;
+  public hint: FormControl<string | null>;
   public form: FormGroup;
 
   /**
@@ -51,16 +51,19 @@ export class DatationComponent implements OnInit {
   constructor(formBuilder: FormBuilder) {
     this.datationChange = new EventEmitter<DatationModel | undefined>();
     // form
-    this.value = formBuilder.control(0);
-    this.century = formBuilder.control(false);
-    this.span = formBuilder.control(false);
-    this.month = formBuilder.control(0, [
-      Validators.min(0),
-      Validators.max(12),
-    ]);
-    this.day = formBuilder.control(0, [Validators.min(0), Validators.max(31)]);
-    this.about = formBuilder.control(false);
-    this.dubious = formBuilder.control(false);
+    this.value = formBuilder.control(0, { nonNullable: true });
+    this.century = formBuilder.control(false, { nonNullable: true });
+    this.span = formBuilder.control(false, { nonNullable: true });
+    this.month = formBuilder.control(0, {
+      validators: [Validators.min(0), Validators.max(12)],
+      nonNullable: true,
+    });
+    this.day = formBuilder.control(0, {
+      validators: [Validators.min(0), Validators.max(31)],
+      nonNullable: true,
+    });
+    this.about = formBuilder.control(false, { nonNullable: true });
+    this.dubious = formBuilder.control(false, { nonNullable: true });
     this.hint = formBuilder.control(null, Validators.maxLength(500));
     this.form = formBuilder.group({
       value: this.value,
@@ -88,13 +91,13 @@ export class DatationComponent implements OnInit {
       this.form.reset();
     } else {
       this.value.setValue(model.value);
-      this.century.setValue(model.isCentury);
-      this.span.setValue(model.isSpan);
-      this.month.setValue(model.month);
-      this.day.setValue(model.day);
-      this.about.setValue(model.isApproximate);
-      this.dubious.setValue(model.isDubious);
-      this.hint.setValue(model.hint);
+      this.century.setValue(model.isCentury || false);
+      this.span.setValue(model.isSpan || false);
+      this.month.setValue(model.month || 0);
+      this.day.setValue(model.day || 0);
+      this.about.setValue(model.isApproximate || false);
+      this.dubious.setValue(model.isDubious || false);
+      this.hint.setValue(model.hint || null);
       this.form.markAsPristine();
     }
     this._changeFrozen = false;

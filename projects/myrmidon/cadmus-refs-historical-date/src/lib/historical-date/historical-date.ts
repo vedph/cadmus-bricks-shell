@@ -50,7 +50,7 @@ export class HistoricalDate implements HistoricalDateModel {
    * @return The datation, or undefined if invalid.
    */
   public static parse(
-    text: string,
+    text?: string | null,
     options: DatationFormatOptions = DATATION_FORMAT_OPTIONS
   ): HistoricalDate | null {
     if (!text) {

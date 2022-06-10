@@ -10,16 +10,16 @@ import { RefLookupOptionsComponent } from '@myrmidon/cadmus-refs-lookup';
   styleUrls: ['./ref-lookup-dummy-opt.component.css'],
 })
 export class RefLookupDummyOptComponent implements OnInit {
-  public letter: FormControl;
+  public letter: FormControl<string>;
   public form: FormGroup;
 
   constructor(
     formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _dialogRef: MatDialogRef<RefLookupOptionsComponent>
-  ) // @Inject(CADMUS_REF_LOOKUP_OPTIONS_DATA) public options: any
-  {
-    this.letter = formBuilder.control('a');
+    // @Inject(CADMUS_REF_LOOKUP_OPTIONS_DATA) public options: any
+  ) {
+    this.letter = formBuilder.control('a', { nonNullable: true });
     this.form = formBuilder.group({
       letter: this.letter,
     });

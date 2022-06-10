@@ -6,12 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -109,7 +104,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
   public flagsArr: FormArray;
   public form: FormGroup;
 
-  public userFlag: FormControl;
+  public userFlag: FormControl<string | null>;
   public userForm: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {
@@ -165,8 +160,8 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       };
     } else {
       flag = {
-        id: text.substr(0, i),
-        label: text.substr(i + 1),
+        id: text.substring(0, i),
+        label: text.substring(i + 1),
         user: true,
       };
     }
