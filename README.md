@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-07-14: upgraded Angular.
 - 2022-07-10: upgraded Angular.
 
 ## 0.1.0
