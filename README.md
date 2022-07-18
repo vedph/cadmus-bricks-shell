@@ -26,6 +26,7 @@ To add a brick:
 
 ## History
 
+- 2022-07-18: added `hBeforeW` property to physical size.
 - 2022-07-14: upgraded Angular.
 - 2022-07-10: upgraded Angular.
 

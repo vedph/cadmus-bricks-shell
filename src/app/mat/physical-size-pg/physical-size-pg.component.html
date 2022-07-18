@@ -7,6 +7,7 @@
   <mat-card-content>
     <cadmus-mat-physical-size
       [unitEntries]="unitEntries"
+      [hBeforeW]="hBeforeW.value"
       [size]="size"
       (sizeChange)="onSizeChange($event)"
     >
@@ -16,6 +17,10 @@
     </div>
     <div>
       {{ size | physicalSize }}
+    </div>
+    <hr>
+    <div>
+      <mat-checkbox [formControl]="hBeforeW">H before W</mat-checkbox>
     </div>
   </mat-card-content>
 </mat-card>

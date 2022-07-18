@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PhysicalSize } from '@myrmidon/cadmus-mat-physical-size';
 
@@ -10,8 +11,10 @@ import { PhysicalSize } from '@myrmidon/cadmus-mat-physical-size';
 export class PhysicalSizePgComponent implements OnInit {
   public size: PhysicalSize;
   public unitEntries: ThesaurusEntry[];
+  public hBeforeW: FormControl<boolean>;
 
-  constructor() {
+  constructor(formBuilder: FormBuilder) {
+    this.hBeforeW = formBuilder.control(false, { nonNullable: true });
     this.size = {
       w: {
         value: 21,

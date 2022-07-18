@@ -47,6 +47,8 @@ export class PhysicalSizeComponent implements OnInit {
   public tagEntries?: ThesaurusEntry[];
   @Input()
   public dimTagEntries?: ThesaurusEntry[];
+  @Input()
+  public hBeforeW?: boolean;
 
   @Output()
   public sizeChange: EventEmitter<PhysicalSize>;
