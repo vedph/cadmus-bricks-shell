@@ -1,5 +1,12 @@
 # Cadmus Bricks Shell
 
+- [Cadmus Bricks Shell](#cadmus-bricks-shell)
+  - [Adding a Brick](#adding-a-brick)
+  - [History](#history)
+  - [0.1.0](#010)
+  - [0.0.8](#008)
+    - [0.0.7](#007)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
 
 This project is a shell for incubating a number of Cadmus sub-models, implemented as Angular components with their editing UI.
@@ -26,6 +33,7 @@ To add a brick:
 
 ## History
 
+- 2022-08-01: updated Angular.
 - 2022-07-18: added `hBeforeW` property to physical size.
 - 2022-07-14: upgraded Angular.
 - 2022-07-10: upgraded Angular.

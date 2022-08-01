@@ -35,9 +35,9 @@
     </div>
     <hr />
     <cadmus-cod-location
-      [label]="single?.value ? 'single' : 'multi'"
-      [single]="single?.value"
-      [required]="required?.value"
+      [label]="single.value ? 'single' : 'multi'"
+      [single]="single.value"
+      [required]="required.value"
       [location]="initialRanges"
       (locationChange)="onRangesChange($event)"
     ></cadmus-cod-location>
