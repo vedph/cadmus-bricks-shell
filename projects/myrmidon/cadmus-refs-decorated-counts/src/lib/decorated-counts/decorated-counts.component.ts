@@ -40,6 +40,10 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
     this.updateForm(value);
   }
 
+  // decorated-count-ids
+  @Input()
+  public idEntries: ThesaurusEntry[] | undefined;
+
   // decorated-count-tags
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;

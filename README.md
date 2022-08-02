@@ -33,6 +33,7 @@ To add a brick:
 
 ## History
 
+- 2022-08-02: added thesaurus to decorated counts IDs.
 - 2022-08-01: updated Angular.
 - 2022-07-18: added `hBeforeW` property to physical size.
 - 2022-07-14: upgraded Angular.
