@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../../coverage/myrmidon/cadmus-refs-asserted-id'),
+      dir: require('path').join(__dirname, '../../../coverage/myrmidon/cadmus-refs-asserted-ids'),
       subdir: '.',
       reporters: [
         { type: 'html' },

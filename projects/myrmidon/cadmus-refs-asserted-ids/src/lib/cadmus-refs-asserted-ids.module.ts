@@ -14,9 +14,10 @@ import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-references';
 
 import { AssertedIdComponent } from './asserted-id/asserted-id.component';
+import { AssertedIdsComponent } from './asserted-ids/asserted-ids.component';
 
 @NgModule({
-  declarations: [AssertedIdComponent],
+  declarations: [AssertedIdComponent, AssertedIdsComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -33,6 +34,6 @@ import { AssertedIdComponent } from './asserted-id/asserted-id.component';
     CadmusRefsDocReferencesModule,
     CadmusRefsAssertionModule,
   ],
-  exports: [AssertedIdComponent],
+  exports: [AssertedIdComponent, AssertedIdsComponent],
 })
-export class CadmusRefsAssertedIdModule {}
+export class CadmusRefsAssertedIdsModule {}

@@ -10,7 +10,7 @@
     "build-col": "ng build @myrmidon/cadmus-cod-location",
     "build-phs": "ng build @myrmidon/cadmus-mat-physical-size",
     "build-achr": "ng build @myrmidon/cadmus-refs-asserted-chronotope",
-    "build-aid": "ng build @myrmidon/cadmus-refs-asserted-id",
+    "build-aid": "ng build @myrmidon/cadmus-refs-asserted-ids",
     "build-ass": "ng build @myrmidon/cadmus-refs-assertion",
     "build-chr": "ng build @myrmidon/cadmus-refs-chronotope",
     "build-decc": "ng build @myrmidon/cadmus-refs-decorated-counts",

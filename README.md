@@ -3,8 +3,9 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
-  - [0.1.0](#010)
-  - [0.0.8](#008)
+    - [0.1.1](#011)
+    - [0.1.0](#010)
+    - [0.0.8](#008)
     - [0.0.7](#007)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
@@ -21,7 +22,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 
 1. `npm run build-lib`
 2. `ng build --configuration production`
-3. `docker build . -t vedph2020/cadmus-bricks-app:0.1.0 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:0.1.1 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 ## Adding a Brick
 
@@ -33,19 +34,48 @@ To add a brick:
 
 ## History
 
+### 0.1.1
+
+- 2022-08-03: added `@myrmidon/cadmus-refs-asserted-ids` library and moved the old `@myrmidon/cadmus-refs-asserted-id` into it. Thus, now library `@myrmidon/cadmus-refs-asserted-id` is deprecated, and should be replaced by `@myrmidon/cadmus-refs-asserted-ids`, which includes the same component plus another one for editing multiple IDs at once. Also, this should also deprecate `@myrmidon/cadmus-refs-external-ids`, which refers to a legacy model where the external ID had a rank, and then got an assertion later. It is recommended to prefer the new `AssertedId` based model and consider `ExternalId` as deprecated. In bricks backend, these are the models:
+
+```txt
+ExternalId
+ - Tag
+ - Value
+ - Scope
+
+AssertedId : ExternalId
+  - Assertion
+
+RankedExternalId (deprecated) : ExternalId
+  - Rank
+
+Assertion
+  - Tag
+  - Rank
+  - References
+  - Note
+
+DocReference
+  - Type
+  - Tag
+  - Citation
+  - Note
+```
+
 - 2022-08-02: added thesaurus to decorated counts IDs.
 - 2022-08-01: updated Angular.
 - 2022-07-18: added `hBeforeW` property to physical size.
 - 2022-07-14: upgraded Angular.
 - 2022-07-10: upgraded Angular.
 
-## 0.1.0
+### 0.1.0
 
 - 2022-06-10: upgraded to Angular 14.
 - 2022-05-13: upgraded Angular.
 - 2022-04-01: fire IDs change on init in flags picker.
 
-## 0.0.8
+### 0.0.8
 
 - 2022-03-25: fix validation check in lookup.
 - 2022-03-23: fixes to decorated counts.

@@ -15,7 +15,7 @@ call npm publish --access=public
 cd ..\..\..
 pause
 
-cd .\dist\myrmidon\cadmus-refs-asserted-id
+cd .\dist\myrmidon\cadmus-refs-asserted-ids
 call npm publish --access=public
 cd ..\..\..
 pause

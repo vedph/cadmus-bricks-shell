@@ -31,7 +31,7 @@ import { CadmusCodLocationModule } from 'projects/myrmidon/cadmus-cod-location/s
 import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physical-size/src/public-api';
 import { CadmusRefsAssertedChronotopeModule } from 'projects/myrmidon/cadmus-refs-asserted-chronotope/src/public-api';
 import { CadmusRefsAssertionModule } from 'projects/myrmidon/cadmus-refs-assertion/src/public-api';
-import { CadmusRefsAssertedIdModule } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
+import { CadmusRefsAssertedIdsModule } from 'projects/myrmidon/cadmus-refs-asserted-ids/src/public-api';
 import { CadmusRefsChronotopeModule } from 'projects/myrmidon/cadmus-refs-chronotope/src/public-api';
 import { CadmusRefsDecoratedIdsModule } from 'projects/myrmidon/cadmus-refs-decorated-ids/src/public-api';
 import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc-references/src/public-api';
@@ -46,9 +46,11 @@ import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-pic
 import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/asserted-chronotope-pg.component';
 import { AssertedChronotopeSetPgComponent } from './refs/asserted-chronotope-set-pg/asserted-chronotope-set-pg.component';
 import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
+import { AssertedIdsPgComponent } from './refs/asserted-ids-pg/asserted-ids-pg.component';
 import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
 import { ChronotopePgComponent } from './refs/chronotope-pg/chronotope-pg.component';
 import { CodLocationPgComponent } from './cod/cod-location-pg/cod-location-pg.component';
+import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated-counts-pg.component';
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
@@ -60,7 +62,6 @@ import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-look
 import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
-import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated-counts-pg.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated
     AssertedChronotopeSetPgComponent,
     AssertionPgComponent,
     AssertedIdPgComponent,
+    AssertedIdsPgComponent,
     ChronotopePgComponent,
     HistoricalDatePgComponent,
     FlagsPickerPgComponent,
@@ -98,14 +100,24 @@ import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated
         { path: 'home', component: HomeComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
         { path: 'refs/external-ids', component: ExternalIdsPgComponent },
-        { path: 'refs/decorated-counts', component: DecoratedCountsPgComponent },
+        {
+          path: 'refs/decorated-counts',
+          component: DecoratedCountsPgComponent,
+        },
         { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
         { path: 'refs/proper-name', component: ProperNamePgComponent },
         { path: 'refs/assertion', component: AssertionPgComponent },
         { path: 'refs/asserted-id', component: AssertedIdPgComponent },
+        { path: 'refs/asserted-ids', component: AssertedIdsPgComponent },
         { path: 'refs/chronotope', component: ChronotopePgComponent },
-        { path: 'refs/asserted-chronotope', component: AssertedChronotopePgComponent },
-        { path: 'refs/asserted-chronotope-set', component: AssertedChronotopeSetPgComponent },
+        {
+          path: 'refs/asserted-chronotope',
+          component: AssertedChronotopePgComponent,
+        },
+        {
+          path: 'refs/asserted-chronotope-set',
+          component: AssertedChronotopeSetPgComponent,
+        },
         { path: 'refs/historical-date', component: HistoricalDatePgComponent },
         { path: 'refs/lookup', component: RefLookupPgComponent },
         { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
@@ -146,7 +158,7 @@ import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated
     CadmusRefsProperNameModule,
     CadmusRefsAssertedChronotopeModule,
     CadmusRefsAssertionModule,
-    CadmusRefsAssertedIdModule,
+    CadmusRefsAssertedIdsModule,
     CadmusRefsChronotopeModule,
     CadmusRefsDecoratedCountsModule,
     CadmusRefsHistoricalDateModule,

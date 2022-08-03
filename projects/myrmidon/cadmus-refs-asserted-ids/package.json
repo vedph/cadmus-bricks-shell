@@ -1,7 +1,7 @@
 {
-  "name": "@myrmidon/cadmus-refs-asserted-id",
-  "version": "0.1.0",
-  "description": "Cadmus - asserted ID component.",
+  "name": "@myrmidon/cadmus-refs-asserted-ids",
+  "version": "0.0.1",
+  "description": "Cadmus - asserted IDs components.",
   "keywords": [
     "Cadmus",
     "bricks"

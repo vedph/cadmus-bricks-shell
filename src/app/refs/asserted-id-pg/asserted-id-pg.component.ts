@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AssertedId } from 'projects/myrmidon/cadmus-refs-asserted-id/src/public-api';
+import { AssertedId } from 'projects/myrmidon/cadmus-refs-asserted-ids/src/public-api';
 
 @Component({
   selector: 'app-asserted-id-pg',
