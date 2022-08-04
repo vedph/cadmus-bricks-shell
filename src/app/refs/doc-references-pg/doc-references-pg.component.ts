@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
 
 @Component({
@@ -9,10 +10,33 @@ import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
 export class DocReferencesPgComponent implements OnInit {
   public initialReferences: DocReference[];
   public references: DocReference[];
+  public typeEntries: ThesaurusEntry[];
 
   constructor() {
     this.initialReferences = [];
     this.references = [];
+    this.typeEntries = [
+      {
+        id: 'text',
+        value: 'text',
+      },
+      {
+        id: 'book',
+        value: 'book',
+      },
+      {
+        id: 'biblio',
+        value: 'bibliography',
+      },
+      {
+        id: 'ms',
+        value: 'manuscript',
+      },
+      {
+        id: 'doc',
+        value: 'archive document',
+      },
+    ];
   }
 
   ngOnInit(): void {}
