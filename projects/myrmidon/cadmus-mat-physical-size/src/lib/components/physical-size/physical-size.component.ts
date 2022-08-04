@@ -203,21 +203,40 @@ export class PhysicalSizeComponent implements OnInit {
       }
     }
 
-    if (this.wValue.value) {
-      sb.push(
-        this.getDimensionLabel(
-          this.wValue.value,
-          uniqueUnit ? null : this.wUnit.value
-        )
-      );
-    }
-    if (this.hValue.value) {
-      sb.push(
-        this.getDimensionLabel(
-          this.hValue.value,
-          uniqueUnit ? null : this.hUnit.value
-        )
-      );
+    if (this.hBeforeW) {
+      if (this.hValue.value) {
+        sb.push(
+          this.getDimensionLabel(
+            this.hValue.value,
+            uniqueUnit ? null : this.hUnit.value
+          )
+        );
+      }
+      if (this.wValue.value) {
+        sb.push(
+          this.getDimensionLabel(
+            this.wValue.value,
+            uniqueUnit ? null : this.wUnit.value
+          )
+        );
+      }
+    } else {
+      if (this.wValue.value) {
+        sb.push(
+          this.getDimensionLabel(
+            this.wValue.value,
+            uniqueUnit ? null : this.wUnit.value
+          )
+        );
+      }
+      if (this.hValue.value) {
+        sb.push(
+          this.getDimensionLabel(
+            this.hValue.value,
+            uniqueUnit ? null : this.hUnit.value
+          )
+        );
+      }
     }
     if (this.dValue.value) {
       sb.push(

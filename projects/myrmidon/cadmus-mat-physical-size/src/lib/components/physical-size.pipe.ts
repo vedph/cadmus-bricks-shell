@@ -16,7 +16,7 @@ export class PhysicalSizePipe implements PipeTransform {
     return s;
   }
 
-  transform(value: unknown, ...args: unknown[]): unknown {
+  transform(value: unknown, hBeforeW = false): unknown {
     if (!value) {
       return null;
     }
@@ -47,21 +47,40 @@ export class PhysicalSizePipe implements PipeTransform {
     }
 
     // build string
-    if (size.w?.value) {
-      sb.push(
-        this.getDimensionLabel(
-          size.w.value,
-          uniqueUnit ? undefined : size.w.unit
-        )
-      );
-    }
-    if (size.h?.value) {
-      sb.push(
-        this.getDimensionLabel(
-          size.h.value,
-          uniqueUnit ? undefined : size.h.unit
-        )
-      );
+    if (hBeforeW) {
+      if (size.h?.value) {
+        sb.push(
+          this.getDimensionLabel(
+            size.h.value,
+            uniqueUnit ? undefined : size.h.unit
+          )
+        );
+      }
+      if (size.w?.value) {
+        sb.push(
+          this.getDimensionLabel(
+            size.w.value,
+            uniqueUnit ? undefined : size.w.unit
+          )
+        );
+      }
+    } else {
+      if (size.w?.value) {
+        sb.push(
+          this.getDimensionLabel(
+            size.w.value,
+            uniqueUnit ? undefined : size.w.unit
+          )
+        );
+      }
+      if (size.h?.value) {
+        sb.push(
+          this.getDimensionLabel(
+            size.h.value,
+            uniqueUnit ? undefined : size.h.unit
+          )
+        );
+      }
     }
     if (size.d?.value) {
       sb.push(
