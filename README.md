@@ -34,7 +34,9 @@ To add a brick:
 
 ## History
 
-- 2022-08-04: honor H before W in physical size pipe and label.
+- 2022-08-04:
+  - honor H before W in physical size pipe and label.
+  - updated Angular.
 
 ### 0.1.1
 
