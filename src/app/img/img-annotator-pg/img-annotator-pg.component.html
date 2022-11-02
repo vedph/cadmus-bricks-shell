@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Image Annotator</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <img
+        cadmusImgAnnotator
+        (createAnnotation)="onCreateAnnotation($event)"
+        (updateAnnotation)="onUpdateAnnotation($event)"
+        (deleteAnnotation)="onDeleteAnnotation($event)"
+        src="assets/sample.jpg"
+      />
+    </div>
+    <div>
+      <pre>{{ message }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

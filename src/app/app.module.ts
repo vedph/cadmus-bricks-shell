@@ -28,6 +28,7 @@ import { HomeComponent } from './home/home.component';
 
 // refs bricks
 import { CadmusCodLocationModule } from 'projects/myrmidon/cadmus-cod-location/src/public-api';
+import { CadmusImgAnnotatorModule } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 import { CadmusMatPhysicalSizeModule } from 'projects/myrmidon/cadmus-mat-physical-size/src/public-api';
 import { CadmusRefsAssertedChronotopeModule } from 'projects/myrmidon/cadmus-refs-asserted-chronotope/src/public-api';
 import { CadmusRefsAssertionModule } from 'projects/myrmidon/cadmus-refs-assertion/src/public-api';
@@ -55,6 +56,7 @@ import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-p
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
 import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-date-pg.component';
+import { ImgAnnotatorPgComponent } from './img/img-annotator-pg/img-annotator-pg.component';
 import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
 import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
 import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg.component';
@@ -86,6 +88,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     PhysicalSizePgComponent,
     CodLocationPgComponent,
     DecoratedCountsPgComponent,
+    ImgAnnotatorPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,6 +101,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
       [
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: HomeComponent },
+        { path: 'img/annotator', component: ImgAnnotatorPgComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
         { path: 'refs/external-ids', component: ExternalIdsPgComponent },
         {
@@ -152,6 +156,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     MatToolbarModule,
     // Cadmus
     CadmusCoreModule,
+    CadmusImgAnnotatorModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
     CadmusRefsExternalIdsModule,

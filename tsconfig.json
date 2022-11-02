@@ -7,6 +7,9 @@
         "dist/myrmidon/cadmus-cod-location/myrmidon-cadmus-cod-location",
         "dist/myrmidon/cadmus-cod-location"
       ],
+      "@myrmidon/cadmus-img-annotator": [
+        "dist/myrmidon/cadmus-img-annotator"
+      ],
       "@myrmidon/cadmus-mat-physical-size": [
         "dist/myrmidon/cadmus-mat-physical-size/myrmidon-cadmus-mat-physical-size",
         "dist/myrmidon/cadmus-mat-physical-size"

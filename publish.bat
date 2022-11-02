@@ -10,6 +10,11 @@ call npm publish --access=public
 cd ..\..\..
 pause
 
+cd .\dist\myrmidon\cadmus-img-annotator
+call npm publish --access=public
+cd ..\..\..
+pause
+
 cd .\dist\myrmidon\cadmus-mat-physical-size
 call npm publish --access=public
 cd ..\..\..

@@ -10,16 +10,24 @@
       <button mat-button [matMenuTriggerFor]="refsMenu">Refs</button>
       <mat-menu #refsMenu>
         <a mat-menu-item routerLink="/refs/doc-references">Doc references</a>
-        <a mat-menu-item routerLink="/refs/external-ids">External IDs (deprecated)</a>
-        <a mat-menu-item routerLink="/refs/decorated-counts">Decorated counts</a>
+        <a mat-menu-item routerLink="/refs/external-ids"
+          >External IDs (deprecated)</a
+        >
+        <a mat-menu-item routerLink="/refs/decorated-counts"
+          >Decorated counts</a
+        >
         <a mat-menu-item routerLink="/refs/decorated-ids">Decorated IDs</a>
         <a mat-menu-item routerLink="/refs/proper-name">Proper name</a>
         <a mat-menu-item routerLink="/refs/assertion">Assertion</a>
         <a mat-menu-item routerLink="/refs/asserted-id">Asserted ID</a>
         <a mat-menu-item routerLink="/refs/asserted-ids">Asserted IDs</a>
         <a mat-menu-item routerLink="/refs/chronotope">Chronotope</a>
-        <a mat-menu-item routerLink="/refs/asserted-chronotope">Asserted chronotope</a>
-        <a mat-menu-item routerLink="/refs/asserted-chronotope-set">Asserted chronotopes</a>
+        <a mat-menu-item routerLink="/refs/asserted-chronotope"
+          >Asserted chronotope</a
+        >
+        <a mat-menu-item routerLink="/refs/asserted-chronotope-set"
+          >Asserted chronotopes</a
+        >
         <a mat-menu-item routerLink="/refs/historical-date">Historical date</a>
         <a mat-menu-item routerLink="/refs/lookup">Ref lookup</a>
         <a mat-menu-item routerLink="/refs/viaf-lookup">VIAF lookup</a>
@@ -35,6 +43,12 @@
       <button mat-button [matMenuTriggerFor]="codMenu">Codicology</button>
       <mat-menu #codMenu>
         <a mat-menu-item routerLink="/cod/location">Manuscript location</a>
+      </mat-menu>
+
+      <!-- img -->
+      <button mat-button [matMenuTriggerFor]="imgMenu">Image</button>
+      <mat-menu #imgMenu>
+        <a mat-menu-item routerLink="/img/annotator">Image annotator</a>
       </mat-menu>
 
       <!-- ui -->
@@ -58,7 +72,7 @@
   <footer>
     <div class="footer-container">
       <div class="info">
-        Cadmus by
+        Cadmus bricks 0.1.2 by
         <a href="https://www.fusisoft.net" target="_blank">Daniele Fusi</a> at
         <a href="https://www.unive.it/pag/39287" target="_blank">VeDPH</a>
       </div>

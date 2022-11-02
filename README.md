@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [0.1.2](#012)
     - [0.1.1](#011)
     - [0.1.0](#010)
     - [0.0.8](#008)
@@ -20,9 +21,9 @@ At this stage, the bricks themselves depend on more monolithic Cadmus libraries,
 
 Quick Docker image build (the only purpose of this image is letting testers play with controls in the incubator):
 
-1. `npm run build-lib`
-2. `ng build --configuration production`
-3. `docker build . -t vedph2020/cadmus-bricks-app:0.1.1 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+1. `npm run build-lib`.
+2. ensure to update the version in `app.component.html`, and `ng build --configuration production`.
+3. `docker build . -t vedph2020/cadmus-bricks-app:0.1.2 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 ## Adding a Brick
 
@@ -34,7 +35,11 @@ To add a brick:
 
 ## History
 
-- 2022-11-02: updated Angular and packages.
+### 0.1.2
+
+- 2022-11-02:
+  - updated Angular and packages.
+  - added image annotator brick (using [recogito Annotorious](https://recogito.github.io/annotorious/) with a thin Angular wrapper).
 - 2022-09-15: updated Angular.
 - 2022-08-04:
   - honor H before W in physical size pipe and label.

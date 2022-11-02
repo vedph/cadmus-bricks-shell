@@ -27,7 +27,8 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/@recogito/annotorious/dist/annotorious.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -595,6 +596,37 @@
             "main": "projects/myrmidon/cadmus-refs-asserted-ids/src/test.ts",
             "tsConfig": "projects/myrmidon/cadmus-refs-asserted-ids/tsconfig.spec.json",
             "karmaConfig": "projects/myrmidon/cadmus-refs-asserted-ids/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@myrmidon/cadmus-img-annotator": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-img-annotator",
+      "sourceRoot": "projects/myrmidon/cadmus-img-annotator/src",
+      "prefix": "cadmus-img",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-img-annotator/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-img-annotator/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-img-annotator/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/myrmidon/cadmus-img-annotator/src/test.ts",
+            "tsConfig": "projects/myrmidon/cadmus-img-annotator/tsconfig.spec.json",
+            "karmaConfig": "projects/myrmidon/cadmus-img-annotator/karma.conf.js"
           }
         }
       }
