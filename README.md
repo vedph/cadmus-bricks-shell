@@ -11,6 +11,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
 
+👀 [Bricks Demo](https://cadmus-bricks.fusi-soft.com)
+
 This project is a shell for incubating a number of Cadmus sub-models, implemented as Angular components with their editing UI.
 
 As Cadmus projects increase, the prototype code needs to be chopped into smaller portions, so that they can be easily reused with minimal overhead. Yet, we need a smooth migration because most Cadmus projects are in a production stage, nor I have time to refactor everything at once.
