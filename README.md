@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [0.1.3](#013)
     - [0.1.2](#012)
     - [0.1.1](#011)
     - [0.1.0](#010)
@@ -25,7 +26,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 
 1. `npm run build-lib`.
 2. ensure to update the version in `app.component.html`, and `ng build --configuration production`.
-3. `docker build . -t vedph2020/cadmus-bricks-app:0.1.2 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:0.1.3 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 ## Adding a Brick
 
@@ -36,6 +37,10 @@ To add a brick:
 3. add a corresponding host page in the app, with its menu and route.
 
 ## History
+
+### 0.1.3
+
+- 2022-11-11: added more properties/events to annotator.
 
 ### 0.1.2
 

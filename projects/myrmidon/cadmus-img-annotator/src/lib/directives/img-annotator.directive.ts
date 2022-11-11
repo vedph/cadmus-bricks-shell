@@ -61,6 +61,7 @@ export interface AnnotationEvent {
   selector: '[cadmusImgAnnotator]',
 })
 export class ImgAnnotatorDirective {
+  private _tool: string;
   private _ann?: any;
 
   /**
@@ -69,6 +70,19 @@ export class ImgAnnotatorDirective {
    */
   @Input()
   public config?: AnnotoriousConfig;
+
+  /**
+   * The current drawing tool. The default available tools are rect and polygon,
+   * but more can be available from plugins.
+   */
+  @Input()
+  public get tool(): string {
+    return this._tool;
+  }
+  public set tool(value: string) {
+    this._tool = value;
+    this._ann?.setDrawingTool(this._tool);
+  }
 
   /**
    * The optional initial annotations to show on the image.
@@ -81,21 +95,38 @@ export class ImgAnnotatorDirective {
    */
   @Output()
   public createAnnotation: EventEmitter<AnnotationEvent>;
+
   /**
    * Emitted when an annotation is updated.
    */
-   @Output()
+  @Output()
   public updateAnnotation: EventEmitter<AnnotationEvent>;
+
   /**
    * Emitted when an annotation is deleted.
    */
-   @Output()
+  @Output()
   public deleteAnnotation: EventEmitter<AnnotationEvent>;
 
+  /**
+   * Emitted when mouse enters an annotation.
+   */
+  @Output()
+  public mouseEnterAnnotation: EventEmitter<AnnotationEvent>;
+
+  /**
+   * Emitted when mouse exits an annotation.
+   */
+  @Output()
+  public mouseLeaveAnnotation: EventEmitter<AnnotationEvent>;
+
   constructor(private _elementRef: ElementRef<HTMLImageElement>) {
+    this._tool = 'rect';
     this.createAnnotation = new EventEmitter<AnnotationEvent>();
     this.updateAnnotation = new EventEmitter<AnnotationEvent>();
     this.deleteAnnotation = new EventEmitter<AnnotationEvent>();
+    this.mouseEnterAnnotation = new EventEmitter<AnnotationEvent>();
+    this.mouseLeaveAnnotation = new EventEmitter<AnnotationEvent>();
   }
 
   ngAfterViewInit() {
@@ -125,5 +156,23 @@ export class ImgAnnotatorDirective {
     this._ann.on('deleteAnnotation', (annotation: any) => {
       this.deleteAnnotation.emit({ annotation });
     });
+    // mouse
+    this._ann.on(
+      'mouseEnterAnnotation',
+      (annotation: any, element: HTMLElement) => {
+        this.mouseEnterAnnotation.emit({ annotation });
+      }
+    );
+    this._ann.on(
+      'mouseLeaveAnnotation',
+      (annotation: any, element: HTMLElement) => {
+        this.mouseLeaveAnnotation.emit({ annotation });
+      }
+    );
+
+    // default drawing tool
+    if (this._tool !== 'rect') {
+      this._ann.setDrawingTool(this._tool);
+    }
   }
 }
