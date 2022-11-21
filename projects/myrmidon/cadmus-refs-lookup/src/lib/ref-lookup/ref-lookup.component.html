@@ -36,7 +36,9 @@
     <div class="labeled">
       <div class="label" *ngIf="label">
         {{ label }}
-        <span style="color:red" *ngIf="invalid$ | async">&nbsp;required</span>
+        <span style="color: red" *ngIf="required && (invalid$ | async)"
+          >&nbsp;required</span
+        >
       </div>
       <button
         type="button"

@@ -38,6 +38,8 @@ To add a brick:
 
 ## History
 
+- 2022-11-21: fix to required flag in lookup.
+
 ### 0.1.3
 
 - 2022-11-11: added more properties/events to annotator.
