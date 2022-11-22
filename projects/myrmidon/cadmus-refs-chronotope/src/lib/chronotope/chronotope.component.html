@@ -2,7 +2,8 @@
   <!-- tag (bound) -->
   <ng-container *ngIf="ctTagEntries">
     <mat-form-field>
-      <mat-select [formControl]="tag" placeholder="tag">
+      <mat-label>tag</mat-label>
+      <mat-select [formControl]="tag">
         <mat-option *ngFor="let e of ctTagEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -13,7 +14,8 @@
   <!-- tag (free) -->
   <ng-container *ngIf="!ctTagEntries">
     <mat-form-field>
-      <input matInput [formControl]="tag" placeholder="tag" />
+      <mat-label>tag</mat-label>
+      <input matInput [formControl]="tag" />
       <mat-error
         *ngIf="tag.hasError('max-length') && (tag.dirty || tag.touched)"
         >tag too long</mat-error
@@ -24,7 +26,8 @@
 
   <!-- place -->
   <mat-form-field>
-    <input matInput [formControl]="place" placeholder="place" />
+    <mat-label>place</mat-label>
+    <input matInput [formControl]="place" />
     <mat-error
       *ngIf="place.hasError('max-length') && (place.dirty || place.touched)"
       >place too long</mat-error

@@ -2,20 +2,15 @@
 <form role="form" [formGroup]="form">
   <!-- value -->
   <div>
-    <mat-form-field style="width: 4em">
-      <input matInput [formControl]="value" placeholder="value" type="number" />
+    <mat-form-field style="width: 6em">
+      <mat-label>value</mat-label>
+      <input matInput [formControl]="value" type="number" />
     </mat-form-field>
     &nbsp;
     <!-- month -->
-    <mat-form-field style="width: 3em">
-      <input
-        matInput
-        [formControl]="month"
-        placeholder="month"
-        type="number"
-        min="0"
-        max="12"
-      />
+    <mat-form-field style="width: 5em">
+      <mat-label>month</mat-label>
+      <input matInput [formControl]="month" type="number" min="0" max="12" />
       <mat-error *ngIf="month.hasError('min') && (month.touched || month.dirty)"
         >month less than 0</mat-error
       >
@@ -25,15 +20,9 @@
     </mat-form-field>
     &nbsp;
     <!-- day -->
-    <mat-form-field style="width: 3em">
-      <input
-        matInput
-        [formControl]="day"
-        placeholder="day"
-        type="number"
-        min="0"
-        max="31"
-      />
+    <mat-form-field style="width: 5em">
+      <mat-label>day</mat-label>
+      <input matInput [formControl]="day" type="number" min="0" max="31" />
       <mat-error *ngIf="day.hasError('min') && (day.touched || day.dirty)"
         >day less than 0</mat-error
       >
@@ -56,7 +45,8 @@
   <!-- hint -->
   <div>
     <mat-form-field style="width: 95%">
-      <input matInput [formControl]="hint" placeholder="hint" />
+      <mat-label>hint</mat-label>
+      <input matInput [formControl]="hint" />
       <mat-error
         *ngIf="hint.hasError('maxLength') && (hint.touched || hint.dirty)"
         >hint too long</mat-error

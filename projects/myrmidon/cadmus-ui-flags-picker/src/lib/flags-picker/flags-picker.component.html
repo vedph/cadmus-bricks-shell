@@ -36,7 +36,9 @@
       (submit)="addUserFlag()"
     >
       <mat-form-field>
-        <input matInput [formControl]="userFlag" placeholder="id=label" />
+        <mat-label>custom</mat-label>
+        <input matInput [formControl]="userFlag" />
+        <mat-hint>id=label</mat-hint>
       </mat-form-field>
       <button
         [disabled]="userForm.invalid"

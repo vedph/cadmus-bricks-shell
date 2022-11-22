@@ -1,9 +1,22 @@
 {
   "name": "@myrmidon/cadmus-refs-decorated-counts",
-  "version": "0.1.1",
+  "version": "1.0.0",
+  "description": "Cadmus - decorated counts.",
+  "keywords": [
+    "Cadmus",
+    "bricks"
+  ],
+  "homepage": "https://github.com/vedph/cadmus-bricks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedph/cadmus-bricks"
+  },
+  "author": {
+    "name": "Daniele Fusi"
+  },
   "peerDependencies": {
-    "@angular/common": "^14.0.0",
-    "@angular/core": "^14.0.0"
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

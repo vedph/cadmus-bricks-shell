@@ -134,10 +134,9 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
         { path: '**', component: HomeComponent },
       ],
       {
-        initialNavigation: 'enabledBlocking',
-        useHash: true,
-        relativeLinkResolution: 'legacy',
-      }
+    initialNavigation: 'enabledBlocking',
+    useHash: true
+}
     ),
     // flex
     FlexLayoutModule,

@@ -64,7 +64,8 @@
       <!-- id -->
       <div>
         <mat-form-field>
-          <input matInput [formControl]="id" placeholder="ID" />
+          <mat-label>ID</mat-label>
+          <input matInput [formControl]="id" />
           <mat-error *ngIf="id.hasError('required') && (id.dirty || id.touched)"
             >enter ID</mat-error
           >
@@ -76,19 +77,15 @@
         &nbsp;
         <!-- rank -->
         <mat-form-field style="width: 3em">
-          <input
-            matInput
-            [formControl]="rank"
-            placeholder="rank"
-            type="number"
-            min="0"
-          />
+          <mat-label>rank</mat-label>
+          <input matInput [formControl]="rank" type="number" min="0" />
         </mat-form-field>
         &nbsp;
         <!-- tag (bound) -->
         <ng-container *ngIf="tagEntries">
           <mat-form-field style="width: 8em">
-            <mat-select [formControl]="tag" placeholder="tag">
+            <mat-label>tag</mat-label>
+            <mat-select [formControl]="tag">
               <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
                 e.value
               }}</mat-option>
@@ -98,7 +95,8 @@
         <!-- tag (free) -->
         <ng-container *ngIf="!tagEntries">
           <mat-form-field style="width: 6em">
-            <input matInput [formControl]="tag" placeholder="tag" />
+            <mat-label>tag</mat-label>
+            <input matInput [formControl]="tag" />
             <mat-error
               *ngIf="tag.hasError('max-length') && (tag.dirty || tag.touched)"
               >tag too long</mat-error

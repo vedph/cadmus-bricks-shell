@@ -5,7 +5,8 @@
       *ngIf="assTagEntries?.length"
       style="width: 8em; flex: 0 0 auto"
     >
-      <mat-select [formControl]="tag" placeholder="tag">
+      <mat-label>tag</mat-label>
+      <mat-select [formControl]="tag">
         <mat-option *ngFor="let e of assTagEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -16,26 +17,23 @@
       *ngIf="!assTagEntries?.length"
       style="width: 8em; flex: 0 0 auto"
     >
-      <input matInput [formControl]="tag" placeholder="tag" />
+      <mat-label>tag</mat-label>
+      <input matInput [formControl]="tag" />
       <mat-error *ngIf="tag.errors?.maxLength && (tag.dirty || tag.touched)"
         >tag too long</mat-error
       >
     </mat-form-field>
 
     <!-- rank -->
-    <mat-form-field style="width: 3em; flex: 0 0 auto">
-      <input
-        matInput
-        [formControl]="rank"
-        placeholder="rank"
-        type="number"
-        min="0"
-      />
+    <mat-form-field style="width: 5em; flex: 0 0 auto">
+      <mat-label>rank</mat-label>
+      <input matInput [formControl]="rank" type="number" min="0" />
     </mat-form-field>
 
     <!-- note -->
     <mat-form-field style="width: 100%; max-width: 600px; flex: 1 0 auto">
-      <input matInput [formControl]="note" placeholder="note" />
+      <mat-label>note</mat-label>
+      <input matInput [formControl]="note" />
       <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
         >note too long</mat-error
       >

@@ -8,7 +8,6 @@
         (click)="addCount()"
       >
         <mat-icon>add_circle</mat-icon>
-        add count
       </button>
     </div>
     <div
@@ -55,7 +54,8 @@
         <div class="form-row">
           <!-- ID (bound) -->
           <mat-form-field *ngIf="idEntries?.length">
-            <mat-select formControlName="id" placeholder="ID">
+            <mat-label>ID</mat-label>
+            <mat-select formControlName="id">
               <mat-option *ngFor="let e of idEntries" [value]="e.id">{{
                 e.value
               }}</mat-option>
@@ -71,7 +71,8 @@
           </mat-form-field>
           <!-- ID (free) -->
           <mat-form-field *ngIf="!idEntries?.length">
-            <input matInput formControlName="id" placeholder="ID" />
+            <mat-label>ID</mat-label>
+            <input matInput formControlName="id" />
             <mat-error
               *ngIf="
                 $any(item)['controls'].id.errors?.required &&
@@ -91,13 +92,9 @@
           </mat-form-field>
 
           <!-- value -->
-          <mat-form-field style="width: 4em">
-            <input
-              matInput
-              type="number"
-              formControlName="value"
-              placeholder="value"
-            />
+          <mat-form-field style="width: 6em">
+            <mat-label>value</mat-label>
+            <input matInput type="number" formControlName="value" />
             <mat-error
               *ngIf="
                 $any(item)['controls'].value.errors?.required &&
@@ -118,7 +115,8 @@
 
           <!-- tag (bound) -->
           <mat-form-field *ngIf="tagEntries?.length">
-            <mat-select formControlName="tag" placeholder="tag">
+            <mat-label>tag</mat-label>
+            <mat-select formControlName="tag">
               <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
                 e.value
               }}</mat-option>
@@ -126,7 +124,8 @@
           </mat-form-field>
           <!-- tag (free) -->
           <mat-form-field *ngIf="!tagEntries?.length">
-            <input matInput formControlName="tag" placeholder="tag" />
+            <mat-label>tag</mat-label>
+            <input matInput formControlName="tag" />
             <mat-error
               *ngIf="
                 $any(item)['controls'].tag.errors?.maxLength &&
@@ -140,7 +139,8 @@
         <div>
           <!-- note -->
           <mat-form-field class="long-text">
-            <input matInput formControlName="note" placeholder="note" />
+            <mat-label>note</mat-label>
+            <input matInput formControlName="note" />
             <mat-error
               *ngIf="
                 $any(item)['controls'].note.errors?.maxLength &&

@@ -54,13 +54,8 @@
         <!-- child controls -->
         <!-- value -->
         <mat-form-field>
-          <input
-            #id
-            autofocus
-            matInput
-            formControlName="value"
-            placeholder="external ID"
-          />
+          <mat-label>external ID</mat-label>
+          <input #id autofocus matInput formControlName="value" />
           <mat-error
             *ngIf="
               $any(item)['controls'].value?.hasError('required') &&
@@ -83,7 +78,8 @@
         <!-- scope (bound) -->
         <ng-container *ngIf="scopeEntries">
           <mat-form-field style="width: 8em">
-            <mat-select formControlName="scope" placeholder="scope">
+            <mat-label>scope</mat-label>
+            <mat-select formControlName="scope">
               <mat-option *ngFor="let e of scopeEntries" [value]="e.id">
                 {{ e.value }}
               </mat-option>
@@ -94,7 +90,8 @@
         <!-- scope (free) -->
         <ng-container *ngIf="!scopeEntries">
           <mat-form-field style="width: 8em">
-            <input matInput formControlName="scope" placeholder="scope" />
+            <mat-label>scope</mat-label>
+            <input matInput formControlName="scope" />
             <mat-error
               *ngIf="
                 $any(item)['controls'].scope?.hasError('max-length') &&
@@ -110,7 +107,8 @@
         <!-- tag (bound) -->
         <ng-container *ngIf="tagEntries">
           <mat-form-field style="width: 8em">
-            <mat-select formControlName="tag" placeholder="tag">
+            <mat-label>tag</mat-label>
+            <mat-select formControlName="tag">
               <mat-option *ngFor="let e of tagEntries" [value]="e.id">
                 {{ e.value }}
               </mat-option>
@@ -121,7 +119,8 @@
         <!-- tag (free) -->
         <ng-container *ngIf="!tagEntries">
           <mat-form-field style="width: 8em">
-            <input matInput formControlName="tag" placeholder="tag" />
+            <mat-label>tag</mat-label>
+            <input matInput formControlName="tag" />
             <mat-error
               *ngIf="
                 $any(item)['controls'].tag?.hasError('max-length') &&

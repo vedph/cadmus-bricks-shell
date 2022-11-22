@@ -3,7 +3,8 @@
     <!-- language (bound) -->
     <ng-container *ngIf="!langEntries?.length">
       <mat-form-field style="width: 6em">
-        <input matInput placeholder="language" [formControl]="language" />
+        <mat-label>language</mat-label>
+        <input matInput [formControl]="language" />
         <mat-error
           *ngIf="
             language.hasError('required') &&
@@ -23,7 +24,8 @@
     <!-- language (free) -->
     <ng-container *ngIf="langEntries?.length">
       <mat-form-field style="width: 6em">
-        <mat-select [formControl]="language" placeholder="language">
+        <mat-label>language</mat-label>
+        <mat-select [formControl]="language">
           <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
             e.value
           }}</mat-option>
@@ -35,7 +37,8 @@
     <!-- tag (bound) -->
     <ng-container *ngIf="!tagEntries">
       <mat-form-field style="width: 8em">
-        <input matInput placeholder="tag" [formControl]="tag" />
+        <mat-label>tag</mat-label>
+        <input matInput [formControl]="tag" />
         <mat-error
           *ngIf="tag.hasError('required') && (tag.dirty || tag.touched)"
           >enter a tag</mat-error
@@ -49,7 +52,8 @@
     <!-- tag (free) -->
     <ng-container *ngIf="tagEntries">
       <mat-form-field style="width: 8em">
-        <mat-select [formControl]="tag" placeholder="tag">
+        <mat-label>tag</mat-label>
+        <mat-select [formControl]="tag">
           <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
             e.value
           }}</mat-option>
@@ -66,7 +70,7 @@
       (click)="addPiece()"
       matTooltip="Add a new piece to the name"
     >
-      <mat-icon>add_circle</mat-icon> piece
+      <mat-icon>add_circle</mat-icon>
     </button>
   </div>
 
@@ -116,7 +120,8 @@
         <!-- type (bound) -->
         <ng-container *ngIf="typeEntries">
           <mat-form-field style="width: 8em">
-            <mat-select formControlName="type" placeholder="type">
+            <mat-label>type</mat-label>
+            <mat-select formControlName="type">
               <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
                 e.value
               }}</mat-option>
@@ -135,7 +140,8 @@
         <!-- type (free) -->
         <ng-container *ngIf="!typeEntries">
           <mat-form-field style="width: 8em">
-            <input matInput formControlName="type" placeholder="type" />
+            <mat-label>type</mat-label>
+            <input matInput formControlName="type" />
             <mat-error
               *ngIf="
                 $any(item)['controls'].type.hasError('required') &&
@@ -158,12 +164,12 @@
         <!-- value -->
         &nbsp;
         <mat-form-field>
+          <mat-label>value</mat-label>
           <input
             #pieceValue
             matInput
             maxlength="50"
             formControlName="value"
-            placeholder="value"
             autofocus
           />
           <mat-error

@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
   <mat-card-header>
     <mat-card-title>
       <h2>VIAF Reference Lookup</h2>
@@ -26,7 +26,8 @@
     </p>
     <form [formGroup]="form" (submit)="suggestTerm()">
       <mat-form-field>
-        <input matInput placeholder="term" [formControl]="term" />
+        <mat-label>term</mat-label>
+        <input matInput [formControl]="term" />
       </mat-form-field>
     </form>
     <div *ngIf="suggesting">

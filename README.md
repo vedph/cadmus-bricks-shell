@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [1.0.0](#100)
     - [0.1.3](#013)
     - [0.1.2](#012)
     - [0.1.1](#011)
@@ -38,7 +39,12 @@ To add a brick:
 
 ## History
 
-- 2022-11-21: fix to required flag in lookup.
+### 1.0.0
+
+Version 1.0.0 onwards target the new Cadmus shell, which starts from Angular 15.
+
+- 2022-11-22: migrated to Angular 15, adjusting for new Material.
+- 2022-11-21: fix to _required_ flag in lookup.
 
 ### 0.1.3
 

@@ -2,7 +2,8 @@
   <div>
     <!-- tag (bound) -->
     <mat-form-field style="width: 6em" *ngIf="tagEntries?.length">
-      <mat-select [formControl]="tag" placeholder="tag">
+      <mat-label>tag</mat-label>
+      <mat-select [formControl]="tag">
         <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -11,7 +12,8 @@
 
     <!-- tag (free) -->
     <mat-form-field style="width: 5em" *ngIf="!tagEntries?.length">
-      <input matInput [formControl]="tag" placeholder="tag" />
+      <mat-label>tag</mat-label>
+      <input matInput [formControl]="tag" />
       <mat-error
         *ngIf="$any(tag).errors?.maxLength && (tag.dirty || tag.touched)"
         >tag too long</mat-error
@@ -26,18 +28,14 @@
   <ng-template #w>
     <!-- value -->
     <mat-form-field style="width: 5em">
-      <input
-        matInput
-        type="number"
-        min="0"
-        [formControl]="wValue"
-        placeholder="width"
-      />
+      <mat-label>width</mat-label>
+      <input matInput type="number" min="0" [formControl]="wValue" />
     </mat-form-field>
     &nbsp;
     <!-- unit -->
     <mat-form-field style="width: 6em">
-      <mat-select [formControl]="wUnit" placeholder="unit">
+      <mat-label>unit</mat-label>
+      <mat-select [formControl]="wUnit">
         <mat-option *ngFor="let e of unitEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -50,7 +48,8 @@
     &nbsp;
     <!-- tag (bound) -->
     <mat-form-field style="width: 6em" *ngIf="dimTagEntries?.length">
-      <mat-select [formControl]="wTag" placeholder="tag">
+      <mat-label>tag</mat-label>
+      <mat-select [formControl]="wTag">
         <mat-option *ngFor="let e of dimTagEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -59,7 +58,8 @@
 
     <!-- tag (free) -->
     <mat-form-field style="width: 5em" *ngIf="!dimTagEntries?.length">
-      <input matInput [formControl]="wTag" placeholder="tag" />
+      <mat-label>tag</mat-label>
+      <input matInput [formControl]="wTag" />
       <mat-error
         *ngIf="$any(wTag).errors?.maxLength && (wTag.dirty || wTag.touched)"
         >tag too long</mat-error
@@ -71,18 +71,14 @@
   <ng-template #h>
     <!-- value -->
     <mat-form-field style="width: 5em">
-      <input
-        matInput
-        type="number"
-        min="0"
-        [formControl]="hValue"
-        placeholder="height"
-      />
+      <mat-label>height</mat-label>
+      <input matInput type="number" min="0" [formControl]="hValue" />
     </mat-form-field>
     &nbsp;
     <!-- unit -->
     <mat-form-field style="width: 6em">
-      <mat-select [formControl]="hUnit" placeholder="unit">
+      <mat-select [formControl]="hUnit">
+        <mat-label>unit</mat-label>
         <mat-option *ngFor="let e of unitEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -95,7 +91,8 @@
     &nbsp;
     <!-- tag (bound) -->
     <mat-form-field style="width: 6em" *ngIf="dimTagEntries?.length">
-      <mat-select [formControl]="hTag" placeholder="tag">
+      <mat-label>tag</mat-label>
+      <mat-select [formControl]="hTag">
         <mat-option *ngFor="let e of dimTagEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -104,7 +101,8 @@
 
     <!-- tag (free) -->
     <mat-form-field style="width: 5em" *ngIf="!dimTagEntries?.length">
-      <input matInput [formControl]="hTag" placeholder="tag" />
+      <mat-label>tag</mat-label>
+      <input matInput [formControl]="hTag" />
       <mat-error
         *ngIf="$any(hTag).errors?.maxLength && (hTag.dirty || hTag.touched)"
         >tag too long</mat-error
@@ -133,18 +131,14 @@
   <div>
     <!-- value -->
     <mat-form-field style="width: 5em">
-      <input
-        matInput
-        type="number"
-        min="0"
-        [formControl]="dValue"
-        placeholder="depth"
-      />
+      <mat-label>depth</mat-label>
+      <input matInput type="number" min="0" [formControl]="dValue" />
     </mat-form-field>
     &nbsp;
     <!-- unit -->
     <mat-form-field style="width: 6em">
-      <mat-select [formControl]="dUnit" placeholder="unit">
+      <mat-label>unit</mat-label>
+      <mat-select [formControl]="dUnit">
         <mat-option *ngFor="let e of unitEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -157,7 +151,8 @@
     &nbsp;
     <!-- tag (bound) -->
     <mat-form-field style="width: 6em" *ngIf="dimTagEntries?.length">
-      <mat-select [formControl]="dTag" placeholder="tag">
+      <mat-label>tag</mat-label>
+      <mat-select [formControl]="dTag">
         <mat-option *ngFor="let e of dimTagEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
@@ -166,7 +161,8 @@
 
     <!-- tag (free) -->
     <mat-form-field style="width: 5em" *ngIf="!dimTagEntries?.length">
-      <input matInput [formControl]="dTag" placeholder="tag" />
+      <mat-label>tag</mat-label>
+      <input matInput [formControl]="dTag" />
       <mat-error
         *ngIf="$any(dTag).errors?.maxLength && (dTag.dirty || dTag.touched)"
         >tag too long</mat-error
@@ -176,7 +172,8 @@
     <!-- note -->
     <div>
       <mat-form-field>
-        <input matInput [formControl]="note" placeholder="note" />
+        <mat-label>note</mat-label>
+        <input matInput [formControl]="note" />
         <mat-error
           *ngIf="$any(note).errors?.maxLength && (note.dirty || note.touched)"
           >note too long</mat-error
