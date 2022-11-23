@@ -1,0 +1,41 @@
+.long-text {
+  width: 100%;
+}
+.bar {
+  vertical-align: middle;
+}
+.bar-existing {
+  vertical-align: middle;
+  color: darkgreen;
+  margin: 0 8px;
+  border: 1px solid darkgreen;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.count {
+  background-color: #90a0ff;
+  color: white;
+  border-radius: 10px;
+  padding: 2px;
+  margin-left: 4px;
+}
+.ok {
+  color: green;
+}
+.err {
+  color: red;
+}
+.preview {
+  background-color: #f0f0f0;
+  padding: 8px;
+  border-radius: 6px;
+}
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.toolbar-row * {
+  flex: 0 0 auto;
+}

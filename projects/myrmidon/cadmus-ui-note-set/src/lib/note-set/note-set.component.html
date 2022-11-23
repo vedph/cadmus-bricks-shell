@@ -1,0 +1,100 @@
+<form [formGroup]="form" (submit)="save()">
+  <!-- bar -->
+  <div class="toolbar-row">
+    <!-- keys -->
+    <mat-form-field *ngIf="keys?.length" style="width: 12em">
+      <mat-label>note</mat-label>
+      <mat-select [formControl]="key">
+        <mat-option *ngFor="let k of keys" [value]="k.key">{{
+          k.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- count -->
+    <span class="bar count">
+      {{ noteCount }}
+    </span>
+    <!-- revert -->
+    <button
+      type="button"
+      mat-icon-button
+      matTooltip="Revert text"
+      color="warn"
+      [disabled]="!currentDef"
+      (click)="revertNote()"
+    >
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <!-- flags -->
+    <span *ngIf="currentDef?.required" class="bar" matTooltip="required">
+      <mat-icon>done</mat-icon>
+    </span>
+    <span *ngIf="currentDef?.markdown" class="bar" matTooltip="Markdown">
+      <mat-icon>brush</mat-icon>
+    </span>
+    <span *ngIf="currentDef?.maxLength" class="bar">
+      <span
+        [ngClass]="{
+          ok:
+            !currentDef?.maxLength ||
+            !currentLen ||
+            currentLen <= $any(currentDef).maxLength,
+          err:
+            currentDef?.maxLength &&
+            currentLen &&
+            currentLen > $any(currentDef).maxLength
+        }"
+        >{{ currentLen }}</span
+      >/{{ currentDef?.maxLength }}
+    </span>
+    <span
+      class="bar"
+      *ngIf="missing?.length"
+      [matTooltip]="'Missing: ' + missing!.join(', ')"
+    >
+      <mat-icon color="warn">error</mat-icon>
+    </span>
+    <span class="bar-existing" *ngIf="existing?.length">
+      {{ existing!.join(" - ").trim() }}
+    </span>
+  </div>
+
+  <!-- note -->
+  <div *ngIf="currentDef">
+    <mat-form-field class="long-text">
+      <textarea rows="3" matInput [formControl]="text"></textarea>
+      <mat-error
+        *ngIf="$any(text).errors?.required && (text.touched || text.dirty)"
+        >required</mat-error
+      >
+      <mat-error *ngIf="$any(text).errors?.maxLength">too long</mat-error>
+    </mat-form-field>
+
+    <!-- buttons -->
+    <div>
+      <button
+        type="button"
+        (click)="clear()"
+        color="warn"
+        mat-icon-button
+        matTooltip="Clear this note"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button
+        type="submit"
+        [disabled]="text.invalid"
+        color="primary"
+        mat-icon-button
+        matTooltip="Save this note"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </div>
+
+    <!-- preview -->
+    <div *ngIf="currentDef?.markdown" class="preview">
+      <markdown [data]="text.value || undefined"></markdown>
+    </div>
+  </div>
+</form>

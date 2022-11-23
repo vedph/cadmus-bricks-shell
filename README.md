@@ -39,6 +39,8 @@ To add a brick:
 
 ## History
 
+- 2022-11-23: added `@myrmidon/cadmus-ui-note-set` (from `@myrmidon/cadmus-codicology-ui`).
+
 ### 1.0.0
 
 Version 1.0.0 onwards target the new Cadmus shell, which starts from Angular 15.

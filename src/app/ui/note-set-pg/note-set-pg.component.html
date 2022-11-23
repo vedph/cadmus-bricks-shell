@@ -1,0 +1,18 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Notes Set</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-ui-note-set
+      [set]="set"
+      (noteChange)="onNoteChange($event)"
+    ></cadmus-ui-note-set>
+    <hr />
+    <h3>Set</h3>
+    <div *ngIf="set">
+      <pre>{{ set | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

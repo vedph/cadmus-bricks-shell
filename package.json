@@ -23,8 +23,9 @@
     "build-viaf": "ng build @myrmidon/cadmus-refs-viaf-lookup",
     "build-blk": "ng build @myrmidon/cadmus-text-block-view",
     "build-flg": "ng build @myrmidon/cadmus-ui-flags-picker",
+    "build-nts": "ng build @myrmidon/cadmus-ui-note-set",
     "build-img": "ng build @myrmidon/cadmus-img-annotator",
-    "build-lib": "npm run build-col && npm run build-phs && npm run build-aid && npm run build-ass && npm run build-chr && npm run build-decc && npm run build-deci && npm run build-doc && npm run build-ext && npm run build-his && npm run build-achr && npm run build-lok && npm run build-prp && npm run build-viaf && npm run build-blk && npm run build-flg && npm run build-img"
+    "build-lib": "npm run build-col && npm run build-phs && npm run build-aid && npm run build-ass && npm run build-chr && npm run build-decc && npm run build-deci && npm run build-doc && npm run build-ext && npm run build-his && npm run build-achr && npm run build-lok && npm run build-prp && npm run build-viaf && npm run build-blk && npm run build-flg && npm run build-img && npm run build-nts"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +45,8 @@
     "@myrmidon/ng-tools": "0.1.0",
     "@recogito/annotorious": "^2.7.8",
     "gravatar": "^1.8.2",
+    "marked": "^4.2.3",
+    "ngx-markdown": "^15.0.0",
     "rangy": "^1.3.1",
     "rxjs": "~7.5.7",
     "tslib": "^2.4.0",
@@ -54,6 +57,7 @@
     "@angular/cli": "^15.0.0",
     "@angular/compiler-cli": "^15.0.0",
     "@types/jasmine": "~3.6.0",
+    "@types/marked": "^4.0.7",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.7.0",
     "karma": "~6.3.0",

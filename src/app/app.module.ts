@@ -45,6 +45,7 @@ import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src
 import { CadmusRefsDecoratedCountsModule } from 'projects/myrmidon/cadmus-refs-decorated-counts/src/public-api';
 import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
 import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
+import { CadmusUiNoteSetModule } from 'projects/myrmidon/cadmus-ui-note-set/src/public-api';
 
 import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/asserted-chronotope-pg.component';
 import { AssertedChronotopeSetPgComponent } from './refs/asserted-chronotope-set-pg/asserted-chronotope-set-pg.component';
@@ -66,6 +67,8 @@ import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-look
 import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
+import { NoteSetPgComponent } from './ui/note-set-pg/note-set-pg.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -91,6 +94,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     CodLocationPgComponent,
     DecoratedCountsPgComponent,
     ImgAnnotatorPgComponent,
+    NoteSetPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -128,6 +132,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
         { path: 'refs/lookup', component: RefLookupPgComponent },
         { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
+        { path: 'ui/note-set', component: NoteSetPgComponent },
         { path: 'text/text-block-view', component: TextBlockViewPgComponent },
         { path: 'mat/physical-size', component: PhysicalSizePgComponent },
         { path: 'cod/location', component: CodLocationPgComponent },
@@ -157,6 +162,8 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     MatSlideToggleModule,
     MatToolbarModule,
     MatTooltipModule,
+    // vendor
+    MarkdownModule.forRoot(),
     // Cadmus
     CadmusCoreModule,
     CadmusImgAnnotatorModule,
@@ -175,6 +182,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
     CadmusMatPhysicalSizeModule,
     CadmusCodLocationModule,
     CadmusUiFlagsPickerModule,
+    CadmusUiNoteSetModule
   ],
   providers: [],
   bootstrap: [AppComponent],

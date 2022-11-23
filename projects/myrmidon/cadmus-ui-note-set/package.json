@@ -1,7 +1,7 @@
 {
-  "name": "@myrmidon/cadmus-refs-asserted-chronotope",
-  "version": "1.0.1",
-  "description": "Cadmus - asserted chronotope component.",
+  "name": "@myrmidon/cadmus-ui-note-set",
+  "version": "1.0.0",
+  "description": "Cadmus - note set component.",
   "keywords": [
     "Cadmus",
     "bricks"
