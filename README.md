@@ -39,6 +39,7 @@ To add a brick:
 
 ## History
 
+- 2022-11-25: replaced `CadmusValidators` with `NgToolsValidators` in `@myrmidon/cadmus-refs-proper-name`.
 - 2022-11-23: added `@myrmidon/cadmus-ui-note-set` (from `@myrmidon/cadmus-codicology-ui`).
 
 ### 1.0.0

@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { NgToolsModule } from '@myrmidon/ng-tools';
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 
@@ -29,6 +30,7 @@ import { CadmusProperNamePipe } from './cadmus-proper-name.pipe';
     MatSelectModule,
     MatTooltipModule,
     // Cadmus
+    NgToolsModule,
     CadmusCoreModule,
     CadmusRefsAssertionModule,
   ],

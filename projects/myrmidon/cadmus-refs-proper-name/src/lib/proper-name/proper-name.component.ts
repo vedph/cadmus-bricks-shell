@@ -19,8 +19,9 @@ import {
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Assertion } from '@myrmidon/cadmus-refs-assertion';
+import { NgToolsValidators } from '@myrmidon/ng-tools';
 
 export interface ProperName {
   language: string;
@@ -120,7 +121,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tag = _formBuilder.control(null, Validators.maxLength(50));
     this.pieces = _formBuilder.array(
       [],
-      CadmusValidators.strictMinLengthValidator(1)
+      NgToolsValidators.strictMinLengthValidator(1)
     );
     this.assertion = _formBuilder.control(null);
     this.form = _formBuilder.group({
