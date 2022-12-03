@@ -1,12 +1,8 @@
 <form [formGroup]="form">
   <mat-form-field>
-    <input
-      type="text"
-      matInput
-      [formControl]="text"
-      maxlength="500"
-      [placeholder]="label || ''"
-    />
+    <mat-label>{{ label }}</mat-label>
+    <input type="text" matInput [formControl]="text" maxlength="500" />
+    <mat-hint>(/[sys:]n[rv[col]].ln)</mat-hint>
     <mat-error *ngIf="text.errors?.required && (text.dirty || text.touched)"
       >required</mat-error
     >

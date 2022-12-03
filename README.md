@@ -39,6 +39,9 @@ To add a brick:
 
 ## History
 
+- 2022-12-03:
+  - removed `@angular/flex-layout`
+  - fixed missing label in cod-location
 - 2022-12-01: fixed button labels in `@myrmidon/cadmus-refs-asserted-ids` and `@myrmidon/cadmus-refs-external-ids`.
 - 2022-11-25: replaced `CadmusValidators` with `NgToolsValidators` in `@myrmidon/cadmus-refs-proper-name`.
 - 2022-11-23: added `@myrmidon/cadmus-ui-note-set` (from `@myrmidon/cadmus-codicology-ui`).

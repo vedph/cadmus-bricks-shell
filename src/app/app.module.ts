@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -143,8 +142,6 @@ import { MarkdownModule } from 'ngx-markdown';
     useHash: true
 }
     ),
-    // flex
-    FlexLayoutModule,
     // material
     MatAutocompleteModule,
     MatButtonModule,
