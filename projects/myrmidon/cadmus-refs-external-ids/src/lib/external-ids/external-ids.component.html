@@ -1,13 +1,7 @@
 <form [formGroup]="form">
   <div formArrayName="idsArr">
     <div>
-      <button
-        type="button"
-        mat-stroked-button
-        color="primary"
-        (click)="addId()"
-        matTooltip="Add a new ID"
-      >
+      <button type="button" mat-flat-button color="primary" (click)="addId()">
         <mat-icon>add_circle</mat-icon> add ID
       </button>
     </div>
@@ -165,7 +159,7 @@
         color="primary"
         type="button"
         mat-flat-button
-        style="margin-top: 6px;"
+        style="margin-top: 6px"
         (click)="saveAssertion()"
       >
         <mat-icon>check_circle</mat-icon> assertion

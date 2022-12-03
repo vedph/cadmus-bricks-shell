@@ -80,17 +80,16 @@ export class AssertedChronotopeSetComponent implements OnInit {
   }
 
   public addChronotope(): void {
-    this.entries.setValue([...(this.entries.value || []), {}]);
-    this.editChronotope(this.entries.value.length - 1);
+    this.editChronotope({});
   }
 
-  public editChronotope(index: number): void {
-    if (index < 0) {
+  public editChronotope(chronotope: AssertedChronotope | null, index = -1): void {
+    if (!chronotope) {
       this.editedIndex = -1;
       this.initialChronotope = undefined;
     } else {
       this.editedIndex = index;
-      this.initialChronotope = this.entries.value[index];
+      this.initialChronotope = chronotope;
     }
   }
 
@@ -99,19 +98,23 @@ export class AssertedChronotopeSetComponent implements OnInit {
   }
 
   public onChronotopeSave(): void {
-    this.entries.setValue(
-      this.entries.value.map((e: AssertedChronotope, i: number) =>
-        i === this.editedIndex ? this.editedChronotope! : e
-      )
-    );
+    if (!this.editedChronotope) {
+      return;
+    }
+
+    const chronotopes = [...this.entries.value];
+
+    if (this.editedIndex > -1) {
+      chronotopes.splice(this.editedIndex, 1, this.editedChronotope);
+    } else {
+      chronotopes.push(this.editedChronotope);
+    }
+
+    this.entries.setValue(chronotopes);
     this.entries.updateValueAndValidity();
     this.entries.markAsDirty();
-    this.editChronotope(-1);
+    this.editChronotope(null);
     this.emitChronotopesChange();
-  }
-
-  public onChronotopeClose(): void {
-    this.editChronotope(-1);
   }
 
   public deleteChronotope(index: number): void {

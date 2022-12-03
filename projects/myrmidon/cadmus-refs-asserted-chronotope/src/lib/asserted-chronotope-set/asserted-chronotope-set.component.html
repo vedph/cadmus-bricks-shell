@@ -2,12 +2,11 @@
   <div>
     <button
       type="button"
-      mat-icon-button
+      mat-flat-button
       color="primary"
-      matTooltip="Add chronotope"
       (click)="addChronotope()"
     >
-      <mat-icon>add_circle</mat-icon>
+      <mat-icon>add_circle</mat-icon> chronotope
     </button>
   </div>
   <table *ngIf="entries?.value?.length">
@@ -33,7 +32,7 @@
             mat-icon-button
             color="primary"
             matTooltip="Edit this chronotope"
-            (click)="editChronotope(i)"
+            (click)="editChronotope(entry, i)"
           >
             <mat-icon>edit</mat-icon>
           </button>
@@ -86,10 +85,10 @@
       [chronotope]="initialChronotope"
       (chronotopeChange)="onChronotopeChange($event)"
     ></cadmus-refs-asserted-chronotope>
-    <div>
+    <div class="form-row">
       <button
         type="button"
-        (click)="onChronotopeClose()"
+        (click)="editChronotope(null)"
         mat-icon-button
         color="warn"
       >
@@ -98,7 +97,7 @@
       <button
         type="button"
         (click)="onChronotopeSave()"
-        mat-icon-button
+        mat-flat-button
         color="primary"
       >
         <mat-icon>check_circle</mat-icon>
