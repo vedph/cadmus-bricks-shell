@@ -39,6 +39,7 @@ To add a brick:
 
 ## History
 
+- 2022-12-06: fixed asserted chronotopes set add button does not show editor.
 - 2022-12-03:
   - removed `@angular/flex-layout`
   - fixed missing label in cod-location
