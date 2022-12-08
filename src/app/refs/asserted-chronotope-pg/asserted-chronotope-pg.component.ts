@@ -31,4 +31,9 @@ export class AssertedChronotopePgComponent implements OnInit {
   public onChronotopeChange(chronotope?: AssertedChronotope): void {
     this.chronotope = chronotope;
   }
+
+  public reset(): void {
+    // this.initialChronotope = undefined;
+    this.initialChronotope = {};
+  }
 }
