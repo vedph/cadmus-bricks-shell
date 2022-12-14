@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [1.0.1](#101)
     - [1.0.0](#100)
     - [0.1.3](#013)
     - [0.1.2](#012)
@@ -27,7 +28,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 
 1. `npm run build-lib`.
 2. ensure to update the version in `app.component.html`, and `ng build --configuration production`.
-3. `docker build . -t vedph2020/cadmus-bricks-app:0.1.3 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.1 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 ## Adding a Brick
 
@@ -39,6 +40,9 @@ To add a brick:
 
 ## History
 
+### 1.0.1
+
+- 2022-12-14: fixed tip in `@myrmex/cadmus-cod-location` to include word.
 - 2022-12-06: fixed asserted chronotopes set add button does not show editor.
 - 2022-12-03:
   - removed `@angular/flex-layout`
