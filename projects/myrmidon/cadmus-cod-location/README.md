@@ -30,8 +30,7 @@ A single `CodLocation` can be expressed as a string, parsable into `CodLocation`
 The string format is `(/[SYSTEM:]N[(r|v)[COLUMN]].LINE@WORD)`, including these components (all optional except for `n`):
 
 - endleaf, optional: `(` for start or `(/` for end.
-- system: starts with a-z or A-Z and then contains only letters.
-- a-z or A-Z, underscores, or digits 0-9. It is terminated by `:`.
+- system: starts with a-z or A-Z and then contains only letters, a-z or A-Z, underscores, or digits 0-9. It is terminated by `:`.
 - `^` for a Roman number.
 - sheet: the sheet number. This is the only required component.
 - suffix between `""`.
