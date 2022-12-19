@@ -31,7 +31,7 @@
     </mat-form-field>
 
     <!-- note -->
-    <mat-form-field style="width: 100%; max-width: 600px; flex: 1 0 auto">
+    <mat-form-field style="max-width: 600px; flex: 1 1 auto">
       <mat-label>note</mat-label>
       <input matInput [formControl]="note" />
       <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"

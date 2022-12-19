@@ -45,6 +45,10 @@ To add a brick:
 
 ## History
 
+- 2022-12-19:
+  - fix to note style in assertion (`@myrmidon/cadmus-refs-assertion`).
+  - updated Angular.
+
 ### 1.0.1
 
 - 2022-12-14: fixed tip in `@myrmex/cadmus-cod-location` to include word.
