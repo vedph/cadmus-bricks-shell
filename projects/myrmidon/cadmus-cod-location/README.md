@@ -1,24 +1,54 @@
-# CadmusCodLocation
+# Cadmus Codicologic Location
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.0.
 
-## Code scaffolding
+- codicologic location component.
+- codicologic location interpolator.
+- codicologic location parser.
+- codicologic location pipe and codicologic locations range pipe.
 
-Run `ng generate component component-name --project cadmus-cod-location` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project cadmus-cod-location`.
-> Note: Don't forget to add `--project cadmus-cod-location` or else it will be added to the default project in your `angular.json` file. 
+## Models
 
-## Build
+A codicologic location (`CodLocation`) is an object with these properties (the only required one being `n`):
 
-Run `ng build cadmus-cod-location` to build the project. The build artifacts will be stored in the `dist/` directory.
+- `endleaf`: whether the location refers to a set of endleaves, either at the start or at the end of the manuscript. 0=not in endleaf, 1=at start endleaves, 2=at end endleaves.
+- `s`: ID of the reference system.
+- `n`\*: sheet number.
+- `rmn`: true if n must be displayed with Roman digits.
+- `sfx`: an arbitrary suffix appended to n (e.g. "bis").
+- `v`: true if verso, false if recto, undefined if not specified or not applicable.
+- `c`: column number.
+- `l`: line number.
+- `word`: the word we refer to. By scholarly convention, this is a word picked from the line so that it cannot be ambiguous, i.e. confused with other instances of the same word in its line.
 
-## Publishing
+There is also a `CodLocationRange` which is a range having two `CodLocation`'s, one for `start` and one for `end`.
 
-After building your library with `ng build cadmus-cod-location`, go to the dist folder `cd dist/cadmus-cod-location` and run `npm publish`.
+## String Representation
 
-## Running unit tests
+A single `CodLocation` can be expressed as a string, parsable into `CodLocation` with `CodLocationParser`. The same parser also provides parsing for location ranges (`CodLocationRange`), and comparison between two locations a/b to determine whether a comes before b, or after it, or is the same.
 
-Run `ng test cadmus-cod-location` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The string format is `(/[SYSTEM:]N[(r|v)[COLUMN]].LINE@WORD)`, including these components (all optional except for `n`):
 
-## Further help
+- endleaf, optional: `(` for start or `(/` for end.
+- system: starts with a-z or A-Z and then contains only letters.
+- a-z or A-Z, underscores, or digits 0-9. It is terminated by `:`.
+- `^` for a Roman number.
+- sheet: the sheet number. This is the only required component.
+- suffix between `""`.
+- recto/verso: `r` or `v`, otherwise unspecified/not applicable.
+- column: the column letter(s) (column 1=`a`, 2=`b`, etc.: range is `a`-`q`).
+- line: the line number preceded by `.`.
+- word preceded by `@`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+A specialized pipe (`CodLocationPipe`) can be used to display a `CodLocation` object by converting it into its parsable version.
+
+Another pipe (`CodLocationRangePipe`) can be used to convert to string an array of `CodLocationRange`'s.
+
+## Editor
+
+The `CodLocationComponent` is used to edit a location using its string format. It has these properties:
+
+- label: the label to display for the editor.
+- required: true if the location is required.
+- single: true if the location refers to a single sheet. If false, it refers to 1 or more ranges.
+- location: the location(s) edited, an array of `CodLocationRange` (or `null`). When changes, `locationChange` is emitted.

@@ -30,6 +30,11 @@ Quick Docker image build (the only purpose of this image is letting testers play
 2. ensure to update the version in `app.component.html`, and `ng build --configuration production`.
 3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.1 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
+More info about some bricks:
+
+- [codicologic location](./projects/myrmidon/cadmus-cod-location/README.md)
+- [text block view](./projects/myrmidon/cadmus-text-block-view/README.md)
+
 ## Adding a Brick
 
 To add a brick:
