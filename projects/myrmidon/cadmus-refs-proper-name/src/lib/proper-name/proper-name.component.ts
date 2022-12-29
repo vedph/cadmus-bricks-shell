@@ -16,7 +16,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
@@ -39,9 +39,32 @@ export interface AssertedProperName extends ProperName {
 }
 
 /**
+ * This entry type is used internally to represent piece types,
+ * eventually with their prescribed ordinal number, allowed
+ * value entries, and single status.
+ */
+interface TypeThesaurusEntry extends ThesaurusEntry {
+  ordinal?: number;
+  single?: boolean;
+  values?: ThesaurusEntry[];
+}
+
+/**
  * Proper name real-time editor (cadmus-refs-proper-name).
  * To use, add to the consumer component an initialName property to be
  * bound to name, and handle nameChange to setValue the received name.
+ * This component uses the following conventions for its type thesaurus:
+ * - thesaurus can be hierarchical. This happens if any of its entries
+ *   IDs contains a dot. In this case, any type can have a list of children
+ *   representing the allowed values for it. No further nesting is allowed,
+ *   as parent entries represent types, while their children entries
+ *   represent type values.
+ * - a reserved entry named @order with value equal to a space-delimited
+ *   list of entries IDs defines the prescribed order of pieces. When set,
+ *   users are not allowed to move pieces up/down in the list, and pieces
+ *   are always added in the prescribed order.
+ * - entries ending with `*` are unique, i.e. you cannot add more than
+ *   a single entry of this type to the pieces.
  */
 @Component({
   selector: 'cadmus-refs-proper-name',
@@ -54,6 +77,10 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   private _pieceSubs: Subscription[];
   private _pieceValueSubscription?: Subscription;
 
+  private _typeEntries: ThesaurusEntry[] | undefined;
+  private _typeEntries$: BehaviorSubject<ThesaurusEntry[] | undefined>;
+  private _name$: BehaviorSubject<AssertedProperName | undefined>;
+
   @ViewChildren('pieceValue') pieceValueQueryList?: QueryList<any>;
 
   /**
@@ -65,7 +92,19 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   public set name(value: AssertedProperName | undefined) {
     this._name = value;
-    this.updateForm(value);
+    this._name$.next(value);
+  }
+
+  /**
+   * The optional thesaurus name piece's type entries.
+   */
+  @Input()
+  public get typeEntries(): ThesaurusEntry[] | undefined {
+    return this._typeEntries;
+  }
+  public set typeEntries(value: ThesaurusEntry[] | undefined) {
+    this._typeEntries = value;
+    this._typeEntries$.next(value);
   }
 
   /**
@@ -78,11 +117,6 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
-  /**
-   * The optional thesaurus name piece's type entries.
-   */
-  @Input()
-  public typeEntries: ThesaurusEntry[] | undefined;
 
   // thesauri for assertions
   @Input()
@@ -108,6 +142,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   // edited assertion
   public assEdOpen: boolean;
   public initialAssertion?: Assertion;
+  public pieceTypes: TypeThesaurusEntry[] | undefined;
 
   constructor(private _formBuilder: FormBuilder) {
     this._pieceSubs = [];
@@ -129,6 +164,20 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       tag: this.tag,
       pieces: this.pieces,
       assertion: this.assertion,
+    });
+    // streams
+    this._typeEntries$ = new BehaviorSubject<ThesaurusEntry[] | undefined>(
+      undefined
+    );
+    this._name$ = new BehaviorSubject<AssertedProperName | undefined>(
+      undefined
+    );
+    // combine types and name together in updating form
+    combineLatest({
+      types: this._typeEntries$,
+      name: this._name$,
+    }).subscribe((tn) => {
+      this.updateForm(tn.name, tn.types);
     });
   }
 
@@ -167,6 +216,72 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.unsubscribePieces();
     this._pieceValueSubscription?.unsubscribe();
+  }
+
+  private getEntryOrdinal(
+    id: string,
+    sortedIds: string[],
+    next: number
+  ): number | undefined {
+    if (!sortedIds.length) {
+      return undefined;
+    }
+    const i = sortedIds.indexOf(id);
+    return i === -1 ? next : i + 1;
+  }
+
+  private processTypes(
+    entries: ThesaurusEntry[] | undefined
+  ): TypeThesaurusEntry[] {
+    if (!entries?.length) {
+      return [];
+    }
+
+    // @order specifies the prescribed sort order for all the IDs
+    let sortedIds: string[] = [];
+    const order = entries.find((e) => e.id === '@order');
+    if (order) {
+      sortedIds = order.value.split(' ').filter((s) => s.length);
+    }
+
+    // build types
+    let lastParentEntry: TypeThesaurusEntry | undefined;
+    let results: TypeThesaurusEntry[] = [];
+
+    for (let i = 0; i < entries.length; i++) {
+      const entry = entries[i];
+
+      // id's * suffix means single
+      let id = entry.id;
+      let single = false;
+
+      if (id.length > 1 && id.endsWith('*')) {
+        single = true;
+        id = entry.id.substring(0, entry.id.length - 1);
+      }
+
+      // id with dot means a child entry, whose parent is the first of the
+      // preceding entries without a dot
+      let dotIndex = id.indexOf('.');
+
+      if (dotIndex > -1 && lastParentEntry) {
+        if (!lastParentEntry.values) {
+          lastParentEntry.values = [];
+        }
+        lastParentEntry.values.push({
+          ...entry,
+        });
+      } else {
+        lastParentEntry = {
+          id: id,
+          value: entry.value,
+          single: single,
+          ordinal: this.getEntryOrdinal(entry.id, sortedIds, results.length),
+        };
+        results.push(lastParentEntry);
+      }
+    }
+    return results;
   }
 
   //#region Pieces
@@ -249,30 +364,31 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //#endregion
 
-  private updateForm(name?: AssertedProperName): void {
-    if (!this.language) {
-      return;
-    }
+  private updateForm(
+    name?: AssertedProperName,
+    typeEntries?: ThesaurusEntry[]
+  ): void {
+    // no name
     if (!name) {
       this.clearPieces();
       this.form.reset();
+      this.pieceTypes = this.processTypes(typeEntries);
       return;
     }
+
+    // name
     this._updatingForm = true;
     this.clearPieces();
+    this.pieceTypes = this.processTypes(typeEntries);
 
-    if (!name) {
-      this.form.reset();
-    } else {
-      this.language.setValue(name.language);
-      this.tag.setValue(name.tag || null);
-      this.pieces.clear();
-      for (const p of name.pieces || []) {
-        this.addPiece(p);
-      }
-      this.initialAssertion = name.assertion;
-      this.form.markAsPristine();
+    this.language.setValue(name.language);
+    this.tag.setValue(name.tag || null);
+    this.pieces.clear();
+    for (const p of name.pieces || []) {
+      this.addPiece(p);
     }
+    this.initialAssertion = name.assertion;
+    this.form.markAsPristine();
     this._updatingForm = false;
   }
 

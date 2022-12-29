@@ -15,9 +15,14 @@ import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 
 import { ProperNameComponent } from './proper-name/proper-name.component';
 import { CadmusProperNamePipe } from './cadmus-proper-name.pipe';
+import { ProperNamePieceComponent } from './proper-name-piece/proper-name-piece.component';
 
 @NgModule({
-  declarations: [ProperNameComponent, CadmusProperNamePipe],
+  declarations: [
+    ProperNameComponent,
+    ProperNamePieceComponent,
+    CadmusProperNamePipe,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -34,6 +39,10 @@ import { CadmusProperNamePipe } from './cadmus-proper-name.pipe';
     CadmusCoreModule,
     CadmusRefsAssertionModule,
   ],
-  exports: [ProperNameComponent, CadmusProperNamePipe],
+  exports: [
+    ProperNameComponent,
+    ProperNamePieceComponent,
+    CadmusProperNamePipe,
+  ],
 })
 export class CadmusRefsProperNameModule {}
