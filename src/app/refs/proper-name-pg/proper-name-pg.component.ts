@@ -63,7 +63,7 @@ export class ProperNamePgComponent implements OnInit {
       { id: 'continent.australia', value: 'Australia' },
       { id: 'continent.antarctica', value: 'Antarctica' },
       { id: 'country*', value: 'country' },
-      { id: 'site*', value: 'site' },
+      { id: 'region*', value: 'region' },
       { id: '_order', value: 'continent country site' },
     ];
 

@@ -1,10 +1,14 @@
 # Cadmus Refs - Proper Name
 
+- [Cadmus Refs - Proper Name](#cadmus-refs---proper-name)
+  - [Editor](#editor)
+  - [Pipe](#pipe)
+
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.0.
 
 ## Editor
 
-A proper name is a structured name in some language, composed by any types and number of components ("pieces"), with an optional attached tag and assertion.
+A **proper name** is a structured name in some _language_, composed by any types and number of components (_pieces_), with an optional attached _tag_ and _assertion_.
 
 To make a trivial sample, say you want to represent a classical _tria nomina_ pattern, like `Publius Vergilius Maro`; here we have 3 pieces building up a Latin name:
 
@@ -33,7 +37,7 @@ So, here you would have to provide a thesaurus for the piece types, like:
 
 Pieces are not constrained in any way, so you are free to add multiple instances for each type (e.g. several _cognomina_), in the order you prefer. Types are up to you, so you can have e.g. types for first and last names, or for single names, titles, etc.
 
-Also, this is not limited to person names. You might use it for place names, eventually also adding prefixes corresponding to designations like "mount", "lake", "river", etc.
+Also, this is not limited to person names. You might use it for **place names**, eventually also adding prefixes corresponding to designations like "mount", "lake", "river", etc.
 
 Further, in place names, you might also want to define a hierarchy of pieces, from the widest to the narrowest, or vice-versa, like usually done with geolocation systems. For instance, you might have some generic, of course culturally defined areas designations, like "Northern Italy", "Western France", etc; and then, inside these areas you might want to eventually specify narrower appellations, like "Venice", "Caen"; and even more, specific sites inside these cities, and so forth.
 
@@ -71,7 +75,7 @@ As a final sample, consider these thesaurus entries:
   { "id": "continent.australia", "value": "Australia" },
   { "id": "continent.antarctica", "value": "Antarctica" },
   { "id": "country*", "value": "country" },
-  { "id": "site*", "value": "site" },
+  { "id": "region*", "value": "region" },
   { "id": "_order", "value": "continent country site" }
 ]
 ```
@@ -80,7 +84,7 @@ Here the hierarchy is:
 
 1. continent
 2. country
-3. site
+3. region
 
 in this order, as specified by `_order`. In this case, the editor will provide preset lists for continent, while allowing you to freely type names for countries and sites. In the end, the proper name will just store a type (in this case, the ID of a thesaurus entry, e.g. `continent`) and a value (the ID of the preset value, e.g. `continent.europe`; or just a literal value for countries or sites).
 
