@@ -1,0 +1,37 @@
+th {
+  font-weight: normal;
+  color: silver;
+  text-align: left;
+}
+.nr {
+  background-color: #f0f0f0;
+  padding: 4px;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.form-row * {
+  flex: 0 0 auto;
+}
+.button-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+table {
+  border-collapse: collapse;
+}
+td.type {
+  border: 1px solid silver;
+  background-color: #f0f0f0;
+  padding: 4px;
+}
+td.value {
+  border: 1px solid silver;
+  padding: 4px;
+}

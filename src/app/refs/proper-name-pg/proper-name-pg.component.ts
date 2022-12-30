@@ -9,7 +9,7 @@ import { AssertedProperName } from 'projects/myrmidon/cadmus-refs-proper-name/sr
   styleUrls: ['./proper-name-pg.component.css'],
 })
 export class ProperNamePgComponent implements OnInit {
-  public initialName: AssertedProperName;
+  public initialName?: AssertedProperName;
   public name: AssertedProperName | undefined;
   public langEntries: ThesaurusEntry[] | undefined;
   public namePieceTypeEntries: ThesaurusEntry[] | undefined;
@@ -25,6 +25,12 @@ export class ProperNamePgComponent implements OnInit {
       { id: 'grc', value: 'Greek' },
       { id: 'gre', value: 'Modern Greek' },
     ];
+    this.configureAsAnthroponym();
+  }
+
+  ngOnInit(): void {}
+
+  public configureAsAnthroponym(): void {
     this.namePieceTypeEntries = [
       { id: 'first', value: 'first' },
       { id: 'last', value: 'last' },
@@ -46,7 +52,31 @@ export class ProperNamePgComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {}
+  public configureAsToponym(): void {
+    this.namePieceTypeEntries = [
+      { id: 'continent*', value: 'continent' },
+      { id: 'continent.europe', value: 'Europe' },
+      { id: 'continent.n-america', value: 'North America' },
+      { id: 'continent.s-america', value: 'South America' },
+      { id: 'continent.africa', value: 'Africa' },
+      { id: 'continent.asia', value: 'Asia' },
+      { id: 'continent.australia', value: 'Australia' },
+      { id: 'continent.antarctica', value: 'Antarctica' },
+      { id: 'country*', value: 'country' },
+      { id: 'site*', value: 'site' },
+      { id: '_order', value: 'continent country site' },
+    ];
+
+    this.initialName = {
+      language: 'eng',
+      tag: 'sample',
+      pieces: [
+        { type: 'continent', value: 'continent.europe' },
+        { type: 'country', value: 'Italy' },
+        { type: 'region', value: 'Tuscany' },
+      ],
+    };
+  }
 
   public onNameChange(model: AssertedProperName | undefined): void {
     this.name = model;

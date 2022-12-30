@@ -1,52 +1,24 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
-import {
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Assertion } from '@myrmidon/cadmus-refs-assertion';
 import { NgToolsValidators } from '@myrmidon/ng-tools';
 
-export interface ProperName {
-  language: string;
-  tag?: string;
-  pieces: ProperNamePiece[];
-}
-
-export interface ProperNamePiece {
-  type: string;
-  value: string;
-}
-
-export interface AssertedProperName extends ProperName {
-  assertion?: Assertion;
-}
+import { ProperName, ProperNamePiece, TypeThesaurusEntry } from '../models';
 
 /**
- * This entry type is used internally to represent piece types,
- * eventually with their prescribed ordinal number, allowed
- * value entries, and single status.
+ * A proper name with an assertion.
  */
-interface TypeThesaurusEntry extends ThesaurusEntry {
-  ordinal?: number;
-  single?: boolean;
-  values?: ThesaurusEntry[];
+export interface AssertedProperName extends ProperName {
+  assertion?: Assertion;
 }
 
 /**
@@ -59,7 +31,7 @@ interface TypeThesaurusEntry extends ThesaurusEntry {
  *   representing the allowed values for it. No further nesting is allowed,
  *   as parent entries represent types, while their children entries
  *   represent type values.
- * - a reserved entry named @order with value equal to a space-delimited
+ * - a reserved entry named _order with value equal to a space-delimited
  *   list of entries IDs defines the prescribed order of pieces. When set,
  *   users are not allowed to move pieces up/down in the list, and pieces
  *   are always added in the prescribed order.
@@ -71,17 +43,15 @@ interface TypeThesaurusEntry extends ThesaurusEntry {
   templateUrl: './proper-name.component.html',
   styleUrls: ['./proper-name.component.css'],
 })
-export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProperNameComponent implements OnInit {
   private _name: AssertedProperName | undefined;
-  private _updatingForm?: boolean;
-  private _pieceSubs: Subscription[];
-  private _pieceValueSubscription?: Subscription;
-
-  private _typeEntries: ThesaurusEntry[] | undefined;
+  // input streams
   private _typeEntries$: BehaviorSubject<ThesaurusEntry[] | undefined>;
   private _name$: BehaviorSubject<AssertedProperName | undefined>;
 
-  @ViewChildren('pieceValue') pieceValueQueryList?: QueryList<any>;
+  public pieceTypes: TypeThesaurusEntry[];
+  public editedPieceIndex: number;
+  public editedPiece?: ProperNamePiece;
 
   /**
    * The proper name.
@@ -100,10 +70,9 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input()
   public get typeEntries(): ThesaurusEntry[] | undefined {
-    return this._typeEntries;
+    return this._typeEntries$.value;
   }
   public set typeEntries(value: ThesaurusEntry[] | undefined) {
-    this._typeEntries = value;
     this._typeEntries$.next(value);
   }
 
@@ -134,37 +103,44 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output()
   public nameChange: EventEmitter<AssertedProperName | undefined>;
 
+  // main form
   public language: FormControl<string | null>;
   public tag: FormControl<string | null>;
-  public pieces: FormArray;
+  public pieces: FormControl<ProperNamePiece[]>;
   public assertion: FormControl<Assertion | null>;
   public form: FormGroup;
   // edited assertion
   public assEdOpen: boolean;
   public initialAssertion?: Assertion;
-  public pieceTypes: TypeThesaurusEntry[] | undefined;
 
-  constructor(private _formBuilder: FormBuilder) {
-    this._pieceSubs = [];
+  public ordered?: boolean;
+  public valueEntries: ThesaurusEntry[];
+
+  constructor(formBuilder: FormBuilder) {
     this.nameChange = new EventEmitter<AssertedProperName | undefined>();
     this.assEdOpen = false;
-    // form
-    this.language = _formBuilder.control(null, [
+    this.editedPieceIndex = -1;
+    this.pieceTypes = [];
+    this.valueEntries = [];
+
+    // main form
+    this.language = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.tag = _formBuilder.control(null, Validators.maxLength(50));
-    this.pieces = _formBuilder.array(
-      [],
-      NgToolsValidators.strictMinLengthValidator(1)
-    );
-    this.assertion = _formBuilder.control(null);
-    this.form = _formBuilder.group({
+    this.tag = formBuilder.control(null, Validators.maxLength(50));
+    this.pieces = formBuilder.control([], {
+      validators: NgToolsValidators.strictMinLengthValidator(1),
+      nonNullable: true,
+    });
+    this.assertion = formBuilder.control(null);
+    this.form = formBuilder.group({
       language: this.language,
       tag: this.tag,
       pieces: this.pieces,
       assertion: this.assertion,
     });
+
     // streams
     this._typeEntries$ = new BehaviorSubject<ThesaurusEntry[] | undefined>(
       undefined
@@ -182,6 +158,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    // any change on name emits event
     this.language.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((_) => {
@@ -194,30 +171,7 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  public ngAfterViewInit(): void {
-    // focus on newly added piece
-    if (this.pieceValueQueryList) {
-      this._pieceValueSubscription = this.pieceValueQueryList.changes
-        .pipe(debounceTime(300))
-        .subscribe((lst: QueryList<any>) => {
-          if (!this._updatingForm && lst.length > 0) {
-            lst.last.nativeElement.focus();
-          }
-        });
-    }
-  }
-
-  private unsubscribePieces(): void {
-    for (let i = 0; i < this._pieceSubs.length; i++) {
-      this._pieceSubs[i].unsubscribe();
-    }
-  }
-
-  public ngOnDestroy(): void {
-    this.unsubscribePieces();
-    this._pieceValueSubscription?.unsubscribe();
-  }
-
+  //#region Type parsing
   private getEntryOrdinal(
     id: string,
     sortedIds: string[],
@@ -230,16 +184,16 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
     return i === -1 ? next : i + 1;
   }
 
-  private processTypes(
+  private parseTypes(
     entries: ThesaurusEntry[] | undefined
   ): TypeThesaurusEntry[] {
     if (!entries?.length) {
       return [];
     }
 
-    // @order specifies the prescribed sort order for all the IDs
+    // _order specifies the prescribed sort order for all the IDs
     let sortedIds: string[] = [];
-    const order = entries.find((e) => e.id === '@order');
+    const order = entries.find((e) => e.id === '_order');
     if (order) {
       sortedIds = order.value.split(' ').filter((s) => s.length);
     }
@@ -250,6 +204,9 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
 
     for (let i = 0; i < entries.length; i++) {
       const entry = entries[i];
+      if (entry.id === '_order') {
+        continue;
+      }
 
       // id's * suffix means single
       let id = entry.id;
@@ -276,120 +233,175 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
           id: id,
           value: entry.value,
           single: single,
-          ordinal: this.getEntryOrdinal(entry.id, sortedIds, results.length),
+          ordinal: this.getEntryOrdinal(entry.id, sortedIds, results.length + 1),
         };
         results.push(lastParentEntry);
       }
     }
     return results;
   }
+  //#endregion
 
   //#region Pieces
-  private getPieceGroup(piece?: ProperNamePiece): FormGroup {
-    return this._formBuilder.group({
-      type: this._formBuilder.control(piece?.type, [
-        Validators.required,
-        Validators.maxLength(20),
-      ]),
-      value: this._formBuilder.control(piece?.value, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-    });
+  public editPiece(piece: ProperNamePiece, index: number): void {
+    this.editedPieceIndex = index;
+    this.editedPiece = piece;
   }
 
-  public addPiece(piece?: ProperNamePiece): void {
-    const g = this.getPieceGroup(piece);
-    this._pieceSubs.push(
-      g.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
-        this.emitNameChange();
-      })
+  public addPiece(): void {
+    this.editPiece(
+      {
+        type: this.pieceTypes.length ? this.pieceTypes[0].id : '',
+        value: '',
+      },
+      -1
     );
-    this.pieces.push(g);
-
-    if (!this._updatingForm) {
-      this.emitNameChange();
-    }
   }
 
-  public removePiece(index: number): void {
-    this._pieceSubs[index].unsubscribe();
-    this._pieceSubs.splice(index, 1);
-    this.pieces.removeAt(index);
+  public closePiece(): void {
+    this.editedPieceIndex = -1;
+    this.editedPiece = undefined;
+  }
+
+  private getTypeOrdinal(id: string): number {
+    return this.pieceTypes.find((t) => t.id === id)?.ordinal || -1;
+  }
+
+  private updatePieces(pieces: ProperNamePiece[]): void {
+    this.pieces.setValue(pieces);
+    this.pieces.markAsDirty();
+    this.pieces.updateValueAndValidity();
+
     this.emitNameChange();
   }
 
-  private swapArrElems(a: any[], i: number, j: number): void {
-    if (i === j) {
+  public savePiece(piece: ProperNamePiece): void {
+    const pieces = [...this.pieces.value];
+
+    // just replace if editing an existing piece
+    if (this.editedPieceIndex > -1) {
+      pieces.splice(this.editedPieceIndex, 1, piece);
+      this.updatePieces(pieces);
+      this.closePiece();
       return;
     }
-    const t = a[i];
-    a[i] = a[j];
-    a[j] = t;
+
+    // also replace a single piece if one is already present
+    const type = this.pieceTypes.find((t) => t.id === piece.type);
+    if (type?.single) {
+      const i = this.pieces.value.findIndex((p) => p.type === piece.type);
+      if (i > -1) {
+        pieces.splice(this.editedPieceIndex, 1, piece);
+        this.updatePieces(pieces);
+        this.closePiece();
+        return;
+      }
+    }
+
+    // else add: if ordered, insert at the right place; else just append
+    if (this.ordered && pieces.length) {
+      const n = type?.ordinal || 0;
+      const i = n
+        ? pieces.findIndex((p) => n > this.getTypeOrdinal(p.type))
+        : -1;
+      if (i === -1) {
+        pieces.push(piece);
+      } else {
+        pieces.splice(i, 0, piece);
+      }
+    } else {
+      pieces.push(piece);
+    }
+
+    this.updatePieces(pieces);
+    this.closePiece();
+  }
+
+  public removePiece(index: number): void {
+    const pieces = [...this.pieces.value];
+    pieces.splice(index, 1);
+    this.pieces.setValue(pieces);
+    this.pieces.markAsDirty();
+    this.pieces.updateValueAndValidity();
+
+    if (this.editedPieceIndex === index) {
+      this.closePiece();
+    }
+
+    this.emitNameChange();
   }
 
   public movePieceUp(index: number): void {
     if (index < 1) {
       return;
     }
-    const ctl = this.pieces.controls[index];
-    this.pieces.removeAt(index);
-    this.pieces.insert(index - 1, ctl);
-
-    this.swapArrElems(this._pieceSubs, index, index - 1);
-
+    const pieces = [...this.pieces.value];
+    const p = pieces.splice(index, 1)[0];
+    pieces.splice(index - 1, 0, p);
+    this.pieces.setValue(pieces);
+    this.pieces.markAsDirty();
+    this.pieces.updateValueAndValidity();
     this.emitNameChange();
   }
 
   public movePieceDown(index: number): void {
-    if (index + 1 >= this.pieces.length) {
+    if (index + 1 >= this.pieces.value.length) {
       return;
     }
-    const ctl = this.pieces.controls[index];
-    this.pieces.removeAt(index);
-    this.pieces.insert(index + 1, ctl);
-
-    this.swapArrElems(this._pieceSubs, index, index + 1);
-
+    const pieces = [...this.pieces.value];
+    const p = pieces.splice(index, 1)[0];
+    pieces.splice(index + 1, 0, p);
+    this.pieces.setValue(pieces);
+    this.pieces.markAsDirty();
+    this.pieces.updateValueAndValidity();
     this.emitNameChange();
   }
 
   public clearPieces(): void {
-    this.pieces.clear();
-    this.unsubscribePieces();
-    this._pieceSubs = [];
-    if (!this._updatingForm) {
-      this.emitNameChange();
-    }
+    this.pieces.setValue([]);
+    this.emitNameChange();
   }
   //#endregion
+
+  private updateValueEntries(types: TypeThesaurusEntry[]): void {
+    types.map((e) => e.values);
+    let entries: ThesaurusEntry[] = [];
+    for (let i = 0; i < types.length; i++) {
+      if (types[i].values?.length) {
+        entries = [...entries, ...types[i].values!];
+      }
+    }
+    this.valueEntries = entries;
+  }
 
   private updateForm(
     name?: AssertedProperName,
     typeEntries?: ThesaurusEntry[]
   ): void {
+    this.closePiece();
+    this.assEdOpen = false;
+
     // no name
     if (!name) {
       this.clearPieces();
       this.form.reset();
-      this.pieceTypes = this.processTypes(typeEntries);
+      this.pieceTypes = this.parseTypes(typeEntries);
+      this.ordered = this.pieceTypes.some((t) => t.ordinal);
+      this.updateValueEntries(this.pieceTypes);
       return;
     }
 
     // name
-    this._updatingForm = true;
     this.clearPieces();
-    this.pieceTypes = this.processTypes(typeEntries);
+    this.pieceTypes = this.parseTypes(typeEntries);
+    this.ordered = this.pieceTypes.some((t) => t.ordinal);
+    this.updateValueEntries(this.pieceTypes);
 
     this.language.setValue(name.language);
     this.tag.setValue(name.tag || null);
-    this.pieces.clear();
-    for (const p of name.pieces || []) {
-      this.addPiece(p);
-    }
+    this.pieces.setValue(name.pieces);
     this.initialAssertion = name.assertion;
     this.form.markAsPristine();
-    this._updatingForm = false;
   }
 
   public onAssertionChange(assertion: Assertion | undefined): void {
@@ -402,24 +414,14 @@ export class ProperNameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getName(): AssertedProperName | undefined {
-    const pieces: ProperNamePiece[] = [];
-
-    for (let i = 0; i < this.pieces.length; i++) {
-      const g = this.pieces.controls[i] as FormGroup;
-      pieces.push({
-        type: g.controls.type.value,
-        value: g.controls.value.value?.trim(),
-      });
-    }
-
-    if (!this.pieces?.length) {
+    if (!this.pieces.value?.length) {
       return undefined;
     }
 
     return {
       language: this.language.value || '',
       tag: this.tag.value || undefined,
-      pieces: pieces,
+      pieces: this.pieces.value,
       assertion: this.assertion.value || undefined,
     };
   }

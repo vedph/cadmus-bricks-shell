@@ -1,8 +1,8 @@
 <form [formGroup]="form">
-  <div>
+  <div class="form-row">
     <!-- language (bound) -->
     <ng-container *ngIf="!langEntries?.length">
-      <mat-form-field style="width: 6em">
+      <mat-form-field style="width: 11em">
         <mat-label>language</mat-label>
         <input matInput [formControl]="language" />
         <mat-error
@@ -23,7 +23,7 @@
     </ng-container>
     <!-- language (free) -->
     <ng-container *ngIf="langEntries?.length">
-      <mat-form-field style="width: 6em">
+      <mat-form-field style="width: 11em">
         <mat-label>language</mat-label>
         <mat-select [formControl]="language">
           <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
@@ -33,7 +33,6 @@
       </mat-form-field>
     </ng-container>
 
-    &nbsp;
     <!-- tag (bound) -->
     <ng-container *ngIf="!tagEntries">
       <mat-form-field style="width: 8em">
@@ -62,7 +61,6 @@
     </ng-container>
 
     <!-- add piece -->
-    &nbsp;
     <button
       type="button"
       mat-icon-button
@@ -75,123 +73,92 @@
   </div>
 
   <!-- pieces -->
-  <div formArrayName="pieces">
-    <div
-      *ngFor="
-        let item of pieces.controls;
-        let i = index;
-        let first = first;
-        let last = last
-      "
+  <table>
+    <thead>
+      <th></th>
+      <th>type</th>
+      <th>value</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let piece of pieces.value;
+          let i = index;
+          let first = first;
+          let last = last
+        "
+      >
+        <td>
+          <span class="nr">{{ i + 1 }}.</span>
+        </td>
+        <td class="type">
+          {{ piece.type | flatLookup : typeEntries : "id" : "value" }}
+        </td>
+        <td class="value">
+          {{ piece.value | flatLookup : valueEntries : "id" : "value" }}
+        </td>
+        <td class="button-row">
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Edit this piece"
+            color="primary"
+            (click)="editPiece(piece, i)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Remove this piece"
+            color="warn"
+            (click)="removePiece(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+          <ng-container *ngIf="!ordered">
+            <button
+              [disabled]="first"
+              mat-icon-button
+              type="button"
+              matTooltip="Move piece up"
+              (click)="movePieceUp(i)"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button
+              [disabled]="last"
+              mat-icon-button
+              type="button"
+              matTooltip="Move piece down"
+              (click)="movePieceDown(i)"
+            >
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- piece -->
+  <mat-expansion-panel [expanded]="editedPiece" style="margin-top: 8px">
+    <mat-expansion-panel-header>
+      {{
+        editedPieceIndex === -1
+          ? "new piece"
+          : "piece #" + (editedPieceIndex + 1)
+      }}</mat-expansion-panel-header
     >
-      <!-- child form -->
-      <div [formGroupName]="i">
-        <!-- child actions -->
-        {{ i + 1 }}.
-        <button
-          mat-icon-button
-          type="button"
-          matTooltip="Remove this piece"
-          color="warn"
-          (click)="removePiece(i)"
-        >
-          <mat-icon>remove_circle</mat-icon>
-        </button>
-        <button
-          [disabled]="first"
-          mat-icon-button
-          type="button"
-          matTooltip="Move piece up"
-          (click)="movePieceUp(i)"
-        >
-          <mat-icon>arrow_upward</mat-icon>
-        </button>
-        <button
-          [disabled]="last"
-          mat-icon-button
-          type="button"
-          matTooltip="Move piece down"
-          (click)="movePieceDown(i)"
-        >
-          <mat-icon>arrow_downward</mat-icon>
-        </button>
+    <cadmus-refs-proper-name-piece
+      [piece]="editedPiece!"
+      [types]="pieceTypes"
+      (editorClose)="closePiece()"
+      (pieceChange)="savePiece($event)"
+    ></cadmus-refs-proper-name-piece>
+  </mat-expansion-panel>
 
-        <!-- child controls -->
-        <!-- type (bound) -->
-        <ng-container *ngIf="typeEntries">
-          <mat-form-field style="width: 8em">
-            <mat-label>type</mat-label>
-            <mat-select formControlName="type">
-              <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="
-                $any(item)['controls'].type.hasError('required') &&
-                ($any(item)['controls'].type.dirty ||
-                  $any(item)['controls'].type.touched)
-              "
-              >select a type
-            </mat-error>
-          </mat-form-field>
-        </ng-container>
-
-        <!-- type (free) -->
-        <ng-container *ngIf="!typeEntries">
-          <mat-form-field style="width: 8em">
-            <mat-label>type</mat-label>
-            <input matInput formControlName="type" />
-            <mat-error
-              *ngIf="
-                $any(item)['controls'].type.hasError('required') &&
-                ($any(item)['controls'].type.dirty ||
-                  $any(item)['controls'].type.touched)
-              "
-              >enter a type
-            </mat-error>
-            <mat-error
-              *ngIf="
-                $any(item)['controls'].type.hasError('max-length') &&
-                ($any(item)['controls'].type.dirty ||
-                  $any(item)['controls'].type.touched)
-              "
-              >type too long
-            </mat-error>
-          </mat-form-field>
-        </ng-container>
-
-        <!-- value -->
-        &nbsp;
-        <mat-form-field>
-          <mat-label>value</mat-label>
-          <input
-            #pieceValue
-            matInput
-            maxlength="50"
-            formControlName="value"
-            autofocus
-          />
-          <mat-error
-            *ngIf="
-              $any(item)['controls'].value.hasError('required') &&
-              ($any(item)['controls'].value.dirty ||
-                $any(item)['controls'].value.touched)
-            "
-            >enter a value
-          </mat-error>
-          <mat-error
-            *ngIf="
-              $any(item)['controls'].value.hasError('max-length') &&
-              ($any(item)['controls'].value.dirty ||
-                $any(item)['controls'].value.touched)
-            "
-            >value too long
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
   <!-- assertion -->
   <mat-expansion-panel [(expanded)]="assEdOpen">
     <mat-expansion-panel-header>assertion</mat-expansion-panel-header>
@@ -205,10 +172,10 @@
     <button
       color="primary"
       type="button"
-      mat-icon-button
+      mat-flat-button
       (click)="saveAssertion()"
     >
-      <mat-icon>check_circle</mat-icon> save assertion
+      <mat-icon>check_circle</mat-icon> assertion
     </button>
   </mat-expansion-panel>
 </form>

@@ -5,6 +5,17 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <fieldset>
+      <legend>demo</legend>
+      <button type="button" mat-flat-button (click)="configureAsAnthroponym()">
+        person
+      </button>
+      &nbsp;
+      <button type="button" mat-flat-button (click)="configureAsToponym()">
+        place
+      </button>
+    </fieldset>
+    <br>
     <cadmus-refs-proper-name
       [langEntries]="langEntries"
       [typeEntries]="namePieceTypeEntries"
