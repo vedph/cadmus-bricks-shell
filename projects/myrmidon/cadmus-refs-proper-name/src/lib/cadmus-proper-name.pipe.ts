@@ -71,15 +71,17 @@ export class CadmusProperNamePipe implements PipeTransform {
 
     for (let i = 0; i < name.pieces.length; i++) {
       const piece = name.pieces[i];
-      const type = typeMap
-        ? this.getMappedValue(piece.type, typeMap, keyName, valueName)
-        : piece.type;
       const value = valueMap
         ? this.getMappedValue(piece.value, valueMap, keyName, valueName)
         : piece.value;
-
       values.push(value || '');
-      types.push(type || '');
+
+      if (legend) {
+        const type = typeMap
+          ? this.getMappedValue(piece.type, typeMap, keyName, valueName)
+          : piece.type;
+        types.push(type || '');
+      }
     }
 
     return legend && types.length

@@ -15,7 +15,7 @@
         place
       </button>
     </fieldset>
-    <br>
+    <br />
     <cadmus-refs-proper-name
       [langEntries]="langEntries"
       [typeEntries]="namePieceTypeEntries"
@@ -26,7 +26,15 @@
       <pre>{{ name | json }}</pre>
     </div>
     <div>
-      {{ name | cadmusProperName }}
+      {{
+        name
+          | cadmusProperName
+            : namePieceTypeEntries
+            : namePieceValueEntries
+            : "id"
+            : "value"
+            : true
+      }}
     </div>
   </mat-card-content>
 </mat-card>

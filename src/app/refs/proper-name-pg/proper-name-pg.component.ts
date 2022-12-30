@@ -13,6 +13,7 @@ export class ProperNamePgComponent implements OnInit {
   public name: AssertedProperName | undefined;
   public langEntries: ThesaurusEntry[] | undefined;
   public namePieceTypeEntries: ThesaurusEntry[] | undefined;
+  public namePieceValueEntries: ThesaurusEntry[];
 
   constructor() {
     this.langEntries = [
@@ -24,6 +25,17 @@ export class ProperNamePgComponent implements OnInit {
       { id: 'lat', value: 'Latin' },
       { id: 'grc', value: 'Greek' },
       { id: 'gre', value: 'Modern Greek' },
+    ];
+    // for pipe: these are all the children values as collected
+    // from the types entries
+    this.namePieceValueEntries = [
+      { id: 'continent.europe', value: 'Europe' },
+      { id: 'continent.n-america', value: 'North America' },
+      { id: 'continent.s-america', value: 'South America' },
+      { id: 'continent.africa', value: 'Africa' },
+      { id: 'continent.asia', value: 'Asia' },
+      { id: 'continent.australia', value: 'Australia' },
+      { id: 'continent.antarctica', value: 'Antarctica' },
     ];
     this.configureAsAnthroponym();
   }
@@ -64,7 +76,7 @@ export class ProperNamePgComponent implements OnInit {
       { id: 'continent.antarctica', value: 'Antarctica' },
       { id: 'country*', value: 'country' },
       { id: 'region*', value: 'region' },
-      { id: '_order', value: 'continent country site' },
+      { id: '_order', value: 'continent country region' },
     ];
 
     this.initialName = {

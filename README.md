@@ -46,7 +46,7 @@ To add a brick:
 
 ## History
 
-- 2022-12-30: refactored proper names editor. The model has not changed, but the editor and its thesauri have been refactored so that they can represent also hierarchically structured appellations, especially useful for place names (`@myrmidon/cadmus-refs-proper-name`).
+- 2022-12-30: refactored [proper names](./projects/myrmidon/cadmus-refs-proper-name/README.md) editor. The model has not changed, but the editor and its thesauri have been refactored so that they can represent also hierarchically structured appellations, especially useful for place names (`@myrmidon/cadmus-refs-proper-name`).
 - 2022-12-19:
   - fix to note style in assertion (`@myrmidon/cadmus-refs-assertion`).
   - updated Angular.
