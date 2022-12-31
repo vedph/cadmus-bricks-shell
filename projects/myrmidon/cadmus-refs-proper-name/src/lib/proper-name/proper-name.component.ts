@@ -302,7 +302,7 @@ export class ProperNameComponent implements OnInit {
     if (this.ordered && pieces.length) {
       const n = type?.ordinal || 0;
       const i = n
-        ? pieces.findIndex((p) => n > this.getTypeOrdinal(p.type))
+        ? pieces.findIndex((p) => n < this.getTypeOrdinal(p.type))
         : -1;
       if (i === -1) {
         pieces.push(piece);

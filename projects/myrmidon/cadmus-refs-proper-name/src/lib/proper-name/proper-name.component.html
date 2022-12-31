@@ -143,7 +143,11 @@
   </table>
 
   <!-- piece -->
-  <mat-expansion-panel [expanded]="editedPiece" style="margin-top: 8px">
+  <mat-expansion-panel
+    [disabled]="!editedPiece"
+    [expanded]="editedPiece"
+    style="margin-top: 8px"
+  >
     <mat-expansion-panel-header>
       {{
         editedPieceIndex === -1
