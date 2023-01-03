@@ -26,8 +26,10 @@ export class DatationComponent implements OnInit {
     return this._datation;
   }
   public set datation(value: DatationModel | undefined) {
-    this._datation = value;
-    this.updateForm(value);
+    if (this._datation !== value) {
+      this._datation = value;
+      this.updateForm(value);
+    }
   }
 
   @Output()

@@ -47,8 +47,10 @@ export class AssertionComponent implements OnInit {
     return this._assertion;
   }
   public set assertion(value: Assertion | undefined) {
-    this._assertion = value;
-    this.updateForm(value);
+    if (this._assertion !== value) {
+      this._assertion = value;
+      this.updateForm(value);
+    }
   }
 
   @Output()
@@ -95,7 +97,7 @@ export class AssertionComponent implements OnInit {
       this.form.markAsPristine();
     }
     this._updatingForm = false;
-    this.emitAssertionChange();
+    // this.emitAssertionChange();
   }
 
   private getAssertion(): Assertion | undefined {

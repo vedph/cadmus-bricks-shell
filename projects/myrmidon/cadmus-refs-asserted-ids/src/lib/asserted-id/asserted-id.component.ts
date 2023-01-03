@@ -53,8 +53,10 @@ export class AssertedIdComponent implements OnInit {
     return this._id;
   }
   public set id(value: AssertedId | undefined) {
-    this._id = value;
-    this.updateForm(value);
+    if (this._id !== value) {
+      this._id = value;
+      this.updateForm(value);
+    }
   }
 
   @Output()

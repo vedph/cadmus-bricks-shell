@@ -30,7 +30,9 @@ export class TextBlockViewComponent implements OnInit {
     return this._blocks;
   }
   public set blocks(value: TextBlock[]) {
-    this._blocks = value;
+    if (this._blocks !== value) {
+      this._blocks = value;
+    }
   }
 
   @Output()

@@ -37,8 +37,10 @@ export class PhysicalSizeComponent implements OnInit {
     return this._size;
   }
   public set size(value: PhysicalSize | undefined) {
-    this._size = value;
-    this.updateForm(value);
+    if (this._size !== value) {
+      this._size = value;
+      this.updateForm(value);
+    }
   }
 
   @Input()

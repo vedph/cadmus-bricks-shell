@@ -28,8 +28,10 @@ export class HistoricalDateComponent implements OnInit {
     return this._date;
   }
   public set date(value: HistoricalDateModel | undefined) {
-    this._date = value;
-    this.updateForm(value);
+    if (this._date !== value) {
+      this._date = value;
+      this.updateForm(value);
+    }
   }
 
   @Input()

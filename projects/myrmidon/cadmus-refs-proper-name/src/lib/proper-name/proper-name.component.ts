@@ -13,6 +13,7 @@ import { Assertion } from '@myrmidon/cadmus-refs-assertion';
 import { NgToolsValidators } from '@myrmidon/ng-tools';
 
 import { ProperName, ProperNamePiece, TypeThesaurusEntry } from '../models';
+import { ProperNameServiceService } from '../services/proper-name-service.service';
 
 /**
  * A proper name with an assertion.
@@ -61,8 +62,10 @@ export class ProperNameComponent implements OnInit {
     return this._name;
   }
   public set name(value: AssertedProperName | undefined) {
-    this._name = value;
-    this._name$.next(value);
+    if (this._name !== value) {
+      this._name = value;
+      this._name$.next(value);
+    }
   }
 
   /**
@@ -116,7 +119,10 @@ export class ProperNameComponent implements OnInit {
   public ordered?: boolean;
   public valueEntries: ThesaurusEntry[];
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(
+    formBuilder: FormBuilder,
+    private _nameService: ProperNameServiceService
+  ) {
     this.nameChange = new EventEmitter<AssertedProperName | undefined>();
     this.assEdOpen = false;
     this.editedPieceIndex = -1;
@@ -170,77 +176,6 @@ export class ProperNameComponent implements OnInit {
         this.emitNameChange();
       });
   }
-
-  //#region Type parsing
-  private getEntryOrdinal(
-    id: string,
-    sortedIds: string[],
-    next: number
-  ): number | undefined {
-    if (!sortedIds.length) {
-      return undefined;
-    }
-    const i = sortedIds.indexOf(id);
-    return i === -1 ? next : i + 1;
-  }
-
-  private parseTypes(
-    entries: ThesaurusEntry[] | undefined
-  ): TypeThesaurusEntry[] {
-    if (!entries?.length) {
-      return [];
-    }
-
-    // _order specifies the prescribed sort order for all the IDs
-    let sortedIds: string[] = [];
-    const order = entries.find((e) => e.id === '_order');
-    if (order) {
-      sortedIds = order.value.split(' ').filter((s) => s.length);
-    }
-
-    // build types
-    let lastParentEntry: TypeThesaurusEntry | undefined;
-    let results: TypeThesaurusEntry[] = [];
-
-    for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i];
-      if (entry.id === '_order') {
-        continue;
-      }
-
-      // id's * suffix means single
-      let id = entry.id;
-      let single = false;
-
-      if (id.length > 1 && id.endsWith('*')) {
-        single = true;
-        id = entry.id.substring(0, entry.id.length - 1);
-      }
-
-      // id with dot means a child entry, whose parent is the first of the
-      // preceding entries without a dot
-      let dotIndex = id.indexOf('.');
-
-      if (dotIndex > -1 && lastParentEntry) {
-        if (!lastParentEntry.values) {
-          lastParentEntry.values = [];
-        }
-        lastParentEntry.values.push({
-          ...entry,
-        });
-      } else {
-        lastParentEntry = {
-          id: id,
-          value: entry.value,
-          single: single,
-          ordinal: this.getEntryOrdinal(entry.id, sortedIds, results.length + 1),
-        };
-        results.push(lastParentEntry);
-      }
-    }
-    return results;
-  }
-  //#endregion
 
   //#region Pieces
   public editPiece(piece: ProperNamePiece, index: number): void {
@@ -364,14 +299,7 @@ export class ProperNameComponent implements OnInit {
   //#endregion
 
   private updateValueEntries(types: TypeThesaurusEntry[]): void {
-    types.map((e) => e.values);
-    let entries: ThesaurusEntry[] = [];
-    for (let i = 0; i < types.length; i++) {
-      if (types[i].values?.length) {
-        entries = [...entries, ...types[i].values!];
-      }
-    }
-    this.valueEntries = entries;
+    this.valueEntries = this._nameService.getValueEntries(types);
   }
 
   private updateForm(
@@ -385,7 +313,7 @@ export class ProperNameComponent implements OnInit {
     if (!name) {
       this.clearPieces();
       this.form.reset();
-      this.pieceTypes = this.parseTypes(typeEntries);
+      this.pieceTypes = this._nameService.parseTypeEntries(typeEntries);
       this.ordered = this.pieceTypes.some((t) => t.ordinal);
       this.updateValueEntries(this.pieceTypes);
       return;
@@ -393,7 +321,7 @@ export class ProperNameComponent implements OnInit {
 
     // name
     this.clearPieces();
-    this.pieceTypes = this.parseTypes(typeEntries);
+    this.pieceTypes = this._nameService.parseTypeEntries(typeEntries);
     this.ordered = this.pieceTypes.some((t) => t.ordinal);
     this.updateValueEntries(this.pieceTypes);
 

@@ -44,8 +44,10 @@ export class PhysicalDimensionComponent implements OnInit {
     return this._dimension;
   }
   public set dimension(value: PhysicalDimension | undefined) {
-    this._dimension = value;
-    this.updateForm(value);
+    if (this._dimension !== value) {
+      this._dimension = value;
+      this.updateForm(value);
+    }
   }
 
   @Input()

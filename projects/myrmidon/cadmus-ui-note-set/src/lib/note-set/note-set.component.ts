@@ -54,8 +54,10 @@ export class NoteSetComponent implements OnInit {
     return this._set;
   }
   public set set(value: NoteSet | undefined) {
-    this._set = value || { definitions: [] };
-    this.updateForm();
+    if (this._set !== value) {
+      this._set = value || { definitions: [] };
+      this.updateForm();
+    }
   }
 
   /**

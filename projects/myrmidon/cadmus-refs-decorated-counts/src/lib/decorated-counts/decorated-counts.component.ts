@@ -36,8 +36,10 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
     return this._counts;
   }
   public set counts(value: DecoratedCount[] | undefined) {
-    this._counts = value;
-    this.updateForm(value);
+    if (this._counts !== value) {
+      this._counts = value;
+      this.updateForm(value);
+    }
   }
 
   // decorated-count-ids

@@ -51,10 +51,12 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
     return this._data$.value.selectedIds;
   }
   public set selectedIds(value: string[] | undefined) {
-    this._data$.next({
-      selectedIds: value || [],
-      flags: this._data$.value.flags,
-    });
+    if (this._data$.value.selectedIds !== value) {
+      this._data$.next({
+        selectedIds: value || [],
+        flags: this._data$.value.flags,
+      });
+    }
   }
 
   /**
@@ -65,10 +67,12 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
     return this._data$.value.flags;
   }
   public set flags(value: Flag[] | undefined) {
-    this._data$.next({
-      selectedIds: this._data$.value.selectedIds,
-      flags: value || [],
-    });
+    if (this._data$.value.flags !== value) {
+      this._data$.next({
+        selectedIds: this._data$.value.selectedIds,
+        flags: value || [],
+      });
+    }
   }
 
   /**

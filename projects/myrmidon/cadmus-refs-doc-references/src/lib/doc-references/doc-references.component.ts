@@ -57,8 +57,10 @@ export class DocReferencesComponent implements AfterViewInit, OnDestroy {
     return this._references;
   }
   public set references(value: DocReference[]) {
-    this._references = value || [];
-    this.updateForm(value);
+    if (this._references !== value) {
+      this._references = value || [];
+      this.updateForm(value);
+    }
   }
 
   @Input()

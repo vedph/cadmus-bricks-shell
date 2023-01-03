@@ -28,8 +28,10 @@ export class AssertedChronotopeSetComponent implements OnInit {
     return this._chronotopes;
   }
   public set chronotopes(value: AssertedChronotope[] | undefined) {
-    this._chronotopes = value;
-    this.updateForm(value);
+    if (this._chronotopes !== value) {
+      this._chronotopes = value;
+      this.updateForm(value);
+    }
   }
   // chronotope-place-tags
   @Input()
@@ -83,7 +85,10 @@ export class AssertedChronotopeSetComponent implements OnInit {
     this.editChronotope({});
   }
 
-  public editChronotope(chronotope: AssertedChronotope | null, index = -1): void {
+  public editChronotope(
+    chronotope: AssertedChronotope | null,
+    index = -1
+  ): void {
     if (!chronotope) {
       this.editedIndex = -1;
       this.initialChronotope = undefined;

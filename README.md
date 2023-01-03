@@ -47,6 +47,10 @@ To add a brick:
 
 ## History
 
+- 2023-01-03:
+  - ensure that input properties check for reference equality in setter.
+  - added proper name service.
+
 ### 1.0.2
 
 - 2022-12-30: refactored [proper names](./projects/myrmidon/cadmus-refs-proper-name/README.md) editor. The model has not changed, but the editor and its thesauri have been refactored so that they can represent also hierarchically structured appellations, especially useful for place names (`@myrmidon/cadmus-refs-proper-name`).

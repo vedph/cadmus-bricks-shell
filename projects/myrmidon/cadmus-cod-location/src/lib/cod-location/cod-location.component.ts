@@ -64,13 +64,15 @@ export class CodLocationComponent implements OnInit {
     return this._location;
   }
   public set location(value: CodLocationRange[] | null) {
-    this._location = value;
-    if (!this.text) {
-      this._initPending = true;
-    } else {
-      this._changeFrozen = true;
-      this.text.setValue(CodLocationParser.rangesToString(value));
-      this._changeFrozen = false;
+    if (this._location !== value) {
+      this._location = value;
+      if (!this.text) {
+        this._initPending = true;
+      } else {
+        this._changeFrozen = true;
+        this.text.setValue(CodLocationParser.rangesToString(value));
+        this._changeFrozen = false;
+      }
     }
   }
 

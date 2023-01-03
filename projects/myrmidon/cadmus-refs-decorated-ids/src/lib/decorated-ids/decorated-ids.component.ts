@@ -49,8 +49,10 @@ export class DecoratedIdsComponent implements OnInit {
     return this._ids;
   }
   public set ids(value: DecoratedId[]) {
-    this._ids = value || [];
-    this.closeIdEditor();
+    if (this._ids !== value) {
+      this._ids = value || [];
+      this.closeIdEditor();
+    }
   }
 
   @Input()

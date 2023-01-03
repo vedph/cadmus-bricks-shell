@@ -1,6 +1,10 @@
 // import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
@@ -117,9 +121,11 @@ export class RefLookupComponent implements OnInit {
     return this._item;
   }
   public set item(value: any | undefined) {
-    this._item = value;
-    this.updateValidity();
-    this.lookup.setValue(value);
+    if (this._item !== value) {
+      this._item = value;
+      this.updateValidity();
+      this.lookup.setValue(value);
+    }
   }
 
   /**
@@ -214,7 +220,7 @@ export class RefLookupComponent implements OnInit {
               })
             );
         } else {
-          this.invalid$.next(value? false : true);
+          this.invalid$.next(value ? false : true);
           return of([value]);
         }
       })

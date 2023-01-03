@@ -49,8 +49,10 @@ export class ProperNamePieceComponent implements OnInit, OnDestroy {
     return this._piece$.value;
   }
   public set piece(value: ProperNamePiece | undefined) {
-    console.log(`piece set: ${value?.type}=${value?.value}`);
-    this._piece$.next(value);
+    if (this._piece$.value !== value) {
+      console.log(`piece set: ${value?.type}=${value?.value}`);
+      this._piece$.next(value);
+    }
   }
 
   /**
@@ -61,8 +63,10 @@ export class ProperNamePieceComponent implements OnInit, OnDestroy {
     return this._types$.value;
   }
   public set types(value: TypeThesaurusEntry[] | undefined) {
-    console.log('types set: ' + value?.length || 0);
-    this._types$.next(value);
+    if (this._types$.value !== value) {
+      console.log('types set: ' + value?.length || 0);
+      this._types$.next(value);
+    }
   }
 
   /**

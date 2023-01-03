@@ -37,8 +37,10 @@ export class AssertedIdsComponent implements OnDestroy {
     return this._ids;
   }
   public set ids(value: AssertedId[]) {
-    this._ids = value || [];
-    this.updateForm(value);
+    if (this._ids !== value) {
+      this._ids = value || [];
+      this.updateForm(value);
+    }
   }
 
   /**
@@ -195,9 +197,9 @@ export class AssertedIdsComponent implements OnDestroy {
     // save the currently edited assertion if any
     this.saveAssertion();
     // edit the new assertion
-    this.initialAssertion = (
-      this.idsArr.at(index) as FormGroup
-    ).controls['assertion'].value;
+    this.initialAssertion = (this.idsArr.at(index) as FormGroup).controls[
+      'assertion'
+    ].value;
     this.assertionNr = index + 1;
     this.assEdOpen = true;
   }
