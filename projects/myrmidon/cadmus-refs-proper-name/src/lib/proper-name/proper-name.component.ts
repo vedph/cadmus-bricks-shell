@@ -13,7 +13,7 @@ import { Assertion } from '@myrmidon/cadmus-refs-assertion';
 import { NgToolsValidators } from '@myrmidon/ng-tools';
 
 import { ProperName, ProperNamePiece, TypeThesaurusEntry } from '../models';
-import { ProperNameServiceService } from '../services/proper-name-service.service';
+import { ProperNameService } from '../services/proper-name.service';
 
 /**
  * A proper name with an assertion.
@@ -121,7 +121,7 @@ export class ProperNameComponent implements OnInit {
 
   constructor(
     formBuilder: FormBuilder,
-    private _nameService: ProperNameServiceService
+    private _nameService: ProperNameService
   ) {
     this.nameChange = new EventEmitter<AssertedProperName | undefined>();
     this.assEdOpen = false;

@@ -6,7 +6,7 @@ import { TypeThesaurusEntry } from '../models';
 @Injectable({
   providedIn: 'root',
 })
-export class ProperNameServiceService {
+export class ProperNameService {
   constructor() {}
 
   private getEntryOrdinal(
