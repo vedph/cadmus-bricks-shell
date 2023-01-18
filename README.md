@@ -47,6 +47,7 @@ To add a brick:
 
 ## History
 
+- 2023-01-18: added missing label to physical size h-unit.
 - 2023-01-03:
   - ensure that input properties check for reference equality in setter.
   - added proper name service.
