@@ -64,9 +64,9 @@ export interface CodLocationRange {
  * (/[SYSTEM:]N[(r|v)[COLUMN]].LINE). Match groups are:
  * [1]=endleaf, optional: ( for start or (/ for end.
  * [2]=system: starts with a-z or A-Z and then contains only letters
- * a-z or A-Z, underscores, or digits 0-9. It is terminated by colon.
+ * a-z or A-Z, underscores, dots, or digits 0-9. It is terminated by colon.
  * [3]='^' for a Roman number.
- * [4]=sheet: the sheet number. This is the only required component.
+ * [4]=sheet: the sheet number.
  * [5]=suffix between "".
  * [6]=recto/verso: 'r' or 'v', otherwise unspecified/not applicable.
  * [7]=column: the column letter(s) (column 1=a, 2=b, etc.: a-q).
@@ -74,10 +74,10 @@ export interface CodLocationRange {
  * [9]=word preceded by @.
  */
 export const COD_LOCATION_PATTERN =
-  /^(\(\/?)?(?:([a-zA-Z][_a-zA-Z0-9]*):)?(\^)?([0-9]+)(?:"([^"]*)")?([rv])?([a-q])?(?:\.([0-9]+))?(?:@([\p{L}]+))?\)?$/u;
+  /^(\(\/?)?(?:([a-zA-Z][_.a-zA-Z0-9]*):)?(\^)?([0-9]*)(?:"([^"]*)")?([rv])?([a-q])?(?:\.([0-9]+))?(?:@([\p{L}]+))?\)?$/u;
 
 export const COD_LOCATION_RANGES_PATTERN =
-  /^(?:(?:\(\/?)?(?:(?:[a-zA-Z][_a-zA-Z0-9]*):)?(?:\^)?(?:[0-9]+)(?:"([^"]*)")?(?:[rv])?(?:[a-q])?(?:\.(?:[0-9]+))?(?:@([\p{L}]+))?\)?[- ]?)+$/u;
+  /^(?:(?:\(\/?)?(?:(?:[a-zA-Z][_.a-zA-Z0-9]*):)?(?:\^)?(?:[0-9]*)(?:"([^"]*)")?(?:[rv])?(?:[a-q])?(?:\.(?:[0-9]+))?(?:@([\p{L}]+))?\)?[- ]?)+$/u;
 
 // group numbers in pattern
 const P_LEAF = 1;
@@ -117,7 +117,7 @@ export class CodLocationParser {
           : CodLocationEndleaf.Start
         : undefined,
       s: m[P_S],
-      n: +m[P_N],
+      n: m[P_N] ? +m[P_N] : 0,
       rmn: m[P_RMN] ? true : undefined,
       sfx: m[P_SFX],
       v: m[P_V] ? m[P_V] === 'v' : undefined,
@@ -155,7 +155,9 @@ export class CodLocationParser {
       sb.push('^');
     }
     // n
-    sb.push(location.n.toString());
+    if (location.n) {
+      sb.push(location.n.toString());
+    }
     // sfx
     if (location.sfx) {
       sb.push(`"${location.sfx}"`);
@@ -311,7 +313,9 @@ export class CodLocationParser {
     if ((!a.s && !b.s) || a.s === b.s) {
       // systems are equal: compare n
       if (a.n !== b.n) {
-        return a.n - b.n;
+        const na = a.n === null || a.n === undefined? 0 : a.n;
+        const nb = b.n === null || b.n === undefined? 0 : b.n;
+        return na - nb;
       }
       // n are equal: compare sfx
       if ((a.sfx || b.sfx) && a.sfx !== b.sfx) {

@@ -13,7 +13,7 @@ A codicologic location (`CodLocation`) is an object with these properties (the o
 
 - `endleaf`: whether the location refers to a set of endleaves, either at the start or at the end of the manuscript. 0=not in endleaf, 1=at start endleaves, 2=at end endleaves.
 - `s`: ID of the reference system.
-- `n`\*: sheet number.
+- `n`: sheet number (defaults to 0 if not specified).
 - `rmn`: true if n must be displayed with Roman digits.
 - `sfx`: an arbitrary suffix appended to n (e.g. "bis").
 - `v`: true if verso, false if recto, undefined if not specified or not applicable.
@@ -22,6 +22,8 @@ A codicologic location (`CodLocation`) is an object with these properties (the o
 - `word`: the word we refer to. By scholarly convention, this is a word picked from the line so that it cannot be ambiguous, i.e. confused with other instances of the same word in its line.
 
 There is also a `CodLocationRange` which is a range having two `CodLocation`'s, one for `start` and one for `end`.
+
+>The default value of 0 for `n` is due to the fact that users might want to enter an arbitrary sheet label (as found on the manuscript) rather than its physical location. In this case, the convention is entering just the suffix, between `""` as usual, like e.g. `"III"`; this will result in `n`=0 and `sfx`=`III`, which can be later looked up against a label sheets part to get the corresponding physical location.
 
 ## String Representation
 

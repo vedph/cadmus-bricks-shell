@@ -141,7 +141,7 @@ describe('CodLocationParser', () => {
     expect(l?.l).toBeUndefined();
     expect(l?.word).toBeUndefined();
   });
-  fit('parseLocation should parse "x:12"bis"r"', () => {
+  it('parseLocation should parse "x:12"bis"r"', () => {
     const l = CodLocationParser.parseLocation('x:12"bis"r');
     expect(l).toBeTruthy();
     expect(l?.endleaf).toBeUndefined();
@@ -204,6 +204,32 @@ describe('CodLocationParser', () => {
     expect(l?.v).toBeUndefined();
     expect(l?.c).toBeUndefined();
     expect(l?.l).toBe(3);
+    expect(l?.word).toBeUndefined();
+  });
+  it('parseLocation should parse "n.roman:12.3"', () => {
+    const l = CodLocationParser.parseLocation('n.roman:12.3');
+    expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
+    expect(l?.s).toBe('n.roman');
+    expect(l?.n).toBe(12);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBeUndefined();
+    expect(l?.v).toBeUndefined();
+    expect(l?.c).toBeUndefined();
+    expect(l?.l).toBe(3);
+    expect(l?.word).toBeUndefined();
+  });
+  it('parseLocation should parse ""suffix""', () => {
+    const l = CodLocationParser.parseLocation('"suffix"');
+    expect(l).toBeTruthy();
+    expect(l?.endleaf).toBeUndefined();
+    expect(l?.s).toBeUndefined();
+    expect(l?.n).toBe(0);
+    expect(l?.rmn).toBeUndefined();
+    expect(l?.sfx).toBe('suffix');
+    expect(l?.v).toBeUndefined();
+    expect(l?.c).toBeUndefined();
+    expect(l?.l).toBeUndefined();
     expect(l?.word).toBeUndefined();
   });
   // #endregion
