@@ -47,6 +47,9 @@ To add a brick:
 
 ## History
 
+- 2023-01-19:
+  - `cod-location`: `n` is no more required and defaults to 0. This allows dealing with non-physical (label-driven) locations.
+  - updated Angular and packages.
 - 2023-01-18: added missing label to physical size h-unit.
 - 2023-01-03:
   - ensure that input properties check for reference equality in setter.
