@@ -21,8 +21,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
-import { CadmusCoreModule } from '@myrmidon/cadmus-core';
+import { MarkdownModule } from 'ngx-markdown';
+
+import {
+  CadmusCoreModule,
+  IndexLookupDefinitions,
+} from '@myrmidon/cadmus-core';
+import { CadmusApiModule, ItemService } from '@myrmidon/cadmus-api';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -67,7 +74,15 @@ import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.compone
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
 import { NoteSetPgComponent } from './ui/note-set-pg/note-set-pg.component';
-import { MarkdownModule } from 'ngx-markdown';
+import { MockItemService } from './services/mock-item.service';
+
+// for lookup in asserted IDs - note that this would require a backend
+const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
+  item_eid: {
+    typeId: 'it.vedph.metadata',
+    name: 'eid',
+  },
+};
 
 @NgModule({
   declarations: [
@@ -138,9 +153,9 @@ import { MarkdownModule } from 'ngx-markdown';
         { path: '**', component: HomeComponent },
       ],
       {
-    initialNavigation: 'enabledBlocking',
-    useHash: true
-}
+        initialNavigation: 'enabledBlocking',
+        useHash: true,
+      }
     ),
     // material
     MatAutocompleteModule,
@@ -159,10 +174,12 @@ import { MarkdownModule } from 'ngx-markdown';
     MatSlideToggleModule,
     MatToolbarModule,
     MatTooltipModule,
+    ClipboardModule,
     // vendor
     MarkdownModule.forRoot(),
     // Cadmus
     CadmusCoreModule,
+    CadmusApiModule,
     CadmusImgAnnotatorModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
@@ -179,9 +196,19 @@ import { MarkdownModule } from 'ngx-markdown';
     CadmusMatPhysicalSizeModule,
     CadmusCodLocationModule,
     CadmusUiFlagsPickerModule,
-    CadmusUiNoteSetModule
+    CadmusUiNoteSetModule,
   ],
-  providers: [],
+  providers: [
+    // index lookup definitions
+    {
+      provide: 'indexLookupDefinitions',
+      useValue: INDEX_LOOKUP_DEFINITIONS,
+    },
+    {
+      provide: ItemService,
+      useClass: MockItemService,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

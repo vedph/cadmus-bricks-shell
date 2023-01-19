@@ -10,9 +10,9 @@
       <button mat-button [matMenuTriggerFor]="refsMenu">Refs</button>
       <mat-menu #refsMenu>
         <a mat-menu-item routerLink="/refs/doc-references">Doc references</a>
-        <a mat-menu-item routerLink="/refs/external-ids"
+        <!-- <a mat-menu-item routerLink="/refs/external-ids"
           >External IDs (deprecated)</a
-        >
+        > -->
         <a mat-menu-item routerLink="/refs/decorated-counts"
           >Decorated counts</a
         >
@@ -73,8 +73,8 @@
   <footer>
     <div class="footer-container">
       <div class="info">
-        Cadmus bricks 1.0.2 by
-        <a href="https://www.fusisoft.net" target="_blank">Daniele Fusi</a> at
+        Cadmus bricks {{version}} by
+        <a href="http://www.fusisoft.it" target="_blank">Daniele Fusi</a> at
         <a href="https://www.unive.it/pag/39287" target="_blank">VeDPH</a>
       </div>
     </div>

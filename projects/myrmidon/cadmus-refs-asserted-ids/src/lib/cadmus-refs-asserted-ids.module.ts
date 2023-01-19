@@ -10,8 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
+import { CadmusApiModule } from '@myrmidon/cadmus-api';
 import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-references';
+import { CadmusRefsLookupModule } from '@myrmidon/cadmus-refs-lookup';
 
 import { AssertedIdComponent } from './asserted-id/asserted-id.component';
 import { AssertedIdsComponent } from './asserted-ids/asserted-ids.component';
@@ -33,6 +35,8 @@ import { AssertedIdsComponent } from './asserted-ids/asserted-ids.component';
     CadmusCoreModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsAssertionModule,
+    CadmusRefsLookupModule,
+    CadmusApiModule,
   ],
   exports: [AssertedIdComponent, AssertedIdsComponent],
 })

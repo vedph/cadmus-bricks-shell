@@ -3,31 +3,29 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
-  QueryList,
-  ViewChildren,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { Assertion } from '@myrmidon/cadmus-refs-assertion';
+import { DialogService } from '@myrmidon/ng-mat-tools';
+import { debounceTime, Subscription, take } from 'rxjs';
 
-import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { AssertedId } from '../asserted-id/asserted-id.component';
 
+/**
+ * Asserted IDs editor.
+ */
 @Component({
   selector: 'cadmus-refs-asserted-ids',
   templateUrl: './asserted-ids.component.html',
   styleUrls: ['./asserted-ids.component.css'],
 })
-export class AssertedIdsComponent implements OnDestroy {
+export class AssertedIdsComponent {
   private _ids: AssertedId[];
-  private _idSubscription: Subscription | undefined;
-  private _idsSubs: Subscription[];
-  private _updatingForm: boolean | undefined;
-
-  @ViewChildren('id') idQueryList: QueryList<any> | undefined;
+  private _editedIndex: number;
+  public edited?: AssertedId;
 
   /**
    * The asserted IDs.
@@ -71,195 +69,116 @@ export class AssertedIdsComponent implements OnDestroy {
   @Output()
   public idsChange: EventEmitter<AssertedId[]>;
 
-  public idsArr: FormArray;
+  public entries: FormControl<AssertedId[]>;
   public form: FormGroup;
-  // edited assertion
-  public assEdOpen: boolean;
-  public assertionNr?: number;
-  public initialAssertion?: Assertion;
-  public assertion?: Assertion;
 
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(formBuilder: FormBuilder, private _dialogService: DialogService) {
     this._ids = [];
-    this._idsSubs = [];
+    this._editedIndex = -1;
     this.idsChange = new EventEmitter<AssertedId[]>();
-    this.assEdOpen = false;
+    this.entries = formBuilder.control([], { nonNullable: true });
     // form
-    this.idsArr = _formBuilder.array([]);
-    this.form = _formBuilder.group({
-      idsArr: this.idsArr,
+    this.form = formBuilder.group({
+      ids: this.entries,
     });
   }
 
-  public ngAfterViewInit(): void {
-    // focus on newly added ID
-    this._idSubscription = this.idQueryList?.changes
-      .pipe(debounceTime(300))
-      .subscribe((lst: QueryList<any>) => {
-        if (!this._updatingForm && lst.length > 0) {
-          lst.last.nativeElement.focus();
-        }
-      });
-  }
-
-  private unsubscribeIds(): void {
-    for (let i = 0; i < this._idsSubs.length; i++) {
-      this._idsSubs[i].unsubscribe();
-    }
-  }
-
-  public ngOnDestroy(): void {
-    this.unsubscribeIds();
-    this._idSubscription?.unsubscribe();
-  }
-
-  private getIdGroup(id?: AssertedId): FormGroup {
-    return this._formBuilder.group({
-      value: this._formBuilder.control(id?.value, [
-        Validators.required,
-        Validators.maxLength(500),
-      ]),
-      scope: this._formBuilder.control(id?.scope, Validators.maxLength(50)),
-      tag: this._formBuilder.control(id?.tag, Validators.maxLength(50)),
-      assertion: this._formBuilder.control(id?.assertion),
-    });
-  }
-
-  public addId(id?: AssertedId): void {
-    const g = this.getIdGroup(id);
-    this._idsSubs.push(
-      g.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
-        this.emitIdsChange();
-      })
-    );
-    this.idsArr.push(g);
-    if (!this._updatingForm) {
-      this.emitIdsChange();
-    }
-  }
-
-  public removeId(index: number): void {
-    this.closeAssertion();
-    this._idsSubs[index].unsubscribe();
-    this._idsSubs.splice(index, 1);
-    this.idsArr.removeAt(index);
-    this.emitIdsChange();
-  }
-
-  private swapArrElems(a: any[], i: number, j: number): void {
-    if (i === j) {
+  private updateForm(ids: AssertedId[]): void {
+    if (!ids?.length) {
+      this.form.reset();
       return;
     }
-    const t = a[i];
-    a[i] = a[j];
-    a[j] = t;
+    this.entries.setValue(ids, { emitEvent: false });
+    this.entries.updateValueAndValidity();
+    this.form.markAsPristine();
+  }
+
+  private emitIdsChange(): void {
+    this.idsChange.emit(this.entries.value);
+  }
+
+  public addId(): void {
+    this.editId(
+      {
+        scope: '',
+        value: '',
+      },
+      -1
+    );
+  }
+
+  public editId(id: AssertedId, index: number): void {
+    this._editedIndex = index;
+    this.edited = id;
+  }
+
+  public closeId(): void {
+    this._editedIndex = -1;
+    this.edited = undefined;
+  }
+
+  public saveId(entry: AssertedId): void {
+    const entries = [...this.entries.value];
+    if (this._editedIndex === -1) {
+      entries.push(entry);
+    } else {
+      entries.splice(this._editedIndex, 1, entry);
+    }
+    this.entries.setValue(entries);
+    this.entries.markAsDirty();
+    this.entries.updateValueAndValidity();
+    this.closeId();
+  }
+
+  public deleteId(index: number): void {
+    this._dialogService
+      .confirm('Confirmation', 'Delete ID?')
+      .pipe(take(1))
+      .subscribe((yes) => {
+        if (yes) {
+          if (this._editedIndex === index) {
+            this.closeId();
+          }
+          const entries = [...this.entries.value];
+          entries.splice(index, 1);
+          this.entries.setValue(entries);
+          this.entries.markAsDirty();
+          this.entries.updateValueAndValidity();
+          this.emitIdsChange();
+        }
+      });
   }
 
   public moveIdUp(index: number): void {
     if (index < 1) {
       return;
     }
-    this.closeAssertion();
-    const ctl = this.idsArr.controls[index];
-    this.idsArr.removeAt(index);
-    this.idsArr.insert(index - 1, ctl);
-
-    this.swapArrElems(this._idsSubs, index, index - 1);
-
+    const entry = this.entries.value[index];
+    const entries = [...this.entries.value];
+    entries.splice(index, 1);
+    entries.splice(index - 1, 0, entry);
+    this.entries.setValue(entries);
+    this.entries.markAsDirty();
+    this.entries.updateValueAndValidity();
     this.emitIdsChange();
   }
 
   public moveIdDown(index: number): void {
-    if (index + 1 >= this.idsArr.length) {
+    if (index + 1 >= this.entries.value.length) {
       return;
     }
-    this.closeAssertion();
-    const item = this.idsArr.controls[index];
-    this.idsArr.removeAt(index);
-    this.idsArr.insert(index + 1, item);
-
-    this.swapArrElems(this._idsSubs, index, index + 1);
-
+    const entry = this.entries.value[index];
+    const entries = [...this.entries.value];
+    entries.splice(index, 1);
+    entries.splice(index + 1, 0, entry);
+    this.entries.setValue(entries);
+    this.entries.markAsDirty();
+    this.entries.updateValueAndValidity();
     this.emitIdsChange();
   }
 
-  public clearIds(): void {
-    this.closeAssertion();
-    this.idsArr.clear();
-    this.unsubscribeIds();
-    this._idsSubs = [];
-    if (!this._updatingForm) {
-      this.emitIdsChange();
-    }
-  }
-
-  public editAssertion(index: number): void {
-    // save the currently edited assertion if any
-    this.saveAssertion();
-    // edit the new assertion
-    this.initialAssertion = (this.idsArr.at(index) as FormGroup).controls[
-      'assertion'
-    ].value;
-    this.assertionNr = index + 1;
-    this.assEdOpen = true;
-  }
-
-  public onAssertionChange(assertion: Assertion | undefined): void {
-    this.assertion = assertion;
-  }
-
-  public saveAssertion(): void {
-    // save the currently edited assertion if any
-    if (this.assertionNr) {
-      const g = this.idsArr.at(this.assertionNr - 1) as FormGroup;
-      g.controls['assertion'].setValue(this.assertion);
-      this.closeAssertion();
-      this.emitIdsChange();
-    }
-  }
-
-  private closeAssertion(): void {
-    if (this.assertionNr) {
-      this.assEdOpen = false;
-      this.assertionNr = 0;
-      this.initialAssertion = undefined;
-    }
-  }
-
-  private updateForm(ids: AssertedId[]): void {
-    if (!this.idsArr) {
-      return;
-    }
-    this._updatingForm = true;
-    this.clearIds();
-
-    if (!ids) {
-      this.form.reset();
-    } else {
-      for (const id of ids) {
-        this.addId(id);
-      }
-      this.form.markAsPristine();
-    }
-    this._updatingForm = false;
+  public onIdChange(id: AssertedId): void {
+    this.saveId(id);
     this.emitIdsChange();
-  }
-
-  private getIds(): AssertedId[] {
-    const ids: AssertedId[] = [];
-    for (let i = 0; i < this.idsArr.length; i++) {
-      const g = this.idsArr.controls[i] as FormGroup;
-      ids.push({
-        value: g.controls.value.value?.trim(),
-        scope: g.controls.scope.value?.trim(),
-        tag: g.controls.tag.value?.trim(),
-        assertion: g.controls.assertion.value,
-      });
-    }
-    return ids;
-  }
-
-  private emitIdsChange(): void {
-    this.idsChange.emit(this.getIds());
   }
 }

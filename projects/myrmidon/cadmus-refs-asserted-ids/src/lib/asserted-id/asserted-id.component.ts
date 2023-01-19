@@ -1,13 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { Assertion } from '@myrmidon/cadmus-refs-assertion';
 import { debounceTime } from 'rxjs/operators';
+
+import {
+  DataPinInfo,
+  IndexLookupDefinitions,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
+import { Assertion } from '@myrmidon/cadmus-refs-assertion';
+
+import { PinRefLookupService } from '../services/pin-ref-lookup.service';
 
 export interface AssertedId {
   tag?: string;
@@ -32,6 +46,13 @@ export class AssertedIdComponent implements OnInit {
 
   public initialAssertion?: Assertion;
   public assertion?: Assertion;
+
+  // lookup
+  public key: FormControl<string | null>;
+  public keyForm: FormGroup;
+  public keys: string[];
+  public lastLookupResult?: DataPinInfo;
+  public lookupExpanded: boolean;
 
   @Input()
   public scopeEntries?: ThesaurusEntry[];
@@ -59,10 +80,24 @@ export class AssertedIdComponent implements OnInit {
     }
   }
 
+  /**
+   * True to hide the pin-based EID lookup UI.
+   */
+  @Input()
+  public noEidLookup: boolean | undefined;
+
+  @Input()
+  public hasSubmit: boolean | undefined;
+
   @Output()
   public idChange: EventEmitter<AssertedId>;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(
+    formBuilder: FormBuilder,
+    public lookupService: PinRefLookupService,
+    @Inject('indexLookupDefinitions')
+    public lookupDefs: IndexLookupDefinitions
+  ) {
     this.idChange = new EventEmitter<AssertedId>();
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
@@ -76,9 +111,24 @@ export class AssertedIdComponent implements OnInit {
       value: this.value,
       scope: this.scope,
     });
+    // lookup
+    this.lookupExpanded = false;
+    // keys are all the defined lookup searches
+    this.keys = Object.keys(lookupDefs);
+    // the selected key defines the lookup scope
+    this.key = formBuilder.control(null);
+    this.keyForm = formBuilder.group({
+      key: this.key,
+    });
   }
 
   ngOnInit(): void {
+    // pre-select a unique key
+    if (this.keys.length === 1) {
+      this.key.setValue(this.keys[0]);
+      this.key.markAsDirty();
+      this.key.updateValueAndValidity();
+    }
     this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
       if (!this._updatingForm) {
         this.emitIdChange();
@@ -89,6 +139,17 @@ export class AssertedIdComponent implements OnInit {
   public onAssertionChange(assertion: Assertion | undefined): void {
     this.assertion = assertion;
     setTimeout(() => this.emitIdChange(), 0);
+  }
+
+  public onItemChange(item: DataPinInfo): void {
+    // we are only interested on getting the full pin value,
+    // as it will represent the ID we want to pick;
+    // so, we are not required to fetch its item or part.
+    this.lastLookupResult = item;
+    this.value.setValue(item.value);
+    this.value.markAsDirty();
+    this.value.updateValueAndValidity();
+    this.lookupExpanded = false;
   }
 
   private updateForm(value: AssertedId | undefined): void {
@@ -117,6 +178,14 @@ export class AssertedIdComponent implements OnInit {
   }
 
   public emitIdChange(): void {
-    this.idChange.emit(this.getId());
+    if (!this.hasSubmit) {
+      this.idChange.emit(this.getId());
+    }
+  }
+
+  public save(): void {
+    if (this.form.valid) {
+      this.idChange.emit(this.getId());
+    }
   }
 }
