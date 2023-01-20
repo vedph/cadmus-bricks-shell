@@ -17,9 +17,14 @@ import { CadmusRefsLookupModule } from '@myrmidon/cadmus-refs-lookup';
 
 import { AssertedIdComponent } from './asserted-id/asserted-id.component';
 import { AssertedIdsComponent } from './asserted-ids/asserted-ids.component';
+import { ScopedPinLookupComponent } from './scoped-pin-lookup/scoped-pin-lookup.component';
 
 @NgModule({
-  declarations: [AssertedIdComponent, AssertedIdsComponent],
+  declarations: [
+    AssertedIdComponent,
+    AssertedIdsComponent,
+    ScopedPinLookupComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -38,6 +43,10 @@ import { AssertedIdsComponent } from './asserted-ids/asserted-ids.component';
     CadmusRefsLookupModule,
     CadmusApiModule,
   ],
-  exports: [AssertedIdComponent, AssertedIdsComponent],
+  exports: [
+    AssertedIdComponent,
+    AssertedIdsComponent,
+    ScopedPinLookupComponent,
+  ],
 })
 export class CadmusRefsAssertedIdsModule {}

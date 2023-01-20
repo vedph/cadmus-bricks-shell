@@ -1,7 +1,7 @@
 import { Observable, of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { DataPinInfo } from '@myrmidon/cadmus-core';
+import { DataPinInfo, Item, Part } from '@myrmidon/cadmus-core';
 import { ErrorWrapper, DataPage } from '@myrmidon/ng-tools';
 
 const EIDS = [
@@ -68,6 +68,49 @@ export class MockItemService {
           };
         }),
       },
+    });
+  }
+
+  public getItem(id: string, parts: boolean): Observable<Item> {
+    const n = Date.now();
+    return of({
+      id: 'item-' + n,
+      title: 'item ' + n,
+      description: 'mock item',
+      facetId: 'default',
+      groupId: '',
+      sortKey: 'item' + n,
+      flags: 0,
+      parts: [],
+      timeCreated: new Date(),
+      timeModified: new Date(),
+      creatorId: 'zeus',
+      userId: 'zeus',
+    });
+  }
+
+  public getPartFromTypeAndRole(
+    id: string,
+    type: string,
+    role?: string
+  ): Observable<Part> {
+    const n = Date.now();
+    return of({
+      id: 'part-' + n,
+      typeId: type,
+      roleId: role,
+      itemId: 'item-' + n,
+      timeCreated: new Date(),
+      timeModified: new Date(),
+      creatorId: 'zeus',
+      userId: 'zeus',
+      // metadata part
+      metadata: [
+        {
+          name: 'eid',
+          value: 'item-eid',
+        },
+      ],
     });
   }
 }

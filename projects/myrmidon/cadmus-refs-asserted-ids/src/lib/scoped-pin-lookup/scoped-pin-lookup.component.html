@@ -1,0 +1,132 @@
+<div>
+  <!-- lookup -->
+  <div>
+    <form [formGroup]="keyForm" class="form-row">
+      <!-- key -->
+      <mat-form-field *ngIf="keys.length > 1">
+        <mat-label>type</mat-label>
+        <mat-select [formControl]="key">
+          <mat-option *ngFor="let k of keys" [value]="k">{{ k }}</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="$any(key).errors?.required && (key.dirty || key.touched)"
+          >type required</mat-error
+        >
+      </mat-form-field>
+      <cadmus-ref-lookup
+        [service]="lookupService"
+        label="pin"
+        [options]="key.value ? lookupDefs[key.value] : undefined"
+        (itemChange)="onItemChange($event)"
+      ></cadmus-ref-lookup>
+    </form>
+  </div>
+
+  <!-- builder -->
+  <mat-expansion-panel [expanded]="info" [disabled]="!info">
+    <mat-expansion-panel-header>ID builder</mat-expansion-panel-header>
+    <div>
+      <form [formGroup]="idForm" (submit)="pickId()">
+        <input matInput [formControl]="id" />
+        <mat-error *ngIf="$any(id).errors?.required && (id.dirty || id.touched)"
+          >ID required</mat-error
+        >
+        <mat-error
+          *ngIf="$any(id).errors?.maxLength && (id.dirty || id.touched)"
+          >ID too long</mat-error
+        >
+      </form>
+    </div>
+    <table>
+      <thead>
+        <th></th>
+        <th>source</th>
+        <th>value</th>
+      </thead>
+      <tbody>
+        <!-- item ID -->
+        <tr>
+          <td>
+            <mat-button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="appendIdComponent('itemId')"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </mat-button>
+          </td>
+          <td>item ID</td>
+          <td>{{ info.item.id }}</td>
+        </tr>
+        <!-- item title -->
+        <tr>
+          <td></td>
+          <td>item title</td>
+          <td>{{ info.item.title }}</td>
+        </tr>
+        <!-- part ID -->
+        <tr>
+          <td>
+            <mat-button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="appendIdComponent('partId')"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </mat-button>
+          </td>
+          <td>part ID</td>
+          <td>{{ info.part.id }}</td>
+        </tr>
+        <!-- part type ID -->
+        <tr>
+          <td>
+            <mat-button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="appendIdComponent('partTypeId')"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </mat-button>
+          </td>
+          <td>part type ID</td>
+          <td>{{ info.part.typeId }}</td>
+        </tr>
+        <!-- part role ID -->
+        <tr>
+          <td>
+            <mat-button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="appendIdComponent('partRoleId')"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </mat-button>
+          </td>
+          <td>part role ID</td>
+          <td>{{ info.part.roleId }}</td>
+        </tr>
+
+        <!-- part's metadata -->
+        <tr *ngFor="let m of info.part.metadata; i=index">
+          <td>
+            <mat-button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="appendIdComponent('metadata', i)"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </mat-button>
+          </td>
+          <td class="metadata">{{ m.name }}</td>
+          <td class="metadata">{{ m.title }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-expansion-panel>
+</div>
