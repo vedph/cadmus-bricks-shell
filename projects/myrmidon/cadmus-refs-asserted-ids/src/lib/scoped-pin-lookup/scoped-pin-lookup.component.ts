@@ -153,4 +153,10 @@ export class ScopedPinLookupComponent {
     }
     this.idPick.emit(this.id.value!);
   }
+
+  public resetId(): void {
+    this.id.reset();
+    this.id.markAsDirty();
+    this.id.updateValueAndValidity();
+  }
 }

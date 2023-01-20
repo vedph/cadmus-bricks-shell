@@ -1,3 +1,17 @@
 .metadata {
-  background-color: #a8e3da;
+  color: rgb(74, 48, 1);
+}
+table {
+  border: 1px solid silver;
+  border-radius: 6px;
+  padding: 4px 4px 4px;
+  margin-top: 8px;
+}
+tr:nth-child(odd) {
+  background-color: #f0f0f0;
+}
+th {
+  font-weight: normal;
+  text-align: left;
+  color: silver;
 }

@@ -23,20 +23,43 @@
   </div>
 
   <!-- builder -->
-  <mat-expansion-panel [expanded]="info" [disabled]="!info">
+  <mat-expansion-panel *ngIf="info" [expanded]="info" [disabled]="!info">
     <mat-expansion-panel-header>ID builder</mat-expansion-panel-header>
+    <!-- ID -->
     <div>
       <form [formGroup]="idForm" (submit)="pickId()">
-        <input matInput [formControl]="id" />
-        <mat-error *ngIf="$any(id).errors?.required && (id.dirty || id.touched)"
-          >ID required</mat-error
-        >
-        <mat-error
-          *ngIf="$any(id).errors?.maxLength && (id.dirty || id.touched)"
-          >ID too long</mat-error
-        >
+        <mat-form-field style="width: 100%">
+          <input matInput [formControl]="id" />
+          <mat-error
+            *ngIf="$any(id).errors?.required && (id.dirty || id.touched)"
+            >ID required</mat-error
+          >
+          <mat-error
+            *ngIf="$any(id).errors?.maxLength && (id.dirty || id.touched)"
+            >ID too long</mat-error
+          >
+          <button
+            mat-icon-button
+            type="button"
+            matSuffix
+            (click)="resetId()"
+            [disabled]="!id.value"
+          >
+            <mat-icon color="warn">close</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            matSuffix
+            (click)="pickId()"
+            [disabled]="idForm.invalid"
+          >
+            <mat-icon color="primary">check_circle</mat-icon>
+          </button>
+        </mat-form-field>
       </form>
     </div>
+    <!-- table -->
     <table>
       <thead>
         <th></th>
@@ -47,84 +70,84 @@
         <!-- item ID -->
         <tr>
           <td>
-            <mat-button
+            <button
               type="button"
               mat-icon-button
               color="primary"
               (click)="appendIdComponent('itemId')"
             >
               <mat-icon>add_circle</mat-icon>
-            </mat-button>
+            </button>
           </td>
           <td>item ID</td>
-          <td>{{ info.item.id }}</td>
+          <td>{{ info!.item?.id }}</td>
         </tr>
         <!-- item title -->
         <tr>
           <td></td>
           <td>item title</td>
-          <td>{{ info.item.title }}</td>
+          <td>{{ info!.item?.title }}</td>
         </tr>
         <!-- part ID -->
         <tr>
           <td>
-            <mat-button
+            <button
               type="button"
               mat-icon-button
               color="primary"
               (click)="appendIdComponent('partId')"
             >
               <mat-icon>add_circle</mat-icon>
-            </mat-button>
+            </button>
           </td>
           <td>part ID</td>
-          <td>{{ info.part.id }}</td>
+          <td>{{ info!.part?.id }}</td>
         </tr>
         <!-- part type ID -->
         <tr>
           <td>
-            <mat-button
+            <button
               type="button"
               mat-icon-button
               color="primary"
               (click)="appendIdComponent('partTypeId')"
             >
               <mat-icon>add_circle</mat-icon>
-            </mat-button>
+            </button>
           </td>
           <td>part type ID</td>
-          <td>{{ info.part.typeId }}</td>
+          <td>{{ info!.part?.typeId }}</td>
         </tr>
         <!-- part role ID -->
         <tr>
           <td>
-            <mat-button
+            <button
               type="button"
               mat-icon-button
               color="primary"
               (click)="appendIdComponent('partRoleId')"
             >
               <mat-icon>add_circle</mat-icon>
-            </mat-button>
+            </button>
           </td>
           <td>part role ID</td>
-          <td>{{ info.part.roleId }}</td>
+          <td>{{ info!.part?.roleId }}</td>
         </tr>
 
         <!-- part's metadata -->
-        <tr *ngFor="let m of info.part.metadata; i=index">
+        <tr *ngFor="let m of info!.part?.metadata; let i = index">
           <td>
-            <mat-button
+            <button
               type="button"
               mat-icon-button
               color="primary"
               (click)="appendIdComponent('metadata', i)"
             >
               <mat-icon>add_circle</mat-icon>
-            </mat-button>
+            </button>
           </td>
           <td class="metadata">{{ m.name }}</td>
-          <td class="metadata">{{ m.title }}</td>
+          <td class="metadata">{{ m.value }}</td>
         </tr>
       </tbody>
     </table>

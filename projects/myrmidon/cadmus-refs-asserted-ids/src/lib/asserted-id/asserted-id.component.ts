@@ -14,11 +14,7 @@ import {
 } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
-import {
-  DataPinInfo,
-  IndexLookupDefinitions,
-  ThesaurusEntry,
-} from '@myrmidon/cadmus-core';
+import { IndexLookupDefinitions, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Assertion } from '@myrmidon/cadmus-refs-assertion';
 
 import { PinRefLookupService } from '../services/pin-ref-lookup.service';
@@ -46,12 +42,6 @@ export class AssertedIdComponent implements OnInit {
 
   public initialAssertion?: Assertion;
   public assertion?: Assertion;
-
-  // lookup
-  public key: FormControl<string | null>;
-  public keyForm: FormGroup;
-  public keys: string[];
-  public lastLookupResult?: DataPinInfo;
   public lookupExpanded: boolean;
 
   @Input()
@@ -98,8 +88,6 @@ export class AssertedIdComponent implements OnInit {
     @Inject('indexLookupDefinitions')
     public lookupDefs: IndexLookupDefinitions
   ) {
-    this.idChange = new EventEmitter<AssertedId>();
-    // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.value = formBuilder.control(null, [
       Validators.required,
@@ -111,24 +99,11 @@ export class AssertedIdComponent implements OnInit {
       value: this.value,
       scope: this.scope,
     });
-    // lookup
     this.lookupExpanded = false;
-    // keys are all the defined lookup searches
-    this.keys = Object.keys(lookupDefs);
-    // the selected key defines the lookup scope
-    this.key = formBuilder.control(null);
-    this.keyForm = formBuilder.group({
-      key: this.key,
-    });
+    this.idChange = new EventEmitter<AssertedId>();
   }
 
   ngOnInit(): void {
-    // pre-select a unique key
-    if (this.keys.length === 1) {
-      this.key.setValue(this.keys[0]);
-      this.key.markAsDirty();
-      this.key.updateValueAndValidity();
-    }
     this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
       if (!this._updatingForm) {
         this.emitIdChange();
@@ -141,12 +116,8 @@ export class AssertedIdComponent implements OnInit {
     setTimeout(() => this.emitIdChange(), 0);
   }
 
-  public onItemChange(item: DataPinInfo): void {
-    // we are only interested on getting the full pin value,
-    // as it will represent the ID we want to pick;
-    // so, we are not required to fetch its item or part.
-    this.lastLookupResult = item;
-    this.value.setValue(item.value);
+  public onIdPick(id: string): void {
+    this.value.setValue(id);
     this.value.markAsDirty();
     this.value.updateValueAndValidity();
     this.lookupExpanded = false;
