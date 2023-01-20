@@ -24,7 +24,11 @@ const EIDS = [
   providedIn: 'root',
 })
 export class MockItemService {
-  constructor() {}
+  private _itemId: number;
+
+  constructor() {
+    this._itemId = 0;
+  }
 
   public searchPins(
     query: string,
@@ -72,7 +76,7 @@ export class MockItemService {
   }
 
   public getItem(id: string, parts: boolean): Observable<Item> {
-    const n = Date.now();
+    const n = ++this._itemId;
     return of({
       id: 'item-' + n,
       title: 'item ' + n,
@@ -94,12 +98,11 @@ export class MockItemService {
     type: string,
     role?: string
   ): Observable<Part> {
-    const n = Date.now();
     return of({
-      id: 'part-' + n,
+      id: id,
       typeId: type,
       roleId: role,
-      itemId: 'item-' + n,
+      itemId: 'item-' + this._itemId,
       timeCreated: new Date(),
       timeModified: new Date(),
       creatorId: 'zeus',

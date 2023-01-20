@@ -125,6 +125,9 @@ export class ScopedPinLookupComponent {
     let id = this.id.value || '';
 
     switch (type) {
+      case 'pin':
+        id += this.info?.pin.value;
+        break;
       case 'itemId':
         id += this.info!.item?.id || '';
         break;

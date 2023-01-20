@@ -79,7 +79,7 @@
 
   <!-- buttons -->
   <div *ngIf="hasSubmit">
-    <button mat-icon-button color="warn" type="button">
+    <button mat-icon-button color="warn" type="button" (click)="cancel()">
       <mat-icon>close</mat-icon>
     </button>
     <button

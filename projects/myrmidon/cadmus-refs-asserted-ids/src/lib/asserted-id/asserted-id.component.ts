@@ -82,6 +82,9 @@ export class AssertedIdComponent implements OnInit {
   @Output()
   public idChange: EventEmitter<AssertedId>;
 
+  @Output()
+  public editorClose: EventEmitter<any>;
+
   constructor(
     formBuilder: FormBuilder,
     public lookupService: PinRefLookupService,
@@ -100,7 +103,9 @@ export class AssertedIdComponent implements OnInit {
       scope: this.scope,
     });
     this.lookupExpanded = false;
+    // events
     this.idChange = new EventEmitter<AssertedId>();
+    this.editorClose = new EventEmitter<any>();
   }
 
   ngOnInit(): void {
@@ -152,6 +157,10 @@ export class AssertedIdComponent implements OnInit {
     if (!this.hasSubmit) {
       this.idChange.emit(this.getId());
     }
+  }
+
+  public cancel(): void {
+    this.editorClose.emit();
   }
 
   public save(): void {

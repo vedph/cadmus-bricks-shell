@@ -67,6 +67,21 @@
         <th>value</th>
       </thead>
       <tbody>
+        <!-- pin -->
+        <tr>
+          <td>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="appendIdComponent('pin')"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </td>
+          <td>pin</td>
+          <td>{{ info!.pin.value }}</td>
+        </tr>
         <!-- item ID -->
         <tr>
           <td>
