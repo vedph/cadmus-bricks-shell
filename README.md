@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [1.0.3](#103)
     - [1.0.2](#102)
     - [1.0.1](#101)
     - [1.0.0](#100)
@@ -28,8 +29,10 @@ At this stage, the bricks themselves depend on more monolithic Cadmus libraries,
 Quick Docker image build (the only purpose of this image is letting testers play with controls in the incubator):
 
 1. `npm run build-lib`.
-2. ensure to update the version in `app.component.html`, and `ng build --configuration production`.
-3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.2 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+2. ensure to update the version in `env.js` (and `docker-compose.yml`), and `ng build --configuration production`.
+3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.3 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+
+Use [publish.bat](publish.bat) to publish the libraries to NPM.
 
 📖 More info about some bricks:
 
@@ -48,6 +51,8 @@ To add a brick:
 3. add a corresponding host page in the app, with its menu and route.
 
 ## History
+
+### 1.0.3
 
 - 2023-01-19:
   - `cod-location`: `n` is no more required and defaults to 0. This allows dealing with non-physical (label-driven) locations.
