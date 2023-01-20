@@ -36,6 +36,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 - [codicologic location](./projects/myrmidon/cadmus-cod-location/README.md)
 - [proper name](./projects/myrmidon/cadmus-refs-proper-name/README.md)
 - [reference lookup](./projects/myrmidon/cadmus-refs-lookup/README.md)
+- [asserted IDs](./projects/myrmidon/cadmus-refs-asserted-ids/README.md)
 - [text block view](./projects/myrmidon/cadmus-text-block-view/README.md)
 
 ## Adding a Brick
