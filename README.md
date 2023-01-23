@@ -53,6 +53,8 @@ To add a brick:
 
 ## History
 
+- 2023-01-23: added covers to codicologic location.
+
 ### 1.0.4
 
 - 2023-01-20:

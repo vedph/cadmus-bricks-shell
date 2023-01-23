@@ -1,10 +1,13 @@
 /**
  * Endleaf type in CodLocation.
+ * The covers are single by definition, while endleaves have a number (1-N).
  */
 export enum CodLocationEndleaf {
   None = 0,
-  Start = 1,
-  End = 2,
+  FrontCover = 1,
+  FrontEndleaf = 2,
+  BackEndleaf = 3,
+  BackCover = 4,
 }
 
 /**
@@ -61,8 +64,12 @@ export interface CodLocationRange {
 
 /**
  * Manuscript's location pattern. This refers to a text with format
- * (/[SYSTEM:]N[(r|v)[COLUMN]].LINE). Match groups are:
- * [1]=endleaf, optional: ( for start or (/ for end.
+ * (/[SYSTEM:][^]N["SUFFIX"][(r|v)[COLUMN]].LINE), where brackets can be replaced
+ * with square brackets for covers (in this case, the only meaningful properties
+ * are system and suffix).
+ * Match groups are:
+ * [1]=endleaf, optional: ( for front or (/ for back endleaf; [ for front and [/
+ * for back cover.
  * [2]=system: starts with a-z or A-Z and then contains only letters
  * a-z or A-Z, underscores, dots, or digits 0-9. It is terminated by colon.
  * [3]='^' for a Roman number.
@@ -74,10 +81,10 @@ export interface CodLocationRange {
  * [9]=word preceded by @.
  */
 export const COD_LOCATION_PATTERN =
-  /^(\(\/?)?(?:([a-zA-Z][_.a-zA-Z0-9]*):)?(\^)?([0-9]*)(?:"([^"]*)")?([rv])?([a-q])?(?:\.([0-9]+))?(?:@([\p{L}]+))?\)?$/u;
+  /^([\[\(]\/?)?(?:([a-zA-Z][_.a-zA-Z0-9]*):)?(\^)?([0-9]*)(?:"([^"]*)")?([rv])?([a-q])?(?:\.([0-9]+))?(?:@([\p{L}]+))?[\)\]]?$/u;
 
 export const COD_LOCATION_RANGES_PATTERN =
-  /^(?:(?:\(\/?)?(?:(?:[a-zA-Z][_.a-zA-Z0-9]*):)?(?:\^)?(?:[0-9]*)(?:"([^"]*)")?(?:[rv])?(?:[a-q])?(?:\.(?:[0-9]+))?(?:@([\p{L}]+))?\)?[- ]?)+$/u;
+  /^(?:(?:[\[\(]\/?)?(?:(?:[a-zA-Z][_.a-zA-Z0-9]*):)?(?:\^)?(?:[0-9]*)(?:"([^"]*)")?(?:[rv])?(?:[a-q])?(?:\.(?:[0-9]+))?(?:@([\p{L}]+))?[\)\]]?[- ]?)+$/u;
 
 // group numbers in pattern
 const P_LEAF = 1;
@@ -110,12 +117,24 @@ export class CodLocationParser {
     if (!m) {
       return null;
     }
+    let endleaf: CodLocationEndleaf | undefined = undefined;
+    switch (m[P_LEAF]) {
+      case '(':
+        endleaf = CodLocationEndleaf.FrontEndleaf;
+        break;
+      case '(/':
+        endleaf = CodLocationEndleaf.BackEndleaf;
+        break;
+      case '[':
+        endleaf = CodLocationEndleaf.FrontCover;
+        break;
+      case '[/':
+        endleaf = CodLocationEndleaf.BackCover;
+        break;
+    }
+
     return {
-      endleaf: m[P_LEAF]
-        ? m[P_LEAF] === '(/'
-          ? CodLocationEndleaf.End
-          : CodLocationEndleaf.Start
-        : undefined,
+      endleaf: endleaf,
       s: m[P_S],
       n: m[P_N] ? +m[P_N] : 0,
       rmn: m[P_RMN] ? true : undefined,
@@ -141,9 +160,22 @@ export class CodLocationParser {
       return null;
     }
     const sb: string[] = [];
-    // leaf
+    // endleaf
     if (location.endleaf) {
-      sb.push(location.endleaf === CodLocationEndleaf.End ? '(/' : '(');
+      switch (location.endleaf) {
+        case CodLocationEndleaf.FrontEndleaf:
+          sb.push('(');
+          break;
+        case CodLocationEndleaf.BackEndleaf:
+          sb.push('(/');
+          break;
+        case CodLocationEndleaf.FrontCover:
+          sb.push('[');
+          break;
+        case CodLocationEndleaf.BackCover:
+          sb.push('[/');
+          break;
+      }
     }
     // s:
     if (location.s) {
@@ -271,6 +303,23 @@ export class CodLocationParser {
     return sb.join('');
   }
 
+  private static getEndleafOrdinal(
+    endleaf: CodLocationEndleaf | undefined
+  ): number {
+    switch (endleaf) {
+      case CodLocationEndleaf.FrontCover:
+        return 1;
+      case CodLocationEndleaf.FrontEndleaf:
+        return 2;
+      case CodLocationEndleaf.BackEndleaf:
+        return 4;
+      case CodLocationEndleaf.BackCover:
+        return 5;
+      default:
+        return 3; // none
+    }
+  }
+
   /**
    * Compare two locations.
    *
@@ -295,26 +344,22 @@ export class CodLocationParser {
     }
 
     // endleaf: start endleaf always comes before any other type;
-    // end endleaf always come after any other type.
+    // end endleaf always come after any other type; covers are always
+    // at start and end.
     if (
       (a.endleaf || CodLocationEndleaf.None) !==
       (b.endleaf || CodLocationEndleaf.None)
     ) {
-      // a=start, b=none/end
-      if (a.endleaf === CodLocationEndleaf.Start) return -1;
-      // b=start, a=none/end
-      if (b.endleaf === CodLocationEndleaf.Start) return 1;
-      // a=none, b=end / a=end, b=none
-      return (a.endleaf || CodLocationEndleaf.None) === CodLocationEndleaf.None
-        ? -1
-        : 1;
+      const na = this.getEndleafOrdinal(a.endleaf);
+      const nb = this.getEndleafOrdinal(b.endleaf);
+      return na - nb;
     }
     // systems
     if ((!a.s && !b.s) || a.s === b.s) {
       // systems are equal: compare n
       if (a.n !== b.n) {
-        const na = a.n === null || a.n === undefined? 0 : a.n;
-        const nb = b.n === null || b.n === undefined? 0 : b.n;
+        const na = a.n === null || a.n === undefined ? 0 : a.n;
+        const nb = b.n === null || b.n === undefined ? 0 : b.n;
         return na - nb;
       }
       // n are equal: compare sfx

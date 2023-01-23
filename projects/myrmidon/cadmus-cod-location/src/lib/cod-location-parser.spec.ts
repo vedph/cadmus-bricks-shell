@@ -14,7 +14,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "(x:^12)"', () => {
     const l = CodLocationParser.parseLocation('(x:^12)');
     expect(l).toBeTruthy();
-    expect(l?.endleaf).toBe(CodLocationEndleaf.Start);
+    expect(l?.endleaf).toBe(CodLocationEndleaf.FrontEndleaf);
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeTrue();
@@ -27,7 +27,7 @@ describe('CodLocationParser', () => {
   it('parseLocation should parse "(/x:^12)"', () => {
     const l = CodLocationParser.parseLocation('(/x:^12)');
     expect(l).toBeTruthy();
-    expect(l?.endleaf).toBe(CodLocationEndleaf.End);
+    expect(l?.endleaf).toBe(CodLocationEndleaf.BackEndleaf);
     expect(l?.s).toBe('x');
     expect(l?.n).toBe(12);
     expect(l?.rmn).toBeTrue();
@@ -271,7 +271,7 @@ describe('CodLocationParser', () => {
   it('locationToString should ret "(x:^12)" from (x:^12)', () => {
     expect(
       CodLocationParser.locationToString({
-        endleaf: CodLocationEndleaf.Start,
+        endleaf: CodLocationEndleaf.FrontEndleaf,
         s: 'x',
         n: 12,
         rmn: true,
@@ -281,7 +281,7 @@ describe('CodLocationParser', () => {
   it('locationToString should ret "(/x:^12)" from (/x:^12)', () => {
     expect(
       CodLocationParser.locationToString({
-        endleaf: CodLocationEndleaf.End,
+        endleaf: CodLocationEndleaf.BackEndleaf,
         s: 'x',
         n: 12,
         rmn: true,

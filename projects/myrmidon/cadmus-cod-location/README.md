@@ -11,7 +11,7 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 A codicologic location (`CodLocation`) is an object with these properties (the only required one being `n`):
 
-- `endleaf`: whether the location refers to a set of endleaves, either at the start or at the end of the manuscript. 0=not in endleaf, 1=at start endleaves, 2=at end endleaves.
+- `endleaf`: whether the location refers to a set of endleaves, either at the start or at the end of the manuscript: 0=not in endleaf, 1=front endleaves, 2=back endleaves.
 - `s`: ID of the reference system.
 - `n`: sheet number (defaults to 0 if not specified).
 - `rmn`: true if n must be displayed with Roman digits.
@@ -29,9 +29,9 @@ There is also a `CodLocationRange` which is a range having two `CodLocation`'s, 
 
 A single `CodLocation` can be expressed as a string, parsable into `CodLocation` with `CodLocationParser`. The same parser also provides parsing for location ranges (`CodLocationRange`), and comparison between two locations a/b to determine whether a comes before b, or after it, or is the same.
 
-The string format is `(/[SYSTEM:]N[(r|v)[COLUMN]].LINE@WORD)`, including these components (all optional except for `n`):
+The string format is `(/[SYSTEM:][^]N["SUFFIX"][(r|v)[COLUMN]].LINE)`, where `()` can be replaced with `[]` for covers, including these components (all optional except for `n`):
 
-- endleaf, optional: `(` for start or `(/` for end.
+- endleaf, optional: `(` for front or `(/` for back endleaf; `[` for front or `[/` for back cover. For covers, only system and suffix are meaningful.
 - system: starts with a-z or A-Z and then contains only letters, a-z or A-Z, underscores, or digits 0-9. It is terminated by `:`.
 - `^` for a Roman number.
 - sheet: the sheet number. This is the only required component.
