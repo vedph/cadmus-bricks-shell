@@ -213,8 +213,15 @@ export class CodLocationParser {
       sb.push(location.word);
     }
     // leaf
-    if (location.endleaf) {
-      sb.push(')');
+    switch (location.endleaf) {
+      case CodLocationEndleaf.FrontCover:
+      case CodLocationEndleaf.BackCover:
+        sb.push(']');
+        break;
+      case CodLocationEndleaf.FrontEndleaf:
+      case CodLocationEndleaf.BackEndleaf:
+        sb.push(')');
+        break;
     }
     return sb.join('');
   }

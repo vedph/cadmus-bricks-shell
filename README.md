@@ -54,7 +54,9 @@ To add a brick:
 
 ## History
 
-- 2023-01-24: auto-close scoped pin lookup picker on pick.
+- 2023-01-24:
+  - auto-close scoped pin lookup picker on pick.
+  - fix location to string for closing brackets.
 
 ### 1.0.5
 
