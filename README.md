@@ -54,6 +54,8 @@ To add a brick:
 
 ## History
 
+- 2023-01-24: auto-close scoped pin lookup picker on pick.
+
 ### 1.0.5
 
 - 2023-01-23: added covers to codicologic location.

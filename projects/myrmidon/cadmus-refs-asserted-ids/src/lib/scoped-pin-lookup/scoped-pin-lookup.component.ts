@@ -155,6 +155,7 @@ export class ScopedPinLookupComponent {
       return;
     }
     this.idPick.emit(this.id.value!);
+    this.info = undefined;
   }
 
   public resetId(): void {
