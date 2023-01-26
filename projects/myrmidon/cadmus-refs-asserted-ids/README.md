@@ -41,3 +41,53 @@ To this end, the asserted ID component provides an internal lookup mechanism bas
 The user can then use buttons to append each of these components to the ID being built, and/or variously edit it. When he's ok with the ID, he can then use it as the reference ID being edited.
 
 >👉 The demo found in this workspace uses a [mock data service](../../../src/app/services/mock-item.service.ts) instead of the real one, which provides a minimal set of data and functions, just required for the components to function.
+
+## Using Scoped ID Lookup
+
+Apart from the IDs list, you can use the scoped ID lookup control to add a pin-based lookup for any entity in your own UI:
+
+(1) ensure to import this module (`CadmusRefsAssertedIdsModule`).
+(2) add a lookup control to your UI, like this:
+
+```html
+<!-- lookup -->
+<cadmus-scoped-pin-lookup *ngIf="!noLookup" (idPick)="onIdPick($event)"></cadmus-scoped-pin-lookup>
+```
+
+In this sample, my UI has a `noLookup` property which can be used to hide the lookup if not required:
+
+```ts
+@Input()
+public noLookup?: boolean;
+
+public onIdPick(id: string): void {
+  // TODO: set your control's value, e.g.:
+  // this.myId.setValue(id);
+  // this.myId.updateValueAndValidity();
+  // this.myId.markAsDirty();
+}
+```
+
+(3) in your app's `index-lookup-definitions.ts` file, add the required lookup definitions. Each definition has a conventional key, and is an object with part type ID for the lookup scope, and pin name, e.g.:
+
+```ts
+import { IndexLookupDefinitions } from '@myrmidon/cadmus-core';
+import {
+  METADATA_PART_TYPEID,
+  HISTORICAL_EVENTS_PART_TYPEID,
+} from '@myrmidon/cadmus-part-general-ui';
+
+export const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
+  // item's metadata
+  meta_eid: {
+    typeId: METADATA_PART_TYPEID,
+    name: 'eid',
+  },
+  // general parts
+  event_eid: {
+    typeId: HISTORICAL_EVENTS_PART_TYPEID,
+    name: 'eid',
+  },
+  // ... etc.
+};
+```
