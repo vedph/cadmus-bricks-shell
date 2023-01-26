@@ -47,6 +47,7 @@ The user can then use buttons to append each of these components to the ID being
 Apart from the IDs list, you can use the scoped ID lookup control to add a pin-based lookup for any entity in your own UI:
 
 (1) ensure to import this module (`CadmusRefsAssertedIdsModule`).
+
 (2) add a lookup control to your UI, like this:
 
 ```html
@@ -91,3 +92,5 @@ export const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
   // ... etc.
 };
 ```
+
+>Note that while pin name and type will not be displayed to the end user, the key of each definition will. Unless you have a single definition, the lookup component will display a dropdown list with all the available keys, so that the user can select the lookup's scope. So, use short, yet meaningful keys here, like in the above sample (`meta_eid`, `event_eid`).
