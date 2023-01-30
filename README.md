@@ -54,6 +54,9 @@ To add a brick:
 
 ## History
 
+- 2023-01-30:
+  - PinRefLookupService: use "contains" rather than "starts-with" operator in query.
+  - updated Angular.
 - 2023-01-24:
   - auto-close scoped pin lookup picker on pick.
   - fix location to string for closing brackets.

@@ -47,7 +47,8 @@ export class PinRefLookupService implements RefLookupService {
       if (sb.length) {
         sb.push(AND);
       }
-      sb.push(`[value^=${text}]`);  // ^= is starts-with
+      // for other operators see backend SqlQueryBuilderBase.cs
+      sb.push(`[value*=${text}]`);  // *= is "contains"
     }
 
     return sb.join('');
