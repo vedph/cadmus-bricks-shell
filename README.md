@@ -55,6 +55,8 @@ To add a brick:
 
 ## History
 
+- 2023-02-03: thesauri in asserted ID demo.
+
 ### 1.0.6
 
 - 2023-02-03:

@@ -6,7 +6,9 @@
   </mat-card-header>
   <mat-card-content>
     <cadmus-refs-asserted-id
-      [id]="initialId"
+      [refTagEntries]="refTagEntries"
+      [refTypeEntries]="refTypeEntries"
+      [id]="id"
       (idChange)="onIdChange($event)"
     ></cadmus-refs-asserted-id>
     <div *ngIf="id">
