@@ -7,7 +7,7 @@
   <mat-card-content>
     <cadmus-refs-doc-references
       [typeEntries]="typeEntries"
-      [references]="initialReferences"
+      [references]="references"
       (referencesChange)="onReferencesChange($event)"
     ></cadmus-refs-doc-references>
     <div *ngIf="references">

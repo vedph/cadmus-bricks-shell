@@ -8,12 +8,10 @@ import { DecoratedCount } from 'projects/myrmidon/cadmus-refs-decorated-counts/s
   styleUrls: ['./decorated-counts-pg.component.css'],
 })
 export class DecoratedCountsPgComponent implements OnInit {
-  public initialCounts: DecoratedCount[];
-  public counts?: DecoratedCount[];
+  public counts: DecoratedCount[];
   public idEntries: ThesaurusEntry[];
 
   constructor() {
-    this.initialCounts = [];
     this.idEntries = [
       {
         id: 'sheets',
@@ -23,6 +21,16 @@ export class DecoratedCountsPgComponent implements OnInit {
         id: 'g-sheets',
         value: 'guard sheets'
       },
+    ];
+    this.counts = [
+      {
+        id: 'sheets',
+        value: 20,
+      },
+      {
+        id: 'g-sheets',
+        value: 4,
+      }
     ];
   }
 

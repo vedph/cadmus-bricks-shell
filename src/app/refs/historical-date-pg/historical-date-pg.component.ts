@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HistoricalDateModel } from '@myrmidon/cadmus-refs-historical-date';
+import { HistoricalDate, HistoricalDateModel } from '@myrmidon/cadmus-refs-historical-date';
 
 @Component({
   selector: 'app-historical-date-pg',
@@ -7,12 +7,12 @@ import { HistoricalDateModel } from '@myrmidon/cadmus-refs-historical-date';
   styleUrls: ['./historical-date-pg.component.css']
 })
 export class HistoricalDatePgComponent implements OnInit {
-  public initialDate?: HistoricalDateModel;
   public date?: HistoricalDateModel;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.date = HistoricalDate.parse('c.12 may 23 BC? {a hint}')!;
   }
 
   public onDateChange(date?: HistoricalDateModel): void {

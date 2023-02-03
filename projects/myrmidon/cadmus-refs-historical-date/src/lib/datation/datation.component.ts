@@ -1,10 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormControl,
   FormBuilder,
   Validators,
   FormGroup,
 } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { debounceTime } from 'rxjs/operators';
 import { Datation, DatationModel } from './datation';
@@ -17,7 +25,8 @@ import { Datation, DatationModel } from './datation';
   templateUrl: './datation.component.html',
   styleUrls: ['./datation.component.css'],
 })
-export class DatationComponent implements OnInit {
+export class DatationComponent implements OnInit, OnDestroy {
+  private _sub?: Subscription;
   private _changeFrozen?: boolean;
   private _datation: DatationModel | undefined;
 
@@ -80,11 +89,17 @@ export class DatationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
-      if (!this._changeFrozen) {
-        this.emitChange();
-      }
-    });
+    this._sub = this.form.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((_) => {
+        if (!this._changeFrozen) {
+          this.emitChange();
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this._sub?.unsubscribe();
   }
 
   private updateForm(model: DatationModel | undefined): void {
@@ -119,6 +134,7 @@ export class DatationComponent implements OnInit {
   }
 
   private emitChange(): void {
-    this.datationChange.emit(this.getDatation());
+    this._datation = this.getDatation();
+    this.datationChange.emit(this._datation);
   }
 }

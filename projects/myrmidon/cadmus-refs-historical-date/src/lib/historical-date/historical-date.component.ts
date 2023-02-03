@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import {
   HistoricalDate,
@@ -14,12 +15,16 @@ import {
 } from './historical-date';
 import { Datation, DatationModel } from '../datation/datation';
 
+/**
+ * Historical date editor.
+ */
 @Component({
   selector: 'cadmus-refs-historical-date',
   templateUrl: './historical-date.component.html',
   styleUrls: ['./historical-date.component.css'],
 })
 export class HistoricalDateComponent implements OnInit {
+  private _sub?: Subscription;
   private _disabled: boolean;
   private _date?: HistoricalDateModel;
 
@@ -82,7 +87,7 @@ export class HistoricalDateComponent implements OnInit {
 
   public ngOnInit(): void {
     // whenever the date text changes, update datations and fire date change
-    this.dateText.valueChanges
+    this._sub = this.dateText.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((text) => {
         const hd = HistoricalDate.parse(text);
@@ -92,13 +97,18 @@ export class HistoricalDateComponent implements OnInit {
           this.range.setValue(hd.getDateType() === HistoricalDateType.range);
           this.a = hd.a;
           this.b = hd.b;
-          this.dateChange.emit(hd);
+          this._date = hd;
+          this.dateChange.emit(this._date);
         } else {
           this.invalidDateText = true;
           this.dateValue = 0;
         }
       });
     this.updateForm(this._date);
+  }
+
+  public ngOnDestroy(): void {
+    this._sub?.unsubscribe();
   }
 
   private updateForm(date?: HistoricalDateModel): void {
@@ -153,7 +163,8 @@ export class HistoricalDateComponent implements OnInit {
         this.range.setValue(hd.getDateType() === HistoricalDateType.range);
         this.a = hd.a;
         this.b = hd.b;
-        this.dateChange.emit(hd);
+        this._date = hd;
+        this.dateChange.emit(this._date);
       } else {
         this.invalidDateText = true;
         this.dateValue = 0;

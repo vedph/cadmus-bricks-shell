@@ -138,9 +138,11 @@ export class CodLocationComponent implements OnInit {
         ? CodLocationParser.parseLocation(this.text.value)
         : null;
       if (loc) {
-        this.locationChange.emit([{ start: loc, end: loc }]);
+        this._location = [{ start: loc, end: loc }];
+        this.locationChange.emit(this._location);
       } else {
         if (!this._required && !this.text.value?.length) {
+          this._location = null;
           this.locationChange.emit(null);
         }
       }
@@ -149,9 +151,11 @@ export class CodLocationComponent implements OnInit {
         ? CodLocationParser.parseLocationRanges(this.text.value)
         : null;
       if (ranges?.length) {
+        this._location = ranges;
         this.locationChange.emit(ranges);
       } else {
         if (!this._required && !this.text.value?.length) {
+          this._location = null;
           this.locationChange.emit(null);
         }
       }

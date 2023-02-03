@@ -42,8 +42,6 @@ export class DecoratedIdsComponent implements OnInit {
   public sources: FormControl<DocReference[]>;
   public form: FormGroup;
 
-  public initialSources: DocReference[];
-
   @Input()
   public get ids(): DecoratedId[] {
     return this._ids;
@@ -65,7 +63,6 @@ export class DecoratedIdsComponent implements OnInit {
 
   constructor(formBuilder: FormBuilder) {
     this.idsChange = new EventEmitter<DecoratedId[]>();
-    this.initialSources = [];
     this._ids = [];
     this.editedIndex = -1;
     this.editorOpen = false;
@@ -95,7 +92,6 @@ export class DecoratedIdsComponent implements OnInit {
   private closeIdEditor(): void {
     this.editedIndex = -1;
     this.editedId = undefined;
-    this.initialSources = [];
     this.subForm?.reset();
     this.subForm?.disable();
     this.editorOpen = false;
@@ -105,7 +101,7 @@ export class DecoratedIdsComponent implements OnInit {
     this.subForm.enable();
 
     this.editedId = id;
-    this.initialSources = id.sources || [];
+    this.sources.setValue(id.sources || []);
     this.id.setValue(id.id);
     this.rank.setValue(id.rank || 0);
     this.tag.setValue(id.tag || null);
@@ -121,7 +117,7 @@ export class DecoratedIdsComponent implements OnInit {
 
   public editId(index: number): void {
     this.editedIndex = index;
-    this.openIdEditor(this.ids[index]);
+    this.openIdEditor(this._ids[index]);
   }
 
   private getEditedId(): DecoratedId | null {
@@ -141,7 +137,7 @@ export class DecoratedIdsComponent implements OnInit {
       this.closeEditedId();
     }
     this.closeEditedId();
-    this.ids.splice(index, 1);
+    this._ids.splice(index, 1);
     this.emitChange();
   }
 
@@ -164,15 +160,15 @@ export class DecoratedIdsComponent implements OnInit {
       return;
     }
     if (this.editedIndex === -1) {
-      this.ids.push(id);
+      this._ids.push(id);
     } else {
-      this.ids.splice(this.editedIndex, 1, id);
+      this._ids.splice(this.editedIndex, 1, id);
     }
     this.closeEditedId();
     this.emitChange();
   }
 
   private emitChange(): void {
-    this.idsChange.emit(this.ids);
+    this.idsChange.emit(this._ids);
   }
 }

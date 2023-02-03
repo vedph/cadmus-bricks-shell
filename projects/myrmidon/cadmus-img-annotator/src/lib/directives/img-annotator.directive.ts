@@ -80,6 +80,9 @@ export class ImgAnnotatorDirective {
     return this._tool;
   }
   public set tool(value: string) {
+    if (this._tool === value) {
+      return;
+    }
     this._tool = value;
     this._ann?.setDrawingTool(this._tool);
   }

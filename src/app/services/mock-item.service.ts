@@ -35,9 +35,9 @@ export class MockItemService {
     pageNumber: number,
     pageSize: number
   ): Observable<ErrorWrapper<DataPage<DataPinInfo>>> {
-    // just support pin value with operator ^=, as this is what
+    // just support pin value with operator *=, as this is what
     // is required by the brick being tested with this mock
-    const m = query.match(/\[value\^=([^\]]+)\]/);
+    const m = query.match(/\[value\*=([^\]]+)\]/);
     if (!m) {
       return of({
         error: 'Invalid syntax!',

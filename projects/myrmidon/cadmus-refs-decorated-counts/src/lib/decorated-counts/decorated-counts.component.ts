@@ -188,6 +188,7 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
-    this.countsChange.emit(this.getCounts());
+    this._counts = this.getCounts();
+    this.countsChange.emit(this._counts);
   }
 }

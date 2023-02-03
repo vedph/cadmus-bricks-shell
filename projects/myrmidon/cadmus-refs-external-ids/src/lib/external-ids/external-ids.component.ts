@@ -277,6 +277,7 @@ export class ExternalIdsComponent implements OnDestroy {
   }
 
   private emitIdsChange(): void {
-    this.idsChange.emit(this.getIds());
+    this._ids = this.getIds();
+    this.idsChange.emit(this._ids);
   }
 }

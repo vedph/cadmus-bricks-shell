@@ -9,7 +9,6 @@ import { Assertion } from 'projects/myrmidon/cadmus-refs-assertion/src/public-ap
   styleUrls: ['./assertion-pg.component.css'],
 })
 export class AssertionPgComponent implements OnInit {
-  public initialAssertion: Assertion | undefined;
   public assertion: Assertion | undefined;
   public refTypeEntries: ThesaurusEntry[];
 
@@ -38,7 +37,13 @@ export class AssertionPgComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.assertion = {
+      rank: 1,
+      note: 'a note',
+      references: [{ citation: 'Rossi 1963' }],
+    };
+  }
 
   public onAssertionChange(assertion: Assertion | undefined): void {
     this.assertion = assertion;

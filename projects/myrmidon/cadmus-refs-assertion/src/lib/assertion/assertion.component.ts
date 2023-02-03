@@ -28,10 +28,8 @@ export class AssertionComponent implements OnInit {
   public tag: FormControl<string | null>;
   public rank: FormControl<number>;
   public note: FormControl<string | null>;
+  public references: FormControl<DocReference[]>;
   public form: FormGroup;
-
-  public initialReferences: DocReference[];
-  public references: DocReference[];
 
   @Input()
   public assTagEntries?: ThesaurusEntry[];
@@ -43,13 +41,13 @@ export class AssertionComponent implements OnInit {
   public refTagEntries: ThesaurusEntry[] | undefined;
 
   @Input()
-  public get assertion(): Assertion | undefined {
+  public get assertion(): Assertion | undefined | null {
     return this._assertion;
   }
-  public set assertion(value: Assertion | undefined) {
+  public set assertion(value: Assertion | undefined | null) {
     if (this._assertion !== value) {
-      this._assertion = value;
-      this.updateForm(value);
+      this._assertion = value || undefined;
+      this.updateForm(this._assertion);
     }
   }
 
@@ -57,17 +55,17 @@ export class AssertionComponent implements OnInit {
   public assertionChange: EventEmitter<Assertion | undefined>;
 
   constructor(formBuilder: FormBuilder) {
-    this.initialReferences = [];
-    this.references = [];
     this.assertionChange = new EventEmitter<Assertion | undefined>();
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.rank = formBuilder.control(0, { nonNullable: true });
     this.note = formBuilder.control(null, Validators.maxLength(500));
+    this.references = formBuilder.control([], { nonNullable: true });
     this.form = formBuilder.group({
       tag: this.tag,
       rank: this.rank,
       note: this.note,
+      references: this.references,
     });
   }
 
@@ -80,24 +78,22 @@ export class AssertionComponent implements OnInit {
   }
 
   public onReferencesChange(references: DocReference[]): void {
-    this.references = references;
+    this.references.setValue(references, { emitEvent: false });
     this.emitAssertionChange();
   }
 
   private updateForm(value: Assertion | undefined): void {
     this._updatingForm = true;
-    this.initialReferences = [];
     if (!value) {
       this.form.reset();
     } else {
       this.tag.setValue(value.tag || null);
       this.rank.setValue(value.rank);
       this.note.setValue(value.note || null);
-      this.initialReferences = value.references || [];
+      this.references.setValue(value.references || []);
       this.form.markAsPristine();
     }
     this._updatingForm = false;
-    // this.emitAssertionChange();
   }
 
   private getAssertion(): Assertion | undefined {
@@ -105,7 +101,9 @@ export class AssertionComponent implements OnInit {
       tag: this.tag.value?.trim(),
       rank: this.rank.value,
       note: this.note.value?.trim(),
-      references: this.references,
+      references: this.references.value?.length
+        ? this.references.value
+        : undefined,
     };
     if (
       !assertion.tag &&
@@ -119,6 +117,7 @@ export class AssertionComponent implements OnInit {
   }
 
   public emitAssertionChange(): void {
-    this.assertionChange.emit(this.getAssertion());
+    this._assertion = this.getAssertion();
+    this.assertionChange.emit(this._assertion);
   }
 }

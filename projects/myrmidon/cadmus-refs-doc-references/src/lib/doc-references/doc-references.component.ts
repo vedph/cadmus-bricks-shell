@@ -213,7 +213,7 @@ export class DocReferencesComponent implements AfterViewInit, OnDestroy {
       this.form.markAsPristine();
     }
     this._updatingForm = false;
-    this.emitReferencesChange();
+    // this.emitReferencesChange();
   }
 
   protected getReferences(): DocReference[] {
@@ -233,6 +233,7 @@ export class DocReferencesComponent implements AfterViewInit, OnDestroy {
   }
 
   public emitReferencesChange(): void {
-    this.referencesChange.emit(this.getReferences());
+    this._references = this.getReferences();
+    this.referencesChange.emit(this._references);
   }
 }

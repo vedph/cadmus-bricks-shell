@@ -2,7 +2,7 @@
   <!-- list -->
   <div>
     <button mat-flat-button (click)="addId()" color="primary">
-      <mat-icon>add_circle</mat-icon> add ID
+      <mat-icon>add_circle</mat-icon> ID
     </button>
   </div>
   <table *ngIf="ids?.length">
@@ -76,7 +76,7 @@
         </mat-form-field>
         &nbsp;
         <!-- rank -->
-        <mat-form-field style="width: 3em">
+        <mat-form-field style="width: 4em">
           <mat-label>rank</mat-label>
           <input matInput [formControl]="rank" type="number" min="0" />
         </mat-form-field>
@@ -109,7 +109,7 @@
         <h4>ID sources</h4>
         <cadmus-refs-doc-references
           [tagEntries]="docRefTagEntries"
-          [references]="initialSources"
+          [references]="sources.value"
           (referencesChange)="onSourcesChange($event)"
         ></cadmus-refs-doc-references>
       </div>

@@ -1,22 +1,14 @@
 <form role="form" [formGroup]="form" (submit)="save()">
   <div>
     <mat-form-field>
+      <mat-label>date</mat-label>
       <input
         appearance="fill"
         matInput
         [formControl]="dateText"
         [placeholder]="label || 'datation'"
       />
-      <!-- <button
-        type="submit"
-        [disabled]="disabled || invalidDateText"
-        mat-icon-button
-        matSuffix
-        color="primary"
-        [disabled]="!visualExpanded"
-      >
-        <mat-icon>check_circle</mat-icon>
-      </button> -->
+      <mat-hint>A or A--B</mat-hint>
     </mat-form-field>
     <span>
       <mat-icon *ngIf="dateText?.value && invalidDateText" color="warn"
@@ -25,7 +17,7 @@
     </span>
     <span>
       <span *ngIf="!invalidDateText" class="date-sort-value">
-        {{ dateValue | number: "1.2-2" }}</span
+        {{ dateValue | number : "1.2-2" }}</span
       >
     </span>
     <button
@@ -57,7 +49,7 @@
       [label]="'B'"
     ></cadmus-refs-datation>
 
-    <div>
+    <div class="form-row">
       <mat-slide-toggle [formControl]="range" matTooltip="Toggle range"
         >A-B</mat-slide-toggle
       >

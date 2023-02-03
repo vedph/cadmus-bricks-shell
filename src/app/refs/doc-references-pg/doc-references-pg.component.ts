@@ -8,13 +8,16 @@ import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
   styleUrls: ['./doc-references-pg.component.css'],
 })
 export class DocReferencesPgComponent implements OnInit {
-  public initialReferences: DocReference[];
   public references: DocReference[];
   public typeEntries: ThesaurusEntry[];
 
   constructor() {
-    this.initialReferences = [];
-    this.references = [];
+    this.references = [
+      {
+        tag: 'biblio',
+        citation: 'Rossi 1963'
+      }
+    ];
     this.typeEntries = [
       {
         id: 'text',

@@ -6,7 +6,7 @@
   </mat-card-header>
   <mat-card-content>
     <cadmus-refs-historical-date
-      [date]="initialDate"
+      [date]="date"
       (dateChange)="onDateChange($event)"
     ></cadmus-refs-historical-date>
     <div *ngIf="date">
