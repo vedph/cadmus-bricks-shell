@@ -47,15 +47,19 @@ export class AssertedChronotopeComponent implements OnInit {
     }
   }
 
+  // chronotope-tags
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
 
+  // assertion-tags
   @Input()
   public assTagEntries?: ThesaurusEntry[];
 
+  // doc-reference-types
   @Input()
   public refTypeEntries: ThesaurusEntry[] | undefined;
 
+  // doc-reference-tags
   @Input()
   public refTagEntries: ThesaurusEntry[] | undefined;
 

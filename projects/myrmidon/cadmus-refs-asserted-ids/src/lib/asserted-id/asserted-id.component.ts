@@ -44,18 +44,23 @@ export class AssertedIdComponent implements OnInit {
   public assertion?: Assertion;
   public lookupExpanded: boolean;
 
+  // asserted-id-scopes
   @Input()
-  public scopeEntries?: ThesaurusEntry[];
+  public idScopeEntries?: ThesaurusEntry[];
 
+  // asserted-id-tags
   @Input()
   public idTagEntries?: ThesaurusEntry[];
 
+  // assertion-tags
   @Input()
   public assTagEntries?: ThesaurusEntry[];
 
+  // doc-reference-types
   @Input()
   public refTypeEntries: ThesaurusEntry[] | undefined;
 
+  // doc-reference-tags
   @Input()
   public refTagEntries: ThesaurusEntry[] | undefined;
 

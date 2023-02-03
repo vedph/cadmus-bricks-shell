@@ -20,16 +20,16 @@
       </mat-form-field>
 
       <!-- scope (bound) -->
-      <mat-form-field *ngIf="scopeEntries?.length" style="width: 8em">
+      <mat-form-field *ngIf="idScopeEntries?.length" style="width: 8em">
         <mat-label>scope</mat-label>
         <mat-select [formControl]="scope">
-          <mat-option *ngFor="let e of scopeEntries" [value]="e.id">{{
+          <mat-option *ngFor="let e of idScopeEntries" [value]="e.id">{{
             e.value
           }}</mat-option>
         </mat-select>
       </mat-form-field>
       <!-- scope (free) -->
-      <mat-form-field *ngIf="!scopeEntries?.length" style="width: 8em">
+      <mat-form-field *ngIf="!idScopeEntries?.length" style="width: 8em">
         <mat-label>scope</mat-label>
         <input matInput [formControl]="scope" />
         <mat-error

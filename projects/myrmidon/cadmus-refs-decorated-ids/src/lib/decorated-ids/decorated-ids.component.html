@@ -108,7 +108,8 @@
         <!-- sources -->
         <h4>ID sources</h4>
         <cadmus-refs-doc-references
-          [tagEntries]="docRefTagEntries"
+          [tagEntries]="refTagEntries"
+          [typeEntries]="refTypeEntries"
           [references]="sources.value"
           (referencesChange)="onSourcesChange($event)"
         ></cadmus-refs-doc-references>

@@ -69,7 +69,7 @@ export class ProperNameComponent implements OnInit {
   }
 
   /**
-   * The optional thesaurus name piece's type entries.
+   * The optional thesaurus name piece's type entries (name-piece-types).
    */
   @Input()
   public get typeEntries(): ThesaurusEntry[] | undefined {
@@ -80,23 +80,26 @@ export class ProperNameComponent implements OnInit {
   }
 
   /**
-   * The optional thesaurus proper name languages entries.
+   * The optional thesaurus proper name languages entries (name-languages).
    */
   @Input()
   public langEntries: ThesaurusEntry[] | undefined;
   /**
-   * The optional thesaurus name's tag entries.
+   * The optional thesaurus name's tag entries (name-tags).
    */
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
 
   // thesauri for assertions
+  // assertion-tags
   @Input()
   public assTagEntries?: ThesaurusEntry[];
 
+  // doc-reference-types
   @Input()
   public refTypeEntries: ThesaurusEntry[] | undefined;
 
+  // doc-reference-tags
   @Input()
   public refTagEntries: ThesaurusEntry[] | undefined;
 

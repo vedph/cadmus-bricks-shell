@@ -33,7 +33,7 @@ export class AssertedChronotopeSetComponent implements OnInit {
       this.updateForm(value);
     }
   }
-  // chronotope-place-tags
+  // chronotope-tags
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
   // chronotope-assertion-tags

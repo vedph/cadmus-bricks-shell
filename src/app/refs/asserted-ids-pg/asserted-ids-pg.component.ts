@@ -8,42 +8,85 @@ import { AssertedId } from '@myrmidon/cadmus-refs-asserted-id';
   styleUrls: ['./asserted-ids-pg.component.css'],
 })
 export class AssertedIdsPgComponent implements OnInit {
-  public initialIds: AssertedId[];
   public ids?: AssertedId[];
-  public scopeEntries: ThesaurusEntry[];
-  public tagEntries: ThesaurusEntry[];
+  public idScopeEntries: ThesaurusEntry[];
+  public idTagEntries: ThesaurusEntry[];
+  public assTagEntries: ThesaurusEntry[];
+  public refTypeEntries: ThesaurusEntry[];
+  public refTagEntries: ThesaurusEntry[];
 
   constructor() {
-    this.scopeEntries = [
+    this.idScopeEntries = [
       {
-        id: 'red',
-        value: 'red',
+        id: 'scope1',
+        value: 'id-scope-1'
       },
       {
-        id: 'green',
-        value: 'green',
+        id: 'scope2',
+        value: 'id-scope-2'
       },
       {
-        id: 'blue',
-        value: 'blue',
+        id: '-',
+        value: '---'
+      },
+    ];
+    this.idTagEntries = [
+      {
+        id: 'idt1',
+        value: 'id-tag-1'
+      },
+      {
+        id: 'idt2',
+        value: 'id-tag-2'
+      },
+      {
+        id: '-',
+        value: '---'
+      },
+    ];
+    this.assTagEntries = [
+      {
+        id: 'ast1',
+        value: 'ass-tag-1'
+      },
+      {
+        id: 'ast2',
+        value: 'ass-tag-2'
+      },
+      {
+        id: '-',
+        value: '---'
+      },
+    ];
+    this.refTypeEntries = [
+      {
+        id: 'book',
+        value: 'book'
+      },
+      {
+        id: 'ms',
+        value: 'manuscript'
+      },
+    ];
+    this.refTagEntries = [
+      {
+        id: 'a',
+        value: 'alpha'
+      },
+      {
+        id: 'b',
+        value: 'beta'
+      },
+      {
+        id: '-',
+        value: '---'
       },
     ];
 
-    this.tagEntries = [
-      {
-        id: 'alpha',
-        value: 'alpha',
-      },
-      {
-        id: 'beta',
-        value: 'beta',
-      },
-    ];
-
-    this.initialIds = [
+    this.ids = [
       {
         value: 'http://some-resources/stuff/alpha',
-        scope: 'some-resources.org'
+        scope: '-'
       },
     ];
   }

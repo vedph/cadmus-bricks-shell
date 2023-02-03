@@ -63,9 +63,11 @@ export class DocReferencesComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // doc-reference-types
   @Input()
   public typeEntries: ThesaurusEntry[] | undefined;
 
+  // doc-reference-tags
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
 

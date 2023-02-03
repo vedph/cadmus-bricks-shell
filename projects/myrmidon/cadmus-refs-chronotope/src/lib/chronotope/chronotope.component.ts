@@ -5,9 +5,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
+
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { HistoricalDateModel } from '@myrmidon/cadmus-refs-historical-date';
-import { debounceTime } from 'rxjs/operators';
 
 /**
  * Chronotopic coordinates: a place with a date.
@@ -38,17 +39,9 @@ export class ChronotopeComponent implements OnInit {
     }
   }
 
+  // chronotope-tags
   @Input()
   public ctTagEntries: ThesaurusEntry[] | undefined;
-
-  @Input()
-  public assTagEntries?: ThesaurusEntry[];
-
-  @Input()
-  public refTypeEntries: ThesaurusEntry[] | undefined;
-
-  @Input()
-  public refTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public chronotopeChange: EventEmitter<Chronotope>;

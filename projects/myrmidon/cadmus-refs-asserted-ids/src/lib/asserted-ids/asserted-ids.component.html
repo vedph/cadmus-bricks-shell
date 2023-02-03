@@ -68,6 +68,11 @@
   <mat-expansion-panel [expanded]="edited" [disabled]="!edited">
     <mat-expansion-panel-header>ID</mat-expansion-panel-header>
     <cadmus-refs-asserted-id
+      [idScopeEntries]="idScopeEntries"
+      [idTagEntries]="idTagEntries"
+      [assTagEntries]="assTagEntries"
+      [refTypeEntries]="refTypeEntries"
+      [refTagEntries]="refTagEntries"
       [hasSubmit]="true"
       [id]="edited"
       (idChange)="onIdChange($event)"

@@ -1,16 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DialogService } from '@myrmidon/ng-mat-tools';
-import { debounceTime, Subscription, take } from 'rxjs';
+import { take } from 'rxjs';
 
 import { AssertedId } from '../asserted-id/asserted-id.component';
 
@@ -41,25 +34,23 @@ export class AssertedIdsComponent {
     }
   }
 
-  /**
-   * The ID scopes thesaurus entries.
-   */
+  // asserted-id-scopes
   @Input()
-  public scopeEntries: ThesaurusEntry[] | undefined;
+  public idScopeEntries?: ThesaurusEntry[];
 
-  /**
-   * The ID tags thesaurus entries.
-   */
+  // asserted-id-tags
   @Input()
-  public tagEntries: ThesaurusEntry[] | undefined;
+  public idTagEntries?: ThesaurusEntry[];
 
-  // thesauri for assertions
+  // assertion-tags
   @Input()
   public assTagEntries?: ThesaurusEntry[];
 
+  // doc-reference-types
   @Input()
   public refTypeEntries: ThesaurusEntry[] | undefined;
 
+  // doc-reference-tags
   @Input()
   public refTagEntries: ThesaurusEntry[] | undefined;
 

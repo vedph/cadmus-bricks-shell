@@ -31,12 +31,15 @@ export class AssertionComponent implements OnInit {
   public references: FormControl<DocReference[]>;
   public form: FormGroup;
 
+  // assertion-tags
   @Input()
   public assTagEntries?: ThesaurusEntry[];
 
+  // doc-reference-types
   @Input()
   public refTypeEntries: ThesaurusEntry[] | undefined;
 
+  // doc-reference-tags
   @Input()
   public refTagEntries: ThesaurusEntry[] | undefined;
 

@@ -33,9 +33,11 @@ export class PhysicalDimensionComponent implements OnInit {
   @Input()
   public label?: string;
 
+  // physical-size-units
   @Input()
   public unitEntries?: ThesaurusEntry[];
 
+  // physical-size-tags
   @Input()
   public tagEntries?: ThesaurusEntry[];
 

@@ -53,10 +53,17 @@ export class DecoratedIdsComponent implements OnInit {
     }
   }
 
+  // decorated-id-tags
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
+
+  // doc-reference-tags
   @Input()
-  public docRefTagEntries: ThesaurusEntry[] | undefined;
+  public refTagEntries: ThesaurusEntry[] | undefined;
+
+  // doc-reference-types
+  @Input()
+  public refTypeEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public idsChange: EventEmitter<DecoratedId[]>;

@@ -43,12 +43,18 @@ export class PhysicalSizeComponent implements OnInit {
     }
   }
 
+  // physical-size-units
   @Input()
   public unitEntries?: ThesaurusEntry[];
+
+  // physical-size-tags
   @Input()
   public tagEntries?: ThesaurusEntry[];
+
+  // physical-size-dim-tags
   @Input()
   public dimTagEntries?: ThesaurusEntry[];
+
   @Input()
   public hBeforeW?: boolean;
 
