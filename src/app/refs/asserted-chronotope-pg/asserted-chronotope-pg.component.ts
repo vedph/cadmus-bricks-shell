@@ -7,13 +7,12 @@ import { AssertedChronotope } from 'projects/myrmidon/cadmus-refs-asserted-chron
   styleUrls: ['./asserted-chronotope-pg.component.css'],
 })
 export class AssertedChronotopePgComponent implements OnInit {
-  public initialChronotope?: AssertedChronotope;
   public chronotope?: AssertedChronotope;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.initialChronotope = {
+    this.chronotope = {
       place: {
         value: 'Rome',
         assertion: {
@@ -33,7 +32,6 @@ export class AssertedChronotopePgComponent implements OnInit {
   }
 
   public reset(): void {
-    // this.initialChronotope = undefined;
-    this.initialChronotope = {};
+    this.chronotope = {};
   }
 }

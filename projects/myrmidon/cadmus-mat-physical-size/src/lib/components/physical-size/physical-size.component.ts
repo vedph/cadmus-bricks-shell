@@ -116,11 +116,11 @@ export class PhysicalSizeComponent implements OnInit {
     }
 
     this.form.valueChanges.pipe(debounceTime(400)).subscribe((_) => {
-      const model = this.getModel();
+      this._size = this.getModel();
 
-      if (this.isModelValid(model) && this.tag.valid && this.note.valid) {
+      if (this.isModelValid(this._size) && this.tag.valid && this.note.valid) {
         this.updateLabel();
-        this.sizeChange.emit(model);
+        this.sizeChange.emit(this._size);
       }
     });
 

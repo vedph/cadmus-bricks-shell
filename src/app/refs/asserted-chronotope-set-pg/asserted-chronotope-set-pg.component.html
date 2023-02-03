@@ -6,7 +6,7 @@
   </mat-card-header>
   <mat-card-content>
     <cadmus-asserted-chronotope-set
-      [chronotopes]="initialChronotopes"
+      [chronotopes]="chronotopes"
       (chronotopesChange)="onChronotopesChange($event)"
     ></cadmus-asserted-chronotope-set>
     <div *ngIf="chronotopes">

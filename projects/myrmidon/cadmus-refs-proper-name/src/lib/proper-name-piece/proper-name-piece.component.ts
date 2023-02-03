@@ -185,7 +185,7 @@ export class ProperNamePieceComponent implements OnInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
-    this.pieceChange.emit({
+    this._piece$.next({
       type:
         (this.type.value as TypeThesaurusEntry)?.id ||
         (this.type.value as string),
@@ -193,5 +193,6 @@ export class ProperNamePieceComponent implements OnInit, OnDestroy {
         (this.value.value as ThesaurusEntry)?.id ||
         (this.value.value as string),
     });
+    this.pieceChange.emit(this._piece$.value);
   }
 }

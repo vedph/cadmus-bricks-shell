@@ -355,6 +355,7 @@ export class ProperNameComponent implements OnInit {
   }
 
   public emitNameChange(): void {
-    this.nameChange.emit(this.getName());
+    this._name = this.getName();
+    this.nameChange.emit(this._name);
   }
 }

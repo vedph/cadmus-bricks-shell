@@ -7,12 +7,21 @@ import { Chronotope } from 'projects/myrmidon/cadmus-refs-chronotope/src/public-
   styleUrls: ['./chronotope-pg.component.css'],
 })
 export class ChronotopePgComponent implements OnInit {
-  public initialChronotope?: Chronotope;
   public chronotope?: Chronotope;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.chronotope = {
+      place: 'Rome',
+      date: {
+        a: {
+          value: 123,
+          isApproximate: true,
+        },
+      },
+    };
+  }
 
   public onChronotopeChange(chronotope?: Chronotope): void {
     this.chronotope = chronotope;

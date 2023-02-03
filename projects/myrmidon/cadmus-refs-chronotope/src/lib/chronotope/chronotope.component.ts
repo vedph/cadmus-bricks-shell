@@ -112,6 +112,7 @@ export class ChronotopeComponent implements OnInit {
   }
 
   public emitChronotopeChange(): void {
-    this.chronotopeChange.emit(this.getChronotope());
+    this._chronotope = this.getChronotope();
+    this.chronotopeChange.emit(this._chronotope);
   }
 }

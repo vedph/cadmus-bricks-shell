@@ -8,11 +8,9 @@ import { AssertedChronotope } from '@myrmidon/cadmus-refs-asserted-chronotope';
 })
 export class AssertedChronotopeSetPgComponent implements OnInit {
   public chronotopes: AssertedChronotope[];
-  public initialChronotopes: AssertedChronotope[];
 
   constructor() {
-    this.chronotopes = [];
-    this.initialChronotopes = [{
+    this.chronotopes = [{
       place: {
         value: 'Rome'
       }

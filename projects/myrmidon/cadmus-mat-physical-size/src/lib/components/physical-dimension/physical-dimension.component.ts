@@ -101,8 +101,8 @@ export class PhysicalDimensionComponent implements OnInit {
     // on change emit event
     this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
       if (!this._changeFrozen) {
-        const model = this.getModel();
-        this.dimensionChange.emit(model);
+        this._dimension = this.getModel();
+        this.dimensionChange.emit(this._dimension);
       }
     });
   }

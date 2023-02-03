@@ -56,6 +56,10 @@ To add a brick:
 
 - 2023-02-03:
   - allow null in `PhysicalSizeComponent`.
+  - refactored input properties binding so that there is no need for using a different variable for the initial value in most components. An input value triggers form update, which should happen only if the bound object has changed. Also, the output event should update the bound object before emitting, so that the parent handling that events and setting the bound property to the new value will not trigger an infinite loop. Guidelines:
+    - in the input property ensure to check for reference equality, and update form only if different.
+    - in updating form, no change event is emitted.
+    - in the output event, assign new value to the inner model before emitting the change event.
 - 2023-01-30:
   - `PinRefLookupService`: use "contains" rather than "starts-with" operator in query.
   - updated Angular.

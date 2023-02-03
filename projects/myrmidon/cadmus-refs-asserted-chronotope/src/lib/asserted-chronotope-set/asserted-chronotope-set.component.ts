@@ -167,8 +167,7 @@ export class AssertedChronotopeSetComponent implements OnInit {
   }
 
   private emitChronotopesChange(): void {
-    this.chronotopesChange.emit(
-      this.entries.value?.length ? this.entries.value : []
-    );
+    this._chronotopes = this.entries.value?.length ? this.entries.value : [];
+    this.chronotopesChange.emit(this._chronotopes);
   }
 }
