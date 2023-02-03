@@ -54,8 +54,10 @@ To add a brick:
 
 ## History
 
+- 2023-02-03:
+  - allow null in `PhysicalSizeComponent`.
 - 2023-01-30:
-  - PinRefLookupService: use "contains" rather than "starts-with" operator in query.
+  - `PinRefLookupService`: use "contains" rather than "starts-with" operator in query.
   - updated Angular.
 - 2023-01-24:
   - auto-close scoped pin lookup picker on pick.

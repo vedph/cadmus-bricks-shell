@@ -27,16 +27,16 @@ export interface PhysicalSize {
   styleUrls: ['./physical-size.component.css'],
 })
 export class PhysicalSizeComponent implements OnInit {
-  private _size: PhysicalSize | undefined;
+  private _size: PhysicalSize | undefined | null;
 
   @Input()
   public parentForm?: FormGroup;
 
   @Input()
-  public get size(): PhysicalSize | undefined {
+  public get size(): PhysicalSize | undefined | null {
     return this._size;
   }
-  public set size(value: PhysicalSize | undefined) {
+  public set size(value: PhysicalSize | undefined | null) {
     if (this._size !== value) {
       this._size = value;
       this.updateForm(value);
@@ -252,7 +252,7 @@ export class PhysicalSizeComponent implements OnInit {
     this.label = sb.join(' × ') + (uniqueUnit ? ' ' + uniqueUnit : '');
   }
 
-  private updateForm(model?: PhysicalSize): void {
+  private updateForm(model?: PhysicalSize | null): void {
     if (!model) {
       this.form.reset();
       this.label = undefined;
