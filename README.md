@@ -55,6 +55,7 @@ To add a brick:
 
 ## History
 
+- 2023-03-06: fix to proper name binding.
 - 2023-02-03: fixes to thesauri bindings.
 
 ### 1.0.6

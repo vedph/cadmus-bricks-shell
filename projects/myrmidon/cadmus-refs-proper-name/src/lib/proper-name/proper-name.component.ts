@@ -117,7 +117,6 @@ export class ProperNameComponent implements OnInit {
   public form: FormGroup;
   // edited assertion
   public assEdOpen: boolean;
-  public initialAssertion?: Assertion;
 
   public ordered?: boolean;
   public valueEntries: ThesaurusEntry[];
@@ -331,12 +330,14 @@ export class ProperNameComponent implements OnInit {
     this.language.setValue(name.language);
     this.tag.setValue(name.tag || null);
     this.pieces.setValue(name.pieces);
-    this.initialAssertion = name.assertion;
+    this.assertion.setValue(name.assertion || null);
     this.form.markAsPristine();
   }
 
   public onAssertionChange(assertion: Assertion | undefined): void {
     this.assertion.setValue(assertion || null);
+    this.assertion.updateValueAndValidity();
+    this.assertion.markAsDirty();
   }
 
   public saveAssertion(): void {

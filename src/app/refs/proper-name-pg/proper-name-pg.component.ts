@@ -61,6 +61,16 @@ export class ProperNamePgComponent implements OnInit {
         { type: 'nomen', value: 'Vergilius' },
         { type: 'cognomen', value: 'Maro' },
       ],
+      assertion: {
+        rank: 2,
+        note: 'a note',
+        references: [
+          {
+            type: 'biblio',
+            citation: 'Rossi 1963',
+          },
+        ],
+      },
     };
   }
 
