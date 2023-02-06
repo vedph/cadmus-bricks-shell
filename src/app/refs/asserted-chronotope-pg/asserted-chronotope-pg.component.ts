@@ -17,6 +17,12 @@ export class AssertedChronotopePgComponent implements OnInit {
         value: 'Rome',
         assertion: {
           rank: 2,
+          references: [
+            {
+              type: 'book',
+              citation: 'Rossi 1963',
+            },
+          ],
         },
       },
       date: {
