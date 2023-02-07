@@ -1,80 +1,86 @@
-<mat-card appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>
-      <h1>Cadmus Bricks</h1>
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <article style="column-width: 400px; column-count: 4">
-      <p>
-        This is the incubator shell for sub-model editors in Cadmus. Pick
-        editors from the top menus and play with them.
-      </p>
-      <p>
-        You can find the corresponding GitHub repository at
-        <a href="https://github.com/vedph/cadmus-bricks-shell" target="_blank"
-          >github.com/vedph/cadmus-bricks-shell</a
-        >.
-      </p>
-      <p>
-        Cadmus has an object-based architecture. Starting from the top, our data
-        records are "boxes" (items in Cadmus lingo), each containing any number
-        of "objects" (named parts). For instance, a manuscript box might contain
-        an object for its datation, another for its shelfmark, another for its
-        layout, another for its binding, etc. Thus, the model of each box is
-        dynamic, as it depends on the objects it contains. We can add as many
-        objects as we want in the box, without affecting the existing ones. Even
-        text layers are just objects, on top of a base text object.
-      </p>
-      <p>
-        In fact, in the case of text you have an object representing it, and as
-        many objects as you want, each representing a layer of specialized
-        annotations on top of it. So, for an inscription you might have an
-        object for its text, as it appears on the stone; another with apparatus;
-        another with standard orthography and the linguistic description and
-        classification of each type of deviations from it; another with
-        prosopographic annotations; another with chronological annotations;
-        another with paleographic annotations; etc. You can add as many layers
-        as you want, each with its own model, without affecting the others. No
-        overlap here. A layer object is just an object like any other, put in
-        the box; its model is a collection of single annotations (fragments in
-        Cadmus lingo), each having its own model, defined by the host layer. So
-        in the end, our data structure is built by composition: data is
-        structured into items (boxes); items are composed of parts (objects in
-        the box); layer parts are collections of fragments (annotations).
-      </p>
-      <p>
-        So, any data, either textual, meta-textual (layers), or non-textual at
-        all, fits in the same architecture, built of boxes and objects (items,
-        parts, and fragments). Boxes get a fixed set of essential metadata, just
-        like we attach labels on them. Also, parts and fragments may share a set
-        of stickers, i.e. common taxonomies, like e.g. the types of
-        inscriptions, a list of languages, a list of colors, etc.
-      </p>
-      <p>
-        This modular data architecture has a corresponding modular data editor,
-        built by composition. While boxes are all created equal, and thus can
-        share a unique editor, each object has its own model, and also its own
-        editor. This can be as simple as a form, or a full-blown web app.
-        Whatever its complexity, it gets composed in the Cadmus editor UI; so,
-        just like we add models dynamically by tossing new objects in a box, we
-        add editors dynamically by adding their editors to a composable editor.
-      </p>
-      <p>
-        Also, in many cases even these objects can include sub-parts whose model
-        is found also in several other objects. For instance, think of
-        datations, which can appear in a lot of different parts. So, for all
-        these sub-parts we foster sharing and reuse by providing sub-components
-        to assemble into part editors. These are our bricks, which are used to
-        build bigger structures, our parts. In turn, parts build items; and
-        items build the database.
-      </p>
-      <p>
-        This site provides a shell for developing and testing bricks, which are
-        pieces of UI with their models, used to build bigger models (the parts)
-        with their editors. You can play with them by browsing via the top
-        menus. Happy exploring!
-      </p>
-    </article>
-  </mat-card-content>
-</mat-card>
+<div style="margin: 0 16px">
+  <h1>Cadmus Bricks</h1>
+  <div class="banner">
+    <img
+      class="banner-img"
+      srcset="
+        ./assets/img/banner-1024.jpg 1024w,
+        ./assets/img/banner-512.jpg   512w
+      "
+      sizes="(max-width: 600px) 512px, 1024px"
+    />
+  </div>
+  <article style="column-width: 400px; column-count: 4">
+    <p>
+      This is the incubator shell for sub-model editors in
+      <a href="https://myrmex.github.io/overview/cadmus" target="_blank"
+        >Cadmus</a
+      >. Pick editors from the top menus and play with them.
+    </p>
+    <p>
+      You can find the corresponding GitHub repository at
+      <a href="https://github.com/vedph/cadmus-bricks-shell" target="_blank"
+        >github.com/vedph/cadmus-bricks-shell</a
+      >.
+    </p>
+    <p>
+      Cadmus has an object-based architecture. Starting from the top, our data
+      records are "boxes" (items in Cadmus lingo), each containing any number of
+      "objects" (named parts). For instance, a manuscript box might contain an
+      object for its datation, another for its shelfmark, another for its
+      layout, another for its binding, etc. Thus, the model of each box is
+      dynamic, as it depends on the objects it contains. We can add as many
+      objects as we want in the box, without affecting the existing ones. Even
+      text layers are just objects, on top of a base text object.
+    </p>
+    <p>
+      In fact, in the case of text you have an object representing it, and as
+      many objects as you want, each representing a layer of specialized
+      annotations on top of it. So, for an inscription you might have an object
+      for its text, as it appears on the stone; another with apparatus; another
+      with standard orthography and the linguistic description and
+      classification of each type of deviations from it; another with
+      prosopographic annotations; another with chronological annotations;
+      another with paleographic annotations; etc. You can add as many layers as
+      you want, each with its own model, without affecting the others. No
+      overlap here. A layer object is just an object like any other, put in the
+      box; its model is a collection of single annotations (fragments in Cadmus
+      lingo), each having its own model, defined by the host layer. So in the
+      end, our data structure is built by composition: data is structured into
+      items (boxes); items are composed of parts (objects in the box); layer
+      parts are collections of fragments (annotations).
+    </p>
+    <p>
+      So, any data, either textual, meta-textual (layers), or non-textual at
+      all, fits in the same architecture, built of boxes and objects (items,
+      parts, and fragments). Boxes get a fixed set of essential metadata, just
+      like we attach labels on them. Also, parts and fragments may share a set
+      of stickers, i.e. common taxonomies, like e.g. the types of inscriptions,
+      a list of languages, a list of colors, etc.
+    </p>
+    <p>
+      This modular data architecture has a corresponding modular data editor,
+      built by composition. While boxes are all created equal, and thus can
+      share a unique editor, each object has its own model, and also its own
+      editor. This can be as simple as a form, or a full-blown web app. Whatever
+      its complexity, it gets composed in the Cadmus editor UI; so, just like we
+      add models dynamically by tossing new objects in a box, we add editors
+      dynamically by adding their editors to a composable editor.
+    </p>
+    <p>
+      Also, in many cases even these objects can include sub-parts whose model
+      is found also in several other objects. For instance, think of datations,
+      which can appear in a lot of different parts. So, for all these sub-parts
+      we foster sharing and reuse by providing sub-components to assemble into
+      part editors. These are our bricks, which are used to build bigger
+      structures, our parts. In turn, parts build items; and items build the
+      database.
+    </p>
+    <p>
+      This site provides a shell for developing and testing bricks, which are
+      pieces of UI with their models, used to build bigger models (the parts)
+      with their editors. You can play with them by browsing via the top menus.
+      Happy exploring!
+    </p>
+  </article>
+</div>

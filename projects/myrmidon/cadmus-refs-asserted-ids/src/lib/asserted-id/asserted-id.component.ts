@@ -38,10 +38,9 @@ export class AssertedIdComponent implements OnInit {
   public tag: FormControl<string | null>;
   public value: FormControl<string | null>;
   public scope: FormControl<string | null>;
+  public assertion: FormControl<Assertion | null>;
   public form: FormGroup;
 
-  public initialAssertion?: Assertion;
-  public assertion?: Assertion;
   public lookupExpanded: boolean;
 
   // asserted-id-scopes
@@ -65,13 +64,13 @@ export class AssertedIdComponent implements OnInit {
   public refTagEntries: ThesaurusEntry[] | undefined;
 
   @Input()
-  public get id(): AssertedId | undefined {
+  public get id(): AssertedId | undefined | null {
     return this._id;
   }
-  public set id(value: AssertedId | undefined) {
+  public set id(value: AssertedId | undefined | null) {
     if (this._id !== value) {
-      this._id = value;
-      this.updateForm(value);
+      this._id = value || undefined;
+      this.updateForm(this._id);
     }
   }
 
@@ -102,10 +101,12 @@ export class AssertedIdComponent implements OnInit {
       Validators.maxLength(500),
     ]);
     this.scope = formBuilder.control(null, Validators.maxLength(500));
+    this.assertion = formBuilder.control(null);
     this.form = formBuilder.group({
       tag: this.tag,
       value: this.value,
       scope: this.scope,
+      assertion: this.assertion
     });
     this.lookupExpanded = false;
     // events
@@ -122,8 +123,7 @@ export class AssertedIdComponent implements OnInit {
   }
 
   public onAssertionChange(assertion: Assertion | undefined): void {
-    this.assertion = assertion;
-    setTimeout(() => this.emitIdChange(), 0);
+    this.assertion.setValue(assertion || null);
   }
 
   public onIdPick(id: string): void {
@@ -137,16 +137,15 @@ export class AssertedIdComponent implements OnInit {
     this._updatingForm = true;
     if (!value) {
       this.form.reset();
-      this.assertion = undefined;
     } else {
       this.tag.setValue(value.tag || null);
       this.value.setValue(value.value);
       this.scope.setValue(value.scope);
-      this.initialAssertion = value.assertion;
+      this.assertion.setValue(value.assertion || null);
       this.form.markAsPristine();
     }
     this._updatingForm = false;
-    this.emitIdChange();
+    // this.emitIdChange();
   }
 
   private getId(): AssertedId {
@@ -154,13 +153,14 @@ export class AssertedIdComponent implements OnInit {
       tag: this.tag.value?.trim(),
       value: this.value.value?.trim() || '',
       scope: this.scope.value?.trim() || '',
-      assertion: this.assertion,
+      assertion: this.assertion.value || undefined,
     };
   }
 
   public emitIdChange(): void {
     if (!this.hasSubmit) {
-      this.idChange.emit(this.getId());
+      this._id = this.getId();
+      this.idChange.emit(this._id);
     }
   }
 
@@ -170,7 +170,8 @@ export class AssertedIdComponent implements OnInit {
 
   public save(): void {
     if (this.form.valid) {
-      this.idChange.emit(this.getId());
+      this._id = this.getId();
+      this.idChange.emit(this._id);
     }
   }
 }

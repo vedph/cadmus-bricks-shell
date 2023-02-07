@@ -1,0 +1,13 @@
+h1 {
+  text-align: center;
+  margin-top: 8px;
+}
+.banner {
+  height: 258px;
+  margin-bottom: 16px;
+}
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

@@ -66,7 +66,7 @@
   </table>
 
   <mat-expansion-panel [expanded]="edited" [disabled]="!edited">
-    <mat-expansion-panel-header>ID</mat-expansion-panel-header>
+    <mat-expansion-panel-header>ID {{edited?.value}}</mat-expansion-panel-header>
     <cadmus-refs-asserted-id
       [idScopeEntries]="idScopeEntries"
       [idTagEntries]="idTagEntries"
