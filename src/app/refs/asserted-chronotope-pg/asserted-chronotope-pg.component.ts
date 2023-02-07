@@ -19,7 +19,7 @@ export class AssertedChronotopePgComponent implements OnInit {
           rank: 2,
           references: [
             {
-              type: 'book',
+              type: 'biblio',
               citation: 'Rossi 1963',
             },
           ],
@@ -29,6 +29,15 @@ export class AssertedChronotopePgComponent implements OnInit {
         a: {
           value: 123,
         },
+        assertion: {
+          rank: 1,
+          references: [
+            {
+              type: 'CIL',
+              citation: '1.23'
+            }
+          ]
+        }
       },
     };
   }

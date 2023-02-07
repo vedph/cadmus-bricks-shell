@@ -67,32 +67,31 @@ export class AssertedChronotopeComponent implements OnInit {
   public chronotopeChange: EventEmitter<AssertedChronotope>;
 
   public plTag: FormControl<string | null>;
+  public plAssertion: FormControl<Assertion | null>;
   public place: FormControl<string | null>;
   public dtTag: FormControl<string | null>;
+  public dtAssertion: FormControl<Assertion | null>;
   public date: FormControl<HistoricalDateModel | null>;
   public hasDate: FormControl<boolean>;
   public form: FormGroup;
-
-  public initialDate?: HistoricalDateModel;
-  public initialDtAssertion?: Assertion;
-  public dtAssertion?: Assertion;
-
-  public initialPlAssertion?: Assertion;
-  public plAssertion?: Assertion;
 
   constructor(formBuilder: FormBuilder) {
     this.chronotopeChange = new EventEmitter<AssertedChronotope>();
     // form
     this.plTag = formBuilder.control(null, Validators.maxLength(50));
+    this.plAssertion = formBuilder.control(null);
     this.place = formBuilder.control(null, Validators.maxLength(50));
     this.dtTag = formBuilder.control(null, Validators.maxLength(50));
+    this.dtAssertion = formBuilder.control(null);
     this.hasDate = formBuilder.control(false, { nonNullable: true });
     this.date = formBuilder.control(null);
     this.form = formBuilder.group({
       plTag: this.plTag,
+      plAssertion: this.plAssertion,
       place: this.place,
       hasDate: this.hasDate,
       dtTag: this.dtTag,
+      dtAssertion: this.dtAssertion,
       date: this.date,
     });
   }
@@ -106,35 +105,34 @@ export class AssertedChronotopeComponent implements OnInit {
   }
 
   public onPlAssertionChange(assertion: Assertion | undefined): void {
-    this.plAssertion = assertion;
-    setTimeout(() => this.emitChronotopeChange(), 0);
+    this.plAssertion.setValue(assertion || null);
+    this.plAssertion.updateValueAndValidity();
+    this.plAssertion.markAsDirty();
   }
 
   public onDtAssertionChange(assertion: Assertion | undefined): void {
-    this.dtAssertion = assertion;
-    setTimeout(() => this.emitChronotopeChange(), 0);
+    this.dtAssertion.setValue(assertion || null);
+    this.dtAssertion.updateValueAndValidity();
+    this.dtAssertion.markAsDirty();
   }
 
   public onDateChange(date?: HistoricalDateModel): void {
     this.date.setValue(date || null);
-    setTimeout(() => this.emitChronotopeChange(), 0);
+    this.date.updateValueAndValidity();
+    this.date.markAsDirty();
   }
 
   private updateForm(value: AssertedChronotope | undefined): void {
     this._updatingForm = true;
     if (!value) {
-      this.initialDate = undefined;
-      this.initialPlAssertion = undefined;
-      this.initialDtAssertion = undefined;
       this.form.reset();
     } else {
-      this.initialDate = value.date;
-      this.initialPlAssertion = value.place?.assertion;
-      this.initialDtAssertion = value.date?.assertion;
       this.plTag.setValue(value.place?.tag || null);
+      this.plAssertion.setValue(value.place?.assertion || null);
       this.place.setValue(value.place?.value || null);
       this.hasDate.setValue(value.date ? true : false);
       this.dtTag.setValue(value.date?.tag || null);
+      this.dtAssertion.setValue(value.date?.assertion || null);
       this.date.setValue(value.date as HistoricalDateModel);
       this.form.markAsPristine();
     }
@@ -147,7 +145,7 @@ export class AssertedChronotopeComponent implements OnInit {
         ? {
             tag: this.plTag.value?.trim(),
             value: this.place.value?.trim(),
-            assertion: this.plAssertion,
+            assertion: this.plAssertion.value || undefined,
           }
         : undefined,
       date:
@@ -155,7 +153,7 @@ export class AssertedChronotopeComponent implements OnInit {
           ? {
               ...this.date.value,
               tag: this.dtTag.value?.trim(),
-              assertion: this.dtAssertion,
+              assertion: this.dtAssertion.value || undefined,
             }
           : undefined,
     };

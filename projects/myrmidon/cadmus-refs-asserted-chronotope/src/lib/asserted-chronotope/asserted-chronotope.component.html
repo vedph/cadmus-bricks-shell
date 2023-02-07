@@ -44,7 +44,7 @@
           [assTagEntries]="assTagEntries"
           [refTypeEntries]="refTypeEntries"
           [refTagEntries]="refTagEntries"
-          [assertion]="initialPlAssertion"
+          [assertion]="plAssertion.value"
           (assertionChange)="onPlAssertionChange($event)"
         >
         </cadmus-refs-assertion>
@@ -78,7 +78,7 @@
       <div>
         <cadmus-refs-historical-date
           *ngIf="hasDate?.value"
-          [date]="initialDate"
+          [date]="date.value || undefined"
           (dateChange)="onDateChange($event)"
         ></cadmus-refs-historical-date>
 
@@ -91,7 +91,7 @@
             [assTagEntries]="assTagEntries"
             [refTypeEntries]="refTypeEntries"
             [refTagEntries]="refTagEntries"
-            [assertion]="initialDtAssertion"
+            [assertion]="dtAssertion.value"
             (assertionChange)="onDtAssertionChange($event)"
           >
           </cadmus-refs-assertion>
