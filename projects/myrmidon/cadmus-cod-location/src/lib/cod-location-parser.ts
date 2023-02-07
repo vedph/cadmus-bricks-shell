@@ -195,7 +195,7 @@ export class CodLocationParser {
       sb.push(`"${location.sfx}"`);
     }
     // v or r
-    if (location.v !== undefined) {
+    if (location.v !== undefined && location.v !== null) {
       sb.push(location.v ? 'v' : 'r');
     }
     // c

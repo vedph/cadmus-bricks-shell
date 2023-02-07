@@ -55,7 +55,9 @@ To add a brick:
 
 ## History
 
-- 2023-02-07: fix to asserted chronotope assertions binding.
+- 2023-02-07:
+  - fix to asserted chronotope assertions binding.
+  - check not only for undefined but also for null in codicologic location text rendering.
 - 2023-02-06: fix to proper name binding.
 - 2023-02-03: fixes to thesauri bindings.
 
