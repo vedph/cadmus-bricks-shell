@@ -58,13 +58,13 @@ export class ProperNameComponent implements OnInit {
    * The proper name.
    */
   @Input()
-  public get name(): AssertedProperName | undefined {
+  public get name(): AssertedProperName | undefined | null {
     return this._name;
   }
-  public set name(value: AssertedProperName | undefined) {
+  public set name(value: AssertedProperName | undefined | null) {
     if (this._name !== value) {
-      this._name = value;
-      this._name$.next(value);
+      this._name = value || undefined;
+      this._name$.next(this._name);
     }
   }
 

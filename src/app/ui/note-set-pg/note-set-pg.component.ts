@@ -9,6 +9,7 @@ import { NoteSet } from '@myrmidon/cadmus-ui-note-set';
 })
 export class NoteSetPgComponent {
   public set: NoteSet;
+  public lastNoteSet?: string;
 
   constructor() {
     this.set = {
@@ -35,6 +36,7 @@ export class NoteSetPgComponent {
   }
 
   public onNoteChange(note: KeyValue<string, string | null>): void {
-    this.set.notes?.set(note.key, note.value);
+    this.lastNoteSet = `${note.key}=${note.value}`;
+    // this.set.notes?.set(note.key, note.value);
   }
 }

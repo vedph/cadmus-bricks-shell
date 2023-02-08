@@ -47,10 +47,10 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
    * The IDs of the selected flags.
    */
   @Input()
-  public get selectedIds(): string[] | undefined {
+  public get selectedIds(): string[] | undefined | null {
     return this._data$.value.selectedIds;
   }
-  public set selectedIds(value: string[] | undefined) {
+  public set selectedIds(value: string[] | undefined | null) {
     if (this._data$.value.selectedIds !== value) {
       this._data$.next({
         selectedIds: value || [],
@@ -63,10 +63,10 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
    * All the available flags.
    */
   @Input()
-  public get flags(): Flag[] | undefined {
+  public get flags(): Flag[] | undefined | null {
     return this._data$.value.flags;
   }
-  public set flags(value: Flag[] | undefined) {
+  public set flags(value: Flag[] | undefined | null) {
     if (this._data$.value.flags !== value) {
       this._data$.next({
         selectedIds: this._data$.value.selectedIds,

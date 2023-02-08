@@ -29,13 +29,13 @@ export class HistoricalDateComponent implements OnInit {
   private _date?: HistoricalDateModel;
 
   @Input()
-  public get date(): HistoricalDateModel | undefined {
+  public get date(): HistoricalDateModel | undefined | null {
     return this._date;
   }
-  public set date(value: HistoricalDateModel | undefined) {
+  public set date(value: HistoricalDateModel | undefined | null) {
     if (this._date !== value) {
-      this._date = value;
-      this.updateForm(value);
+      this._date = value || undefined;
+      this.updateForm(this._date);
     }
   }
 

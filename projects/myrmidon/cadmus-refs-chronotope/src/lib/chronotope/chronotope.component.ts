@@ -29,13 +29,13 @@ export class ChronotopeComponent implements OnInit {
   private _chronotope: Chronotope | undefined;
 
   @Input()
-  public get chronotope(): Chronotope | undefined {
+  public get chronotope(): Chronotope | undefined | null {
     return this._chronotope;
   }
-  public set chronotope(value: Chronotope | undefined) {
+  public set chronotope(value: Chronotope | undefined | null) {
     if (this._chronotope !== value) {
-      this._chronotope = value;
-      this.updateForm(value);
+      this._chronotope = value || undefined;
+      this.updateForm(this._chronotope);
     }
   }
 

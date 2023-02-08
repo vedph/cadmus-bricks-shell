@@ -32,13 +32,13 @@ export class DecoratedCountsComponent implements OnInit, OnDestroy {
   private _subs: Subscription[];
 
   @Input()
-  public get counts(): DecoratedCount[] | undefined {
+  public get counts(): DecoratedCount[] | undefined | null {
     return this._counts;
   }
-  public set counts(value: DecoratedCount[] | undefined) {
+  public set counts(value: DecoratedCount[] | undefined | null) {
     if (this._counts !== value) {
-      this._counts = value;
-      this.updateForm(value);
+      this._counts = value || undefined;
+      this.updateForm(this._counts);
     }
   }
 

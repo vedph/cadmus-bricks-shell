@@ -37,13 +37,13 @@ export class AssertedChronotopeComponent implements OnInit {
   private _chronotope: AssertedChronotope | undefined;
 
   @Input()
-  public get chronotope(): AssertedChronotope | undefined {
+  public get chronotope(): AssertedChronotope | undefined | null {
     return this._chronotope;
   }
-  public set chronotope(value: AssertedChronotope | undefined) {
+  public set chronotope(value: AssertedChronotope | undefined | null) {
     if (this._chronotope !== value) {
-      this._chronotope = value;
-      this.updateForm(value);
+      this._chronotope = value || undefined;
+      this.updateForm(this._chronotope);
     }
   }
 
