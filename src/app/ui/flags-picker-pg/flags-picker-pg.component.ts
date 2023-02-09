@@ -11,7 +11,7 @@ export class FlagsPickerPgComponent implements OnInit {
   public flags: Flag[];
 
   constructor() {
-    this.ids = ['red', 'green'];
+    this.ids = ['red', 'green', 'x'];
     this.flags = [
       { id: 'red', label: 'red' },
       { id: 'orange', label: 'orange' },

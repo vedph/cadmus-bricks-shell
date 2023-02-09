@@ -56,6 +56,7 @@ To add a brick:
 
 ## History
 
+- 2023-02-09: fix to flags picker custom flag.
 - 2023-02-08: allow `null` for bound properties with `undefined`.
 
 ### 1.0.7

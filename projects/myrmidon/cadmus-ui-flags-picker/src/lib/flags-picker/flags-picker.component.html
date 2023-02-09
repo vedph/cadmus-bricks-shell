@@ -63,10 +63,10 @@
           >{{ i + 1 }}.</span
         >
         <mat-checkbox formControlName="flag">{{
-          $any(flags)[i].label
+          flags? flags[i].label || flags[i].id : ''
         }}</mat-checkbox>
-        <button
-          *ngIf="$any(flags)[i].user"
+        <!-- <button
+          *ngIf="flags && flags![i].user"
           style="flex: 0 0 auto"
           mat-icon-button
           color="warn"
@@ -74,7 +74,7 @@
           matTooltip="Remove this flag"
         >
           <mat-icon>remove_circle</mat-icon>
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
