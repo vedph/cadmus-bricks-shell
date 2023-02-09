@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 export interface Flag {
@@ -37,21 +37,20 @@ export interface Flag {
   styleUrls: ['./flags-picker.component.css'],
 })
 export class FlagsPickerComponent implements OnInit, OnDestroy {
-  private _flags$: BehaviorSubject<Flag[]>;
+  private _flags: Flag[];
   private _subs: Subscription[];
   private _changeFrozen?: boolean;
 
-  public flags$: Observable<Flag[]>;
-
   @Input()
   public get flags(): Flag[] | undefined | null {
-    return this._flags$.value;
+    return this._flags;
   }
   public set flags(value: Flag[] | undefined | null) {
-    if (this._flags$.value === value) {
+    if (this._flags === value) {
       return;
     }
-    this._flags$.next(value || []);
+    this._flags = value || [];
+    this.updateForm(this._flags);
   }
 
   /**
@@ -85,8 +84,7 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
   public userForm: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {
-    this._flags$ = new BehaviorSubject<Flag[]>([]);
-    this.flags$ = this._flags$.asObservable();
+    this._flags = [];
     this.flagsChange = new EventEmitter<Flag[]>();
     this._subs = [];
     // form
@@ -102,31 +100,24 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-    this._flags$
-      .pipe(distinctUntilChanged(), debounceTime(100))
-      .subscribe((_) => {
-        this.updateForm();
-      });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this._subs.forEach((s) => s.unsubscribe());
-    this._flags$.unsubscribe();
   }
 
   private getFlags(): Flag[] {
-    const flags = [...this._flags$.value];
+    const flags = [...this._flags];
     for (let i = 0; i < this.flagsArr.controls.length; i++) {
       const g = this.flagsArr.at(i) as FormGroup;
-      flags[i].checked = (g.controls['flag'].value === true);
+      flags[i].checked = g.controls['flag'].value === true;
     }
     return flags;
   }
 
   private emitFlagsChange(): void {
-    this._flags$.next(this.getFlags());
-    this.flagsChange.emit(this._flags$.value);
+    this._flags = this.getFlags();
+    this.flagsChange.emit(this._flags);
   }
 
   public addUserFlag(): void {
@@ -157,13 +148,14 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
     flag.checked = true;
 
     // do not add if the ID/label already exists
-    const flags = this._flags$.value;
+    const flags = this._flags;
     if (flags.some((f) => f.id === flag.id || f.label === flag.label)) {
       return;
     }
 
     // add flag (checked)
-    this._flags$.next([...this._flags$.value, flag]);
+    this._flags = [...this._flags, flag];
+    this.flagsArr.controls.push(this.getFlagGroup(true));
 
     this.userFlag.reset();
     this.userFlag.markAsPristine();
@@ -187,9 +179,9 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
     return g;
   }
 
-  private updateForm(): void {
+  private updateForm(flags: Flag[]): void {
     this.flagsArr.clear();
-    this._flags$.value.forEach((flag) => {
+    flags.forEach((flag) => {
       this.flagsArr.controls.push(this.getFlagGroup(flag.checked === true));
     });
   }
