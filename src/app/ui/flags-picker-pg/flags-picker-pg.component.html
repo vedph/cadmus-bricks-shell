@@ -6,27 +6,58 @@
   </mat-card-header>
   <mat-card-content>
     <cadmus-ui-flags-picker
-      [flags]="flags"
+      [flags]="flags$ | async"
       [numbering]="true"
       [toolbar]="true"
       [allowUserFlags]="true"
       (flagsChange)="onFlagsChange($event)"
     >
     </cadmus-ui-flags-picker>
+
     <hr />
     <h3>IDs</h3>
-    <div *ngIf="flags">
-      <pre>{{ flags | json }}</pre>
+    <div *ngIf="result">
+      <pre>{{ result | json }}</pre>
     </div>
-    <h3>Flags</h3>
-    <ol>
-      <li *ngFor="let f of flags">
-        [{{ f.checked ? "X" : " " }}] {{ f.id }}={{ f.label }}
-      </li>
-    </ol>
-    <hr />
-    <button type="button" mat-flat-button (click)="setRandomId()">
-      set random ID
-    </button>
+
+    <form [formGroup]="form">
+      <fieldset>
+        <legend>user</legend>
+        <div>
+          <mat-form-field class="long-text">
+            <mat-label>flags</mat-label>
+            <textarea matInput [formControl]="usrFlags"></textarea>
+          </mat-form-field>
+        </div>
+        <div>
+          <button
+            color="primary"
+            type="button"
+            mat-flat-button
+            (click)="setFlags()"
+          >
+            set flags
+          </button>
+          <mat-checkbox [formControl]="applyChecks">apply checks</mat-checkbox>
+        </div>
+        <br>
+        <div>
+          <mat-form-field>
+            <mat-label>IDs</mat-label>
+            <input matInput [formControl]="usrIds" />
+          </mat-form-field>
+        </div>
+        <div>
+          <button
+            color="primary"
+            type="button"
+            mat-flat-button
+            (click)="setChecks()"
+          >
+            set IDs
+          </button>
+        </div>
+      </fieldset>
+    </form>
   </mat-card-content>
 </mat-card>
