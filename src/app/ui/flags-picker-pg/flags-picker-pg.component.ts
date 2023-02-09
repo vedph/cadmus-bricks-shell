@@ -7,16 +7,14 @@ import { Flag } from '@myrmidon/cadmus-ui-flags-picker';
   styleUrls: ['./flags-picker-pg.component.css'],
 })
 export class FlagsPickerPgComponent implements OnInit {
-  public ids: string[];
   public flags: Flag[];
 
   constructor() {
-    this.ids = ['red', 'green', 'x'];
     this.flags = [
-      { id: 'red', label: 'red' },
+      { id: 'red', label: 'red', checked: true },
       { id: 'orange', label: 'orange' },
       { id: 'yellow', label: 'yellow' },
-      { id: 'green', label: 'green' },
+      { id: 'green', label: 'green', checked: true },
       { id: 'blue', label: 'blue' },
       { id: 'indigo', label: 'indigo' },
       { id: 'violet', label: 'violet' },
@@ -24,10 +22,6 @@ export class FlagsPickerPgComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-
-  public onIdsChange(ids: string[]): void {
-    this.ids = ids;
-  }
 
   public onFlagsChange(flags: Flag[]): void {
     this.flags = flags;
@@ -41,6 +35,11 @@ export class FlagsPickerPgComponent implements OnInit {
   }
 
   public setRandomId(): void {
-    this.ids = [this.flags[this.getRandomInt(0, this.flags.length)].id];
+    const flags = [...this.flags];
+    const checkedIndex = this.getRandomInt(0, this.flags.length);
+    for (let i = 0; i < flags.length; i++) {
+      flags[i].checked = (i === checkedIndex);
+    }
+    this.flags = flags;
   }
 }

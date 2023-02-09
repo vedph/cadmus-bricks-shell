@@ -52,7 +52,7 @@
     </form>
   </div>
   <!-- flags -->
-  <div formArrayName="flagsArr" class="cols">
+  <div formArrayName="flagsArr" class="cols" *ngIf="flags$ | async as flags">
     <div *ngFor="let item of flagsArr.controls; let i = index">
       <!-- child form -->
       <div
@@ -63,14 +63,14 @@
           >{{ i + 1 }}.</span
         >
         <mat-checkbox formControlName="flag">{{
-          flags? flags[i].label || flags[i].id : ''
+          flags[i].label || flags[i].id
         }}</mat-checkbox>
         <!-- <button
-          *ngIf="flags && flags![i].user"
+          *ngIf="flags && flags[i].user"
           style="flex: 0 0 auto"
           mat-icon-button
           color="warn"
-          (click)="onRemoveFlag(i)"
+          (click)="removeFlag(i)"
           matTooltip="Remove this flag"
         >
           <mat-icon>remove_circle</mat-icon>
