@@ -72,6 +72,12 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
   public allowUserFlags = false;
 
   /**
+   * True to show a tooltip for each flag with its ID value.
+   */
+  @Input()
+  public flagTips = false;
+
+  /**
    * Emitted whenever flags change.
    */
   @Output()

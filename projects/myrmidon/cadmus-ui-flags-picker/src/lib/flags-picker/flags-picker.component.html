@@ -61,7 +61,10 @@
         <span class="numbering" *ngIf="numbering" style="flex: 0 0 auto"
           >{{ i + 1 }}.</span
         >
-        <mat-checkbox formControlName="flag"
+        <mat-checkbox
+          formControlName="flag"
+          [matTooltip]="flags![i].id"
+          [matTooltipDisabled]="!flagTips"
           >{{ flags![i].label || flags![i].id }}
           <span *ngIf="flags![i].user">&nbsp;&#x270e;</span>
         </mat-checkbox>

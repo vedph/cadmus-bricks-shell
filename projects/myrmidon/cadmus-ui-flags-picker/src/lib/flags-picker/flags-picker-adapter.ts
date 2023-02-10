@@ -54,6 +54,31 @@ export class FlagsPickerAdapter {
     return s?.value || [];
   }
 
+  /**
+   * Get the IDs of all the checked flags in the specified slot.
+   *
+   * @param slotId The slot ID.
+   * @returns The checked IDs, empty if none.
+   */
+  public getCheckedFlagIds(slotId: string): string[] {
+    return this.getFlags(slotId)
+      .filter((f) => f.checked)
+      .map((f) => f.id);
+  }
+
+  /**
+   * Get the IDs of all the checked flags in the specified slot.
+   *
+   * @param slotId The slot ID.
+   * @returns The checked IDs, undefined if none.
+   */
+  public getOptionalCheckedFlagIds(slotId: string): string[] | undefined {
+    const ids = this.getFlags(slotId)
+      .filter((f) => f.checked)
+      .map((f) => f.id);
+    return ids.length ? ids : undefined;
+  }
+
   private ensureSlotCreated(slotId: string): void {
     if (this._slots.has(slotId)) {
       return;
@@ -79,6 +104,7 @@ export class FlagsPickerAdapter {
    * @returns Observable with Flag[].
    */
   public selectFlags(slotId: string): Observable<Flag[]> {
+    console.debug(`selectFlags: ${slotId}`);
     this.ensureSlotCreated(slotId);
     return this._slotSubjects.get(slotId)!.asObservable();
   }
@@ -100,6 +126,9 @@ export class FlagsPickerAdapter {
     flags: Flag[],
     applyChecks = false
   ): Flag[] {
+    console.debug(
+      `setSlotFlags: ${slotId}: ${flags.length}` + (applyChecks ? 'A' : '')
+    );
     let oldSlot: FlagPickerSlot | undefined = this._slots.get(slotId);
     let slot: FlagPickerSlot;
 
@@ -151,6 +180,7 @@ export class FlagsPickerAdapter {
    * @returns The current flags of the specified slot.
    */
   public setSlotChecks(slotId: string, ids: string[]): Flag[] {
+    console.debug(`setSlotChecks: ${slotId}=${ids.join(',')}`);
     let oldSlot: FlagPickerSlot | undefined = this._slots.get(slotId);
     let slot: FlagPickerSlot;
 

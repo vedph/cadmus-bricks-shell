@@ -96,10 +96,10 @@ this._flagAdapter.setSlotChecks('states', content.states);
 
 ```ts
 // get model
-states: this.states.value.filter((f) => f.checked).map((f) => f.id) || [],
+states: this.getOptionalFlagIds('states'),
 ```
 
->The form's control contains `Flag`'s, so we are setting the model's IDs only for those flags which are checked, using a filter.
+>The `getFlagIds` and `getOptionalFlagIds` methods are used to extract the IDs of the checked flags only, returning an array which is empty when no flag is checked, or undefined, according to the method called.
 
 (7) handle the `flagsChange` event from the flags component to update the form's control. Note that when we receive a change event from the brick control, we need to update both the checked states for the flags, and the flags themselves, as there might be user-defined flags. So we are using the adapter's setSlotFlags method with a true parameter to tell it that the checked states must be drawn from the received flags, rather than extracted from the existing slot in the adapter:
 
