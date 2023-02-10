@@ -92,11 +92,12 @@ public set stateEntries(value: ThesaurusEntry[] | undefined) {
 this._flagAdapter.setSlotChecks('states', content.states);
 ```
 
-(6) conversely, in your `getModel` function, get the flags from the form's control, mapping flags to their IDs:
+(6) conversely, in your `getModel` function, get the IDs of the checked flags from the adapter:
 
 ```ts
 // get model
-states: this.getOptionalFlagIds('states'),
+// ...
+states: this._flagAdapter.getOptionalCheckedFlagIds('states'),
 ```
 
 >The `getFlagIds` and `getOptionalFlagIds` methods are used to extract the IDs of the checked flags only, returning an array which is empty when no flag is checked, or undefined, according to the method called.
