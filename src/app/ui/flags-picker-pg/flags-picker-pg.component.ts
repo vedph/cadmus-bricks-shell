@@ -14,6 +14,7 @@ export class FlagsPickerPgComponent implements OnInit {
   public usrFlags: FormControl<string | null>;
   public usrIds: FormControl<string | null>;
   public applyChecks: FormControl<boolean>;
+  public supplyFlags: FormControl<boolean>;
   public form: FormGroup;
   public flags$: Observable<Flag[]>;
   public result?: Flag[];
@@ -39,10 +40,12 @@ export class FlagsPickerPgComponent implements OnInit {
     });
     this.usrIds = formBuilder.control('red,green', { nonNullable: true });
     this.applyChecks = formBuilder.control(false, { nonNullable: true });
+    this.supplyFlags = formBuilder.control(false, { nonNullable: true });
     this.form = formBuilder.group({
       usrFlags: this.usrFlags,
       usrIds: this.usrIds,
       applyChecks: this.applyChecks,
+      supplyFlags: this.supplyFlags
     });
   }
 
@@ -66,7 +69,8 @@ export class FlagsPickerPgComponent implements OnInit {
   public setChecks(): void {
     this._adapter.setSlotChecks(
       'a',
-      (this.usrIds.value || '').split(',').filter((s) => s.trim().length)
+      (this.usrIds.value || '').split(',').filter((s) => s.trim().length),
+      this.supplyFlags.value
     );
   }
 

@@ -177,9 +177,15 @@ export class FlagsPickerAdapter {
    *
    * @param slotId The slot ID.
    * @param ids The IDs of the flags to check.
+   * @param supplyFlags True to supply new user-defined flags
+   * when the ID is not found.
    * @returns The current flags of the specified slot.
    */
-  public setSlotChecks(slotId: string, ids: string[]): Flag[] {
+  public setSlotChecks(
+    slotId: string,
+    ids: string[],
+    supplyFlags = false
+  ): Flag[] {
     console.debug(`setSlotChecks: ${slotId}=${ids.join(',')}`);
     let oldSlot: FlagPickerSlot | undefined = this._slots.get(slotId);
     let slot: FlagPickerSlot;
@@ -206,6 +212,20 @@ export class FlagsPickerAdapter {
         checkedIds: ids,
         flags: [],
       };
+    }
+
+    // supply flags if required
+    if (supplyFlags) {
+      for (let i = 0; i < ids.length; i++) {
+        if (slot.flags.every((f) => f.id !== ids[i])) {
+          slot.flags.push({
+            id: ids[i],
+            label: ids[i],
+            user: true,
+            checked: true
+          });
+        }
+      }
     }
 
     this._slots.set(slotId, slot);
