@@ -8,3 +8,6 @@
   column-width: 250px;
   column-rule: 1px solid #ddd;
 }
+.custom {
+  color: tomato;
+}

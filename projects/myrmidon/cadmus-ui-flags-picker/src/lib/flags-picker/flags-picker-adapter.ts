@@ -104,6 +104,9 @@ export class FlagsPickerAdapter {
     let slot: FlagPickerSlot;
 
     if (oldSlot) {
+      if (oldSlot.flags === flags) {
+        return flags;
+      }
       // if the slot exists:
       // - either update flags checks according to existing IDs, or update the
       //   existing IDs according to the received flags;

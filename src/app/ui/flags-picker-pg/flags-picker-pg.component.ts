@@ -51,6 +51,7 @@ export class FlagsPickerPgComponent implements OnInit {
   }
 
   public onFlagsChange(flags: Flag[]): void {
+    this._adapter.setSlotFlags('a', flags, true);
     this.result = flags;
   }
 

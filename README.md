@@ -40,10 +40,11 @@ Use [publish.bat](publish.bat) to publish the libraries to NPM.
 
 📖 More info about some bricks:
 
+- [asserted IDs](./projects/myrmidon/cadmus-refs-asserted-ids/README.md)
 - [codicologic location](./projects/myrmidon/cadmus-cod-location/README.md)
+- [flags picker](./projects/myrmidon/cadmus-ui-flags-picker/README.md)
 - [proper name](./projects/myrmidon/cadmus-refs-proper-name/README.md)
 - [reference lookup](./projects/myrmidon/cadmus-refs-lookup/README.md)
-- [asserted IDs](./projects/myrmidon/cadmus-refs-asserted-ids/README.md)
 - [text block view](./projects/myrmidon/cadmus-text-block-view/README.md)
 
 ## Adding a Brick
@@ -56,6 +57,7 @@ To add a brick:
 
 ## History
 
+- 2023-02-10: improvements for flags picker.
 - 2023-02-09:
   - fix to flags picker custom flag.
   - refactored flags picker.

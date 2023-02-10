@@ -129,27 +129,16 @@ export class FlagsPickerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // parse id=label
-    const i = text.indexOf('=');
-    let flag: Flag;
-    if (i === -1) {
-      flag = {
-        id: text,
-        label: text,
-        user: true,
-      };
-    } else {
-      flag = {
-        id: text.substring(0, i),
-        label: text.substring(i + 1),
-        user: true,
-      };
-    }
+    let flag: Flag = {
+      id: text,
+      label: text,
+      user: true,
+    };
     flag.checked = true;
 
-    // do not add if the ID/label already exists
+    // do not add if the ID already exists
     const flags = this._flags;
-    if (flags.some((f) => f.id === flag.id || f.label === flag.label)) {
+    if (flags.some((f) => f.id === flag.id)) {
       return;
     }
 
