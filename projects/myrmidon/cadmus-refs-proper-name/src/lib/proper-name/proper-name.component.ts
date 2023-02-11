@@ -104,6 +104,12 @@ export class ProperNameComponent implements OnInit {
   public refTagEntries: ThesaurusEntry[] | undefined;
 
   /**
+   * True to hide the proper name's assertion UI.
+   */
+  @Input()
+  public noAssertion?: boolean;
+
+  /**
    * Emitted whenever the name changes.
    */
   @Output()

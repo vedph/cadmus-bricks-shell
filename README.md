@@ -57,6 +57,7 @@ To add a brick:
 
 ## History
 
+- 2023-02-11: added `noAssertion` option to proper name editor.
 - 2023-02-10: improvements for flags picker.
 - 2023-02-09:
   - fix to flags picker custom flag.

@@ -164,22 +164,24 @@
   </mat-expansion-panel>
 
   <!-- assertion -->
-  <mat-expansion-panel [(expanded)]="assEdOpen">
-    <mat-expansion-panel-header>assertion</mat-expansion-panel-header>
-    <cadmus-refs-assertion
-      [assertion]="assertion.value"
-      [assTagEntries]="assTagEntries"
-      [refTagEntries]="refTagEntries"
-      [refTypeEntries]="refTypeEntries"
-      (assertionChange)="onAssertionChange($event)"
-    ></cadmus-refs-assertion>
-    <button
-      color="primary"
-      type="button"
-      mat-flat-button
-      (click)="saveAssertion()"
-    >
-      <mat-icon>check_circle</mat-icon> assertion
-    </button>
-  </mat-expansion-panel>
+  <div *ngIf="!noAssertion">
+    <mat-expansion-panel [(expanded)]="assEdOpen">
+      <mat-expansion-panel-header>assertion</mat-expansion-panel-header>
+      <cadmus-refs-assertion
+        [assertion]="assertion.value"
+        [assTagEntries]="assTagEntries"
+        [refTagEntries]="refTagEntries"
+        [refTypeEntries]="refTypeEntries"
+        (assertionChange)="onAssertionChange($event)"
+      ></cadmus-refs-assertion>
+      <button
+        color="primary"
+        type="button"
+        mat-flat-button
+        (click)="saveAssertion()"
+      >
+        <mat-icon>check_circle</mat-icon> assertion
+      </button>
+    </mat-expansion-panel>
+  </div>
 </form>
