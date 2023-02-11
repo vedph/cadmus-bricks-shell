@@ -85,11 +85,14 @@ public set stateEntries(value: ThesaurusEntry[] | undefined) {
 
 (4) if you want to let the form properly handle dirty state and validation, in your form have a control for the flags, e.g. `public states: FormControl<Flag[]>`, and instantiate it as any other form item.
 
-(5) in your `updateForm` function, set the flag IDs via the adapter. Note that we deal only with the adapter, as the control will be automatically set when the flags brick fires back its flags change event:
+(5) in your `updateForm` function, set the flag IDs via the adapter. Note that we deal only with the adapter, as the control will be automatically set when the flags brick fires back its flags change event. Anyway, you might want to update the control also at this stage if your form depends on it not only for change detection, but also for validation:
 
 ```ts
-//update form
+// update form
 this._flagAdapter.setSlotChecks('states', content.states);
+
+// or, if you need to have your form's control initialized:
+this.states.setValue(this._flagAdapter.setSlotChecks('states', content.states));
 ```
 
 (6) conversely, in your `getModel` function, get the IDs of the checked flags from the adapter:
