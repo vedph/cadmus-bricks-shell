@@ -654,6 +654,39 @@
           }
         }
       }
+    },
+    "@myrmidon/cadmus-sdimg-annotator": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-sdimg-annotator",
+      "sourceRoot": "projects/myrmidon/cadmus-sdimg-annotator/src",
+      "prefix": "cadmus",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-sdimg-annotator/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-sdimg-annotator/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-sdimg-annotator/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/myrmidon/cadmus-sdimg-annotator/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

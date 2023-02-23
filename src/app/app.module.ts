@@ -49,6 +49,7 @@ import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-hi
 import { CadmusRefsProperNameModule } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
 import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
 import { CadmusRefsDecoratedCountsModule } from 'projects/myrmidon/cadmus-refs-decorated-counts/src/public-api';
+import { CadmusSdimgAnnotatorModule } from 'projects/myrmidon/cadmus-sdimg-annotator/src/public-api';
 import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
 import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 import { CadmusUiNoteSetModule } from 'projects/myrmidon/cadmus-ui-note-set/src/public-api';
@@ -75,6 +76,7 @@ import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-v
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
 import { NoteSetPgComponent } from './ui/note-set-pg/note-set-pg.component';
 import { MockItemService } from './services/mock-item.service';
+import { SdImgAnnotatorPgComponent } from './img/sd-img-annotator-pg/sd-img-annotator-pg.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -88,27 +90,28 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
   declarations: [
     AppComponent,
     HomeComponent,
-    ProperNamePgComponent,
-    DocReferencesPgComponent,
-    DecoratedIdsPgComponent,
-    ExternalIdsPgComponent,
     AssertedChronotopePgComponent,
     AssertedChronotopeSetPgComponent,
     AssertionPgComponent,
     AssertedIdPgComponent,
     AssertedIdsPgComponent,
     ChronotopePgComponent,
-    HistoricalDatePgComponent,
+    DocReferencesPgComponent,
+    DecoratedIdsPgComponent,
+    ExternalIdsPgComponent,
     FlagsPickerPgComponent,
-    RefLookupPgComponent,
-    RefLookupDummyOptComponent,
-    ViafRefLookupPgComponent,
-    TextBlockViewPgComponent,
-    PhysicalSizePgComponent,
     CodLocationPgComponent,
     DecoratedCountsPgComponent,
+    HistoricalDatePgComponent,
     ImgAnnotatorPgComponent,
     NoteSetPgComponent,
+    PhysicalSizePgComponent,
+    ProperNamePgComponent,
+    RefLookupPgComponent,
+    RefLookupDummyOptComponent,
+    SdImgAnnotatorPgComponent,
+    TextBlockViewPgComponent,
+    ViafRefLookupPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,9 +122,9 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     ReactiveFormsModule,
     RouterModule.forRoot(
       [
-        { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: HomeComponent },
         { path: 'img/annotator', component: ImgAnnotatorPgComponent },
+        { path: 'img/sd-annotator', component: SdImgAnnotatorPgComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
         { path: 'refs/external-ids', component: ExternalIdsPgComponent },
         {
@@ -150,6 +153,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
         { path: 'text/text-block-view', component: TextBlockViewPgComponent },
         { path: 'mat/physical-size', component: PhysicalSizePgComponent },
         { path: 'cod/location', component: CodLocationPgComponent },
+        { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: '**', component: HomeComponent },
       ],
       {
@@ -181,6 +185,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     CadmusCoreModule,
     CadmusApiModule,
     CadmusImgAnnotatorModule,
+    CadmusSdimgAnnotatorModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
     CadmusRefsExternalIdsModule,

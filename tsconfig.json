@@ -73,6 +73,9 @@
         "dist/myrmidon/cadmus-refs-viaf-lookup/myrmidon-cadmus-refs-viaf-lookup",
         "dist/myrmidon/cadmus-refs-viaf-lookup"
       ],
+      "@myrmidon/cadmus-sdimg-annotator": [
+        "dist/myrmidon/cadmus-sdimg-annotator"
+      ],
       "@myrmidon/cadmus-text-block-view": [
         "dist/myrmidon/cadmus-text-block-view/myrmidon-cadmus-text-block-view",
         "dist/myrmidon/cadmus-text-block-view"
