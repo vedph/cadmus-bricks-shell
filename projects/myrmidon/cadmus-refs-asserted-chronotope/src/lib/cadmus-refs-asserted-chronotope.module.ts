@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
+import { NgToolsModule } from '@myrmidon/ng-tools';
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusRefsAssertionModule } from '@myrmidon/cadmus-refs-assertion';
 import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-references';
@@ -18,12 +19,13 @@ import { CadmusRefsHistoricalDateModule } from '@myrmidon/cadmus-refs-historical
 
 import { AssertedChronotopeComponent } from './asserted-chronotope/asserted-chronotope.component';
 import { AssertedChronotopeSetComponent } from './asserted-chronotope-set/asserted-chronotope-set.component';
-import { NgToolsModule } from '@myrmidon/ng-tools';
+import { AssertedChronotopesPipe } from './asserted-chronotopes.pipe';
 
 @NgModule({
   declarations: [
     AssertedChronotopeComponent,
-    AssertedChronotopeSetComponent
+    AssertedChronotopeSetComponent,
+    AssertedChronotopesPipe
   ],
   imports: [
     CommonModule,
@@ -48,7 +50,8 @@ import { NgToolsModule } from '@myrmidon/ng-tools';
   ],
   exports: [
     AssertedChronotopeComponent,
-    AssertedChronotopeSetComponent
+    AssertedChronotopeSetComponent,
+    AssertedChronotopesPipe
   ],
 })
 export class CadmusRefsAssertedChronotopeModule {}

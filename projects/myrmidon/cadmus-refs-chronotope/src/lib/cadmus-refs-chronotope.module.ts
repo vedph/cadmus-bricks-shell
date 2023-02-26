@@ -15,11 +15,10 @@ import { CadmusRefsDocReferencesModule } from '@myrmidon/cadmus-refs-doc-referen
 import { CadmusRefsHistoricalDateModule } from '@myrmidon/cadmus-refs-historical-date';
 
 import { ChronotopeComponent } from './chronotope/chronotope.component';
+import { ChronotopePipe } from './chronotope.pipe';
 
 @NgModule({
-  declarations: [
-    ChronotopeComponent
-  ],
+  declarations: [ChronotopeComponent, ChronotopePipe],
   imports: [
     CommonModule,
     FormsModule,
@@ -35,8 +34,8 @@ import { ChronotopeComponent } from './chronotope/chronotope.component';
     // Cadmus
     CadmusCoreModule,
     CadmusRefsDocReferencesModule,
-    CadmusRefsHistoricalDateModule
+    CadmusRefsHistoricalDateModule,
   ],
-  exports: [ChronotopeComponent],
+  exports: [ChronotopeComponent, ChronotopePipe],
 })
 export class CadmusRefsChronotopeModule {}
