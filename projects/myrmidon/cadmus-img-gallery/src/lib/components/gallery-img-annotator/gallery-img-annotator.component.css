@@ -1,0 +1,23 @@
+div#annotator {
+  grid-area: annotator;
+}
+div#list {
+  grid-area: list;
+}
+div#container {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "annotator list";
+  gap: 8px;
+}
+/* lt-md */
+@media only screen and (max-width: 959px) {
+  div#container {
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "annotator"
+      "list";
+  }
+}

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,12 +13,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
+import { CadmusImgAnnotatorModule } from '@myrmidon/cadmus-img-annotator';
 
 import { GalleryFilterComponent } from './components/gallery-filter/gallery-filter.component';
 import { GalleryListComponent } from './components/gallery-list/gallery-list.component';
+import { GalleryImgAnnotatorComponent } from './components/gallery-img-annotator/gallery-img-annotator.component';
 
 @NgModule({
-  declarations: [GalleryFilterComponent, GalleryListComponent],
+  declarations: [
+    GalleryFilterComponent,
+    GalleryListComponent,
+    GalleryImgAnnotatorComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -25,6 +32,7 @@ import { GalleryListComponent } from './components/gallery-list/gallery-list.com
     NgOptimizedImage,
     // material
     MatButtonModule,
+    MatButtonToggleModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
@@ -34,7 +42,13 @@ import { GalleryListComponent } from './components/gallery-list/gallery-list.com
     MatTooltipModule,
     // Cadmus
     CadmusCoreModule,
+    CadmusImgAnnotatorModule
   ],
-  exports: [GalleryFilterComponent, GalleryListComponent],
+  exports: [
+    GalleryFilterComponent,
+    GalleryListComponent,
+    // for image annotator directive
+    GalleryImgAnnotatorComponent,
+  ],
 })
 export class CadmusImgGalleryModule {}

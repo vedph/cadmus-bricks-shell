@@ -1,0 +1,40 @@
+<div id="container">
+  <div id="annotator" *ngIf="imageUri">
+    <div class="toolbar">
+      <mat-button-toggle-group #group="matButtonToggleGroup" value="rect">
+        <mat-button-toggle value="rect" matTooltip="Rectangle">
+          <mat-icon>rectangle</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="polygon" matTooltip="Polygon">
+          <mat-icon>polyline</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div>
+      <img
+        cadmusImgAnnotator
+        (createAnnotation)="onCreateAnnotation($event)"
+        (updateAnnotation)="onUpdateAnnotation($event)"
+        (deleteAnnotation)="onDeleteAnnotation($event)"
+        [tool]="group.value"
+        [src]="imageUri"
+      />
+    </div>
+  </div>
+  <div id="list">
+    <table *ngIf="w3cAnnotations?.length">
+      <thead>
+        <tr>
+          <th></th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of w3cAnnotations">
+          <td></td>
+          <td>{{ a.id }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

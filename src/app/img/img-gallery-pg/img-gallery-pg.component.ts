@@ -12,8 +12,11 @@ import { GalleryImage } from 'projects/myrmidon/cadmus-img-gallery/src/public-ap
 })
 export class ImgGalleryPgComponent {
   public entries: ThesaurusEntry[];
+  public image?: GalleryImage;
+  public tabIndex: number;
 
   constructor(private _snackbar: MatSnackBar) {
+    this.tabIndex = 0;
     this.entries = [
       {
         id: 'title',
@@ -27,8 +30,7 @@ export class ImgGalleryPgComponent {
   }
 
   public onImagePick(image: GalleryImage): void {
-    this._snackbar.open('Image picked: ' + image.title, 'OK', {
-      duration: 2000,
-    });
+    this.image = image;
+    this.tabIndex = 1;
   }
 }

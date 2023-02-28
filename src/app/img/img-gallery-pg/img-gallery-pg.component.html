@@ -5,9 +5,18 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <cadmus-gallery-list
-      [entries]="entries"
-      (imagePick)="onImagePick($event)"
-    ></cadmus-gallery-list>
+    <mat-tab-group [(selectedIndex)]="tabIndex">
+      <mat-tab label="gallery">
+        <cadmus-gallery-list
+          [entries]="entries"
+          (imagePick)="onImagePick($event)"
+        ></cadmus-gallery-list>
+      </mat-tab>
+      <mat-tab label="annotator">
+        <cadmus-gallery-img-annotator
+          [image]="image"
+        ></cadmus-gallery-img-annotator>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card-content>
 </mat-card>

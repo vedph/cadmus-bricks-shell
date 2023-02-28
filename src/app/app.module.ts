@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -185,6 +186,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     MatProgressBarModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
     ClipboardModule,

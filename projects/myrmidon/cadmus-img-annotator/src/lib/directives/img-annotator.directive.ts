@@ -36,17 +36,41 @@ export interface AnnotoriousConfig {
 }
 
 /**
+ * The annotation in the AnnotationEvent.
+ */
+export interface AnnotationEventEntry {
+  id: string;
+  '@context': string;
+  type: string;
+  body?: [
+    {
+      type: string;
+      value: string;
+      purpose: string;
+    }
+  ];
+  target: {
+    source: string;
+    selector: {
+      type: string;
+      conformsTo: string;
+      value: string;
+    };
+  };
+}
+
+/**
  * Annotorious annotation event.
  */
 export interface AnnotationEvent {
   /**
    * The annotation involved in this event.
    */
-  annotation: any;
+  annotation: AnnotationEventEntry;
   /**
    * The annotation before it was updated.
    */
-  prevAnnotation?: any;
+  prevAnnotation?: AnnotationEventEntry;
   /**
    * The function to optionally override a new annotation's ID.
    */

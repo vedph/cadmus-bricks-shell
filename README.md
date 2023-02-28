@@ -57,7 +57,9 @@ To add a brick:
 
 ## History
 
-- 2023-02-28: adding image gallery.
+- 2023-02-28:
+  - adding image gallery.
+  - more details in `@myrmidon/cadmus-img-annotator` TS model.
 - 2023-02-26: added chronotope and asserted chronotope pipes (`@myrmidon/refs-asserted-chronotope`, `@myrmidon/cadmus-refs-chronotope`).
 - 2023-02-11: added `noAssertion` option to proper name editor.
 - 2023-02-10: improvements for flags picker.
