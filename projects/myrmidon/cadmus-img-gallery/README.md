@@ -23,3 +23,11 @@ The gallery consists of these components:
   - _gallery image annotator_, to annotate an image picked from a gallery by drawing rectangular or polygonal regions on it.
 
 >Note that this library depends on `@myrmidon/cadmus-img-annotator`, which in turn requires the Annotorious package.
+
+A gallery image is any object implementing the `GalleryImage` interface, which provides the barely minimum properties of each image: a string ID, a URI, a title, and a short description.
+
+A gallery service is any service implementing the `GalleryService` interface, having just two methods: one to retrieve a page of images, and another to retrieve a single image. In both cases, you can specify image options (first of all the size) via options, which implement interface `GalleryOptions`.
+
+Also, the list of images in the gallery can be filtered using an implementation of `GalleryFilter`. This is just a set of key/value pairs, both represented by strings. Usually you will draw a set of keys to show in the filter UI from some thesaurus.
+
+For instance, to filter images by title you will set a filter property with key=`title` and value equal to any portion of the title to match.
