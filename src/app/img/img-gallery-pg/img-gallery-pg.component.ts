@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
@@ -15,7 +14,7 @@ export class ImgGalleryPgComponent {
   public image?: GalleryImage;
   public tabIndex: number;
 
-  constructor(private _snackbar: MatSnackBar) {
+  constructor() {
     this.tabIndex = 0;
     this.entries = [
       {
