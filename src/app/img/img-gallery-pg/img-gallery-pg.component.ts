@@ -27,6 +27,6 @@ export class ImgGalleryPgComponent {
   }
 
   public onImagePick(image: GalleryImage): void {
-    this._snackbar.open('Image picked: ' + image.id);
+    this._snackbar.open('Image picked: ' + image.title);
   }
 }

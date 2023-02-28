@@ -5,6 +5,9 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <cadmus-gallery-list [entries]="entries"></cadmus-gallery-list>
+    <cadmus-gallery-list
+      [entries]="entries"
+      (imagePick)="onImagePick($event)"
+    ></cadmus-gallery-list>
   </mat-card-content>
 </mat-card>

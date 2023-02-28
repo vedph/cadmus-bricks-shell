@@ -10,6 +10,10 @@ figure {
   border-radius: 6px;
   background-color: #e0e1e0;
 }
+.dsc {
+  font-size: 95%;
+  color: #808080;
+}
 .form-row {
   display: flex;
   gap: 8px;

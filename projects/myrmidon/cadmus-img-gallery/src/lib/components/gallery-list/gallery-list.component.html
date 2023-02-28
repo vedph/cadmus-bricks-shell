@@ -20,6 +20,13 @@
             <mat-icon>check_circle</mat-icon>
           </button>
         </div>
+        <div
+          class="dsc"
+          *ngIf="img.description"
+          [style.width]="options.width + 'px'"
+        >
+          {{ img.description }}
+        </div>
       </figure>
     </div>
   </div>
