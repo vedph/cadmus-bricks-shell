@@ -77,6 +77,13 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
 import { NoteSetPgComponent } from './ui/note-set-pg/note-set-pg.component';
 import { MockItemService } from './services/mock-item.service';
 import { SdImgAnnotatorPgComponent } from './img/sd-img-annotator-pg/sd-img-annotator-pg.component';
+import { ImgGalleryPgComponent } from './img/img-gallery-pg/img-gallery-pg.component';
+import {
+  CadmusImgGalleryModule,
+  IMAGE_GALLERY_OPTIONS_KEY,
+  IMAGE_GALLERY_SERVICE_KEY,
+  MockGalleryService,
+} from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -104,6 +111,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     DecoratedCountsPgComponent,
     HistoricalDatePgComponent,
     ImgAnnotatorPgComponent,
+    ImgGalleryPgComponent,
     NoteSetPgComponent,
     PhysicalSizePgComponent,
     ProperNamePgComponent,
@@ -123,6 +131,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     RouterModule.forRoot(
       [
         { path: 'home', component: HomeComponent },
+        { path: 'img/gallery', component: ImgGalleryPgComponent },
         { path: 'img/annotator', component: ImgAnnotatorPgComponent },
         { path: 'img/sd-annotator', component: SdImgAnnotatorPgComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
@@ -185,6 +194,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     CadmusCoreModule,
     CadmusApiModule,
     CadmusImgAnnotatorModule,
+    CadmusImgGalleryModule,
     CadmusSdimgAnnotatorModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
@@ -212,6 +222,20 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     {
       provide: ItemService,
       useClass: MockItemService,
+    },
+    // image gallery
+    {
+      provide: IMAGE_GALLERY_SERVICE_KEY,
+      useClass: MockGalleryService,
+    },
+    {
+      provide: IMAGE_GALLERY_OPTIONS_KEY,
+      useValue: {
+        baseUri: '',
+        count: 50,
+        width: 300,
+        height: 400
+      },
     },
   ],
   bootstrap: [AppComponent],

@@ -25,6 +25,7 @@
     "build-flg": "ng build @myrmidon/cadmus-ui-flags-picker",
     "build-nts": "ng build @myrmidon/cadmus-ui-note-set",
     "build-img": "ng build @myrmidon/cadmus-img-annotator",
+    "build-gal": "ng build @myrmidon/cadmus-img-gallery",
     "build-lib": "npm run build-col && npm run build-phs && npm run build-aid && npm run build-ass && npm run build-chr && npm run build-decc && npm run build-deci && npm run build-doc && npm run build-ext && npm run build-his && npm run build-achr && npm run build-lok && npm run build-prp && npm run build-viaf && npm run build-blk && npm run build-flg && npm run build-img && npm run build-nts"
   },
   "private": true,
