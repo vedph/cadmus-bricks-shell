@@ -27,7 +27,7 @@ export const IMAGE_GALLERY_SERVICE_KEY = 'cadmusImgGalleryService';
  * from this one.
  */
 export interface GalleryImage {
-  id: string,
+  id: string;
   uri: string;
   title: string;
   description?: string;
@@ -49,10 +49,29 @@ export type GalleryFilter = { [key: string]: string };
  * Gallery image service interface.
  */
 export interface GalleryService {
+  /**
+   * Get the specified page of gallery images.
+   *
+   * @param filter The filter.
+   * @param pageNumber The page number.
+   * @param pageSize The page size.
+   * @param options The gallery options.
+   */
   getImages(
     filter: GalleryFilter,
     pageNumber: number,
     pageSize: number,
     options: GalleryOptions
   ): Observable<DataPage<GalleryImage>>;
+
+  /**
+   * Get the specified image.
+   *
+   * @param id The image ID.
+   * @param options The image options.
+   */
+  getImage(
+    id: string,
+    options: GalleryOptions
+  ): Observable<GalleryImage | null>;
 }

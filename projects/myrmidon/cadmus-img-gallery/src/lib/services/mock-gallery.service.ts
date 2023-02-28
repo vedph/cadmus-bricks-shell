@@ -23,9 +23,12 @@ export interface MockGalleryOptions extends GalleryOptions {
 
 /**
  * Mock gallery service.
- * Image URIs will be built to use an online mock image service (https://loremflickr.com).
+ * Image URIs will be built to use an online mock image service
+ * (https://loremflickr.com). Images are random, but the service ensures
+ * consistency (at least until its cache is not emptied).
  * The only image metadata handled in filtering are title and description;
- * images are sorted by title.
+ * images are sorted by title, and their ID is just their ordinal number
+ * in the set.
  */
 @Injectable({
   providedIn: 'root',
@@ -45,8 +48,7 @@ export class MockGalleryService implements GalleryService {
     return result;
   }
 
-  private seed(options: MockGalleryOptions): void {
-    this._images = [];
+  private buildUriPrefix(id: string, options: MockGalleryOptions): string {
     const sb: string[] = [];
     sb.push('https://loremflickr.com/');
     if (options.width) {
@@ -57,7 +59,15 @@ export class MockGalleryService implements GalleryService {
       }
     }
     sb.push('?lock=');
-    const uriPrefix = sb.join('');
+    if (id) {
+      sb.push(id);
+    }
+    return sb.join('');
+  }
+
+  private seed(options: MockGalleryOptions): void {
+    this._images = [];
+    const uriPrefix = this.buildUriPrefix('', options);
 
     for (let i = 0; i < options.count ?? 0; i++) {
       this._images.push({
@@ -69,6 +79,14 @@ export class MockGalleryService implements GalleryService {
     }
   }
 
+  /**
+   * Get the specified page of gallery images.
+   *
+   * @param filter The filter.
+   * @param pageNumber The page number.
+   * @param pageSize The page size.
+   * @param options The gallery options.
+   */
   public getImages(
     filter: GalleryFilter,
     pageNumber: number,
@@ -114,5 +132,28 @@ export class MockGalleryService implements GalleryService {
       pageSize: pageSize,
       items: filtered.slice(skip, skip + pageSize),
     });
+  }
+
+  /**
+   * Get the specified image.
+   *
+   * @param id The image ID.
+   * @param options The image options.
+   */
+  public getImage(
+    id: string,
+    options: MockGalleryOptions
+  ): Observable<GalleryImage | null> {
+    // seed if total count changed
+    if (options.count !== this._images.length) {
+      this.seed(options);
+    }
+    const i = +id - 1;
+    if (i >= this._images.length) {
+      return of(null);
+    }
+    // rebuild the URI as size must be drawn from options
+    const image = { ...this._images[i], uri: this.buildUriPrefix(id, options) };
+    return of(image);
   }
 }
