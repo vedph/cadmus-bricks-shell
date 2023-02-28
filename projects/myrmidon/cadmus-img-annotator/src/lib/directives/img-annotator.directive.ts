@@ -85,8 +85,9 @@ export interface AnnotationEvent {
   selector: '[cadmusImgAnnotator]',
 })
 export class ImgAnnotatorDirective {
-  private _tool: string;
   private _ann?: any;
+  private _tool: string;
+  private _annotations: any[];
 
   /**
    * The initial configuration for the annotator. Note that the image property
@@ -115,7 +116,16 @@ export class ImgAnnotatorDirective {
    * The optional initial annotations to show on the image.
    */
   @Input()
-  public annotations?: any[];
+  public get annotations(): any[] {
+    return this._annotations;
+  }
+  public set annotations(value: any[]) {
+    if (this._annotations === value) {
+      return;
+    }
+    this._annotations = value;
+    this._ann?.setAnnotations(this._annotations);
+  }
 
   /**
    * Emitted when a new annotation is created.
@@ -149,6 +159,7 @@ export class ImgAnnotatorDirective {
 
   constructor(private _elementRef: ElementRef<HTMLImageElement>) {
     this._tool = 'rect';
+    this._annotations = [];
     this.createAnnotation = new EventEmitter<AnnotationEvent>();
     this.updateAnnotation = new EventEmitter<AnnotationEvent>();
     this.deleteAnnotation = new EventEmitter<AnnotationEvent>();
@@ -161,8 +172,8 @@ export class ImgAnnotatorDirective {
     cfg.image = this._elementRef.nativeElement;
     this._ann = new Annotorious(cfg);
     // initial annotations
-    if (this.annotations?.length) {
-      this._ann.setAnnotations(this.annotations);
+    if (this._annotations?.length) {
+      this._ann.setAnnotations(this._annotations);
     }
     // wrap events:
     // createAnnotation

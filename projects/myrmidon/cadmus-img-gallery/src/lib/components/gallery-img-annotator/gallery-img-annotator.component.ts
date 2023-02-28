@@ -52,7 +52,10 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     if (this._data$.value.image === value) {
       return;
     }
-    this._data$.next({ ...this._data$.value, image: value || undefined });
+    this._data$.next({
+      image: value || undefined,
+      annotations: this._data$.value.annotations,
+    });
   }
 
   /**
@@ -66,7 +69,7 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     if (this._data$.value.annotations === value) {
       return;
     }
-    this._data$.next({ ...this._data$.value, annotations: value });
+    this._data$.next({ image: this._data$.value.image, annotations: value });
   }
 
   /**
@@ -153,7 +156,10 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
   public onCreateAnnotation(event: AnnotationEvent) {
     const annotations = [...this._data$.value.annotations];
     annotations.push(this.eventToAnnotation(event));
-    this._data$.next({ ...this._data$, annotations: annotations });
+    this._data$.next({
+      image: this._data$.value.image,
+      annotations: annotations,
+    });
     this.annotationsChange.emit(annotations);
   }
 
@@ -162,7 +168,10 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     if (i > -1) {
       const annotations = [...this._data$.value.annotations];
       annotations.splice(i, 1, this.eventToAnnotation(event));
-      this._data$.next({ ...this._data$, annotations: annotations });
+      this._data$.next({
+        image: this._data$.value.image,
+        annotations: annotations,
+      });
       this.annotationsChange.emit(annotations);
     }
   }
@@ -174,7 +183,10 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     if (i > -1) {
       const annotations = [...this._data$.value.annotations];
       annotations.splice(i, 1);
-      this._data$.next({ ...this._data$, annotations: annotations });
+      this._data$.next({
+        image: this._data$.value.image,
+        annotations: annotations,
+      });
       this.annotationsChange.emit(annotations);
     }
   }
