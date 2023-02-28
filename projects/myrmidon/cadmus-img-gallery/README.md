@@ -1,24 +1,25 @@
-# CadmusImgGallery
+# Cadmus Image Gallery
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.0.
+The image gallery is a minimalist set of components used to:
 
-## Code scaffolding
+- show a gallery of images from some online source.
+- let users pick an image and annotate it.
 
-Run `ng generate component component-name --project cadmus-img-gallery` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project cadmus-img-gallery`.
-> Note: Don't forget to add `--project cadmus-img-gallery` or else it will be added to the default project in your `angular.json` file. 
+The idea is having a Cadmus part to create annotations on images. Its only tasks are (1) presenting a gallery of images to pick from, and (2) allowing users to create rectangular or polygonal regions on the selected image, each linked with a unique ID (a GUID), and optional note and tags.
 
-## Build
+Once you create these annotations, you will be able to use other parts to link them to any type of specialized data via their ID.
 
-Run `ng build cadmus-img-gallery` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Gallery
 
-## Publishing
+The gallery consists of these components:
 
-After building your library with `ng build cadmus-img-gallery`, go to the dist folder `cd dist/cadmus-img-gallery` and run `npm publish`.
+- **services**:
+  - _gallery service interface_, with its injection token. You will provide your own real-world service, which might draw images from IIIF services, cloud services, etc.
+  - a _mock gallery service implementation_, using an online mock images service. This is used during development as a convenient placeholder instead of your custom service.
+  - _lorem ipsum service_, used by the mock gallery service to generate image descriptions.
+- **components**:
+  - _gallery filter_, to define any number of name=value pairs representing filters applied to the gallery images.
+  - _gallery images list_, to browse a list of images via a gallery service implementation. The type of implementation used is defined by your consumer application (via DI as specified in `app.module` providers). Both the list and its filter depend on the same repository, which provides paged data to the UI.
+  - _gallery image annotator_, to annotate an image picked from a gallery by drawing rectangular or polygonal regions on it.
 
-## Running unit tests
-
-Run `ng test cadmus-img-gallery` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+>Note that this library depends on `@myrmidon/cadmus-img-annotator`, which in turn requires the Annotorious package.
