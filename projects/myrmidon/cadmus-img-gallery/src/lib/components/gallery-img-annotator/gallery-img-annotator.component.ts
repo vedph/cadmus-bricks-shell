@@ -55,9 +55,16 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     if (this._data$.value.image === value) {
       return;
     }
+    // drop annotations belonging to a previously loaded different image
+    let annotations = this._data$.value.annotations;
+    if (value) {
+      if (annotations?.length && annotations[0].id !== value.id) {
+        annotations = [];
+      }
+    }
     this._data$.next({
       image: value || undefined,
-      annotations: this._data$.value.annotations,
+      annotations: annotations,
     });
   }
 

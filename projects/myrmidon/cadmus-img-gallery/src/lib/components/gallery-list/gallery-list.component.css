@@ -1,7 +1,7 @@
 #frame {
   display: flex;
   gap: 16px;
-  justify-content: center;
+  justify-content: left;
   flex-wrap: wrap;
 }
 figure {

@@ -19,6 +19,7 @@
         [tool]="group.value"
         [src]="imageUri"
         [selectedAnnotation]="selectedW3cAnnotation"
+        [annotations]="w3cAnnotations"
       />
     </div>
   </div>
@@ -35,7 +36,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let a of data.annotations; let i = index">
-          <td><span class="nr">{{ i + 1 }}</span></td>
+          <td>
+            <span class="nr">{{ i + 1 }}</span>
+          </td>
           <td>
             <button
               type="button"

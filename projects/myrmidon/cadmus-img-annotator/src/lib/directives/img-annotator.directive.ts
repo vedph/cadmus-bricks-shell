@@ -121,6 +121,10 @@ export class ImgAnnotatorDirective {
     return this._annotations;
   }
   public set annotations(value: any[]) {
+    if (!value || !value.length) {
+      this._ann?.clearAnnotations();
+      return;
+    }
     if (this._annotations === value) {
       return;
     }
@@ -186,9 +190,7 @@ export class ImgAnnotatorDirective {
     cfg.image = this._elementRef.nativeElement;
     this._ann = new Annotorious(cfg);
     // initial annotations
-    if (this._annotations?.length) {
-      this._ann.setAnnotations(this._annotations);
-    }
+    this._ann.setAnnotations(this._annotations || []);
     // wrap events:
     // createAnnotation
     this._ann.on(
