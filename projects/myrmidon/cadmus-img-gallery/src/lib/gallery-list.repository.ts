@@ -1,12 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  debounceTime,
-  map,
-  Observable,
-  take,
-} from 'rxjs';
+import { BehaviorSubject, Observable, take, tap } from 'rxjs';
 
 import { createStore, select, withProps } from '@ngneat/elf';
 import {
@@ -16,13 +9,7 @@ import {
   upsertEntities,
   deleteAllEntities,
 } from '@ngneat/elf-entities';
-import {
-  withRequestsCache,
-  withRequestsStatus,
-  updateRequestStatus,
-  selectRequestStatus,
-  StatusState,
-} from '@ngneat/elf-requests';
+import { withRequestsCache } from '@ngneat/elf-requests';
 import {
   deleteAllPages,
   hasPage,
@@ -59,9 +46,10 @@ export class GalleryListRepository {
   private _loading$: BehaviorSubject<boolean>;
 
   public filter$: Observable<GalleryFilter>;
-  public pagination$: Observable<PaginationData & { data: GalleryImage[] }>;
+  // public pagination$: Observable<PaginationData & { data: GalleryImage[] }>;
+  public data$: Observable<GalleryImage[]>;
+  public pagination$: Observable<PaginationData>;
   public activeGalleryImage$: Observable<GalleryImage | undefined>;
-  public status$: Observable<StatusState>;
   public loading$: Observable<boolean>;
 
   constructor(
@@ -78,30 +66,47 @@ export class GalleryListRepository {
     this._lastPageSize = PAGE_SIZE;
 
     // combine pagination parameters with page data for our consumers
-    this.pagination$ = combineLatest([
-      this._store.pipe(selectPaginationData()),
-      this._store.pipe(selectCurrentPageEntities()),
-    ]).pipe(
-      map(([pagination, data]) => ({ ...pagination, data })),
-      debounceTime(0)
-    );
+    this.pagination$ = this._store.pipe(selectPaginationData());
+    this.data$ = this._store.pipe(selectCurrentPageEntities());
+
+    // this.pagination$ = combineLatest([
+    //   this._store.pipe(selectPaginationData()),
+    //   this._store.pipe(selectCurrentPageEntities()),
+    // ]).pipe(
+    //   tap(([pagination, data]) => {
+    //     console.log('Pagination changed');
+    //   }),
+    //   map(([pagination, data]) => ({ ...pagination, data })),
+    //   debounceTime(0)
+    // );
 
     this.activeGalleryImage$ = this._store.pipe(selectActiveEntity());
-    this.status$ = this._store.pipe(selectRequestStatus('gallery-image-list'));
 
     // filter
     this.filter$ = this._store.pipe(select((state) => state.filter));
     this.filter$.subscribe((filter) => {
-      // when filter changed, reset any existing page and move to page 1
+      // when filter changed, delete existing pages and move to page 1
       const paginationData = this._store.getValue().pagination;
-      console.log('Filter changed: deleting all pages: ' + JSON.stringify(filter));
+      console.log(
+        'Filter changed: deleting all pages: ' + JSON.stringify(filter)
+      );
       this._store.update(deleteAllPages());
-      this.loadPage(1, paginationData.perPage);
+      //@@
+      setTimeout(() => {
+        this.loadPage(1, paginationData.perPage);
+      });
+      // this.loadPage(1, paginationData.perPage);
     });
 
     // load page 1 and subscribe to pagination
     this.loadPage(1, PAGE_SIZE);
-    this.pagination$.subscribe(console.log);
+    this.pagination$
+      .pipe(
+        tap((p) => {
+          console.log('Pagination changed:');
+        })
+      )
+      .subscribe(console.log);
   }
 
   private createStore(): typeof store {
@@ -113,7 +118,6 @@ export class GalleryListRepository {
       withEntities<GalleryImage>(),
       withActiveId(),
       withRequestsCache<'gallery-image-list'>(),
-      withRequestsStatus(),
       withPagination()
     );
 
@@ -167,7 +171,9 @@ export class GalleryListRepository {
     }
 
     // load page from server
-    this._store.update(updateRequestStatus('gallery-image-list', 'pending'));
+    console.log(
+      'Invoking service with ' + JSON.stringify(this._store.getValue().filter)
+    );
     this._loading$.next(true);
     this._service
       .getImages(
@@ -181,9 +187,6 @@ export class GalleryListRepository {
         next: (page) => {
           this._loading$.next(false);
           this.addPage({ ...this.adaptPage(page), data: page.items });
-          this._store.update(
-            updateRequestStatus('gallery-image-list', 'success')
-          );
         },
         error: (error) => {
           this._loading$.next(false);

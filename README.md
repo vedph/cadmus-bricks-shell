@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [1.0.8](#108)
     - [1.0.7](#107)
     - [1.0.6](#106)
     - [1.0.5](#105)
@@ -34,7 +35,7 @@ Quick Docker image build (the only purpose of this image is letting testers play
 
 1. `npm run build-lib`.
 2. ensure to update the version in `env.js` (and `docker-compose.yml`), and `ng build --configuration production`.
-3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.7 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.8 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 Use [publish.bat](publish.bat) to publish the libraries to NPM.
 
@@ -43,6 +44,7 @@ Use [publish.bat](publish.bat) to publish the libraries to NPM.
 - [asserted IDs](./projects/myrmidon/cadmus-refs-asserted-ids/README.md)
 - [codicologic location](./projects/myrmidon/cadmus-cod-location/README.md)
 - [flags picker](./projects/myrmidon/cadmus-ui-flags-picker/README.md)
+- [image annotations](./projects/myrmidon/cadmus-img-gallery/README.md)
 - [proper name](./projects/myrmidon/cadmus-refs-proper-name/README.md)
 - [reference lookup](./projects/myrmidon/cadmus-refs-lookup/README.md)
 - [text block view](./projects/myrmidon/cadmus-text-block-view/README.md)
@@ -57,6 +59,9 @@ To add a brick:
 
 ## History
 
+### 1.0.8
+
+- 2023-03-01: fixes.
 - 2023-02-28:
   - adding image gallery.
   - more details in `@myrmidon/cadmus-img-annotator` TS model.

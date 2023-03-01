@@ -18,7 +18,8 @@ import {
   styleUrls: ['./gallery-list.component.css'],
 })
 export class GalleryListComponent {
-  public pagination$: Observable<PaginationData & { data: GalleryImage[] }>;
+  public pagination$: Observable<PaginationData>;
+  public data$: Observable<GalleryImage[]>;
   public loading$: Observable<boolean>;
 
   /**
@@ -42,6 +43,7 @@ export class GalleryListComponent {
     public options: GalleryOptions
   ) {
     this.pagination$ = _repository.pagination$;
+    this.data$ = _repository.data$;
     this.loading$ = _repository.loading$;
     this.imagePick = new EventEmitter<GalleryImage>();
   }

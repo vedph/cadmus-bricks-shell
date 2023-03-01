@@ -5,9 +5,15 @@ The image gallery is a minimalist set of components used to:
 - show a gallery of images from some online source.
 - let users pick an image and annotate it.
 
-The idea is having a Cadmus part to create annotations on images. Its only tasks are (1) presenting a gallery of images to pick from, and (2) allowing users to create rectangular or polygonal regions on the selected image, each linked with a unique ID (a GUID), and optional note and tags.
+These components are independent from any specific servicing technology; images could be served by IIIF, cloud stores, etc.; you are free to provide your own service to get a page of images, and a single image, with the desired sizes. Even the filters used to browse the list of images are totally open, so that you can define as many filters as you want, according to your own data.
 
-Once you create these annotations, you will be able to use other parts to link them to any type of specialized data via their ID.
+The general idea behind these components is having a Cadmus part to create annotations on images. Its only tasks are (1) presenting a gallery of images to pick from, and (2) allowing users to create rectangular or polygonal regions on the selected image, each linked with a unique ID (a GUID), and optional note and tags.
+
+Once you create these annotations, you will be able to use other parts to link them to any type of specialized data via their ID. So, all what the image annotator does is letting users delimit one or more regions with any geometric shape, associating each with an annotation having a globally unique ID (GUID), and eventually a body consisting of an optional text note, and any number of tags. This way, each annotation (and consequently each region on the image) gets its own unique ID, which can be referenced from elsewhere in the context of the Cadmus database. This allows attaching to portions of images any kind of data and models, all edited in the same environment. Once they are in the database, we can eventually export them by creating W3C annotations, IIIF manifests, etc.
+
+Also, as usual in Cadmus, annotation IDs are opaque (and so they are supposed to be), just like items or parts IDs; yet, at least in the context of the editor more user-friendly IDs are welcome. As explained [here](https://myrmex.github.io/overview/cadmus/dev/concepts/lookup), in other Cadmus parts, user friendly IDs are got via EID's (entity IDs); these are either aliases of entities which already have their own global ID (a GUID), like items; or identifiers assigned to entities inside a part. In both cases, they can be referenced via a lookup UI, where you just type some characters belonging to the ID to get a list of the first matching IDs.
+
+To apply the same approach in the context of image annotations, we just define a convention by which you can assign an EID to any annotation via a tag beginning with `eid_`. For instance, if you draw a rectangle around some region of an image, and assign it the tag `eid_sample`, by convention this means that the annotation linked to that region will get an EID equal to `sample`.
 
 ## Gallery
 

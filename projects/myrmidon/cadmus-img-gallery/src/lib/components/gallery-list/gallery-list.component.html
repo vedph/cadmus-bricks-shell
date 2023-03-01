@@ -1,63 +1,70 @@
-<div id="container" *ngIf="pagination$ | async as pagination">
-  <!-- frame -->
-  <div id="frame">
-    <mat-progress-bar
-      mode="indeterminate"
-      *ngIf="loading$ | async"
-    ></mat-progress-bar>
-    <!-- image -->
-    <div *ngFor="let img of pagination.data">
-      <figure>
-        <img
-          [ngSrc]="img.uri"
-          [width]="options.width"
-          [height]="options.height"
-        />
-        <div class="form-row">
-          <figcaption>{{ img.title }}</figcaption>
-          <button
-            type="button"
-            mat-icon-button
-            color="primary"
-            (click)="pickImage(img)"
+<div>
+  <mat-progress-bar
+    mode="indeterminate"
+    *ngIf="loading$ | async"
+  ></mat-progress-bar>
+
+  <div id="container" *ngIf="data$ | async as data">
+    <!-- frame -->
+    <div id="frame">
+      <!-- image -->
+      <div *ngFor="let img of data">
+        <figure>
+          <img
+            [ngSrc]="img.uri"
+            [width]="options.width"
+            [height]="options.height"
+          />
+          <div class="form-row">
+            <figcaption>{{ img.title }}</figcaption>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="pickImage(img)"
+            >
+              <mat-icon>check_circle</mat-icon>
+            </button>
+          </div>
+          <div
+            class="dsc"
+            *ngIf="img.description"
+            [style.width]="options.width + 'px'"
           >
-            <mat-icon>check_circle</mat-icon>
-          </button>
-        </div>
-        <div
-          class="dsc"
-          *ngIf="img.description"
-          [style.width]="options.width + 'px'"
-        >
-          {{ img.description }}
-        </div>
-      </figure>
+            {{ img.description }}
+          </div>
+        </figure>
+      </div>
     </div>
-  </div>
 
-  <!-- filter -->
-  <div id="filter">
-    <cadmus-gallery-filter [entries]="entries"></cadmus-gallery-filter>
-  </div>
+    <!-- filter -->
+    <div id="filter">
+      <cadmus-gallery-filter [entries]="entries"></cadmus-gallery-filter>
+    </div>
 
-  <!-- paginator -->
-  <div id="paginator" class="form-row">
-    <button
-      type="button"
-      mat-icon-button
-      color="warn"
-      matTooltip="Clear items cache"
-      (click)="clearCache()"
+    <!-- paginator -->
+    <div
+      id="paginator"
+      *ngIf="pagination$ | async as pagination"
+      class="form-row"
     >
-      <mat-icon>autorenew</mat-icon>
-    </button>
-    <mat-paginator
-      [length]="(pagination$ | async)?.total || 0"
-      [pageSize]="(pagination$ | async)?.perPage || 20"
-      [pageSizeOptions]="[2, 20, 50, 75, 100]"
-      [pageIndex]="((pagination$ | async)?.currentPage || 1) - 1"
-      [showFirstLastButtons]="true"
-      (page)="pageChange($event)"
-    ></mat-paginator>
+      <button
+        type="button"
+        mat-icon-button
+        color="warn"
+        matTooltip="Clear items cache"
+        (click)="clearCache()"
+      >
+        <mat-icon>autorenew</mat-icon>
+      </button>
+      <mat-paginator
+        [length]="pagination.total || 0"
+        [pageSize]="pagination.perPage || 20"
+        [pageSizeOptions]="[2, 10, 20, 30, 50]"
+        [pageIndex]="(pagination.currentPage || 1) - 1"
+        [showFirstLastButtons]="true"
+        (page)="pageChange($event)"
+      ></mat-paginator>
+    </div>
   </div>
 </div>
