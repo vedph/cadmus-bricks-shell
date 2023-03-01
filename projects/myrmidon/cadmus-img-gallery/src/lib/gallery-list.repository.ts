@@ -94,7 +94,7 @@ export class GalleryListRepository {
     this.filter$.subscribe((filter) => {
       // when filter changed, reset any existing page and move to page 1
       const paginationData = this._store.getValue().pagination;
-      console.log('Deleting all pages');
+      console.log('Filter changed: deleting all pages: ' + JSON.stringify(filter));
       this._store.update(deleteAllPages());
       this.loadPage(1, paginationData.perPage);
     });
@@ -161,6 +161,7 @@ export class GalleryListRepository {
 
     // reset cached pages if page size changed
     if (this._lastPageSize !== pageSize) {
+      console.log('Page size change: deleting all pages');
       this._store.update(deleteAllPages());
       this._lastPageSize = pageSize;
     }
@@ -196,6 +197,7 @@ export class GalleryListRepository {
   }
 
   public setFilter(filter: GalleryFilter): void {
+    console.log('Setting filter: ' + JSON.stringify(filter));
     this._store.update((state) => ({ ...state, filter: filter }));
   }
 }
