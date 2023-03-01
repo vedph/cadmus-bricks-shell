@@ -88,6 +88,7 @@ export class ImgAnnotatorDirective {
   private _ann?: any;
   private _tool: string;
   private _annotations: any[];
+  private _selectedAnnotation?: any;
 
   /**
    * The initial configuration for the annotator. Note that the image property
@@ -125,6 +126,19 @@ export class ImgAnnotatorDirective {
     }
     this._annotations = value;
     this._ann?.setAnnotations(this._annotations);
+  }
+
+  /**
+   * The selected annotation or its ID. When set, the annotator
+   * will highlight the annotation and open its editor.
+   */
+  @Input()
+  public get selectedAnnotation(): any | undefined | null {
+    return this._selectedAnnotation;
+  }
+  public set selectedAnnotation(value: any | undefined | null) {
+    this._selectedAnnotation = value || undefined;
+    this._ann?.selectAnnotation(value);
   }
 
   /**

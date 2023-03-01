@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { AnnotationEvent } from '@myrmidon/cadmus-img-annotator';
 
@@ -39,7 +39,10 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
   private _data$: BehaviorSubject<GalleryImgAnnotatorData>;
 
   public w3cAnnotations: any[];
+  public selectedW3cAnnotation?: any;
+
   public imageUri?: string;
+  public data$: Observable<GalleryImgAnnotatorData>;
 
   /**
    * The gallery image to annotate.
@@ -83,6 +86,7 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     this._data$ = new BehaviorSubject<GalleryImgAnnotatorData>({
       annotations: [],
     });
+    this.data$ = this._data$.asObservable();
     this.annotationsChange = new EventEmitter<GalleryImageAnnotation[]>();
   }
 
@@ -154,6 +158,8 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
   }
 
   public onCreateAnnotation(event: AnnotationEvent) {
+    this.w3cAnnotations = [...this.w3cAnnotations, event.annotation];
+
     const annotations = [...this._data$.value.annotations];
     annotations.push(this.eventToAnnotation(event));
     this._data$.next({
@@ -166,6 +172,12 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
   public onUpdateAnnotation(event: AnnotationEvent) {
     const i = this.annotations.findIndex((a) => a.id === event.annotation.id);
     if (i > -1) {
+      this.w3cAnnotations = [...this.w3cAnnotations].splice(
+        i,
+        1,
+        event.annotation
+      );
+
       const annotations = [...this._data$.value.annotations];
       annotations.splice(i, 1, this.eventToAnnotation(event));
       this._data$.next({
@@ -181,6 +193,8 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
       (a) => a.id === event.annotation.id
     );
     if (i > -1) {
+      this.w3cAnnotations = [...this.w3cAnnotations].splice(i, 1);
+
       const annotations = [...this._data$.value.annotations];
       annotations.splice(i, 1);
       this._data$.next({
@@ -189,5 +203,9 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
       });
       this.annotationsChange.emit(annotations);
     }
+  }
+
+  public selectAnnotation(index: number): void {
+    this.selectedW3cAnnotation = this.w3cAnnotations[index];
   }
 }

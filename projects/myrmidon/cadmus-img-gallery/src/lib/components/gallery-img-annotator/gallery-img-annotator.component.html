@@ -18,21 +18,37 @@
         (deleteAnnotation)="onDeleteAnnotation($event)"
         [tool]="group.value"
         [src]="imageUri"
+        [selectedAnnotation]="selectedW3cAnnotation"
       />
     </div>
   </div>
   <div id="list">
-    <table *ngIf="w3cAnnotations?.length">
+    <table *ngIf="data$ | async as data">
       <thead>
         <tr>
           <th></th>
+          <th></th>
           <th>ID</th>
+          <th>tag(s)</th>
+          <th>note</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let a of w3cAnnotations">
-          <td></td>
+        <tr *ngFor="let a of data.annotations; let i = index">
+          <td><span class="nr">{{ i + 1 }}</span></td>
+          <td>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="selectAnnotation(i)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
           <td>{{ a.id }}</td>
+          <td>{{ a.tags | join : ", " }}</td>
+          <td class="note">{{ a.note }}</td>
         </tr>
       </tbody>
     </table>

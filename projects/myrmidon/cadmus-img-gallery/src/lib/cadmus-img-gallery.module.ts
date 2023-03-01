@@ -18,12 +18,14 @@ import { CadmusImgAnnotatorModule } from '@myrmidon/cadmus-img-annotator';
 import { GalleryFilterComponent } from './components/gallery-filter/gallery-filter.component';
 import { GalleryListComponent } from './components/gallery-list/gallery-list.component';
 import { GalleryImgAnnotatorComponent } from './components/gallery-img-annotator/gallery-img-annotator.component';
+import { JoinPipe } from './pipes/join.pipe';
 
 @NgModule({
   declarations: [
     GalleryFilterComponent,
     GalleryListComponent,
     GalleryImgAnnotatorComponent,
+    JoinPipe,
   ],
   imports: [
     CommonModule,
@@ -49,6 +51,7 @@ import { GalleryImgAnnotatorComponent } from './components/gallery-img-annotator
     GalleryListComponent,
     // for image annotator directive
     GalleryImgAnnotatorComponent,
+    JoinPipe
   ],
 })
 export class CadmusImgGalleryModule {}

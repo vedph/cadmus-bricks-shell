@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  GalleryOptions,
+  GalleryService,
+  IMAGE_GALLERY_OPTIONS_KEY,
+  IMAGE_GALLERY_SERVICE_KEY,
+} from '@myrmidon/cadmus-img-gallery';
 
 import { GalleryImage } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-img-gallery-pg',
@@ -14,7 +21,12 @@ export class ImgGalleryPgComponent {
   public image?: GalleryImage;
   public tabIndex: number;
 
-  constructor() {
+  constructor(
+    @Inject(IMAGE_GALLERY_SERVICE_KEY)
+    private _galleryService: GalleryService,
+    @Inject(IMAGE_GALLERY_OPTIONS_KEY)
+    private _options: GalleryOptions
+  ) {
     this.tabIndex = 0;
     this.entries = [
       {
@@ -29,7 +41,15 @@ export class ImgGalleryPgComponent {
   }
 
   public onImagePick(image: GalleryImage): void {
-    this.image = image;
+    // get the single image as we need the "full" size
+    const options = { ...this._options, width: 600, height: 800 };
+
+    this._galleryService
+      .getImage(image.id, options)
+      .pipe(take(1))
+      .subscribe((image) => {
+        this.image = image!;
+      });
     this.tabIndex = 1;
   }
 }

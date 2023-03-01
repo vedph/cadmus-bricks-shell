@@ -1,3 +1,19 @@
+th {
+  font-weight: normal;
+  color: silver;
+  text-align: left;
+}
+td.note {
+  word-wrap: break-word;
+  max-width: 300px;
+}
+.nr {
+  background-color: steelblue;
+  color: white;
+  padding: 6px;
+  border: 1px solid steelblue;
+  border-radius: 6px;
+}
 div#annotator {
   grid-area: annotator;
 }
@@ -7,7 +23,7 @@ div#list {
 div#container {
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto auto;
   grid-template-areas: "annotator list";
   gap: 8px;
 }
