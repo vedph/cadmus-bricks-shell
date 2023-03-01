@@ -46,6 +46,7 @@
     "@myrmidon/cadmus-core": "2.0.2",
     "@myrmidon/ng-mat-tools": "1.0.0",
     "@myrmidon/ng-tools": "1.0.0",
+    "@ngneat/effects-ng": "^3.0.0",
     "@ngneat/elf": "^2.3.0",
     "@ngneat/elf-cli-ng": "^1.0.0",
     "@ngneat/elf-devtools": "^1.2.1",

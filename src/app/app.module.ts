@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
@@ -24,6 +24,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
+// vendor
+import { Actions } from '@ngneat/effects-ng';
+import { devTools } from '@ngneat/elf-devtools';
 import { MarkdownModule } from 'ngx-markdown';
 
 import {
@@ -93,6 +96,16 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     name: 'eid',
   },
 };
+
+// https://ngneat.github.io/elf/docs/dev-tools/
+export function initElfDevTools(actions: Actions) {
+  return () => {
+    devTools({
+      name: 'Sample Application',
+      actionsDispatcher: actions,
+    });
+  };
+}
 
 @NgModule({
   declarations: [
@@ -225,6 +238,13 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
       provide: ItemService,
       useClass: MockItemService,
     },
+    // ELF dev tools
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: initElfDevTools,
+      deps: [Actions],
+    },
     // image gallery
     {
       provide: IMAGE_GALLERY_SERVICE_KEY,
@@ -236,7 +256,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
         baseUri: '',
         count: 50,
         width: 300,
-        height: 400
+        height: 400,
       },
     },
   ],

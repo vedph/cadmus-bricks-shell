@@ -1,6 +1,10 @@
 <div id="container" *ngIf="pagination$ | async as pagination">
   <!-- frame -->
   <div id="frame">
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="loading$ | async"
+    ></mat-progress-bar>
     <!-- image -->
     <div *ngFor="let img of pagination.data">
       <figure>
@@ -37,7 +41,16 @@
   </div>
 
   <!-- paginator -->
-  <div id="paginator">
+  <div id="paginator" class="form-row">
+    <button
+      type="button"
+      mat-icon-button
+      color="warn"
+      matTooltip="Clear items cache"
+      (click)="clearCache()"
+    >
+      <mat-icon>autorenew</mat-icon>
+    </button>
     <mat-paginator
       [length]="(pagination$ | async)?.total || 0"
       [pageSize]="(pagination$ | async)?.perPage || 20"

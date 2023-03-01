@@ -19,6 +19,7 @@ import {
 })
 export class GalleryListComponent {
   public pagination$: Observable<PaginationData & { data: GalleryImage[] }>;
+  public loading$: Observable<boolean>;
 
   /**
    * The entries used to represent image gallery metadata filters.
@@ -41,6 +42,7 @@ export class GalleryListComponent {
     public options: GalleryOptions
   ) {
     this.pagination$ = _repository.pagination$;
+    this.loading$ = _repository.loading$;
     this.imagePick = new EventEmitter<GalleryImage>();
   }
 

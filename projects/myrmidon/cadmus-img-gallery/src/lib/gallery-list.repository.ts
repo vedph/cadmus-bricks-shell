@@ -1,5 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, debounceTime, map, Observable, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  map,
+  Observable,
+  take,
+} from 'rxjs';
 
 import { createStore, select, withProps } from '@ngneat/elf';
 import {
@@ -51,11 +58,11 @@ export class GalleryListRepository {
   private _lastPageSize: number;
   private _loading$: BehaviorSubject<boolean>;
 
-  public loading$: Observable<boolean>;
-  public activeGalleryImage$: Observable<GalleryImage | undefined>;
   public filter$: Observable<GalleryFilter>;
   public pagination$: Observable<PaginationData & { data: GalleryImage[] }>;
+  public activeGalleryImage$: Observable<GalleryImage | undefined>;
   public status$: Observable<StatusState>;
+  public loading$: Observable<boolean>;
 
   constructor(
     @Inject(IMAGE_GALLERY_SERVICE_KEY)
@@ -80,8 +87,10 @@ export class GalleryListRepository {
     );
 
     this.activeGalleryImage$ = this._store.pipe(selectActiveEntity());
-    this.filter$ = this._store.pipe(select((state) => state.filter));
+    this.status$ = this._store.pipe(selectRequestStatus('gallery-image-list'));
 
+    // filter
+    this.filter$ = this._store.pipe(select((state) => state.filter));
     this.filter$.subscribe((filter) => {
       // when filter changed, reset any existing page and move to page 1
       const paginationData = this._store.getValue().pagination;
@@ -89,9 +98,6 @@ export class GalleryListRepository {
       this._store.update(deleteAllPages());
       this.loadPage(1, paginationData.perPage);
     });
-
-    // the request status
-    this.status$ = this._store.pipe(selectRequestStatus('gallery-image-list'));
 
     // load page 1 and subscribe to pagination
     this.loadPage(1, PAGE_SIZE);
@@ -170,20 +176,26 @@ export class GalleryListRepository {
         this._options
       )
       .pipe(take(1))
-      .subscribe((page) => {
-        this._loading$.next(false);
-        this.addPage({ ...this.adaptPage(page), data: page.items });
-        this._store.update(
-          updateRequestStatus('gallery-image-list', 'success')
-        );
+      .subscribe({
+        next: (page) => {
+          this._loading$.next(false);
+          this.addPage({ ...this.adaptPage(page), data: page.items });
+          this._store.update(
+            updateRequestStatus('gallery-image-list', 'success')
+          );
+        },
+        error: (error) => {
+          this._loading$.next(false);
+          console.error(error ? JSON.stringify(error) : 'Error loading page');
+        },
       });
-  }
-
-  public setFilter(filter: GalleryFilter): void {
-    this._store.update((state) => ({ ...state, filter: filter }));
   }
 
   clearCache() {
     this._store.update(deleteAllEntities(), deleteAllPages());
+  }
+
+  public setFilter(filter: GalleryFilter): void {
+    this._store.update((state) => ({ ...state, filter: filter }));
   }
 }
