@@ -29,15 +29,26 @@ interface GalleryImgAnnotatorData {
   annotations: GalleryImageAnnotation[];
 }
 
+/**
+ * Gallery's image annotator. This provides annotation to a selected
+ * gallery image. Input properties are the image and its optional
+ * annotations; an output event is fired whenever annotations are
+ * changed.
+ */
 @Component({
   selector: 'cadmus-gallery-img-annotator',
   templateUrl: './gallery-img-annotator.component.html',
   styleUrls: ['./gallery-img-annotator.component.css'],
 })
 export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
+  private _frozen?: boolean;
   private _sub?: Subscription;
   private _data$: BehaviorSubject<GalleryImgAnnotatorData>;
 
+  /**
+   * The W3C annotations come from the annotator and are kept in synch
+   * with annotations, so that we can interact with visuals.
+   */
   public w3cAnnotations: any[];
   public selectedW3cAnnotation?: any;
 
@@ -55,7 +66,8 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     if (this._data$.value.image === value) {
       return;
     }
-    // drop annotations belonging to a previously loaded different image
+    // preserve existing annotations, unless they belong to a previously
+    // loaded different image
     let annotations = this._data$.value.annotations;
     if (value) {
       if (annotations?.length && annotations[0].id !== value.id) {
@@ -79,6 +91,7 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     if (this._data$.value.annotations === value) {
       return;
     }
+    // preserve existing image
     this._data$.next({ image: this._data$.value.image, annotations: value });
   }
 
@@ -154,9 +167,12 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    // whenever data change, update the image URI and its W3C annotations
     this._sub = this._data$.subscribe((d) => {
-      this.imageUri = d.image?.uri;
-      this.w3cAnnotations = this.annotationsToW3C(d.annotations);
+      if (!this._frozen) {
+        this.imageUri = d.image?.uri;
+        this.w3cAnnotations = this.annotationsToW3C(d.annotations);
+      }
     });
   }
 
@@ -165,18 +181,25 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
   }
 
   public onCreateAnnotation(event: AnnotationEvent) {
+    // append the newly created W3C annotation
     this.w3cAnnotations = [...this.w3cAnnotations, event.annotation];
 
+    // append the annotation
     const annotations = [...this._data$.value.annotations];
     annotations.push(this.eventToAnnotation(event));
+    this._frozen = true;
     this._data$.next({
       image: this._data$.value.image,
       annotations: annotations,
     });
+    this._frozen = false;
+
+    // fire event
     this.annotationsChange.emit(annotations);
   }
 
   public onUpdateAnnotation(event: AnnotationEvent) {
+    // replace the old W3C annotation with the new one
     const i = this.annotations.findIndex((a) => a.id === event.annotation.id);
     if (i > -1) {
       this.w3cAnnotations = [...this.w3cAnnotations].splice(
@@ -185,31 +208,43 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
         event.annotation
       );
 
+      // replace the annotation
       const annotations = [...this._data$.value.annotations];
       annotations.splice(i, 1, this.eventToAnnotation(event));
+      this._frozen = true;
       this._data$.next({
         image: this._data$.value.image,
         annotations: annotations,
       });
+      this._frozen = false;
+
+      // fire event
       this.annotationsChange.emit(annotations);
     }
   }
 
   public onDeleteAnnotation(event: AnnotationEvent) {
+    // delete the W3C annotation
     const i = this._data$.value.annotations.findIndex(
       (a) => a.id === event.annotation.id
     );
-    if (i > -1) {
-      this.w3cAnnotations = [...this.w3cAnnotations].splice(i, 1);
-
-      const annotations = [...this._data$.value.annotations];
-      annotations.splice(i, 1);
-      this._data$.next({
-        image: this._data$.value.image,
-        annotations: annotations,
-      });
-      this.annotationsChange.emit(annotations);
+    if (i === -1) {
+      return;
     }
+    this.w3cAnnotations = [...this.w3cAnnotations].splice(i, 1);
+
+    // delete the annotation
+    const annotations = [...this._data$.value.annotations];
+    annotations.splice(i, 1);
+    this._frozen = true;
+    this._data$.next({
+      image: this._data$.value.image,
+      annotations: annotations,
+    });
+    this._frozen = false;
+
+    // fire event
+    this.annotationsChange.emit(annotations);
   }
 
   public selectAnnotation(index: number): void {

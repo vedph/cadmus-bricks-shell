@@ -1,15 +1,16 @@
 import { Component, Inject } from '@angular/core';
+import { take } from 'rxjs';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+
 import {
+  GalleryImage,
+  GalleryImageAnnotation,
   GalleryOptions,
   GalleryService,
   IMAGE_GALLERY_OPTIONS_KEY,
   IMAGE_GALLERY_SERVICE_KEY,
-} from '@myrmidon/cadmus-img-gallery';
-
-import { GalleryImage } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
-import { take } from 'rxjs';
+} from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
 
 @Component({
   selector: 'app-img-gallery-pg',
@@ -20,6 +21,8 @@ export class ImgGalleryPgComponent {
   public entries: ThesaurusEntry[];
   public image?: GalleryImage;
   public tabIndex: number;
+
+  public annotations?: GalleryImageAnnotation[];
 
   constructor(
     @Inject(IMAGE_GALLERY_SERVICE_KEY)
@@ -51,5 +54,9 @@ export class ImgGalleryPgComponent {
         this.image = image!;
       });
     this.tabIndex = 1;
+  }
+
+  public onAnnotationsChange(annotations: GalleryImageAnnotation[]): void {
+    this.annotations = annotations;
   }
 }
