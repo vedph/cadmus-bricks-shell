@@ -1,5 +1,12 @@
 # Cadmus Image Gallery
 
+- [Cadmus Image Gallery](#cadmus-image-gallery)
+  - [Overview](#overview)
+  - [Components](#components)
+  - [Setup](#setup)
+
+## Overview
+
 The image gallery is a minimalist set of components used to:
 
 - show a gallery of images from some online source.
@@ -9,13 +16,13 @@ These components are independent from any specific servicing technology; images 
 
 The general idea behind these components is having a Cadmus part to create annotations on images. Its only tasks are (1) presenting a gallery of images to pick from, and (2) allowing users to create rectangular or polygonal regions on the selected image, each linked with a unique ID (a GUID), and optional note and tags.
 
-Once you create these annotations, you will be able to use other parts to link them to any type of specialized data via their ID. So, all what the image annotator does is letting users delimit one or more regions with any geometric shape, associating each with an annotation having a globally unique ID (GUID), and eventually a body consisting of an optional text note, and any number of tags. This way, each annotation (and consequently each region on the image) gets its own unique ID, which can be referenced from elsewhere in the context of the Cadmus database. This allows attaching to portions of images any kind of data and models, all edited in the same environment. Once they are in the database, we can eventually export them by creating W3C annotations, IIIF manifests, etc.
+Once you create these annotations, you will be able to use other parts to link them to any type of specialized data via their ID. So, all what the image annotator does is letting users delimit one or more regions with any geometric shape, associating each with an annotation having a globally unique ID (GUID), and eventually a body consisting of any number of text notes and tags. This way, each annotation (and consequently each region on the image) gets its own unique ID, which can be referenced from elsewhere in the context of the Cadmus database. This allows attaching to portions of images any kind of data and models, all edited in the same environment. Once they are in the database, we can eventually export them by creating W3C annotations, IIIF manifests, etc.
 
 Also, as usual in Cadmus, annotation IDs are opaque (and so they are supposed to be), just like items or parts IDs; yet, at least in the context of the editor more user-friendly IDs are welcome. As explained [here](https://myrmex.github.io/overview/cadmus/dev/concepts/lookup), in other Cadmus parts, user friendly IDs are got via EID's (entity IDs); these are either aliases of entities which already have their own global ID (a GUID), like items; or identifiers assigned to entities inside a part. In both cases, they can be referenced via a lookup UI, where you just type some characters belonging to the ID to get a list of the first matching IDs.
 
 To apply the same approach in the context of image annotations, we just define a convention by which you can assign an EID to any annotation via a tag beginning with `eid_`. For instance, if you draw a rectangle around some region of an image, and assign it the tag `eid_sample`, by convention this means that the annotation linked to that region will get an EID equal to `sample`.
 
-## Gallery
+## Components
 
 The gallery consists of these components:
 
@@ -37,3 +44,75 @@ A gallery service is any service implementing the `GalleryService` interface, ha
 Also, the list of images in the gallery can be filtered using an implementation of `GalleryFilter`. This is just a set of key/value pairs, both represented by strings. Usually you will draw a set of keys to show in the filter UI from some thesaurus.
 
 For instance, to filter images by title you will set a filter property with key=`title` and value equal to any portion of the title to match.
+
+## Setup
+
+To use this brick in your Cadmus frontend app:
+
+(1) install packages:
+
+```bash
+npm i @recogito/annotorious @myrmidon/cadmus-img-annotator @myrmidon/cadmus-img-gallery
+```
+
+(2) ensure to add Annotorious CSS styles to your `angular.json` like:
+
+```json
+"styles": [
+  "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+  "node_modules/@recogito/annotorious/dist/annotorious.min.css",
+  "src/styles.css"
+]
+```
+
+(3) import modules in your `app.module.ts` and inject the required image service and options:
+
+```ts
+import { CadmusImgAnnotatorModule } from '@myrmidon/cadmus-img-annotator';
+import { CadmusImgGalleryModule } from '@myrmidon/cadmus-img-gallery';
+
+@NgModule({
+  // ...
+  imports: [
+    // ...
+    CadmusImgAnnotatorModule,
+    CadmusImgGalleryModule,
+  ],
+  providers: [
+    // image gallery: TODO replace with your own
+    {
+      provide: IMAGE_GALLERY_SERVICE_KEY,
+      useClass: MockGalleryService,
+    },
+    {
+      provide: IMAGE_GALLERY_OPTIONS_KEY,
+      useValue: {
+        baseUri: '',
+        count: 50,
+        width: 300,
+        height: 400,
+      },
+    },
+  ]
+  // ...
+})
+export class AppModule {}
+```
+
+(4) if you want to lookup annotations by their EID, be sure to include the corresponding lookup definition like:
+
+```ts
+import { IndexLookupDefinitions } from '@myrmidon/cadmus-core';
+import {
+  GALLERY_IMAGE_ANNOTATIONS_PART_TYPEID,
+} from '@myrmidon/cadmus-part-general-ui';
+
+export const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
+  // ...
+  // gallery
+  img_anno_eid: {
+    typeId: GALLERY_IMAGE_ANNOTATIONS_PART_TYPEID,
+    name: 'eid',
+  },
+};
+```

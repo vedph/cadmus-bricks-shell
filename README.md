@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [1.0.11](#1011)
     - [1.0.10](#1010)
     - [1.0.9](#109)
     - [1.0.8](#108)
@@ -35,7 +36,7 @@ As Cadmus projects increase, the prototype code reveals more and more portions w
 
 1. `npm run build-lib`.
 2. ensure to update the version in `env.js` (and `docker-compose.yml`), and `ng build --configuration production`.
-3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.10 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.11 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 Use [publish.bat](publish.bat) to publish the libraries to NPM.
 
@@ -58,6 +59,10 @@ To add a brick:
 3. add a corresponding host page in the app, with its menu and route.
 
 ## History
+
+### 1.0.11
+
+- 2023-03-02: more notes per annotation.
 
 ### 1.0.10
 

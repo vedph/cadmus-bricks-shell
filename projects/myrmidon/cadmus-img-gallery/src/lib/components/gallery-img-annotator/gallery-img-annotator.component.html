@@ -28,7 +28,6 @@
       <thead>
         <tr>
           <th></th>
-          <th></th>
           <th>ID</th>
           <th>tag(s)</th>
           <th>note</th>
@@ -36,10 +35,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let a of data.annotations; let i = index">
-          <td>
+          <td class="fit-width">
             <span class="nr">{{ i + 1 }}</span>
-          </td>
-          <td>
             <button
               type="button"
               mat-icon-button
@@ -51,7 +48,9 @@
           </td>
           <td>{{ a.id }}</td>
           <td>{{ a.tags | join : ", " }}</td>
-          <td class="note">{{ a.note }}</td>
+          <td class="note">
+            <p *ngFor="let n of a.notes">{{ n }}</p>
+          </td>
         </tr>
       </tbody>
     </table>

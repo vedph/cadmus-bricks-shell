@@ -1,18 +1,32 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 th {
   font-weight: normal;
   color: silver;
   text-align: left;
 }
+td {
+  border: 1px solid silver;
+  padding: 6px;
+}
 td.note {
   word-wrap: break-word;
-  max-width: 300px;
+  max-width: 400px;
+}
+td.note p {
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  border-bottom: 1px solid silver;
+}
+td.fit-width {
+  width: 1px;
+  white-space: nowrap;
 }
 .nr {
-  background-color: steelblue;
-  color: white;
-  padding: 6px;
-  border: 1px solid steelblue;
-  border-radius: 6px;
+  color: silver;
+  font-size: 95%;
 }
 div#annotator {
   grid-area: annotator;
@@ -22,7 +36,7 @@ div#list {
 }
 div#container {
   display: grid;
-  grid-template-rows: auto;
+  grid-template-rows: 1fr;
   grid-template-columns: auto auto;
   grid-template-areas: "annotator list";
   gap: 8px;
