@@ -23,17 +23,15 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
 
-👀 [Bricks Demo](https://cadmus-bricks.fusi-soft.com)
+👀 [Bricks Demo](https://cadmus-bricks.fusi-soft.com): an online demo showing all the bricks in action. Just pick the desired one from the menu and play with it.
 
 This project is a shell for incubating a number of Cadmus sub-models, implemented as Angular components with their editing UI.
 
-As Cadmus projects increase, the prototype code needs to be chopped into smaller portions, so that they can be easily reused with minimal overhead. Yet, we need a smooth migration because most Cadmus projects are in a production stage, nor I have time to refactor everything at once.
+As Cadmus projects increase, the prototype code reveals more and more portions which can be developed as shared, reused UI components: these are the bricks, i.e. sub-model editor components shared by many projects. Each brick or set of bricks is grouped in a single library, which can be imported in your Cadmus frontend project.
 
-The upgrade strategy is thus starting with the creation of "bricks", i.e. the sub-model components shared by many projects. Each of these bricks should be wrapped in its own module. So, in the end we will have a library project for each brick.
+>⚠️ Note that some of the bricks require additional third-party libraries. See the documentation about each library for details.
 
-At this stage, the bricks themselves depend on more monolithic Cadmus libraries, like the Cadmus core. In future these will be split; but at this time, we just depend on them, so that nothing gets broken in the dependencies chain, and new projects can leverage the new bricks while still using the traditional dependencies.
-
-Quick Docker image build (the only purpose of this image is letting testers play with controls in the incubator):
+🐋 Quick Docker image build (the only purpose of this image is letting testers play with controls in the incubator):
 
 1. `npm run build-lib`.
 2. ensure to update the version in `env.js` (and `docker-compose.yml`), and `ng build --configuration production`.
