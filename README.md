@@ -60,6 +60,8 @@ To add a brick:
 
 ## History
 
+- 2023-03-11: updated packages.
+
 ### 1.0.11
 
 - 2023-03-02: more notes per annotation.
