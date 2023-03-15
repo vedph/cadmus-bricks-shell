@@ -1,10 +1,18 @@
-import { Directive, Input, Output, EventEmitter, NgZone } from '@angular/core';
+import {
+  Directive,
+  Input,
+  Output,
+  EventEmitter,
+  NgZone,
+  ElementRef,
+} from '@angular/core';
 import {
   AnnotationEvent,
   AnnotoriousConfig,
 } from '@myrmidon/cadmus-img-annotator';
-import { Annotorious } from '@recogito/annotorious';
-import * as OpenSeadragon from 'openseadragon';
+// @ts-ignore
+import * as OSDAnnotorious from '@recogito/annotorious-openseadragon';
+import { Viewer } from 'openseadragon';
 
 @Directive({
   selector: '[cadmusSdImgAnnotator]',
@@ -79,7 +87,7 @@ export class SdImgAnnotatorDirective {
   @Output()
   public mouseLeaveAnnotation: EventEmitter<AnnotationEvent>;
 
-  constructor(private _ngZone: NgZone) {
+  constructor(private _ngZone: NgZone, private el: ElementRef) {
     this._tool = 'rect';
     this.source = '';
     this.createAnnotation = new EventEmitter<AnnotationEvent>();
@@ -96,23 +104,17 @@ export class SdImgAnnotatorDirective {
     // we also have better running outside Angular zone:
     //   http://openseadragon.github.io/docs/
     const viewer = this._ngZone.runOutsideAngular(() => {
-      OpenSeadragon({
-        id: 'osd',
+      return new Viewer({
+        element: this.el.nativeElement,
         tileSources: {
           type: 'image',
           url: this.source,
         },
+        prefixUrl: 'http://openseadragon.github.io/openseadragon/images/',
       });
     });
-    // const viewer = OpenSeadragon({
-    //   id: 'osd',
-    //   tileSources: {
-    //     type: 'image',
-    //     url: this.source,
-    //   },
-    // });
 
-    this._ann = new Annotorious(viewer, cfg);
+    this._ann = OSDAnnotorious(viewer, cfg);
 
     // initial annotations
     if (this.annotations?.length) {

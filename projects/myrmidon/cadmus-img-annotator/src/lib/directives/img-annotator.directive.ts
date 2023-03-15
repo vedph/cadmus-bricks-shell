@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
+// @ts-ignore
 import { Annotorious } from '@recogito/annotorious';
 
 // https://recogito.github.io/annotorious/api-docs/annotorious
