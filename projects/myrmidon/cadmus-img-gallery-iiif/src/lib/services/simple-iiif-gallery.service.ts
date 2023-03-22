@@ -154,7 +154,7 @@ export class SimpleIiifGalleryService {
   ): Observable<DataPage<GalleryImage>> {
     // load if options changed
     if (this.isSourceChanged(options)) {
-      return this._http.get<any>(options.baseUri).pipe(
+      return this._http.get<any>(options.manifestUri).pipe(
         take(1),
         switchMap((m: any) => {
           this._options = options;
@@ -176,7 +176,8 @@ export class SimpleIiifGalleryService {
   /**
    * Get the specified image.
    *
-   * @param id The image ID.
+   * @param id The image ID, which here is just the ordinal number
+   * of the image in its list.
    * @param options The image options.
    */
   public getImage(
