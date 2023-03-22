@@ -61,6 +61,8 @@ To add a brick:
 
 ## History
 
+- 2023-03-22: adding simple IIIF gallery service.
+
 ### 1.0.12
 
 - 2023-03-15: fixes to OSD annotator.

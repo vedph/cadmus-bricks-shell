@@ -13,6 +13,9 @@
       "@myrmidon/cadmus-img-gallery": [
         "dist/myrmidon/cadmus-img-gallery"
       ],
+      "@myrmidon/cadmus-img-gallery-iiif": [
+        "dist/myrmidon/cadmus-img-gallery-iiif"
+      ],
       "@myrmidon/cadmus-mat-physical-size": [
         "dist/myrmidon/cadmus-mat-physical-size/myrmidon-cadmus-mat-physical-size",
         "dist/myrmidon/cadmus-mat-physical-size"
