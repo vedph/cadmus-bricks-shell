@@ -7,7 +7,9 @@
       <a mat-button routerLink="/home">Cadmus Bricks</a>
 
       <!-- refs -->
-      <button mat-button [matMenuTriggerFor]="refsMenu">Refs</button>
+      <button type="button" mat-button [matMenuTriggerFor]="refsMenu">
+        Refs
+      </button>
       <mat-menu #refsMenu>
         <a mat-menu-item routerLink="/refs/doc-references">Doc references</a>
         <!-- <a mat-menu-item routerLink="/refs/external-ids"
@@ -34,34 +36,47 @@
       </mat-menu>
 
       <!-- text -->
-      <button mat-button [matMenuTriggerFor]="textMenu">Text</button>
+      <button type="button" mat-button [matMenuTriggerFor]="textMenu">
+        Text
+      </button>
       <mat-menu #textMenu>
         <a mat-menu-item routerLink="/text/text-block-view">Text blocks view</a>
       </mat-menu>
 
       <!-- cod -->
-      <button mat-button [matMenuTriggerFor]="codMenu">Codicology</button>
+      <button type="button" mat-button [matMenuTriggerFor]="codMenu">
+        Codicology
+      </button>
       <mat-menu #codMenu>
         <a mat-menu-item routerLink="/cod/location">Manuscript location</a>
       </mat-menu>
 
       <!-- img -->
-      <button mat-button [matMenuTriggerFor]="imgMenu">Image</button>
+      <button type="button" mat-button [matMenuTriggerFor]="imgMenu">
+        Image
+      </button>
       <mat-menu #imgMenu>
         <a mat-menu-item routerLink="/img/gallery">Image gallery</a>
+        <a mat-menu-item routerLink="/img/sd-gallery"
+          >Seadragon Image gallery</a
+        >
         <a mat-menu-item routerLink="/img/annotator">Image annotator</a>
-        <a mat-menu-item routerLink="/img/sd-annotator">Seadragon Image annotator</a>
+        <a mat-menu-item routerLink="/img/sd-annotator"
+          >Seadragon Image annotator</a
+        >
       </mat-menu>
 
       <!-- ui -->
-      <button mat-button [matMenuTriggerFor]="uiMenu">UI</button>
+      <button type="button" mat-button [matMenuTriggerFor]="uiMenu">UI</button>
       <mat-menu #uiMenu>
         <a mat-menu-item routerLink="/ui/flags-picker">Flags picker</a>
         <a mat-menu-item routerLink="/ui/note-set">Notes set</a>
       </mat-menu>
 
       <!-- material -->
-      <button mat-button [matMenuTriggerFor]="matMenu">Material</button>
+      <button type="button" mat-button [matMenuTriggerFor]="matMenu">
+        Material
+      </button>
       <mat-menu #matMenu>
         <a mat-menu-item routerLink="/mat/physical-size">Physical size</a>
       </mat-menu>
@@ -75,9 +90,14 @@
   <footer>
     <div class="footer-container">
       <div class="info">
-        Cadmus bricks {{version}} by
-        <a href="http://www.fusisoft.it" target="_blank">Daniele Fusi</a> at
-        <a href="https://www.unive.it/pag/39287" target="_blank">VeDPH</a>
+        Cadmus bricks {{ version }} by
+        <a rel="noopener" href="http://www.fusisoft.it" target="_blank"
+          >Daniele Fusi</a
+        >
+        at
+        <a rel="noopener" href="https://www.unive.it/pag/39287" target="_blank"
+          >VeDPH</a
+        >
       </div>
     </div>
   </footer>

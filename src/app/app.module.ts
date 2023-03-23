@@ -57,6 +57,17 @@ import { CadmusSdimgAnnotatorModule } from 'projects/myrmidon/cadmus-sdimg-annot
 import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
 import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 import { CadmusUiNoteSetModule } from 'projects/myrmidon/cadmus-ui-note-set/src/public-api';
+import {
+  CadmusImgGalleryModule,
+  IMAGE_GALLERY_OPTIONS_KEY,
+  IMAGE_GALLERY_SERVICE_KEY,
+  // MockGalleryService,
+} from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
+import {
+  CadmusImgGalleryIiifModule,
+  SimpleIiifGalleryOptions,
+  SimpleIiifGalleryService,
+} from 'projects/myrmidon/cadmus-img-gallery-iiif/src/public-api';
 
 import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/asserted-chronotope-pg.component';
 import { AssertedChronotopeSetPgComponent } from './refs/asserted-chronotope-set-pg/asserted-chronotope-set-pg.component';
@@ -69,30 +80,21 @@ import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
 import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
+import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
 import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-date-pg.component';
 import { ImgAnnotatorPgComponent } from './img/img-annotator-pg/img-annotator-pg.component';
-import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
+import { ImgGalleryPgComponent } from './img/img-gallery-pg/img-gallery-pg.component';
+import { MockItemService } from './services/mock-item.service';
+import { NoteSetPgComponent } from './ui/note-set-pg/note-set-pg.component';
 import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
 import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg.component';
 import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
 import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
+import { SdImgAnnotatorPgComponent } from './img/sd-img-annotator-pg/sd-img-annotator-pg.component';
+import { SdImgGalleryPgComponent } from './img/sd-img-gallery-pg/sd-img-gallery-pg.component';
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
-import { NoteSetPgComponent } from './ui/note-set-pg/note-set-pg.component';
-import { MockItemService } from './services/mock-item.service';
-import { SdImgAnnotatorPgComponent } from './img/sd-img-annotator-pg/sd-img-annotator-pg.component';
-import { ImgGalleryPgComponent } from './img/img-gallery-pg/img-gallery-pg.component';
-import {
-  CadmusImgGalleryModule,
-  IMAGE_GALLERY_OPTIONS_KEY,
-  IMAGE_GALLERY_SERVICE_KEY,
-  MockGalleryService,
-} from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
-import {
-  CadmusImgGalleryIiifModule,
-  SimpleIiifGalleryOptions,
-  SimpleIiifGalleryService,
-} from 'projects/myrmidon/cadmus-img-gallery-iiif/src/public-api';
+import { CadmusSdimgGalleryModule } from 'projects/myrmidon/cadmus-sdimg-gallery/src/public-api';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -122,12 +124,12 @@ export function initElfDevTools(actions: Actions) {
     AssertedIdPgComponent,
     AssertedIdsPgComponent,
     ChronotopePgComponent,
+    CodLocationPgComponent,
     DocReferencesPgComponent,
     DecoratedIdsPgComponent,
+    DecoratedCountsPgComponent,
     ExternalIdsPgComponent,
     FlagsPickerPgComponent,
-    CodLocationPgComponent,
-    DecoratedCountsPgComponent,
     HistoricalDatePgComponent,
     ImgAnnotatorPgComponent,
     ImgGalleryPgComponent,
@@ -137,6 +139,7 @@ export function initElfDevTools(actions: Actions) {
     RefLookupPgComponent,
     RefLookupDummyOptComponent,
     SdImgAnnotatorPgComponent,
+    SdImgGalleryPgComponent,
     TextBlockViewPgComponent,
     ViafRefLookupPgComponent,
   ],
@@ -151,6 +154,7 @@ export function initElfDevTools(actions: Actions) {
       [
         { path: 'home', component: HomeComponent },
         { path: 'img/gallery', component: ImgGalleryPgComponent },
+        { path: 'img/sd-gallery', component: SdImgGalleryPgComponent },
         { path: 'img/annotator', component: ImgAnnotatorPgComponent },
         { path: 'img/sd-annotator', component: SdImgAnnotatorPgComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
@@ -217,6 +221,7 @@ export function initElfDevTools(actions: Actions) {
     CadmusImgGalleryModule,
     CadmusImgGalleryIiifModule,
     CadmusSdimgAnnotatorModule,
+    CadmusSdimgGalleryModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
     CadmusRefsExternalIdsModule,
@@ -277,7 +282,8 @@ export function initElfDevTools(actions: Actions) {
       provide: IMAGE_GALLERY_OPTIONS_KEY,
       useValue: {
         baseUri: '',
-        manifestUri: 'https://dms-data.stanford.edu/data/manifests/Parker/xj710dc7305/manifest.json',
+        manifestUri:
+          'https://dms-data.stanford.edu/data/manifests/Parker/xj710dc7305/manifest.json',
         arrayPath: 'sequences[0]/canvases',
         resourcePath: 'images[0]/resource',
         labelPath: 'label',
@@ -285,7 +291,7 @@ export function initElfDevTools(actions: Actions) {
         height: 400,
         targetWidth: 800,
         targetHeight: -1,
-        pageSize: 6
+        pageSize: 6,
       } as SimpleIiifGalleryOptions,
     },
   ],
