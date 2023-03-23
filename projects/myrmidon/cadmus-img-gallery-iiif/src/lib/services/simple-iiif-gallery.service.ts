@@ -43,6 +43,16 @@ export interface SimpleIiifGalleryOptions extends GalleryOptions {
    * by arrayPath.
    */
   labelPath?: string;
+  /**
+   * The desired width for the image being the target of annotations.
+   * Leave unspecified to use the size defined in the manifest.
+   */
+  targetWidth?: number;
+  /**
+   * The desired height for the image being the target of annotations.
+   * Leave unspecified to use the size defined in the manifest.
+   */
+  targetHeight?: number;
 }
 
 /**
@@ -151,7 +161,9 @@ export class SimpleIiifGalleryService {
   private getCachedImages(
     filter: GalleryFilter,
     pageNumber: number,
-    pageSize: number
+    pageSize: number,
+    width?: number,
+    height?: number
   ): DataPage<SizedGalleryImage> {
     // get filtered images
     // TODO: implement filter
@@ -161,6 +173,7 @@ export class SimpleIiifGalleryService {
     const skip = (pageNumber - 1) * pageSize;
     const pageCount = Math.ceil(filtered.length / pageSize);
 
+    // empty page if beyond limit
     if (skip > filtered.length) {
       return {
         total: filtered.length,
@@ -171,12 +184,38 @@ export class SimpleIiifGalleryService {
       };
     }
 
+    // get the slice for the requested page
+    let images = filtered.slice(skip, skip + pageSize);
+
+    // resize images if requested
+    if (width || height) {
+      images = images.map((image) => {
+        const uri = IiifUri.parse(image.uri)!;
+        let size: string;
+        // "w," or ",h" or "!w,h"
+        if (width && height) {
+          size = `!${width},${height}`;
+        } else if (width) {
+          size = `${width},`;
+        } else if (height) {
+          size = `,${height}`;
+        }
+        uri.size = size!;
+        return {
+          ...image,
+          width: width || image.width,
+          height: height || image.height,
+          uri: uri.toString()
+        };
+      });
+    }
+    // return the requested page
     return {
       total: filtered.length,
       pageCount: pageCount,
       pageNumber: pageNumber,
       pageSize: pageSize,
-      items: filtered.slice(skip, skip + pageSize),
+      items: images,
     };
   }
 
@@ -194,18 +233,36 @@ export class SimpleIiifGalleryService {
     pageSize: number,
     options: SimpleIiifGalleryOptions
   ): Observable<DataPage<SizedGalleryImage>> {
-    // load if options changed
+    // if options have changed, we must reload the manifest
     if (this.isSourceChanged(options)) {
       return this._http.get<any>(options.manifestUri).pipe(
         take(1),
         switchMap((m: any) => {
+          // once loaded, save options, read manifest and return images
           this._options = options;
           this.readManifest(m, options);
-          return of(this.getCachedImages(filter, pageNumber, pageSize));
+          return of(
+            this.getCachedImages(
+              filter,
+              pageNumber,
+              pageSize,
+              options.width,
+              options.height
+            )
+          );
         })
       );
     } else {
-      return of(this.getCachedImages(filter, pageNumber, pageSize));
+      // else we just use the cached images (with the requested size)
+      return of(
+        this.getCachedImages(
+          filter,
+          pageNumber,
+          pageSize,
+          options.width,
+          options.height
+        )
+      );
     }
   }
 
@@ -214,8 +271,8 @@ export class SimpleIiifGalleryService {
     const i = +id - 1;
     const image = this._images[i];
     // override width/height
-    const w = options.width || image.width;
-    const h = options.height || image.height;
+    const w = options.targetWidth || image.width;
+    const h = options.targetHeight || image.height;
     const uri = IiifUri.parse(image.uri)!;
     uri.size = `${w},${h}`;
     return uri.toString();

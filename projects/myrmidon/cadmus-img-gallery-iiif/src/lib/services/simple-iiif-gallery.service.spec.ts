@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SimpleIiifGalleryService } from './simple-iiif-gallery.service';
 
-fdescribe('SimpleIiifGalleryService', () => {
+describe('SimpleIiifGalleryService', () => {
   let service: SimpleIiifGalleryService;
   let target: object;
 

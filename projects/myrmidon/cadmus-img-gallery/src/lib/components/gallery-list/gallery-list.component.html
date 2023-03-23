@@ -10,7 +10,7 @@
       <!-- image -->
       <div *ngFor="let img of data">
         <figure>
-          <img
+          <img alt="{{img.title}}"
             [ngSrc]="img.uri"
             [width]="options.width"
             [height]="options.height"

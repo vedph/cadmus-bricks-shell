@@ -88,6 +88,11 @@ import {
   IMAGE_GALLERY_SERVICE_KEY,
   MockGalleryService,
 } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
+import {
+  CadmusImgGalleryIiifModule,
+  SimpleIiifGalleryOptions,
+  SimpleIiifGalleryService,
+} from 'projects/myrmidon/cadmus-img-gallery-iiif/src/public-api';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -210,6 +215,7 @@ export function initElfDevTools(actions: Actions) {
     CadmusApiModule,
     CadmusImgAnnotatorModule,
     CadmusImgGalleryModule,
+    CadmusImgGalleryIiifModule,
     CadmusSdimgAnnotatorModule,
     CadmusRefsDocReferencesModule,
     CadmusRefsDecoratedIdsModule,
@@ -245,19 +251,36 @@ export function initElfDevTools(actions: Actions) {
       useFactory: initElfDevTools,
       deps: [Actions],
     },
-    // image gallery
+    // mock image gallery
+    // {
+    //   provide: IMAGE_GALLERY_SERVICE_KEY,
+    //   useClass: MockGalleryService,
+    // },
+    // {
+    //   provide: IMAGE_GALLERY_OPTIONS_KEY,
+    //   useValue: {
+    //     baseUri: '',
+    //     count: 50,
+    //     width: 300,
+    //     height: 400,
+    //   },
+    // },
+    // IIIF image gallery
     {
       provide: IMAGE_GALLERY_SERVICE_KEY,
-      useClass: MockGalleryService,
+      useClass: SimpleIiifGalleryService,
     },
     {
       provide: IMAGE_GALLERY_OPTIONS_KEY,
       useValue: {
         baseUri: '',
-        count: 50,
+        manifestUri: 'https://dms-data.stanford.edu/data/manifests/Parker/xj710dc7305/manifest.json',
+        arrayPath: 'sequences[0]/canvases',
+        resourcePath: 'images[0]/resource',
+        labelPath: 'label',
         width: 300,
         height: 400,
-      },
+      } as SimpleIiifGalleryOptions,
     },
   ],
   bootstrap: [AppComponent],

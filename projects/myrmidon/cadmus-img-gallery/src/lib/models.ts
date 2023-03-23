@@ -33,10 +33,15 @@ export interface GalleryImage {
   description?: string;
 }
 
+/**
+ * Essential options for a gallery image. You can derive your own model
+ * from this one.
+ */
 export interface GalleryOptions {
   baseUri: string;
   width?: number;
   height?: number;
+  pageSize?: number;
 }
 
 /**
