@@ -19,26 +19,85 @@
  * An IIIF image URI.
  */
 export class IiifUri {
+  private _server: string;
+  private _prefix: string;
+  private _identifier: string;
+  private _region: string;
+  private _size: string;
+  private _rotation: string;
+  private _quality: 'default' | 'color' | 'gray' | 'bitonal';
+  private _format: 'jpg' | 'tif' | 'png' | 'gif' | 'jp2' | 'pdf' | 'webp';
+
   public scheme: 'http' | 'https';
-  public server: string;
-  public prefix: string;
-  public identifier: string;
-  public region: string;
-  public size: string;
-  public rotation: string;
-  public quality: 'default' | 'color' | 'gray' | 'bitonal';
-  public format: 'jpg' | 'tif' | 'png' | 'gif' | 'jp2' | 'pdf' | 'webp';
+
+  public get server(): string {
+    return this._server;
+  }
+  public set server(value: string) {
+    this._server = decodeURIComponent(value);
+  }
+
+  public get prefix(): string {
+    return this._prefix;
+  }
+  public set prefix(value: string) {
+    this._prefix = decodeURIComponent(value);
+  }
+
+  public get identifier(): string {
+    return this._identifier;
+  }
+  public set identifier(value: string) {
+    this._identifier = decodeURIComponent(value);
+  }
+
+  public get region(): string {
+    return this._region;
+  }
+  public set region(value: string) {
+    this._region = decodeURIComponent(value);
+  }
+
+  public get size(): string {
+    return this._size;
+  }
+  public set size(value: string) {
+    this._size = decodeURIComponent(value);
+  }
+
+  public get rotation(): string {
+    return this._rotation;
+  }
+  public set rotation(value: string) {
+    this._rotation = decodeURIComponent(value);
+  }
+
+  public get quality(): 'default' | 'color' | 'gray' | 'bitonal' {
+    return this._quality;
+  }
+  public set quality(value: 'default' | 'color' | 'gray' | 'bitonal') {
+    this._quality = decodeURIComponent(value) as any;
+  }
+
+  public get format(): 'jpg' | 'tif' | 'png' | 'gif' | 'jp2' | 'pdf' | 'webp' {
+    return this._format;
+  }
+  public set format(
+    value: 'jpg' | 'tif' | 'png' | 'gif' | 'jp2' | 'pdf' | 'webp'
+  ) {
+    this._format = decodeURIComponent(value) as any;
+  }
 
   constructor() {
     this.scheme = 'https';
-    this.server = '';
-    this.prefix = '';
-    this.identifier = '';
-    this.region = 'full';
-    this.size = 'max';
-    this.rotation = '0';
-    this.quality = 'default';
-    this.format = 'jpg';
+    this._server = '';
+    this._prefix = '';
+    this._identifier = '';
+    this._region = 'full';
+    this._size = 'max';
+    this._rotation = '0';
+    this._quality = 'default';
+    this._format = 'jpg';
   }
 
   /**
@@ -127,6 +186,7 @@ export class IiifUri {
     }
 
     // region/size/rotation/quality
+    sb.push('/');
     sb.push(
       [this.region, this.size, this.rotation, this.quality]
         .map((s) => encodeURIComponent(s))
