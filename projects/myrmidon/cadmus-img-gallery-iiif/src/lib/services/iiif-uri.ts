@@ -169,10 +169,10 @@ export class IiifUri {
     sb.push('://');
 
     // server/prefix
-    sb.push(encodeURIComponent(this.server));
+    sb.push(this.server);
     if (this.prefix) {
       sb.push('/');
-      sb.push(encodeURIComponent(this.prefix));
+      sb.push(this.prefix);
     }
 
     // /identifier
@@ -187,11 +187,7 @@ export class IiifUri {
 
     // region/size/rotation/quality
     sb.push('/');
-    sb.push(
-      [this.region, this.size, this.rotation, this.quality]
-        .map((s) => encodeURIComponent(s))
-        .join('/')
-    );
+    sb.push([this.region, this.size, this.rotation, this.quality].join('/'));
 
     // .format
     sb.push('.');

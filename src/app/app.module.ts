@@ -280,6 +280,7 @@ export function initElfDevTools(actions: Actions) {
         labelPath: 'label',
         width: 300,
         height: 400,
+        pageSize: 6
       } as SimpleIiifGalleryOptions,
     },
   ],
