@@ -205,7 +205,7 @@ export class SimpleIiifGalleryService {
           ...image,
           width: width || image.width,
           height: height || image.height,
-          uri: uri.toString()
+          uri: uri.toString(),
         };
       });
     }
@@ -274,7 +274,14 @@ export class SimpleIiifGalleryService {
     const w = options.targetWidth || image.width;
     const h = options.targetHeight || image.height;
     const uri = IiifUri.parse(image.uri)!;
-    uri.size = `${w},${h}`;
+    // -1 is a special value to represent omission of w/h
+    if (w > -1 && h > -1) {
+      uri.size = `!${w},${h}`;
+    } else if (w === -1) {
+      uri.size = `,${h}`;
+    } else if (h === -1) {
+      uri.size = `${w},`;
+    }
     return uri.toString();
   }
 
