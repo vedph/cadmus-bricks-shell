@@ -251,6 +251,9 @@ export function initElfDevTools(actions: Actions) {
       useFactory: initElfDevTools,
       deps: [Actions],
     },
+
+    // if you want to use the mock gallery, uncomment these two providers
+    // and comment the IIIF ones below.
     // mock image gallery
     // {
     //   provide: IMAGE_GALLERY_SERVICE_KEY,

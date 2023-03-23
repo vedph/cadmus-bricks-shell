@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of, switchMap, take } from 'rxjs';
+
 import {
   GalleryFilter,
   GalleryImage,
   GalleryOptions,
 } from '@myrmidon/cadmus-img-gallery';
 import { DataPage } from '@myrmidon/ng-tools';
-import { Observable, of, switchMap, take, tap } from 'rxjs';
+
 import { IiifUri } from './iiif-uri';
 
 // ...images/resource essential metadata
@@ -18,11 +20,17 @@ interface ManifestImageResource {
   width: number;
 }
 
+/**
+ * A gallery image with an intrinsic size.
+ */
 export interface SizedGalleryImage extends GalleryImage {
   width: number;
   height: number;
 }
 
+/**
+ * Options for the SimpleIiifGallery service.
+ */
 export interface SimpleIiifGalleryOptions extends GalleryOptions {
   /**
    * The URI to the JSON manifest.
@@ -30,27 +38,35 @@ export interface SimpleIiifGalleryOptions extends GalleryOptions {
   manifestUri: string;
   /**
    * The path to the array of objects representing the images
-   * to be served by the gallery.
+   * to be served by the gallery. A path is built of JS object
+   * property names, eventually followed by an indexer when they
+   * are arrays, separated by a slash.
    */
   arrayPath: string;
   /**
    * The path to the image resource data for each item in the array
-   * targeted by arrayPath.
+   * targeted by arrayPath. A path is built of JS object
+   * property names, eventually followed by an indexer when they
+   * are arrays, separated by a slash.
    */
   resourcePath: string;
   /**
    * The path to the image label for each item in the array targeted
-   * by arrayPath.
+   * by arrayPath. A path is built of JS object property names,
+   * eventually followed by an indexer when they are arrays, separated
+   * by a slash.
    */
   labelPath?: string;
   /**
    * The desired width for the image being the target of annotations.
-   * Leave unspecified to use the size defined in the manifest.
+   * Leave unspecified to use the size defined in the manifest, or -1
+   * to avoid specifying w at all (e.g. ",h").
    */
   targetWidth?: number;
   /**
    * The desired height for the image being the target of annotations.
-   * Leave unspecified to use the size defined in the manifest.
+   * Leave unspecified to use the size defined in the manifest, or -1
+   * to avoid specifying h at all (e.g. "w,").
    */
   targetHeight?: number;
 }
