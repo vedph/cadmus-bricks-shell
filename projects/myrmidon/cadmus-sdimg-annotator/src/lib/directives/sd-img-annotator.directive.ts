@@ -20,6 +20,7 @@ import { Viewer } from 'openseadragon';
 export class SdImgAnnotatorDirective {
   private _tool: string;
   private _ann?: any;
+  private _selectedAnnotation?: any;
 
   /**
    * The source image to annotate.
@@ -56,6 +57,19 @@ export class SdImgAnnotatorDirective {
    */
   @Input()
   public annotations?: any[];
+
+  /**
+   * The selected annotation or its ID. When set, the annotator
+   * will highlight the annotation and open its editor.
+   */
+  @Input()
+  public get selectedAnnotation(): any | undefined | null {
+    return this._selectedAnnotation;
+  }
+  public set selectedAnnotation(value: any | undefined | null) {
+    this._selectedAnnotation = value || undefined;
+    this._ann?.selectAnnotation(value);
+  }
 
   /**
    * Emitted when a new annotation is created.

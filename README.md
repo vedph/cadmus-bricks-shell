@@ -62,9 +62,13 @@ To add a brick:
 
 ## History
 
+- 2023-03-23:
+  - added OSD image gallery library.
+  - moved join pipe to `NgToolsModule`.
+
 ### 1.0.13
 
-- 2023-03-22: adding simple IIIF gallery service.
+- 2023-03-22: added simple IIIF gallery service.
 
 ### 1.0.12
 

@@ -82,6 +82,9 @@
       "@myrmidon/cadmus-sdimg-annotator": [
         "dist/myrmidon/cadmus-sdimg-annotator"
       ],
+      "@myrmidon/cadmus-sdimg-gallery": [
+        "dist/myrmidon/cadmus-sdimg-gallery"
+      ],
       "@myrmidon/cadmus-text-block-view": [
         "dist/myrmidon/cadmus-text-block-view/myrmidon-cadmus-text-block-view",
         "dist/myrmidon/cadmus-text-block-view"

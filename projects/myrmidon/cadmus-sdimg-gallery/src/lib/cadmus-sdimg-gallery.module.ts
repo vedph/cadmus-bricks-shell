@@ -1,7 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -15,18 +14,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NgToolsModule } from '@myrmidon/ng-tools';
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
-import { CadmusImgAnnotatorModule } from '@myrmidon/cadmus-img-annotator';
+import { CadmusSdimgAnnotatorModule } from '@myrmidon/cadmus-sdimg-annotator';
 
-import { GalleryFilterComponent } from './components/gallery-filter/gallery-filter.component';
-import { GalleryListComponent } from './components/gallery-list/gallery-list.component';
-import { GalleryImgAnnotatorComponent } from './components/gallery-img-annotator/gallery-img-annotator.component';
+import { GallerySdimgAnnotatorComponent } from './components/gallery-sdimg-annotator/gallery-sdimg-annotator.component';
 
 @NgModule({
-  declarations: [
-    GalleryFilterComponent,
-    GalleryListComponent,
-    GalleryImgAnnotatorComponent,
-  ],
+  declarations: [GallerySdimgAnnotatorComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -43,17 +36,11 @@ import { GalleryImgAnnotatorComponent } from './components/gallery-img-annotator
     MatProgressBarModule,
     MatSelectModule,
     MatTooltipModule,
-    // myrmex
     NgToolsModule,
     // Cadmus
     CadmusCoreModule,
-    CadmusImgAnnotatorModule
+    CadmusSdimgAnnotatorModule,
   ],
-  exports: [
-    GalleryFilterComponent,
-    GalleryListComponent,
-    // for image annotator directive
-    GalleryImgAnnotatorComponent,
-  ],
+  exports: [GallerySdimgAnnotatorComponent],
 })
-export class CadmusImgGalleryModule {}
+export class CadmusSdimgGalleryModule {}
