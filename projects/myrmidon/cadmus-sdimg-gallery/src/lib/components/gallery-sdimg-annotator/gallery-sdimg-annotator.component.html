@@ -10,19 +10,16 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
-    <div>
-      <img
-        alt="image"
-        cadmusSdImgAnnotator
-        (createAnnotation)="onCreateAnnotation($event)"
-        (updateAnnotation)="onUpdateAnnotation($event)"
-        (deleteAnnotation)="onDeleteAnnotation($event)"
-        [tool]="group.value"
-        [src]="imageUri"
-        [selectedAnnotation]="selectedW3cAnnotation"
-        [annotations]="w3cAnnotations"
-      />
-    </div>
+    <div
+      cadmusSdImgAnnotator
+      (createAnnotation)="onCreateAnnotation($event)"
+      (updateAnnotation)="onUpdateAnnotation($event)"
+      (deleteAnnotation)="onDeleteAnnotation($event)"
+      [tool]="group.value"
+      [source]="imageUri"
+      [selectedAnnotation]="selectedW3cAnnotation"
+      [annotations]="w3cAnnotations"
+    ></div>
   </div>
   <div id="list">
     <table *ngIf="data$ | async as data">
