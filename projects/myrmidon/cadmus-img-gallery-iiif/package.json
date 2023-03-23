@@ -1,6 +1,19 @@
 {
   "name": "@myrmidon/cadmus-img-gallery-iiif",
   "version": "0.0.1",
+  "description": "Cadmus - IIIF components for image gallery.",
+  "keywords": [
+    "Cadmus",
+    "bricks"
+  ],
+  "homepage": "https://github.com/vedph/cadmus-bricks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedph/cadmus-bricks"
+  },
+  "author": {
+    "name": "Daniele Fusi"
+  },
   "peerDependencies": {
     "@angular/common": "^15.2.0",
     "@angular/core": "^15.2.0"

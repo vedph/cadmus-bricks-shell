@@ -8,7 +8,24 @@ import {
 import { DataPage } from '@myrmidon/ng-tools';
 import { Observable, of, switchMap, take, tap } from 'rxjs';
 
+// ...images/resource essential metadata
+interface ManifestImageResource {
+  '@id': string;
+  '@type': string;
+  format: string;
+  height: number;
+  width: number;
+}
+
+export interface SizedGalleryImage extends GalleryImage {
+  width: number;
+  height: number;
+}
+
 export interface SimpleIiifGalleryOptions extends GalleryOptions {
+  /**
+   * The URI to the JSON manifest.
+   */
   manifestUri: string;
   /**
    * The path to the array of objects representing the images
@@ -16,10 +33,15 @@ export interface SimpleIiifGalleryOptions extends GalleryOptions {
    */
   arrayPath: string;
   /**
-   * The path to the image data for each item in the array targeted
+   * The path to the image resource data for each item in the array
+   * targeted by arrayPath.
+   */
+  resourcePath: string;
+  /**
+   * The path to the image label for each item in the array targeted
    * by arrayPath.
    */
-  itemPath: string;
+  labelPath?: string;
 }
 
 /**
@@ -33,7 +55,7 @@ export interface SimpleIiifGalleryOptions extends GalleryOptions {
 })
 export class SimpleIiifGalleryService {
   private _options?: SimpleIiifGalleryOptions;
-  private _images: GalleryImage[];
+  private _images: SizedGalleryImage[];
 
   constructor(private _http: HttpClient) {
     this._images = [];
@@ -82,17 +104,36 @@ export class SimpleIiifGalleryService {
   }
 
   private readManifest(manifest: any, options: SimpleIiifGalleryOptions): void {
-    // TODO read manifest using paths
-  }
+    this._images = [];
 
-  private load(options: SimpleIiifGalleryOptions): void {
-    this._http
-      .get(options.baseUri)
-      .pipe(take(1))
-      .subscribe((manifest) => {
-        this._options = options;
-        this.readManifest(manifest, options);
+    // read the array of images
+    const imgArray = this.getProperty<any[]>(manifest, options.arrayPath);
+    if (!imgArray) {
+      return;
+    }
+
+    // add a gallery image for each image in the array
+    for (let i = 0; i < imgArray.length; i++) {
+      const r = this.getProperty<ManifestImageResource>(
+        imgArray[i],
+        options.resourcePath
+      );
+      if (!r) {
+        continue;
+      }
+      const label = options.labelPath
+        ? this.getProperty<string>(imgArray[i], options.labelPath)
+        : null;
+      this._images.push({
+        // the ID is just the ordinal of the image in its list
+        id: `${i + 1}`,
+        uri: r['@id'],
+        title: label || `${i + 1}`,
+        // not using description right now
+        width: r.width,
+        height: r.height,
       });
+    }
   }
 
   private isSourceChanged(options: SimpleIiifGalleryOptions): boolean {
@@ -102,7 +143,7 @@ export class SimpleIiifGalleryService {
     return (
       this._options.baseUri !== options.baseUri ||
       this._options.arrayPath !== options.arrayPath ||
-      this._options.itemPath !== options.itemPath
+      this._options.resourcePath !== options.resourcePath
     );
   }
 
@@ -110,7 +151,7 @@ export class SimpleIiifGalleryService {
     filter: GalleryFilter,
     pageNumber: number,
     pageSize: number
-  ): DataPage<GalleryImage> {
+  ): DataPage<SizedGalleryImage> {
     // get filtered images
     // TODO: implement filter
     const filtered = this._images;
@@ -151,7 +192,7 @@ export class SimpleIiifGalleryService {
     pageNumber: number,
     pageSize: number,
     options: SimpleIiifGalleryOptions
-  ): Observable<DataPage<GalleryImage>> {
+  ): Observable<DataPage<SizedGalleryImage>> {
     // load if options changed
     if (this.isSourceChanged(options)) {
       return this._http.get<any>(options.manifestUri).pipe(
@@ -169,8 +210,14 @@ export class SimpleIiifGalleryService {
 
   private buildUri(id: string, options: SimpleIiifGalleryOptions): string {
     // use options.width, options.height, etc.
-    // TODO
-    return options.baseUri;
+    const i = +id - 1;
+    const image = this._images[i];
+    let uri = image.uri;
+    // override width/height if specified
+    const w = options.width || image.width;
+    const h = options.height || image.height
+    // TODO overrride w and h
+    return uri;
   }
 
   /**
@@ -183,7 +230,7 @@ export class SimpleIiifGalleryService {
   public getImage(
     id: string,
     options: SimpleIiifGalleryOptions
-  ): Observable<GalleryImage | null> {
+  ): Observable<SizedGalleryImage | null> {
     // load if options changed
     if (this.isSourceChanged(options)) {
       return this._http.get<any>(options.baseUri).pipe(
