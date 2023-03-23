@@ -7,6 +7,7 @@ import {
 } from '@myrmidon/cadmus-img-gallery';
 import { DataPage } from '@myrmidon/ng-tools';
 import { Observable, of, switchMap, take, tap } from 'rxjs';
+import { IiifUri } from './iiif-uri';
 
 // ...images/resource essential metadata
 interface ManifestImageResource {
@@ -212,12 +213,12 @@ export class SimpleIiifGalleryService {
     // use options.width, options.height, etc.
     const i = +id - 1;
     const image = this._images[i];
-    let uri = image.uri;
-    // override width/height if specified
+    // override width/height
     const w = options.width || image.width;
-    const h = options.height || image.height
-    // TODO overrride w and h
-    return uri;
+    const h = options.height || image.height;
+    const uri = IiifUri.parse(image.uri)!;
+    uri.size = `${w},${h}`;
+    return uri.toString();
   }
 
   /**
