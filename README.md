@@ -62,6 +62,7 @@ To add a brick:
 
 ## History
 
+- 2023-03-24: added `skip` and `limit` to IIIF service options.
 - 2023-03-23:
   - added OSD image gallery library.
   - moved join pipe to `NgToolsModule`.

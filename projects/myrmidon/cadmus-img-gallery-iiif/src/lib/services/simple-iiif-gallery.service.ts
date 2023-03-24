@@ -69,6 +69,16 @@ export interface SimpleIiifGalleryOptions extends GalleryOptions {
    * to avoid specifying h at all (e.g. "w,").
    */
   targetHeight?: number;
+  /**
+   * The optional count of items to skip at the beginning of the array
+   * of objects representing images.
+   */
+  skip?: number;
+  /**
+   * The optional limit of items to load from the array of objects
+   * representing images.
+   */
+  limit?: number;
 }
 
 /**
@@ -144,7 +154,14 @@ export class SimpleIiifGalleryService {
     }
 
     // add a gallery image for each image in the array
-    for (let i = 0; i < imgArray.length; i++) {
+    const start =
+      options.skip && options.skip < imgArray.length ? options.skip : 0;
+    const end =
+      options.limit && start + options.limit < imgArray.length
+        ? start + options.limit
+        : imgArray.length;
+
+    for (let i = start; i < end; i++) {
       const r = this.getProperty<ManifestImageResource>(
         imgArray[i],
         options.resourcePath
