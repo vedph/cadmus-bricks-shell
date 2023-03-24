@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap, take } from 'rxjs';
 
@@ -81,11 +81,15 @@ export interface SimpleIiifGalleryOptions extends GalleryOptions {
   providedIn: 'root',
 })
 export class SimpleIiifGalleryService {
+  private _http: HttpClient;
   private _options?: SimpleIiifGalleryOptions;
   private _images: SizedGalleryImage[];
 
-  constructor(private _http: HttpClient) {
+  constructor(handler: HttpBackend) {
     this._images = [];
+    // avoid Authorization header from interceptors
+    // https://stackoverflow.com/questions/46469349/how-to-make-an-angular-module-to-ignore-http-interceptor-added-in-a-core-module
+    this._http = new HttpClient(handler);
   }
 
   private parseStepIndex(step: string): { step: string; index: number } | null {
