@@ -13,15 +13,26 @@
         <mat-button-toggle value="polygon" matTooltip="Polygon">
           <mat-icon>polyline</mat-icon>
         </mat-button-toggle>
+        <mat-button-toggle value="circle" matTooltip="Circle">
+          <mat-icon>radio_button_unchecked</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="ellipse" matTooltip="Ellipse">
+          <mat-icon>exposure_zero</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="freehand" matTooltip="Freehand">
+          <mat-icon>gesture</mat-icon>
+        </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
     <div>
-      <img alt="image"
+      <img
+        alt="image"
         cadmusImgAnnotator
         (createAnnotation)="onCreateAnnotation($event)"
         (updateAnnotation)="onUpdateAnnotation($event)"
         (deleteAnnotation)="onDeleteAnnotation($event)"
         [tool]="group.value"
+        [additionalTools]="['circle', 'ellipse', 'freehand']"
         src="assets/sample.jpg"
       />
     </div>

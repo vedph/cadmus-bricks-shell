@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [1.0.14](#1014)
     - [1.0.13](#1013)
     - [1.0.12](#1012)
     - [1.0.11](#1011)
@@ -38,7 +39,7 @@ As Cadmus projects increase, the prototype code reveals more and more portions w
 
 1. `npm run build-lib`.
 2. ensure to update the version in `env.js` (and `docker-compose.yml`), and `ng build --configuration production`.
-3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.13 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.14 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 Use [publish.bat](publish.bat) to publish the libraries to NPM.
 
@@ -62,6 +63,9 @@ To add a brick:
 
 ## History
 
+### 1.0.14
+
+- 2023-03-26: added more Annotorious selectors using the [selector pack plugin](https://github.com/recogito/annotorious-selector-pack): `npm i @recogito/annotorious-selector-pack`.
 - 2023-03-24: added `skip` and `limit` to IIIF service options.
 - 2023-03-23:
   - added OSD image gallery library.

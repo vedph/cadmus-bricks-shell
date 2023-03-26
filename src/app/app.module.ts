@@ -292,6 +292,7 @@ export function initElfDevTools(actions: Actions) {
         targetWidth: 800,
         targetHeight: -1,
         pageSize: 6,
+        // skip: 6
       } as SimpleIiifGalleryOptions,
     },
   ],

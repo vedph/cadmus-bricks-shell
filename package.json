@@ -57,6 +57,7 @@
     "@ngneat/elf-requests": "^1.6.0",
     "@recogito/annotorious": "^2.7.10",
     "@recogito/annotorious-openseadragon": "^2.7.10",
+    "@recogito/annotorious-selector-pack": "^0.5.3",
     "gravatar": "^1.8.2",
     "marked": "^4.3.0",
     "ngx-markdown": "^15.1.2",

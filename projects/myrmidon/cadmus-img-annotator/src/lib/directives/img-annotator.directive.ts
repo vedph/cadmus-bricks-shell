@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 // @ts-ignore
 import { Annotorious } from '@recogito/annotorious';
+// @ts-ignore
+import SelectorPack from '@recogito/annotorious-selector-pack';
 
 // https://recogito.github.io/annotorious/api-docs/annotorious
 
@@ -147,6 +149,17 @@ export class ImgAnnotatorDirective {
   }
 
   /**
+   * The IDs of all the additional selection tools to be used
+   * when the Annotorious Selector Pack plugin is loaded
+   * (see https://github.com/recogito/annotorious-selector-pack).
+   * Allowed values (besides 'rect', 'polygon'): 'point', 'circle',
+   * 'ellipse', 'freehand'. Note that this requires to add the
+   * plugins library to your app (@recogito/annotorious-selector-pack).
+   */
+  @Input()
+  public additionalTools?: string[];
+
+  /**
    * Emitted when a new annotation is created.
    */
   @Output()
@@ -190,8 +203,17 @@ export class ImgAnnotatorDirective {
     const cfg = this.config || {};
     cfg.image = this._elementRef.nativeElement;
     this._ann = new Annotorious(cfg);
+
+    // plugin
+    if (this.additionalTools?.length) {
+      SelectorPack(this._ann, {
+        tools: this.additionalTools,
+      });
+    }
+
     // initial annotations
     this._ann.setAnnotations(this._annotations || []);
+
     // wrap events:
     // createAnnotation
     this._ann.on(

@@ -7,7 +7,8 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 This library uses Annotorius. The consumer app must install it as follows:
 
 (1) `npm install @recogito/annotorious`
-(2) in `angular.json`, add CSS to styles:
+(2) if you want selectors other than the default rect/polygon you must also install the [selector pack plugin](https://github.com/recogito/annotorious-selector-pack): `npm i @recogito/annotorious-selector-pack`.
+(3) in `angular.json`, add CSS to styles:
 
 ```json
 "styles": [
@@ -16,7 +17,7 @@ This library uses Annotorius. The consumer app must install it as follows:
 ],
 ```
 
-(3) in your `src` root folder, add a `types.d.ts` file with this declaration:
+(4) in your `src` root folder, add a `types.d.ts` file with this declaration:
 
 ```ts
 declare module "@recogito/annotorious";
@@ -26,7 +27,10 @@ You can now import and use like this:
 
 ```ts
 import { Component } from '@angular/core';
+// @ts-ignore
 import { Annotorious } from '@recogito/annotorious';
+// @ts-ignore
+import SelectorPack from '@recogito/annotorious-selector-pack';
 
 @Component({
   selector: 'app-root',
@@ -34,15 +38,18 @@ import { Annotorious } from '@recogito/annotorious';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'annotest';
-
-  constructor() {}
-
   ngAfterViewInit(): void {
     // the DOM must be initialized before creating instance
-    const anno = new Annotorious({
-      image: document.getElementById('my-image'),
-    });
+    const cfg = this.config || {};
+    cfg.image = this._elementRef.nativeElement;
+    this._ann = new Annotorious(cfg);
+
+    // plugin
+    if (this.additionalTools?.length) {
+      SelectorPack(this._ann, {
+        tools: this.additionalTools,
+      });
+    }
   }
 }
 ```
