@@ -63,6 +63,8 @@ To add a brick:
 
 ## History
 
+- 2023-04-02: fixed bug with proper name editing.
+
 ### 1.0.14
 
 - 2023-03-26: added more Annotorious selectors using the [selector pack plugin](https://github.com/recogito/annotorious-selector-pack): `npm i @recogito/annotorious-selector-pack`.

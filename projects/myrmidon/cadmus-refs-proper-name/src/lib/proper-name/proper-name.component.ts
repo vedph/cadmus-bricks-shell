@@ -234,7 +234,7 @@ export class ProperNameComponent implements OnInit {
     if (type?.single) {
       const i = this.pieces.value.findIndex((p) => p.type === piece.type);
       if (i > -1) {
-        pieces.splice(this.editedPieceIndex, 1, piece);
+        pieces.splice(i, 1, piece);
         this.updatePieces(pieces);
         this.closePiece();
         return;
