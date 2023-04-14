@@ -786,6 +786,39 @@
           }
         }
       }
+    },
+    "@myrmidon/cadmus-ui-custom-action-bar": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-ui-custom-action-bar",
+      "sourceRoot": "projects/myrmidon/cadmus-ui-custom-action-bar/src",
+      "prefix": "cadmus",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-ui-custom-action-bar/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-ui-custom-action-bar/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-ui-custom-action-bar/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/myrmidon/cadmus-ui-custom-action-bar/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

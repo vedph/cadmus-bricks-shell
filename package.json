@@ -28,6 +28,7 @@
     "build-sdimg": "ng build @myrmidon/cadmus-sdimg-annotator && ng build @myrmidon/cadmus-sdimg-gallery",
     "build-gal": "ng build @myrmidon/cadmus-img-gallery",
     "build-3if": "ng build @myrmidon/cadmus-img-gallery-iiif",
+    "build-cab": "ng build @myrmidon/cadmus-ui-custom-action-bar",
     "build-lib": "npm run build-col && npm run build-phs && npm run build-aid && npm run build-ass && npm run build-chr && npm run build-decc && npm run build-deci && npm run build-doc && npm run build-ext && npm run build-his && npm run build-achr && npm run build-lok && npm run build-prp && npm run build-viaf && npm run build-blk && npm run build-flg && npm run build-img && npm run build-nts && npm run build-3if"
   },
   "private": true,
