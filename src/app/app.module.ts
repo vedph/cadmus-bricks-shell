@@ -55,6 +55,7 @@ import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src
 import { CadmusRefsDecoratedCountsModule } from 'projects/myrmidon/cadmus-refs-decorated-counts/src/public-api';
 import { CadmusSdimgAnnotatorModule } from 'projects/myrmidon/cadmus-sdimg-annotator/src/public-api';
 import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
+import { CadmusUiCustomActionBarModule } from 'projects/myrmidon/cadmus-ui-custom-action-bar/src/public-api';
 import { CadmusUiFlagsPickerModule } from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 import { CadmusUiNoteSetModule } from 'projects/myrmidon/cadmus-ui-note-set/src/public-api';
 import {
@@ -95,6 +96,7 @@ import { SdImgGalleryPgComponent } from './img/sd-img-gallery-pg/sd-img-gallery-
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
 import { CadmusSdimgGalleryModule } from 'projects/myrmidon/cadmus-sdimg-gallery/src/public-api';
+import { CustomActionBarPgComponent } from './ui/custom-action-bar-pg/custom-action-bar-pg.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -125,6 +127,7 @@ export function initElfDevTools(actions: Actions) {
     AssertedIdsPgComponent,
     ChronotopePgComponent,
     CodLocationPgComponent,
+    CustomActionBarPgComponent,
     DocReferencesPgComponent,
     DecoratedIdsPgComponent,
     DecoratedCountsPgComponent,
@@ -182,6 +185,7 @@ export function initElfDevTools(actions: Actions) {
         { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
         { path: 'ui/note-set', component: NoteSetPgComponent },
+        { path: 'ui/custom-actions-bar', component: CustomActionBarPgComponent },
         { path: 'text/text-block-view', component: TextBlockViewPgComponent },
         { path: 'mat/physical-size', component: PhysicalSizePgComponent },
         { path: 'cod/location', component: CodLocationPgComponent },
@@ -236,6 +240,7 @@ export function initElfDevTools(actions: Actions) {
     CadmusTextBlockViewModule,
     CadmusMatPhysicalSizeModule,
     CadmusCodLocationModule,
+    CadmusUiCustomActionBarModule,
     CadmusUiFlagsPickerModule,
     CadmusUiNoteSetModule,
   ],

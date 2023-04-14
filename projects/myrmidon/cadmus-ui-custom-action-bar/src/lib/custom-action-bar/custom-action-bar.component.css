@@ -1,0 +1,9 @@
+#bar {
+  display: flex;
+  gap: 0px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#bar button {
+  flex: 0 0 auto;
+}

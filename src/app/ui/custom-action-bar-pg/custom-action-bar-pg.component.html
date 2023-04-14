@@ -1,0 +1,15 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Custom Actions Bar</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <cadmus-custom-action-bar
+      [actions]="actions"
+      [payload]="'payload'"
+      (actionRequest)="onActionRequest($event)"
+    ></cadmus-custom-action-bar>
+    <div *ngIf="request">{{ request | json }}</div>
+  </mat-card-content>
+</mat-card>

@@ -63,6 +63,9 @@ To add a brick:
 
 ## History
 
+- 2023-04-14:
+  - added custom actions bar.
+  - updated Angular.
 - 2023-04-02: fixed bug with proper name editing.
 
 ### 1.0.14
