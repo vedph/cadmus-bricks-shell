@@ -47,15 +47,22 @@
       <tbody>
         <tr *ngFor="let a of data.annotations; let i = index">
           <td class="fit-width">
-            <span class="nr">{{ i + 1 }}</span>
-            <button
-              type="button"
-              mat-icon-button
-              color="primary"
-              (click)="selectAnnotation(i)"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
+            <div class="bar-row">
+              <span class="nr">{{ i + 1 }}</span>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                (click)="selectAnnotation(i)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <cadmus-custom-action-bar
+                [actions]="customActions || []"
+                [payload]="annotations"
+                (actionRequest)="onActionRequest($event)"
+              ></cadmus-custom-action-bar>
+            </div>
           </td>
           <td>{{ a.id }}</td>
           <td>{{ a.tags | join : ", " }}</td>

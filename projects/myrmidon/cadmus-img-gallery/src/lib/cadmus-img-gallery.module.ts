@@ -16,6 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgToolsModule } from '@myrmidon/ng-tools';
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusImgAnnotatorModule } from '@myrmidon/cadmus-img-annotator';
+import { CadmusUiCustomActionBarModule } from '@myrmidon/cadmus-ui-custom-action-bar';
 
 import { GalleryFilterComponent } from './components/gallery-filter/gallery-filter.component';
 import { GalleryListComponent } from './components/gallery-list/gallery-list.component';
@@ -47,7 +48,8 @@ import { GalleryImgAnnotatorComponent } from './components/gallery-img-annotator
     NgToolsModule,
     // Cadmus
     CadmusCoreModule,
-    CadmusImgAnnotatorModule
+    CadmusImgAnnotatorModule,
+    CadmusUiCustomActionBarModule
   ],
   exports: [
     GalleryFilterComponent,

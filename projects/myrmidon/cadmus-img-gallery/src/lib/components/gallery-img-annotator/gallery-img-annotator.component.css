@@ -1,3 +1,11 @@
+.bar-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.bar-row * {
+  flex: 0 0 auto;
+}
 table {
   width: 100%;
   border-collapse: collapse;

@@ -11,6 +11,11 @@ import {
   IMAGE_GALLERY_OPTIONS_KEY,
   IMAGE_GALLERY_SERVICE_KEY,
 } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
+import {
+  BarCustomAction,
+  BarCustomActionRequest,
+} from 'projects/myrmidon/cadmus-ui-custom-action-bar/src/public-api';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-img-gallery-pg',
@@ -23,12 +28,14 @@ export class ImgGalleryPgComponent {
   public tabIndex: number;
 
   public annotations?: GalleryImageAnnotation[];
+  public actions: BarCustomAction[];
 
   constructor(
     @Inject(IMAGE_GALLERY_SERVICE_KEY)
     private _galleryService: GalleryService,
     @Inject(IMAGE_GALLERY_OPTIONS_KEY)
-    private _options: GalleryOptions
+    private _options: GalleryOptions,
+    private _snackbar: MatSnackBar
   ) {
     this.tabIndex = 0;
     this.entries = [
@@ -39,6 +46,13 @@ export class ImgGalleryPgComponent {
       {
         id: 'dsc',
         value: 'description',
+      },
+    ];
+    this.actions = [
+      {
+        id: 'test',
+        iconId: 'thumb_up',
+        tip: 'Test',
       },
     ];
   }
@@ -58,5 +72,10 @@ export class ImgGalleryPgComponent {
 
   public onAnnotationsChange(annotations: GalleryImageAnnotation[]): void {
     this.annotations = annotations;
+  }
+
+  public onActionRequest(action: BarCustomActionRequest): void {
+    console.log('action', JSON.stringify(action));
+    this._snackbar.open('Action: ' + action.id, 'OK');
   }
 }

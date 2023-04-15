@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { AnnotationEvent } from '@myrmidon/cadmus-img-annotator';
 
 import { GalleryImage } from '../../models';
+import { BarCustomAction, BarCustomActionRequest } from '@myrmidon/cadmus-ui-custom-action-bar';
 
 /**
  * Essential metadata mostly extracted from the W3C annotation produced
@@ -24,6 +25,9 @@ export interface GalleryImageAnnotation {
   tags?: string[];
 }
 
+/**
+ * The data for the gallery image annotator.
+ */
 interface GalleryImgAnnotatorData {
   image?: GalleryImage;
   annotations: GalleryImageAnnotation[];
@@ -96,10 +100,22 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Custom actions on annotations.
+   */
+  @Input()
+  public customActions?: BarCustomAction[];
+
+  /**
    * Emitted whenever annotations change.
    */
   @Output()
   public annotationsChange: EventEmitter<GalleryImageAnnotation[]>;
+
+  /**
+   * Emitted when user requests a custom action on an annotation.
+   */
+  @Output()
+  public actionRequest: EventEmitter<BarCustomActionRequest>;
 
   constructor() {
     this.w3cAnnotations = [];
@@ -108,6 +124,7 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
     });
     this.data$ = this._data$.asObservable();
     this.annotationsChange = new EventEmitter<GalleryImageAnnotation[]>();
+    this.actionRequest = new EventEmitter<BarCustomActionRequest>();
   }
 
   private eventToAnnotation(event: AnnotationEvent): GalleryImageAnnotation {
@@ -252,5 +269,9 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
 
   public selectAnnotation(index: number): void {
     this.selectedW3cAnnotation = this.w3cAnnotations[index];
+  }
+
+  public onActionRequest(event: BarCustomActionRequest) {
+    this.actionRequest.emit(event);
   }
 }
