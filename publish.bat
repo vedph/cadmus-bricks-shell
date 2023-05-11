@@ -30,17 +30,17 @@ call npm publish --access=public
 cd ..\..\..
 pause
 
+cd .\dist\myrmidon\cadmus-refs-asserted-chronotope
+call npm publish --access=public
+cd ..\..\..
+pause
+
 cd .\dist\myrmidon\cadmus-refs-asserted-ids
 call npm publish --access=public
 cd ..\..\..
 pause
 
 cd .\dist\myrmidon\cadmus-refs-assertion
-call npm publish --access=public
-cd ..\..\..
-pause
-
-cd .\dist\myrmidon\cadmus-refs-asserted-chronotope
 call npm publish --access=public
 cd ..\..\..
 pause
