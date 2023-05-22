@@ -1,0 +1,43 @@
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.form-row * {
+  flex: 0 0 auto;
+}
+.short-text {
+  width: 8em;
+}
+.pin-info {
+  font-size: 90%;
+  color: silver;
+}
+fieldset {
+  border: 1px solid silver;
+  border-radius: 6px;
+  padding: 6px;
+}
+.info {
+  border: 1px solid silver;
+  border-radius: 6px;
+  background-color: silver;
+  color: white;
+  padding: 4px;
+}
+.info .label {
+  background-color: white;
+  color: silver;
+  margin: 0 6px;
+}
+/* lt-md */
+@media only screen and (max-width: 959px) {
+  div#container {
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "editor"
+      "lookup";
+  }
+}

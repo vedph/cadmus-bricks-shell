@@ -1,0 +1,13 @@
+th {
+  font-weight: normal;
+  color: silver;
+  text-align: left;
+}
+td {
+  padding-right: 4px;
+}
+td.fit-width {
+  width: 1px;
+  white-space: nowrap;
+  padding: 0;
+}

@@ -1,0 +1,247 @@
+<form [formGroup]="form" (submit)="save()">
+  <!-- external -->
+  <mat-checkbox [formControl]="external">external</mat-checkbox>
+
+  <div class="form-row">
+    <!-- label -->
+    <div>
+      <mat-form-field *ngIf="external.value || canEditTarget">
+        <mat-label>label</mat-label>
+        <input matInput [formControl]="label" />
+        <mat-error
+          *ngIf="$any(label).errors?.required && (label.dirty || label.touched)"
+          >label required</mat-error
+        >
+        <mat-error
+          *ngIf="
+            $any(label).errors?.maxLength && (label.dirty || label.touched)
+          "
+          >label too long</mat-error
+        >
+      </mat-form-field>
+      <div
+        *ngIf="!external.value && !canEditTarget && label.value"
+        class="info"
+      >
+        <span class="label">label</span>{{ label.value }}
+      </div>
+    </div>
+
+    <!-- gid -->
+    <div>
+      <mat-form-field *ngIf="external.value || canEditTarget">
+        <mat-label>GID</mat-label>
+        <input matInput [formControl]="gid" />
+        <mat-error
+          *ngIf="$any(gid).errors?.required && (gid.dirty || gid.touched)"
+          >GID required</mat-error
+        >
+        <mat-error
+          *ngIf="$any(gid).errors?.maxLength && (gid.dirty || gid.touched)"
+          >GID too long</mat-error
+        >
+      </mat-form-field>
+      <div *ngIf="!external.value && !canEditTarget && gid.value" class="info">
+        <span class="label">GID</span> <span class="gid">{{ gid.value }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BY ITEM -->
+  <div *ngIf="!external.value">
+    <fieldset *ngIf="!byTypeMode.value" class="form-row">
+      <legend>pin filters</legend>
+      <!-- item filter -->
+      <cadmus-ref-lookup
+        [service]="itemLookupService"
+        label="item"
+        (itemChange)="onItemLookupChange($event)"
+      ></cadmus-ref-lookup>
+
+      <!-- part filter -->
+      <mat-form-field *ngIf="itemParts.length">
+        <mat-label>part</mat-label>
+        <mat-select [formControl]="itemPart">
+          <mat-option [value]="null">(any)</mat-option>
+          <mat-option *ngFor="let p of itemParts" [value]="p">{{
+            p.typeId | flatLookup : modelEntries : "id" : "value"
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+
+    <!-- BY TYPE -->
+    <div *ngIf="byTypeMode.value">
+      <!-- par type filter -->
+      <mat-form-field *ngIf="partTypeKeys?.length">
+        <mat-label>part type</mat-label>
+        <mat-select [formControl]="partTypeKey">
+          <mat-option *ngFor="let k of partTypeKeys" [value]="k">{{
+            k
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- PIN -->
+    <div class="form-row">
+      <!-- pin lookup -->
+      <cadmus-ref-lookup
+        [service]="pinLookupService"
+        [baseFilter]="filter"
+        [options]="pinFilterOptions"
+        label="pin"
+        (itemChange)="onPinLookupChange($event)"
+      ></cadmus-ref-lookup>
+      <!-- mode switcher -->
+      <div>
+        <mat-checkbox [formControl]="byTypeMode" *ngIf="canSwitchMode">
+          by type</mat-checkbox
+        >
+      </div>
+    </div>
+
+    <!-- data -->
+    <mat-expansion-panel id="data" *ngIf="lookupData?.pin?.name">
+      <mat-expansion-panel-header>pin data</mat-expansion-panel-header>
+      <!-- table -->
+      <table>
+        <thead>
+          <th></th>
+          <th>source</th>
+          <th>value</th>
+        </thead>
+        <tbody>
+          <!-- pin -->
+          <tr *ngIf="lookupData?.pin?.value">
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                [cdkCopyToClipboard]="lookupData!.pin!.value"
+                (cdkCopyToClipboardCopied)="onCopied()"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </td>
+            <td>pin</td>
+            <td>{{ lookupData!.pin.value }}</td>
+          </tr>
+          <!-- item ID -->
+          <tr *ngIf="lookupData?.pin?.itemId">
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                [cdkCopyToClipboard]="lookupData!.pin!.itemId"
+                (cdkCopyToClipboardCopied)="onCopied()"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </td>
+            <td>item ID</td>
+            <td>{{ lookupData!.pin.itemId }}</td>
+          </tr>
+          <!-- item title -->
+          <tr *ngIf="lookupData?.item?.title">
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                [cdkCopyToClipboard]="lookupData!.item!.title"
+                (cdkCopyToClipboardCopied)="onCopied()"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </td>
+            <td>item title</td>
+            <td>{{ lookupData!.item!.title }}</td>
+          </tr>
+          <!-- part ID -->
+          <tr *ngIf="lookupData?.pin?.partId">
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                [cdkCopyToClipboard]="lookupData!.pin!.partId"
+                (cdkCopyToClipboardCopied)="onCopied()"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </td>
+            <td>part ID</td>
+            <td>{{ lookupData!.pin.partId }}</td>
+          </tr>
+          <!-- part type ID -->
+          <tr *ngIf="lookupData?.pin?.partTypeId">
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                [cdkCopyToClipboard]="lookupData!.pin!.partTypeId"
+                (cdkCopyToClipboardCopied)="onCopied()"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </td>
+            <td>part type ID</td>
+            <td>{{ lookupData!.pin!.partTypeId }}</td>
+          </tr>
+          <!-- part role ID -->
+          <tr *ngIf="lookupData?.pin?.roleId">
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                [cdkCopyToClipboard]="lookupData!.pin!.roleId!"
+                (cdkCopyToClipboardCopied)="onCopied()"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </td>
+            <td>part role ID</td>
+            <td>{{ lookupData!.pin!.roleId }}</td>
+          </tr>
+
+          <!-- part's metadata -->
+          <tr
+            *ngFor="
+              let m of lookupData?.metaPart?.metadata || [];
+              let i = index
+            "
+          >
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                [cdkCopyToClipboard]="m.value"
+                (cdkCopyToClipboardCopied)="onCopied()"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </td>
+            <td class="metadata">{{ m.name }}</td>
+            <td class="metadata">{{ m.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-expansion-panel>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button mat-flat-button type="button" (click)="close()">
+      <mat-icon color="warn">close</mat-icon>
+    </button>
+    <button mat-flat-button type="submit" [disabled]="form.invalid">
+      <mat-icon color="primary">check_circle</mat-icon> target
+    </button>
+  </div>
+</form>

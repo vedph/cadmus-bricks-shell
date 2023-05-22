@@ -1,0 +1,100 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <div class="form-row">
+      <!-- tag (bound) -->
+      <mat-form-field *ngIf="idTagEntries?.length" class="short-text">
+        <mat-label>tag</mat-label>
+        <mat-select [formControl]="tag">
+          <mat-option *ngFor="let e of idTagEntries" [value]="e.id">{{
+            e.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- tag (free) -->
+      <mat-form-field *ngIf="!idTagEntries?.length" class="short-text">
+        <mat-label>tag</mat-label>
+        <input matInput [formControl]="tag" />
+        <mat-error *ngIf="tag.errors?.maxLength && (tag.dirty || tag.touched)"
+          >tag too long</mat-error
+        >
+      </mat-form-field>
+
+      <!-- scope (bound) -->
+      <mat-form-field *ngIf="idScopeEntries?.length" class="short-text">
+        <mat-label>scope</mat-label>
+        <mat-select [formControl]="scope">
+          <mat-option *ngFor="let e of idScopeEntries" [value]="e.id">{{
+            e.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- scope (free) -->
+      <mat-form-field *ngIf="!idScopeEntries?.length" class="short-text">
+        <mat-label>scope</mat-label>
+        <input matInput [formControl]="scope" />
+        <mat-error
+          *ngIf="scope.errors?.maxLength && (scope.dirty || scope.touched)"
+          >scope too long</mat-error
+        >
+      </mat-form-field>
+
+      <!-- label and GID -->
+      <div class="info" *ngIf="target.value?.label">
+        <span class="label">label</span>{{ target.value?.label }}
+      </div>
+      <div class="info" *ngIf="target.value?.gid">
+        <span class="label">GID</span>{{ target.value?.gid }}
+      </div>
+    </div>
+
+    <!-- target -->
+    <div>
+      <mat-expansion-panel [(expanded)]="targetExpanded">
+        <mat-expansion-panel-header>target</mat-expansion-panel-header>
+        <cadmus-pin-target-lookup
+          [pinByTypeMode]="pinByTypeMode"
+          [canSwitchMode]="canSwitchMode"
+          [canEditTarget]="canEditTarget"
+          [lookupDefinitions]="lookupDefinitions"
+          [target]="target.value"
+          (targetChange)="onTargetChange($event)"
+        ></cadmus-pin-target-lookup>
+      </mat-expansion-panel>
+    </div>
+
+    <!-- assertion -->
+    <br />
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>assertion</mat-expansion-panel-header>
+      <cadmus-refs-assertion
+        [assTagEntries]="assTagEntries"
+        [refTypeEntries]="refTypeEntries"
+        [refTagEntries]="refTagEntries"
+        [assertion]="assertion.value"
+        (assertionChange)="onAssertionChange($event)"
+      >
+      </cadmus-refs-assertion>
+    </mat-expansion-panel>
+  </div>
+
+  <!-- buttons -->
+  <div *ngIf="hasSubmit">
+    <button
+      mat-icon-button
+      color="warn"
+      type="button"
+      (click)="cancel()"
+      [disabled]="!this.target.value?.gid || !this.target.value?.label"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

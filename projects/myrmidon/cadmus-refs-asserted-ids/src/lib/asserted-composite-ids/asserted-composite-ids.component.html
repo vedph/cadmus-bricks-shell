@@ -1,0 +1,93 @@
+<form [formGroup]="form">
+  <!-- buttons -->
+  <button type="button" color="primary" mat-flat-button (click)="addId()">
+    <mat-icon>add_circle</mat-icon> ID
+  </button>
+  <!-- list -->
+  <table *ngIf="entries.value?.length">
+    <thead>
+      <tr>
+        <th></th>
+        <th>scope</th>
+        <th>label</th>
+        <th>value</th>
+        <th>ass.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let entry of entries.value;
+          let i = index;
+          let first = first;
+          let last = last
+        "
+      >
+        <td class="fit-width">
+          <button
+            type="button"
+            mat-icon-button
+            color="primary"
+            matTooltip="Edit this ID"
+            (click)="editId(entry, i)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Move this ID up"
+            [disabled]="first"
+            (click)="moveIdUp(i)"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Move this ID down"
+            [disabled]="last"
+            (click)="moveIdDown(i)"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            color="warn"
+            matTooltip="Delete this ID"
+            (click)="deleteId(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </td>
+        <td>{{ entry.scope }}</td>
+        <td>{{ entry?.target?.label }}</td>
+        <td>{{ entry?.target?.gid }}</td>
+        <td>{{ entry?.assertion ? "Y" : "N" }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- editor -->
+  <mat-expansion-panel [expanded]="edited" [disabled]="!edited">
+    <mat-expansion-panel-header
+      >ID {{ edited?.target?.label }}</mat-expansion-panel-header
+    >
+    <cadmus-refs-asserted-composite-id
+      [idScopeEntries]="idScopeEntries"
+      [idTagEntries]="idTagEntries"
+      [assTagEntries]="assTagEntries"
+      [refTypeEntries]="refTypeEntries"
+      [refTagEntries]="refTagEntries"
+      [hasSubmit]="true"
+      [pinByTypeMode]="pinByTypeMode"
+      [canSwitchMode]="canSwitchMode"
+      [canEditTarget]="canEditTarget"
+      [lookupDefinitions]="lookupDefinitions"
+      [id]="edited"
+      (idChange)="onIdChange($event)"
+      (editorClose)="closeId()"
+    ></cadmus-refs-asserted-composite-id>
+  </mat-expansion-panel>
+</form>

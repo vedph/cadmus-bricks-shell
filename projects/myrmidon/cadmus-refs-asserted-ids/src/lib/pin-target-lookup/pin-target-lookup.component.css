@@ -1,0 +1,56 @@
+.metadata {
+  color: rgb(74, 48, 1);
+}
+.info {
+  border: 1px solid silver;
+  border-radius: 6px;
+  background-color: silver;
+  color: white;
+  padding: 4px;
+  margin: 8px 0;
+}
+.info .label {
+  background-color: white;
+  color: silver;
+  margin: 0 6px;
+}
+#data {
+  margin: 8px 0;
+}
+table {
+  border: 1px solid silver;
+  border-radius: 6px;
+  padding: 4px 4px 4px;
+  margin-top: 8px;
+}
+tr:nth-child(odd) {
+  background-color: #f0f0f0;
+}
+th {
+  font-weight: normal;
+  text-align: left;
+  color: silver;
+}
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.form-row * {
+  flex: 0 0 auto;
+}
+.label {
+  border: 1px solid silver;
+  border-radius: 6px;
+  padding: 4px;
+}
+fieldset {
+  border: 1px solid silver;
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin-bottom: 8px;
+}
+legend {
+  color: silver;
+}

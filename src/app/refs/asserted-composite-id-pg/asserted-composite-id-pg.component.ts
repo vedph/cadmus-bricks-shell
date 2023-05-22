@@ -1,22 +1,39 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
-import { AssertedId } from 'projects/myrmidon/cadmus-refs-asserted-ids/src/lib/asserted-id/asserted-id.component';
+import { AssertedCompositeId } from 'projects/myrmidon/cadmus-refs-asserted-ids/src/public-api';
 
 @Component({
-  selector: 'app-asserted-ids-pg',
-  templateUrl: './asserted-ids-pg.component.html',
-  styleUrls: ['./asserted-ids-pg.component.css'],
+  selector: 'app-asserted-composite-id-pg',
+  templateUrl: './asserted-composite-id-pg.component.html',
+  styleUrls: ['./asserted-composite-id-pg.component.css'],
 })
-export class AssertedIdsPgComponent implements OnInit {
-  public ids?: AssertedId[];
+export class AssertedCompositeIdPgComponent implements OnInit {
+  // form
+  public pinByTypeMode: FormControl<boolean>;
+  public canSwitchMode: FormControl<boolean>;
+  public canEditTarget: FormControl<boolean>;
+  public form: FormGroup;
+  // data
+  public id?: AssertedCompositeId;
   public idScopeEntries: ThesaurusEntry[];
   public idTagEntries: ThesaurusEntry[];
   public assTagEntries: ThesaurusEntry[];
   public refTypeEntries: ThesaurusEntry[];
   public refTagEntries: ThesaurusEntry[];
 
-  constructor() {
+  constructor(formBuilder: FormBuilder) {
+    // form
+    this.pinByTypeMode = formBuilder.control(false, { nonNullable: true });
+    this.canSwitchMode = formBuilder.control(false, { nonNullable: true });
+    this.canEditTarget = formBuilder.control(false, { nonNullable: true });
+    this.form = formBuilder.group({
+      pinByTypeMode: this.pinByTypeMode,
+      canSwitchMode: this.canSwitchMode,
+      canEditTarget: this.canEditTarget,
+    });
+    // data
     this.idScopeEntries = [
       {
         id: 'scope1',
@@ -83,18 +100,11 @@ export class AssertedIdsPgComponent implements OnInit {
         value: '---',
       },
     ];
-
-    this.ids = [
-      {
-        value: 'http://some-resources/stuff/alpha',
-        scope: '-',
-      },
-    ];
   }
 
   ngOnInit(): void {}
 
-  public onIdsChange(ids: AssertedId[]): void {
-    this.ids = ids;
+  public onIdChange(id: AssertedCompositeId | undefined): void {
+    this.id = id;
   }
 }

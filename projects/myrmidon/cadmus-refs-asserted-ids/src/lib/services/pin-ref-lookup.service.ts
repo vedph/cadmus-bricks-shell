@@ -10,6 +10,16 @@ import {
 import { DataPage, ErrorWrapper } from '@myrmidon/ng-tools';
 
 /**
+ * Pin-based lookup filter. This is a RefLookupFilter with the addition
+ * of the item ID and part ID, which are used to filter the results
+ * by the ItemPinLookupComponent.
+ */
+export interface PinRefLookupFilter extends RefLookupFilter {
+  itemId?: string;
+  partId?: string;
+}
+
+/**
  * Cadmus pin-based lookup data service. The text being searched here is just
  * the pin's value, according to the options specified. These options correspond
  * to an index lookup definition. The resulting items are of type DataPinInfo.
@@ -24,7 +34,10 @@ export class PinRefLookupService implements RefLookupService {
     return item?.value || '';
   }
 
-  private buildQuery(def: IndexLookupDefinition, text?: string): string {
+  private buildQuery(
+    def: IndexLookupDefinition,
+    filter: PinRefLookupFilter
+  ): string {
     const sb: string[] = [];
     const AND = ' AND ';
 
@@ -43,18 +56,30 @@ export class PinRefLookupService implements RefLookupService {
       }
       sb.push(`[name=${def.name}]`);
     }
-    if (text) {
+    if (filter.itemId) {
+      if (sb.length) {
+        sb.push(AND);
+      }
+      sb.push(`[itemId=${filter.itemId}]`);
+    }
+    if (filter.partId) {
+      if (sb.length) {
+        sb.push(AND);
+      }
+      sb.push(`[partId=${filter.partId}]`);
+    }
+    if (filter.text) {
       if (sb.length) {
         sb.push(AND);
       }
       // for other operators see backend SqlQueryBuilderBase.cs
-      sb.push(`[value*=${text}]`);  // *= is "contains"
+      sb.push(`[value*=${filter.text}]`); // *= is "contains"
     }
 
     return sb.join('');
   }
 
-  public lookup(filter: RefLookupFilter, options?: any): Observable<any[]> {
+  public lookup(filter: PinRefLookupFilter, options?: any): Observable<any[]> {
     // the index lookup definition is required
     const def = options as IndexLookupDefinition;
     if (!def) {
@@ -62,7 +87,7 @@ export class PinRefLookupService implements RefLookupService {
     }
 
     // build the corresponding pin query
-    const query = this.buildQuery(def, filter.text);
+    const query = this.buildQuery(def, filter);
 
     // search the index
     return this._itemService.searchPins(query, 1, filter.limit).pipe(

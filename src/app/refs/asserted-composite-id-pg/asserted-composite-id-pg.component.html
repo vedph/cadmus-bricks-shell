@@ -1,0 +1,34 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Asserted ID</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" class="form-row">
+      <mat-checkbox [formControl]="pinByTypeMode"
+        >pin by-type mode</mat-checkbox
+      >
+      <mat-checkbox [formControl]="canSwitchMode">can switch mode</mat-checkbox>
+      <mat-checkbox [formControl]="canEditTarget"
+        >can edit internal GID/label</mat-checkbox
+      >
+    </form>
+    <hr />
+    <cadmus-refs-asserted-composite-id
+      [idScopeEntries]="idScopeEntries"
+      [idTagEntries]="idTagEntries"
+      [assTagEntries]="assTagEntries"
+      [refTagEntries]="refTagEntries"
+      [refTypeEntries]="refTypeEntries"
+      [pinByTypeMode]="pinByTypeMode.value"
+      [canSwitchMode]="canSwitchMode.value"
+      [canEditTarget]="canEditTarget.value"
+      [id]="id"
+      (idChange)="onIdChange($event)"
+    ></cadmus-refs-asserted-composite-id>
+    <div *ngIf="id">
+      <pre>{{ id | json }}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>

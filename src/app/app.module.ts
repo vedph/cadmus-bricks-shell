@@ -33,7 +33,11 @@ import {
   CadmusCoreModule,
   IndexLookupDefinitions,
 } from '@myrmidon/cadmus-core';
-import { CadmusApiModule, ItemService } from '@myrmidon/cadmus-api';
+import {
+  CadmusApiModule,
+  ItemService,
+  ThesaurusService,
+} from '@myrmidon/cadmus-api';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -69,34 +73,38 @@ import {
   SimpleIiifGalleryOptions,
   SimpleIiifGalleryService,
 } from 'projects/myrmidon/cadmus-img-gallery-iiif/src/public-api';
+import { CadmusSdimgGalleryModule } from 'projects/myrmidon/cadmus-sdimg-gallery/src/public-api';
 
-import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/asserted-chronotope-pg.component';
+import { MockItemService } from './services/mock-item.service';
+import { MockThesaurusService } from './services/mock-thesaurus.service';
+
 import { AssertedChronotopeSetPgComponent } from './refs/asserted-chronotope-set-pg/asserted-chronotope-set-pg.component';
+import { AssertedChronotopePgComponent } from './refs/asserted-chronotope-pg/asserted-chronotope-pg.component';
+import { AssertedCompositeIdPgComponent } from './refs/asserted-composite-id-pg/asserted-composite-id-pg.component';
+import { AssertedCompositeIdsPgComponent } from './refs/asserted-composite-ids-pg/asserted-composite-ids-pg.component';
 import { AssertedIdPgComponent } from './refs/asserted-id-pg/asserted-id-pg.component';
 import { AssertedIdsPgComponent } from './refs/asserted-ids-pg/asserted-ids-pg.component';
 import { AssertionPgComponent } from './refs/assertion-pg/assertion-pg.component';
-import { ChronotopePgComponent } from './refs/chronotope-pg/chronotope-pg.component';
 import { CodLocationPgComponent } from './cod/cod-location-pg/cod-location-pg.component';
+import { CustomActionBarPgComponent } from './ui/custom-action-bar-pg/custom-action-bar-pg.component';
+import { ChronotopePgComponent } from './refs/chronotope-pg/chronotope-pg.component';
+import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
+import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
+import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
 import { DecoratedCountsPgComponent } from './refs/decorated-counts-pg/decorated-counts-pg.component';
 import { DecoratedIdsPgComponent } from './refs/decorated-ids-pg/decorated-ids-pg.component';
 import { DocReferencesPgComponent } from './refs/doc-references-pg/doc-references-pg.component';
-import { ExternalIdsPgComponent } from './refs/external-ids-pg/external-ids-pg.component';
-import { FlagsPickerPgComponent } from './ui/flags-picker-pg/flags-picker-pg.component';
+import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
 import { HistoricalDatePgComponent } from './refs/historical-date-pg/historical-date-pg.component';
 import { ImgAnnotatorPgComponent } from './img/img-annotator-pg/img-annotator-pg.component';
 import { ImgGalleryPgComponent } from './img/img-gallery-pg/img-gallery-pg.component';
-import { MockItemService } from './services/mock-item.service';
-import { NoteSetPgComponent } from './ui/note-set-pg/note-set-pg.component';
-import { ProperNamePgComponent } from './refs/proper-name-pg/proper-name-pg.component';
-import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg.component';
-import { RefLookupDummyOptComponent } from './refs/ref-lookup-dummy-opt/ref-lookup-dummy-opt.component';
 import { RefLookupPgComponent } from './refs/ref-lookup-pg/ref-lookup-pg.component';
+import { NoteSetPgComponent } from './ui/note-set-pg/note-set-pg.component';
+import { PhysicalSizePgComponent } from './mat/physical-size-pg/physical-size-pg.component';
 import { SdImgAnnotatorPgComponent } from './img/sd-img-annotator-pg/sd-img-annotator-pg.component';
 import { SdImgGalleryPgComponent } from './img/sd-img-gallery-pg/sd-img-gallery-pg.component';
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
-import { CadmusSdimgGalleryModule } from 'projects/myrmidon/cadmus-sdimg-gallery/src/public-api';
-import { CustomActionBarPgComponent } from './ui/custom-action-bar-pg/custom-action-bar-pg.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -122,6 +130,8 @@ export function initElfDevTools(actions: Actions) {
     HomeComponent,
     AssertedChronotopePgComponent,
     AssertedChronotopeSetPgComponent,
+    AssertedCompositeIdPgComponent,
+    AssertedCompositeIdsPgComponent,
     AssertionPgComponent,
     AssertedIdPgComponent,
     AssertedIdsPgComponent,
@@ -171,6 +181,14 @@ export function initElfDevTools(actions: Actions) {
         { path: 'refs/assertion', component: AssertionPgComponent },
         { path: 'refs/asserted-id', component: AssertedIdPgComponent },
         { path: 'refs/asserted-ids', component: AssertedIdsPgComponent },
+        {
+          path: 'refs/asserted-composite-id',
+          component: AssertedCompositeIdPgComponent,
+        },
+        {
+          path: 'refs/asserted-composite-ids',
+          component: AssertedCompositeIdsPgComponent,
+        },
         { path: 'refs/chronotope', component: ChronotopePgComponent },
         {
           path: 'refs/asserted-chronotope',
@@ -185,7 +203,10 @@ export function initElfDevTools(actions: Actions) {
         { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
         { path: 'ui/note-set', component: NoteSetPgComponent },
-        { path: 'ui/custom-actions-bar', component: CustomActionBarPgComponent },
+        {
+          path: 'ui/custom-actions-bar',
+          component: CustomActionBarPgComponent,
+        },
         { path: 'text/text-block-view', component: TextBlockViewPgComponent },
         { path: 'mat/physical-size', component: PhysicalSizePgComponent },
         { path: 'cod/location', component: CodLocationPgComponent },
@@ -245,7 +266,7 @@ export function initElfDevTools(actions: Actions) {
     CadmusUiNoteSetModule,
   ],
   providers: [
-    // index lookup definitions
+    // mocks for lookup
     {
       provide: 'indexLookupDefinitions',
       useValue: INDEX_LOOKUP_DEFINITIONS,
@@ -253,6 +274,10 @@ export function initElfDevTools(actions: Actions) {
     {
       provide: ItemService,
       useClass: MockItemService,
+    },
+    {
+      provide: ThesaurusService,
+      useClass: MockThesaurusService,
     },
     // ELF dev tools
     {
