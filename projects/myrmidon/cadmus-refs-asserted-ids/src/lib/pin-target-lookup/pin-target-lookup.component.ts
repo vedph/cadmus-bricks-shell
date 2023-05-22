@@ -89,7 +89,7 @@ export interface PinTarget {
 export class PinTargetLookupComponent implements OnInit, OnDestroy {
   private _subs: Subscription[];
   private _target: PinTarget | undefined;
-  private _noFormUpdate?: boolean;
+  private _noTargetUpdate?: boolean;
   private _startWithByTypeMode?: boolean;
 
   /**
@@ -268,14 +268,6 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     }
   }
 
-  private canBuildGid(): boolean {
-    return (!this.external.value && !this.gid.value) || this.gid.pristine;
-  }
-
-  private canBuildLabel(): boolean {
-    return (!this.external.value && !this.label.value) || this.label.pristine;
-  }
-
   public ngOnInit(): void {
     // set start mode if required
     if (this._startWithByTypeMode) {
@@ -349,7 +341,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     // the GID is the part ID if any, or the item ID, followed by
     // the pin's value (=EID)
     const pin = this.lookupData?.pin;
-    if (!pin) {
+    if (!pin?.value) {
       return null;
     }
     return pin.partId
@@ -363,20 +355,24 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     }
     const sb: string[] = [];
     // pin value
-    sb.push(this.lookupData.pin.value!);
-    // item title
-    sb.push(' | ');
-    sb.push(this.lookupData.item!.title || this.lookupData.item!.id);
-    // part type and role
-    const e = this.modelEntries?.find(
-      (e) => e.id === this.lookupData!.pin.partTypeId
-    );
-    sb.push(' (');
-    sb.push(e?.value || this.lookupData.pin.partTypeId);
-    if (this.lookupData.pin.roleId) {
-      sb.push(`, ${this.lookupData.pin.roleId}`);
+    if (this.lookupData.pin.value) {
+      sb.push(this.lookupData.pin.value);
+      sb.push(' | ');
     }
-    sb.push(')');
+    // item title
+    sb.push(this.lookupData.item?.title || this.lookupData.pin?.itemId);
+    // part type and role
+    if (this.lookupData.pin.partTypeId) {
+      const e = this.modelEntries?.find(
+        (e) => e.id === this.lookupData!.pin.partTypeId
+      );
+      sb.push(' (');
+      sb.push(e?.value || this.lookupData.pin.partTypeId);
+      if (this.lookupData.pin.roleId) {
+        sb.push(`, ${this.lookupData.pin.roleId}`);
+      }
+      sb.push(')');
+    }
     return sb.join('');
   }
 
@@ -389,45 +385,43 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     } else {
       const pin = this.lookupData?.pin;
       return {
+        gid: this.gid.value || '',
+        label: this.label.value || '',
         itemId: pin?.itemId || '',
         partId: pin?.partId || '',
         partTypeId: pin?.partTypeId || '',
         roleId: pin?.roleId || '',
         name: pin?.name || '',
         value: pin?.value || '',
-        gid: pin?.value || '',
-        label: pin?.value || '',
       };
     }
   }
 
   private updateTarget(): void {
-    this._noFormUpdate = true;
-
-    if (this.canBuildGid()) {
-      this.gid.setValue(this.buildGid());
-      this.gid.markAsDirty();
+    if (this._noTargetUpdate) {
+      return;
     }
-    if (this.canBuildLabel()) {
+    if (!this.external.value) {
+      this.gid.setValue(this.buildGid());
+      this.gid.updateValueAndValidity();
+      this.gid.markAsDirty();
       this.label.setValue(this.buildLabel());
+      this.label.updateValueAndValidity();
       this.label.markAsDirty();
     }
-    this.target = this.getTarget();
-
-    this._noFormUpdate = false;
+    this._target = this.getTarget();
   }
 
   private updateForm(target?: PinTarget): void {
-    if (this._noFormUpdate) {
-      return;
-    }
     // build pin info from target
     if (!target) {
       this.lookupData = undefined;
       this.form.reset();
       return;
     }
-    this.external.setValue(!target.name);
+    this._noTargetUpdate = true;
+    this.gid.setValue(target.gid || '');
+    this.label.setValue(target.label || '');
     this.lookupData = {
       pin: {
         itemId: target.itemId || '',
@@ -444,13 +438,22 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
         next: (item) => {
           this.item.setValue(item);
           this.form.markAsPristine();
+          this._noTargetUpdate = false;
+          this.external.setValue(!target.name);
+          this.updateTarget();
         },
         error: (error) => {
           if (error) {
             console.error(JSON.stringify(error));
           }
+          this.external.setValue(!target.name);
+          this._noTargetUpdate = false;
         },
       });
+    } else {
+      this.external.setValue(!target.name);
+      this._noTargetUpdate = false;
+      this.updateTarget();
     }
   }
 

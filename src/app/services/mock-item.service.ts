@@ -119,7 +119,7 @@ export class MockItemService {
             itemId: this.getNextGuid(EIDS.indexOf(eid) + 1),
             partId: this.getNextGuid(),
             roleId: null,
-            partTypeId: 'type',
+            partTypeId: 'it.vedph.metadata',
             name: 'eid',
             value: eid,
           };

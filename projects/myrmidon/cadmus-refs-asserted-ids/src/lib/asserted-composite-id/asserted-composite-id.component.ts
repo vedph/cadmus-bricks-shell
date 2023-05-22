@@ -204,6 +204,10 @@ export class AssertedCompositeIdComponent implements OnInit {
     }
   }
 
+  public onEditorClose(): void {
+    this.targetExpanded = false;
+  }
+
   public cancel(): void {
     this.editorClose.emit();
   }
