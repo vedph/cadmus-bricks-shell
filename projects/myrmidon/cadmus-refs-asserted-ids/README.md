@@ -2,7 +2,19 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
 
-## Model
+- [CadmusRefsAssertedIds](#cadmusrefsassertedids)
+  - [Asserted ID](#asserted-id)
+    - [Behavior](#behavior)
+    - [Using Scoped ID Lookup](#using-scoped-id-lookup)
+  - [Asserted Composite ID](#asserted-composite-id)
+    - [Components API](#components-api)
+      - [AssertedCompositeIdsComponent](#assertedcompositeidscomponent)
+      - [AssertedCompositeIdComponent](#assertedcompositeidcomponent)
+      - [PinTargetLookupComponent](#pintargetlookupcomponent)
+    - [Target ID Editor](#target-id-editor)
+    - [Using PinTargetLookupComponent](#using-pintargetlookupcomponent)
+
+## Asserted ID
 
 The asserted ID and asserted IDs bricks provide a way to include external or internal references to resource identifiers, whatever their type and origin.
 
@@ -15,7 +27,7 @@ The asserted ID brick allows editing a simple model representing such IDs, havin
 
 The asserted IDs brick is just a collection of such IDs.
 
-## Behavior
+### Behavior
 
 In both cases, the component provides a special mechanism for internal, pin-based lookup. In most cases, human users prefer to adopt friendly IDs, which are unique only in the context of their editing environment. Such identifiers are typically named EIDs (entity IDs), and may be found scattered among parts, or linked to items via a metadata part.
 
@@ -42,7 +54,7 @@ The user can then use buttons to append each of these components to the ID being
 
 >👉 The demo found in this workspace uses a [mock data service](../../../src/app/services/mock-item.service.ts) instead of the real one, which provides a minimal set of data and functions, just required for the components to function.
 
-## Using Scoped ID Lookup
+### Using Scoped ID Lookup
 
 Apart from the IDs list, you can use the scoped ID lookup control to add a pin-based lookup for any entity in your own UI:
 
@@ -70,6 +82,150 @@ public onIdPick(id: string): void {
 ```
 
 (3) in your app's `index-lookup-definitions.ts` file, add the required lookup definitions. Each definition has a conventional key, and is an object with part type ID for the lookup scope, and pin name, e.g.:
+
+```ts
+import { IndexLookupDefinitions } from '@myrmidon/cadmus-core';
+import {
+  METADATA_PART_TYPEID,
+  HISTORICAL_EVENTS_PART_TYPEID,
+} from '@myrmidon/cadmus-part-general-ui';
+
+export const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
+  // item's metadata
+  meta_eid: {
+    typeId: METADATA_PART_TYPEID,
+    name: 'eid',
+  },
+  // general parts
+  event_eid: {
+    typeId: HISTORICAL_EVENTS_PART_TYPEID,
+    name: 'eid',
+  },
+  // ... etc.
+};
+```
+
+>Note that while pin name and type will not be displayed to the end user, the key of each definition will. Unless you have a single definition, the lookup component will display a dropdown list with all the available keys, so that the user can select the lookup's scope. So, use short, yet meaningful keys here, like in the above sample (`meta_eid`, `event_eid`).
+
+## Asserted Composite ID
+
+The asserted composite ID and asserted composite IDs bricks provide a way to include _external_ or _internal_ references to resource identifiers, whatever their type and origin.
+
+The asserted ID brick allows editing a collection of asserted IDs (`AssertedId`), where each ID has:
+
+- a `target`, representing the pin-based target of the ID. The target model has these properties:
+  - `itemId` for the item the pin derives from;
+  - when the pin derives from a part, an optional `partId`, `partTypeId`, `roleId`;
+  - `name` and `value` of the pin;
+  - a global ID, `gid`, built in various ways from the pin;
+  - a human-friendly `label` for the target, built in various ways from the pin.
+- an optional `scope`, representing the context the ID originates from (e.g. an ontology, a repository, a website, etc.).
+- an optional `tag`, eventually used to group or classify the ID.
+- an optional `assertion`, eventually used to define the uncertainty level of the assignment of this ID to the context it applies to.
+
+When the ID is external, the only properties set for the target model are `gid` (=the ID) and `label`. You can easily distinguish between an external and internal ID by looking at a property like name, which is always present for internal IDs, and never present for external IDs.
+
+Three components are used for this brick:
+
+- `AssertedCompositeIdsComponent`, the top level editor for the list of IDs. This has buttons to add new internal/external IDs, and a list of existing IDs. Each existing ID has buttons for editing, moving, and deleting it. When editing, the `AssertedIdComponent` is used in an expansion panel.
+- `AssertedCompositeIdComponent`, the editor for each single ID. This allows you to edit shared metadata (tag and scope), and specific properties for both external and internal ID.
+- `PinTargetLookupComponent`, the editor for an internal ID, i.e. a link target based on pins lookup. This is the core of the editor's logic.
+
+### Components API
+
+#### AssertedCompositeIdsComponent
+
+- 📥 input:
+  - `ids` (`AssertedId[]`)
+  - `idScopeEntries` (`ThesaurusEntry[]?`): thesaurus `asserted-id-scopes`.
+  - `idTagEntries` (`ThesaurusEntry[]?`): thesaurus `asserted-id-tags`.
+  - `assTagEntries` (`ThesaurusEntry[]?`): thesaurus `assertion-tags`.
+  - `refTypeEntries` (`ThesaurusEntry[]?`): thesaurus `doc-reference-types`.
+  - `refTagEntries` (`ThesaurusEntry[]?`): thesaurus `doc-reference-tags`.
+  - `pinByTypeMode` (`boolean?`)
+  - `canSwitchMode` (`boolean?`)
+  - `canEditTarget` (`boolean?`)
+  - `lookupDefinitions` (`IndexLookupDefinitions?`)
+- ⚡ output:
+  - `idsChange` (`AssertedId[]`)
+
+#### AssertedCompositeIdComponent
+
+- 📥 input:
+  - `id` (`AssertedId? | null`)
+  - `idScopeEntries` (`ThesaurusEntry[]?`): thesaurus `asserted-id-scopes`.
+  - `idTagEntries` (`ThesaurusEntry[]?`): thesaurus `asserted-id-tags`.
+  - `assTagEntries` (`ThesaurusEntry[]?`): thesaurus `assertion-tags`.
+  - `refTypeEntries` (`ThesaurusEntry[]?`): thesaurus `doc-reference-types`.
+  - `refTagEntries` (`ThesaurusEntry[]?`): thesaurus `doc-reference-tags`.
+  - `external` (`boolean?`)
+  - `hasSubmit` (`boolean?`)
+  - `pinByTypeMode` (`boolean?`)
+  - `canSwitchMode` (`boolean?`)
+  - `canEditTarget` (`boolean?`)
+  - `lookupDefinitions` (`IndexLookupDefinitions?`)
+- ⚡ output:
+  - `idChange` (`AssertedId`)
+  - `editorClose`
+
+#### PinTargetLookupComponent
+
+- 📥 input:
+  - `target` (`PinTarget? | null`)
+  - `pinByTypeMode` (`boolean?`)
+  - `canSwitchMode` (`boolean?`)
+  - `canEditTarget` (`boolean?`)
+  - `lookupDefinitions` (`IndexLookupDefinitions?`)
+- ⚡ output:
+  - `targetChange` (`PinTarget`)
+  - `editorClose`
+
+### Target ID Editor
+
+This component provides _two modes_ to get to a pin-based link target:
+
+- **by item** (default mode): the user selects an item from a lookup list; then a part, from the list of the selected item's parts; and finally a pin, from a lookup list of pins filtered by that item's part. This essentially provides a way of selecting a pin from a restricted lookup set.
+- **by type**: the user selects the part's type (or this is automatically pre-selected when only a single type is set), and then selects a pin from a lookup list of pins filtered by that part's type. The list of part types may come from several sources:
+  - explicitly set via the component `lookupDefinitions` property;
+  - if this is not set, the lookup definitions will be got via injection when available;
+  - if the injected definitions are empty, the lookup definitions will be built from the `model-types` thesaurus;
+  - if this is not available either, the _by-type_ lookup will be disabled.
+
+In both cases, in the end the model is the same; it's just the way the user selects the pin which changes. You can specify the mode for the component with `pinByTypeMode`, and control the possibility of switching between modes with `canSwitchMode`.
+
+Once the user picks a pin, the target is automatically filled with data from the pin itself. Two values are calculated:
+
+- `gid`, the global ID for the target is `P<part-id>/<pin-value>` when the pin is from a part; or `I<item-id>/<pin-value>` when it is from an item only.
+- `label`, the human-friendly label for the target, is `<pin-value> | <item-title> (<part-type>[, <part-role>])`, where `<part-type>` is either the human-friendly name of the part type ID (as drawn from the `model-types` thesaurus), or the part type ID itself.
+
+Optionally, users can customize both `gid` and `label` (when `canBuildGid` and `canBuildLabel` are true). As for `gid`, users have access to a full set of metadata about the target, so that they can build their own global ID. Once a pin value is picked, the lookup control shows all the relevant data which can be used as components for the ID to build:
+
+- the item GUID.
+- the item title.
+- the part GUID.
+- the part type ID.
+- the item's metadata part entries.
+
+The user can then use buttons to append each of these components to the ID being built, and/or variously edit it. When he's ok with the ID, he can then use it as the reference ID being edited.
+
+>👉 The demo found in this workspace uses a [mock data service](../../../src/app/services/mock-item.service.ts) instead of the real one, which provides a minimal set of data and functions, just required for the components to function.
+
+### Using PinTargetLookupComponent
+
+Apart from the IDs list, you can use the pin-based link target lookup control to add a lookup for any entity in your own UI:
+
+(1) ensure to import this module (`CadmusRefsAssertedIdsModule`).
+
+(2) add a lookup control to your UI, like this:
+
+```html
+<!-- lookup -->
+<cadmus-pin-target-lookup [canSwitchMode]="true"
+                          (targetChange)="onTargetChange($event)">
+</cadmus-pin-target-lookup>
+```
+
+(3) specify the lookup definitions, either from code, or via injection. In the latter case, in your app's `index-lookup-definitions.ts` file, add the required lookup definitions. Each definition has a conventional key, and is an object with part type ID for the lookup scope, and pin name, e.g.:
 
 ```ts
 import { IndexLookupDefinitions } from '@myrmidon/cadmus-core';
