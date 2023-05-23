@@ -109,21 +109,35 @@ export const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
 
 ## Asserted Composite ID
 
-The asserted composite ID and asserted composite IDs bricks provide a way to include _external_ or _internal_ references to resource identifiers, whatever their type and origin.
+The asserted composite ID and asserted composite IDs bricks provide a way to include _external_ or _internal_ references to resource identifiers, whatever their type and origin. These components are the foundation for pin-based links in links part and links fragment types, as they provide both external and internal links eventually accompanied by an assertion.
 
-The asserted ID brick allows editing a collection of asserted IDs (`AssertedId`), where each ID has:
+Each asserted composite ID has:
 
 - a `target`, representing the pin-based target of the ID. The target model has these properties:
-  - `itemId` for the item the pin derives from;
-  - when the pin derives from a part, an optional `partId`, `partTypeId`, `roleId`;
-  - `name` and `value` of the pin;
-  - a global ID, `gid`, built in various ways from the pin;
-  - a human-friendly `label` for the target, built in various ways from the pin.
+  - a global ID, `gid`, built from the pin or manually defined;
+  - a human-friendly `label` for the target, built from the pin or manually defined;
+  - for internal links only:
+    - `itemId` for the item the pin derives from;
+    - when the pin derives from a part, an optional `partId`, `partTypeId`, `roleId`;
+    - the `name` and `value` of the pin.
 - an optional `scope`, representing the context the ID originates from (e.g. an ontology, a repository, a website, etc.).
 - an optional `tag`, eventually used to group or classify the ID.
 - an optional `assertion`, eventually used to define the uncertainty level of the assignment of this ID to the context it applies to.
 
-When the ID is external, the only properties set for the target model are `gid` (=the ID) and `label`. You can easily distinguish between an external and internal ID by looking at a property like name, which is always present for internal IDs, and never present for external IDs.
+When the ID is external, the only properties set for the target model are `gid` (=the ID) and `label`. You can easily distinguish between an external and internal ID by looking at a property like `name`, which is always present for internal IDs, and never present for external IDs.
+
+There are different options which allow to customize the lookup behavior:
+
+- lookup pin without any filters, except for the always present part type ID and pin name (_by type_); or lookup pin with optional filters for item and any of its parts (_by item_; default).
+- the part type ID and pin name filter (i.e. the _index lookup definitions_) can be set from many sources:
+  1. directly from the consumer code by setting `lookupDefinitions`;
+  2. from injection, when (1) is not used;
+  3. from thesaurus `model-types`, when (2) is empty.
+- set `pinByTypeMode` to true, to let the editor use in by-type mode instead of by-item;
+- set `canSwitchMode` to true, to allow users switch between by-type and by-item modes;
+- set `canEditTarget` to true, to allow users edit the link target GID and label also for internal pins, where they are automatically provided by pin lookup.
+
+These options can be variously combined to force users to use a specific behavior only; for instance, if you just want by-type lookup and automatic GID/label, set `pinByTypeMode` to true and `canSwitchMode` and `canEditTarget` to false.
 
 Three components are used for this brick:
 
