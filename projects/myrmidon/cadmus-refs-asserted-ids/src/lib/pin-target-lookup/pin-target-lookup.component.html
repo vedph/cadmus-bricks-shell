@@ -1,6 +1,14 @@
 <form [formGroup]="form" (submit)="save()">
-  <!-- external -->
-  <mat-checkbox [formControl]="external">external</mat-checkbox>
+  <div class="form-row">
+    <!-- external -->
+    <mat-checkbox [formControl]="external">external</mat-checkbox>
+    <!-- mode switcher -->
+    <div *ngIf="!external.value">
+      <mat-checkbox [formControl]="byTypeMode" *ngIf="canSwitchMode">
+        by type</mat-checkbox
+      >
+    </div>
+  </div>
 
   <div class="form-row">
     <!-- label -->
@@ -84,7 +92,7 @@
     </div>
 
     <!-- PIN -->
-    <div class="form-row">
+    <div *ngIf="partTypeKey.value">
       <!-- pin lookup -->
       <cadmus-ref-lookup
         [service]="pinLookupService"
@@ -93,12 +101,6 @@
         label="pin"
         (itemChange)="onPinLookupChange($event)"
       ></cadmus-ref-lookup>
-      <!-- mode switcher -->
-      <div>
-        <mat-checkbox [formControl]="byTypeMode" *ngIf="canSwitchMode">
-          by type</mat-checkbox
-        >
-      </div>
     </div>
 
     <!-- data -->

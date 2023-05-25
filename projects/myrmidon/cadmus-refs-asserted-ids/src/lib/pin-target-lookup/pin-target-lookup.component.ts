@@ -261,10 +261,8 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     if (!this.partTypeKeys.length) {
       this.forceByItem();
     } else {
-      // if there is only one key, set it as the default
-      if (this.partTypeKeys.length === 1) {
-        this.partTypeKey.setValue(this.partTypeKeys[0]);
-      }
+      // set the 1st key as the default
+      this.partTypeKey.setValue(this.partTypeKeys[0]);
     }
   }
 
@@ -416,7 +414,10 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     // build pin info from target
     if (!target) {
       this.lookupData = undefined;
-      this.form.reset();
+      this.item.reset();
+      this.itemPart.reset();
+      this.gid.reset();
+      this.label.reset();
       return;
     }
     this._noTargetUpdate = true;
