@@ -1,23 +1,29 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, distinctUntilChanged } from 'rxjs';
 
 import { PaginationData } from '@ngneat/elf-pagination';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import { GalleryListRepository } from '../../gallery-list.repository';
-import {
-  GalleryImage,
-  GalleryOptions,
-  IMAGE_GALLERY_OPTIONS_KEY,
-} from '../../models';
+import { GalleryImage, GalleryOptions } from '../../models';
+import { GalleryOptionsService } from '../../services/gallery-options.service';
 
 @Component({
   selector: 'cadmus-gallery-list',
   templateUrl: './gallery-list.component.html',
   styleUrls: ['./gallery-list.component.css'],
 })
-export class GalleryListComponent {
+export class GalleryListComponent implements OnDestroy {
+  private _sub?: Subscription;
+
   public pagination$: Observable<PaginationData>;
   public data$: Observable<GalleryImage[]>;
   public loading$: Observable<boolean>;
@@ -37,15 +43,27 @@ export class GalleryListComponent {
   @Output()
   public imagePick: EventEmitter<GalleryImage>;
 
+  public options: GalleryOptions;
+
   constructor(
     private _repository: GalleryListRepository,
-    @Inject(IMAGE_GALLERY_OPTIONS_KEY)
-    public options: GalleryOptions
+    options: GalleryOptionsService
   ) {
     this.pagination$ = _repository.pagination$;
     this.data$ = _repository.data$;
     this.loading$ = _repository.loading$;
     this.imagePick = new EventEmitter<GalleryImage>();
+
+    this.options = options.get();
+    // update options when options change
+    this._sub = options
+      .select()
+      .pipe(distinctUntilChanged())
+      .subscribe((o) => (this.options = o));
+  }
+
+  public ngOnDestroy(): void {
+    this._sub?.unsubscribe();
   }
 
   public pageChange(event: PageEvent): void {

@@ -5,11 +5,10 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   GalleryImage,
   GalleryImageAnnotation,
-  GalleryOptions,
   GalleryService,
-  IMAGE_GALLERY_OPTIONS_KEY,
   IMAGE_GALLERY_SERVICE_KEY,
 } from '@myrmidon/cadmus-img-gallery';
+import { GalleryOptionsService } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
 
 @Component({
   selector: 'app-sd-img-gallery-pg',
@@ -26,8 +25,7 @@ export class SdImgGalleryPgComponent {
   constructor(
     @Inject(IMAGE_GALLERY_SERVICE_KEY)
     private _galleryService: GalleryService,
-    @Inject(IMAGE_GALLERY_OPTIONS_KEY)
-    private _options: GalleryOptions
+    private _options: GalleryOptionsService
   ) {
     this.tabIndex = 0;
     this.entries = [
@@ -47,7 +45,7 @@ export class SdImgGalleryPgComponent {
     const options = { ...this._options, width: 600, height: 800 };
 
     this._galleryService
-      .getImage(image.id, options)
+      .getImage(image.id, this._options.get())
       .pipe(take(1))
       .subscribe((image) => {
         this.image = image!;

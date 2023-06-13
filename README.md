@@ -63,6 +63,7 @@ To add a brick:
 
 ## History
 
+- 2023-06-13: added `GalleryOptionsService` to allow changing gallery options.
 - 2023-05-25: fixes to pin target lookup.
 - 2023-05-22: added asserted composite ID editors and pin target lookup component (`@myrmidon/cadmus-refs-asserted-ids`, version 2.1.0).
 - 2023-05-11: updated to Angular 16.

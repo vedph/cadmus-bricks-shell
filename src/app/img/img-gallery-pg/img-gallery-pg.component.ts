@@ -6,9 +6,8 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   GalleryImage,
   GalleryImageAnnotation,
-  GalleryOptions,
+  GalleryOptionsService,
   GalleryService,
-  IMAGE_GALLERY_OPTIONS_KEY,
   IMAGE_GALLERY_SERVICE_KEY,
 } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
 import {
@@ -33,8 +32,7 @@ export class ImgGalleryPgComponent {
   constructor(
     @Inject(IMAGE_GALLERY_SERVICE_KEY)
     private _galleryService: GalleryService,
-    @Inject(IMAGE_GALLERY_OPTIONS_KEY)
-    private _options: GalleryOptions,
+    private _options: GalleryOptionsService,
     private _snackbar: MatSnackBar
   ) {
     this.tabIndex = 0;
@@ -62,7 +60,7 @@ export class ImgGalleryPgComponent {
     const options = { ...this._options, width: 600, height: 800 };
 
     this._galleryService
-      .getImage(image.id, options)
+      .getImage(image.id, this._options.get())
       .pipe(take(1))
       .subscribe((image) => {
         this.image = image!;

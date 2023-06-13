@@ -1,5 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  distinctUntilChanged,
+  take,
+  tap,
+} from 'rxjs';
 
 import { createStore, select, withProps } from '@ngneat/elf';
 import {
@@ -24,12 +30,11 @@ import {
 
 import { DataPage } from '@myrmidon/ng-tools';
 
+import { GalleryOptionsService } from './services/gallery-options.service';
 import {
   GalleryFilter,
   GalleryImage,
-  GalleryOptions,
   GalleryService,
-  IMAGE_GALLERY_OPTIONS_KEY,
   IMAGE_GALLERY_SERVICE_KEY,
 } from './models';
 
@@ -55,15 +60,14 @@ export class GalleryListRepository {
   constructor(
     @Inject(IMAGE_GALLERY_SERVICE_KEY)
     private _service: GalleryService,
-    @Inject(IMAGE_GALLERY_OPTIONS_KEY)
-    private _options: GalleryOptions
+    private _options: GalleryOptionsService
   ) {
     this._loading$ = new BehaviorSubject<boolean>(false);
     this.loading$ = this._loading$.asObservable();
 
     // create store
     this._store = this.createStore();
-    this._lastPageSize = this._options.pageSize || PAGE_SIZE;
+    this._lastPageSize = this._options.get().pageSize || PAGE_SIZE;
 
     // combine pagination parameters with page data for our consumers
     this.pagination$ = this._store.pipe(selectPaginationData());
@@ -99,7 +103,7 @@ export class GalleryListRepository {
     });
 
     // load page 1 and subscribe to pagination
-    this.loadPage(1, this._options.pageSize || PAGE_SIZE);
+    this.loadPage(1, this._options.get().pageSize || PAGE_SIZE);
     this.pagination$
       .pipe(
         tap((p) => {
@@ -107,6 +111,15 @@ export class GalleryListRepository {
         })
       )
       .subscribe(console.log);
+
+    // reload page when options change
+    this._options
+      .select()
+      .pipe(distinctUntilChanged())
+      .subscribe((options) => {
+        console.log('Options changed: ' + JSON.stringify(options));
+        this.loadPage(1, options.pageSize || PAGE_SIZE);
+      });
   }
 
   private createStore(): typeof store {
@@ -151,7 +164,7 @@ export class GalleryListRepository {
 
   public loadPage(pageNumber: number, pageSize?: number): void {
     if (!pageSize) {
-      pageSize = this._options.pageSize || PAGE_SIZE;
+      pageSize = this._options.get().pageSize || PAGE_SIZE;
     }
     // if the page exists and page size is the same, just move to it
     if (
@@ -180,7 +193,7 @@ export class GalleryListRepository {
         this._store.getValue().filter,
         pageNumber,
         pageSize,
-        this._options
+        this._options.get()
       )
       .pipe(take(1))
       .subscribe({
