@@ -6,6 +6,7 @@ import {
   GalleryFilter,
   GalleryImage,
   GalleryOptions,
+  GalleryService,
 } from '@myrmidon/cadmus-img-gallery';
 import { DataPage } from '@myrmidon/ng-tools';
 
@@ -90,7 +91,7 @@ export interface SimpleIiifGalleryOptions extends GalleryOptions {
 @Injectable({
   providedIn: 'root',
 })
-export class SimpleIiifGalleryService {
+export class SimpleIiifGalleryService implements GalleryService {
   private _http: HttpClient;
   private _options?: SimpleIiifGalleryOptions;
   private _images: SizedGalleryImage[];
