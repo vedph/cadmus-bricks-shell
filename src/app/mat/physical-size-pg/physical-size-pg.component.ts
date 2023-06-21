@@ -9,7 +9,8 @@ import { PhysicalSize } from '@myrmidon/cadmus-mat-physical-size';
   styleUrls: ['./physical-size-pg.component.css'],
 })
 export class PhysicalSizePgComponent implements OnInit {
-  public size: PhysicalSize;
+  public size?: PhysicalSize;
+  public defaultUnit?: string;
   public unitEntries: ThesaurusEntry[];
   public hBeforeW: FormControl<boolean>;
 
@@ -45,5 +46,10 @@ export class PhysicalSizePgComponent implements OnInit {
 
   public onSizeChange(size: PhysicalSize): void {
     this.size = size;
+  }
+
+  public reset(): void {
+    this.defaultUnit = this.defaultUnit? undefined : 'mm';
+    this.size = undefined;
   }
 }

@@ -28,6 +28,9 @@ export interface PhysicalSize {
 })
 export class PhysicalSizeComponent implements OnInit {
   private _size: PhysicalSize | undefined | null;
+  private _defaultWUnit?: string;
+  private _defaultHUnit?: string;
+  private _defaultDUnit?: string;
 
   @Input()
   public parentForm?: FormGroup;
@@ -40,6 +43,45 @@ export class PhysicalSizeComponent implements OnInit {
     if (this._size !== value) {
       this._size = value;
       this.updateForm(value);
+    }
+  }
+
+  @Input()
+  public get defaultWUnit(): string | undefined | null {
+    return this._defaultWUnit;
+  };
+  public set defaultWUnit(value: string | undefined | null) {
+    if (this._defaultWUnit !== value) {
+      this._defaultWUnit = value || undefined;
+      if (!this.wValue.value) {
+        this.wUnit.setValue(value || 'cm');
+      }
+    }
+  }
+
+  @Input()
+  public get defaultHUnit(): string | undefined | null {
+    return this._defaultHUnit;
+  };
+  public set defaultHUnit(value: string | undefined | null) {
+    if (this._defaultHUnit !== value) {
+      this._defaultHUnit = value || undefined;
+      if (!this.hValue.value) {
+        this.hUnit.setValue(value || 'cm');
+      }
+    }
+  }
+
+  @Input()
+  public get defaultDUnit(): string | undefined | null {
+    return this._defaultDUnit;
+  };
+  public set defaultDUnit(value: string | undefined | null) {
+    if (this._defaultDUnit !== value) {
+      this._defaultDUnit = value || undefined;
+      if (!this.dValue.value) {
+        this.dUnit.setValue(value || 'cm');
+      }
     }
   }
 
@@ -258,9 +300,16 @@ export class PhysicalSizeComponent implements OnInit {
     this.label = sb.join(' × ') + (uniqueUnit ? ' ' + uniqueUnit : '');
   }
 
+  private resetUnits(): void {
+    this.wUnit.setValue(this.defaultWUnit || 'cm');
+    this.hUnit.setValue(this.defaultHUnit || 'cm');
+    this.dUnit.setValue(this.defaultDUnit || 'cm');
+  }
+
   private updateForm(model?: PhysicalSize | null): void {
     if (!model) {
       this.form.reset();
+      this.resetUnits();
       this.label = undefined;
     } else {
       this.tag.setValue(model.tag || null);
@@ -272,7 +321,7 @@ export class PhysicalSizeComponent implements OnInit {
         this.wTag.setValue(model.w.tag || null);
       } else {
         this.wValue.reset();
-        this.wUnit.reset();
+        this.wUnit.setValue(this.defaultWUnit || 'cm');
         this.wTag.reset();
       }
 
@@ -282,7 +331,7 @@ export class PhysicalSizeComponent implements OnInit {
         this.hTag.setValue(model.h.tag || null);
       } else {
         this.hValue.reset();
-        this.hUnit.reset();
+        this.hUnit.setValue(this.defaultHUnit || 'cm');
         this.hTag.reset();
       }
 
@@ -292,7 +341,7 @@ export class PhysicalSizeComponent implements OnInit {
         this.dTag.setValue(model.d.tag || null);
       } else {
         this.dValue.reset();
-        this.dUnit.reset();
+        this.dUnit.setValue(this.defaultDUnit || 'cm');
         this.dTag.reset();
       }
 

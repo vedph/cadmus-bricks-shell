@@ -63,6 +63,7 @@ To add a brick:
 
 ## History
 
+- 2023-06-21: added default units to physical size. You can now specify a default unit different from `cm` (which remains the default when no such properties are set) via `defaultWUnit`, `defaultHUnit`, `defaultDUnit`.
 - 2023-06-13: added `GalleryOptionsService` to allow changing gallery options.
 - 2023-05-25: fixes to pin target lookup.
 - 2023-05-22: added asserted composite ID editors and pin target lookup component (`@myrmidon/cadmus-refs-asserted-ids`, version 2.1.0).
