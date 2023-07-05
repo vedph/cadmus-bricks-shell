@@ -159,6 +159,7 @@ Three components are used for this brick:
   - `pinByTypeMode` (`boolean?`)
   - `canSwitchMode` (`boolean?`)
   - `canEditTarget` (`boolean?`)
+  - `defaultPartTypeKey` (`string?|null`)
   - `lookupDefinitions` (`IndexLookupDefinitions?`)
 - ⚡ output:
   - `idsChange` (`AssertedId[]`)
@@ -177,6 +178,7 @@ Three components are used for this brick:
   - `pinByTypeMode` (`boolean?`)
   - `canSwitchMode` (`boolean?`)
   - `canEditTarget` (`boolean?`)
+  - `defaultPartTypeKey` (`string?|null`)
   - `lookupDefinitions` (`IndexLookupDefinitions?`)
 - ⚡ output:
   - `idChange` (`AssertedId`)
@@ -189,6 +191,7 @@ Three components are used for this brick:
   - `pinByTypeMode` (`boolean?`)
   - `canSwitchMode` (`boolean?`)
   - `canEditTarget` (`boolean?`)
+  - `defaultPartTypeKey` (`string?|null`)
   - `lookupDefinitions` (`IndexLookupDefinitions?`)
 - ⚡ output:
   - `targetChange` (`PinTarget`)

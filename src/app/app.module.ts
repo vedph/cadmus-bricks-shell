@@ -112,6 +112,10 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     typeId: 'it.vedph.metadata',
     name: 'eid',
   },
+  alias_eid: {
+    typeId: 'it.vedph.metadata',
+    name: 'eid'
+  }
 };
 
 // https://ngneat.github.io/elf/docs/dev-tools/

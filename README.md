@@ -64,6 +64,10 @@ To add a brick:
 
 ## History
 
+- 2023-07-06:
+  - in pin target lookup component, fix to label validator required when not external.
+  - added `defaultPartTypeKey` property to provide a default part type key for target lookup when by type is active.
+
 ### 1.0.15
 
 - 2023-07-05: updated Angular.

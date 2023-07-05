@@ -115,6 +115,12 @@ export class AssertedCompositeIdComponent implements OnInit {
   public lookupDefinitions?: IndexLookupDefinitions;
 
   /**
+   * The default part type key to be used.
+   */
+  @Input()
+  public defaultPartTypeKey?: string | null;
+
+  /**
    * Emitted whenever the ID changes.
    */
   @Output()

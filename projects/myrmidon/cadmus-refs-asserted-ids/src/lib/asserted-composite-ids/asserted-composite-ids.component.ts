@@ -83,6 +83,12 @@ export class AssertedCompositeIdsComponent {
   public lookupDefinitions?: IndexLookupDefinitions;
 
   /**
+   * The default part type key.
+   */
+  @Input()
+  public defaultPartTypeKey?: string | null;
+
+  /**
    * Emitted whenever any ID changes.
    */
   @Output()

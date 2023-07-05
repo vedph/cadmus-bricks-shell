@@ -147,6 +147,12 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * The default value for part type key when the by-type mode is active.
+   */
+  @Input()
+  public defaultPartTypeKey?: string | null;
+
+  /**
    * Emitted when user closes the editor.
    */
   @Output()
@@ -261,8 +267,10 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     if (!this.partTypeKeys.length) {
       this.forceByItem();
     } else {
-      // set the 1st key as the default
-      this.partTypeKey.setValue(this.partTypeKeys[0]);
+      // set default key
+      this.partTypeKey.setValue(
+        this.defaultPartTypeKey || this.partTypeKeys[0]
+      );
     }
   }
 
@@ -310,6 +318,24 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
           this.pinFilterOptions = key
             ? this.lookupDefinitions![key]
             : undefined;
+        })
+    );
+
+    // whenever external changes, set required validator in label
+    // (true for external, false for internal)
+    this._subs.push(
+      this.external.valueChanges
+        .pipe(distinctUntilChanged(), debounceTime(300))
+        .subscribe((external) => {
+          if (external) {
+            this.label.setValidators([
+              Validators.required,
+              Validators.maxLength(300),
+            ]);
+          } else {
+            this.label.setValidators([Validators.maxLength(300)]);
+          }
+          this.label.updateValueAndValidity();
         })
     );
 

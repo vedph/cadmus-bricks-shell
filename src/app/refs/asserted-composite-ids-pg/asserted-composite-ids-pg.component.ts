@@ -116,6 +116,19 @@ export class AssertedCompositeIdsPgComponent implements OnInit {
         },
         scope: '-',
       },
+      {
+        target: {
+          gid: 'P71821d42-dd44-4d1e-a78a-000000000019/alpha',
+          label: 'alpha | Item 0: alpha (metadata)',
+          itemId: '71821d42-dd44-4d1e-a78a-000000000001',
+          partId: '71821d42-dd44-4d1e-a78a-000000000019',
+          partTypeId: 'it.vedph.metadata',
+          roleId: '',
+          name: 'eid',
+          value: 'alpha',
+        },
+        scope: '',
+      },
     ];
   }
 
