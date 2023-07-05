@@ -67,6 +67,7 @@ To add a brick:
 - 2023-07-06:
   - in pin target lookup component, fix to label validator required when not external.
   - added `defaultPartTypeKey` property to provide a default part type key for target lookup when by type is active.
+  - when calling `getPartFromTypeAndRole` for lookup, avoid error on 404. This avoids disrupting the code execution when there is no metadata part for a target item.
 
 ### 1.0.15
 

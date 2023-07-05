@@ -103,7 +103,9 @@ export class ScopedPinLookupComponent {
       item: this._itemService.getItem(item.itemId, false),
       part: this._itemService.getPartFromTypeAndRole(
         item.itemId,
-        METADATA_PART_ID
+        METADATA_PART_ID,
+        undefined,
+        true
       ),
     })
       .pipe(take(1))

@@ -514,7 +514,9 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
       item: this._itemService.getItem(pin.itemId, false),
       part: this._itemService.getPartFromTypeAndRole(
         pin.itemId,
-        METADATA_PART_ID
+        METADATA_PART_ID,
+        undefined,
+        true
       ),
     })
       .pipe(take(1))
