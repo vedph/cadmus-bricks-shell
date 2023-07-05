@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [1.0.15](#1015)
     - [1.0.14](#1014)
     - [1.0.13](#1013)
     - [1.0.12](#1012)
@@ -63,6 +64,9 @@ To add a brick:
 
 ## History
 
+### 1.0.15
+
+- 2023-07-05: updated Angular.
 - 2023-06-21: added default units to physical size. You can now specify a default unit different from `cm` (which remains the default when no such properties are set) via `defaultWUnit`, `defaultHUnit`, `defaultDUnit`.
 - 2023-06-13: added `GalleryOptionsService` to allow changing gallery options.
 - 2023-05-25: fixes to pin target lookup.
