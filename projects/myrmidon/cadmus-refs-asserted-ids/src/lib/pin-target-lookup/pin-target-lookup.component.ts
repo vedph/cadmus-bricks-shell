@@ -461,7 +461,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     };
     // get item
     if (target.itemId) {
-      this._itemService.getItem(target.itemId, true).subscribe({
+      this._itemService.getItem(target.itemId, true, true).subscribe({
         next: (item) => {
           this.item.setValue(item);
           this.form.markAsPristine();
@@ -492,7 +492,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
    */
   public onItemLookupChange(item: Item): void {
     // load item's parts
-    this._itemService.getItem(item.id, true).subscribe({
+    this._itemService.getItem(item.id, true, true).subscribe({
       next: (i) => {
         // setting the item will trigger its parts update
         this.item.setValue(i);
@@ -511,7 +511,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
 
   private loadItemInfo(pin: DataPinInfo): void {
     forkJoin({
-      item: this._itemService.getItem(pin.itemId, false),
+      item: this._itemService.getItem(pin.itemId, false, true),
       part: this._itemService.getPartFromTypeAndRole(
         pin.itemId,
         METADATA_PART_ID,
@@ -524,7 +524,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
         next: (result) => {
           this.lookupData = {
             pin: pin,
-            item: result.item,
+            item: result.item!,
             metaPart: result.part as MetadataPart,
           };
           this.updateTarget();

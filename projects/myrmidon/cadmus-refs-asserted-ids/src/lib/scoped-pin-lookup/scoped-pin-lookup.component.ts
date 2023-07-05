@@ -100,7 +100,7 @@ export class ScopedPinLookupComponent {
     };
     // lookup item and its metadata part if any
     forkJoin({
-      item: this._itemService.getItem(item.itemId, false),
+      item: this._itemService.getItem(item.itemId, false, true),
       part: this._itemService.getPartFromTypeAndRole(
         item.itemId,
         METADATA_PART_ID,
@@ -111,7 +111,7 @@ export class ScopedPinLookupComponent {
       .pipe(take(1))
       .subscribe({
         next: (result) => {
-          info.item = result.item;
+          info.item = result.item!;
           info.part = result.part as MetadataPart;
           this.info = info;
         },
