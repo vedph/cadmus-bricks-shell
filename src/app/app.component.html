@@ -1,7 +1,7 @@
 <div>
   <header>
     <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center">
-      <span style="flex: 0 0 60px"
+      <span id="logo"
         ><img src="./assets/img/logo-white-40.png" alt="Fusisoft"
       /></span>
       <a mat-button routerLink="/home">Cadmus Bricks</a>
@@ -21,10 +21,24 @@
         <a mat-menu-item routerLink="/refs/decorated-ids">Decorated IDs</a>
         <a mat-menu-item routerLink="/refs/proper-name">Proper name</a>
         <a mat-menu-item routerLink="/refs/assertion">Assertion</a>
+        <a mat-menu-item [matMenuTriggerFor]="refsAssIds">Asserted IDs</a>
+        <a mat-menu-item [matMenuTriggerFor]="refsChron">Chronology</a>
+        <a mat-menu-item routerLink="/refs/lookup">Ref lookup</a>
+        <a mat-menu-item routerLink="/refs/viaf-lookup">VIAF lookup</a>
+      </mat-menu>
+
+      <mat-menu #refsAssIds>
         <a mat-menu-item routerLink="/refs/asserted-id">Asserted ID</a>
         <a mat-menu-item routerLink="/refs/asserted-ids">Asserted IDs</a>
-        <a mat-menu-item routerLink="/refs/asserted-composite-id">Asserted composite ID</a>
-        <a mat-menu-item routerLink="/refs/asserted-composite-ids">Asserted composite IDs</a>
+        <a mat-menu-item routerLink="/refs/asserted-composite-id"
+          >Asserted composite ID</a
+        >
+        <a mat-menu-item routerLink="/refs/asserted-composite-ids"
+          >Asserted composite IDs</a
+        >
+      </mat-menu>
+
+      <mat-menu #refsChron>
         <a mat-menu-item routerLink="/refs/chronotope">Chronotope</a>
         <a mat-menu-item routerLink="/refs/asserted-chronotope"
           >Asserted chronotope</a
@@ -33,8 +47,6 @@
           >Asserted chronotopes</a
         >
         <a mat-menu-item routerLink="/refs/historical-date">Historical date</a>
-        <a mat-menu-item routerLink="/refs/lookup">Ref lookup</a>
-        <a mat-menu-item routerLink="/refs/viaf-lookup">VIAF lookup</a>
       </mat-menu>
 
       <!-- text -->
@@ -59,10 +71,11 @@
       </button>
       <mat-menu #imgMenu>
         <a mat-menu-item routerLink="/img/gallery">Image gallery</a>
+        <a mat-menu-item routerLink="/img/annotator">Image annotator</a>
+        <mat-divider></mat-divider>
         <a mat-menu-item routerLink="/img/sd-gallery"
           >Seadragon image gallery</a
         >
-        <a mat-menu-item routerLink="/img/annotator">Image annotator</a>
         <a mat-menu-item routerLink="/img/sd-annotator"
           >Seadragon image annotator</a
         >
@@ -71,7 +84,9 @@
       <!-- ui -->
       <button type="button" mat-button [matMenuTriggerFor]="uiMenu">UI</button>
       <mat-menu #uiMenu>
-        <a mat-menu-item routerLink="/ui/custom-actions-bar">Custom actions bar</a>
+        <a mat-menu-item routerLink="/ui/custom-actions-bar"
+          >Custom actions bar</a
+        >
         <a mat-menu-item routerLink="/ui/flags-picker">Flags picker</a>
         <a mat-menu-item routerLink="/ui/note-set">Notes set</a>
       </mat-menu>
