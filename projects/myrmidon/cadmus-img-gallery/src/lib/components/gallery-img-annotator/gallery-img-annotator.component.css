@@ -13,13 +13,16 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
+tr:nth-child(odd) {
+  background-color: #fafafa;
+}
 th {
   font-weight: normal;
   color: silver;
   text-align: left;
 }
 td {
-  border: 1px solid silver;
+  /* border: 1px solid silver; */
   padding: 6px;
 }
 td.note {
@@ -48,7 +51,7 @@ div#list {
 div#container {
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 1fr;
   grid-template-areas: "annotator list";
   gap: 8px;
 }

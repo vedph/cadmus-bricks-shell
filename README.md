@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [1.0.16](#1016)
     - [1.0.15](#1015)
     - [1.0.14](#1014)
     - [1.0.13](#1013)
@@ -36,11 +37,11 @@ As Cadmus projects increase, the prototype code reveals more and more portions w
 
 >⚠️ Note that some of the bricks require additional third-party libraries. See the documentation about each library for details.
 
-🐋 Quick Docker image build (the only purpose of this image is letting testers play with controls in the incubator):
+🐋 Quick **Docker image** build (the only purpose of this image is letting testers play with controls in the incubator):
 
 1. `npm run build-lib`.
 2. ensure to update the version in `env.js` (and `docker-compose.yml`), and `ng build --configuration production`.
-3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.15 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:1.0.16 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 Use [publish.bat](publish.bat) to publish the libraries to NPM.
 
@@ -64,6 +65,12 @@ To add a brick:
 
 ## History
 
+### 1.0.16
+
+- 2023-07-10:
+  - updated Angular.
+  - minor refactorings in main menu.
+  - added optional placeholders `.before-list` and `.after-list` to `cadmus-img-gallery`.
 - 2023-07-06:
   - in pin target lookup component, fix to label validator required when not external.
   - added `defaultPartTypeKey` property to provide a default part type key for target lookup when by type is active.

@@ -35,6 +35,7 @@
     </div>
   </div>
   <div id="list">
+    <ng-content select=".before-list"></ng-content>
     <table *ngIf="data$ | async as data">
       <thead>
         <tr>
@@ -72,5 +73,6 @@
         </tr>
       </tbody>
     </table>
+    <ng-content select=".after-list"></ng-content>
   </div>
 </div>
