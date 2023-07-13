@@ -6,3 +6,7 @@ fieldset {
 legend {
   color: silver;
 }
+.center-content {
+  display: flex;
+  justify-content: center;
+}

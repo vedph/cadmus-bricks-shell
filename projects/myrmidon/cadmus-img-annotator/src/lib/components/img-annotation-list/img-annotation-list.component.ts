@@ -43,6 +43,13 @@ export class ImgAnnotationListComponent {
   @Input({ required: true })
   public editorComponent?: any;
 
+  /**
+   * The function used to build a string from a list annotation object,
+   * summarizing its content appropriately.
+   */
+  @Input()
+  public annotationToString: (object: ListAnnotation<any>) => string | null;
+
   public selectedIndex: number;
   public selectedAnnotation?: Annotation;
   public annotations: ListAnnotation<any>[];
@@ -53,6 +60,9 @@ export class ImgAnnotationListComponent {
   ) {
     this.selectedIndex = -1;
     this.annotations = [];
+    this.annotationToString = (a: ListAnnotation<any>) => {
+      return a.value.body?.length ? a.value.body[0].value : a.id;
+    };
   }
 
   /**
