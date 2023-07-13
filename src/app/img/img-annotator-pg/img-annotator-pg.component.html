@@ -5,39 +5,96 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div id="toolbar">
-      <mat-button-toggle-group #group="matButtonToggleGroup" value="rect">
-        <mat-button-toggle value="rect" matTooltip="Rectangle">
-          <mat-icon>rectangle</mat-icon>
-        </mat-button-toggle>
-        <mat-button-toggle value="polygon" matTooltip="Polygon">
-          <mat-icon>polyline</mat-icon>
-        </mat-button-toggle>
-        <mat-button-toggle value="circle" matTooltip="Circle">
-          <mat-icon>radio_button_unchecked</mat-icon>
-        </mat-button-toggle>
-        <mat-button-toggle value="ellipse" matTooltip="Ellipse">
-          <mat-icon>exposure_zero</mat-icon>
-        </mat-button-toggle>
-        <mat-button-toggle value="freehand" matTooltip="Freehand">
-          <mat-icon>gesture</mat-icon>
-        </mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-    <div>
-      <img
-        alt="image"
-        cadmusImgAnnotator
-        (createAnnotation)="onCreateAnnotation($event)"
-        (updateAnnotation)="onUpdateAnnotation($event)"
-        (deleteAnnotation)="onDeleteAnnotation($event)"
-        [tool]="group.value"
-        [additionalTools]="['circle', 'ellipse', 'freehand']"
-        src="assets/sample.jpg"
-      />
-    </div>
-    <div>
-      <pre>{{ message }}</pre>
+    <div id="container">
+      <div id="image">
+        <div>
+          <mat-checkbox [formControl]="headless">headless</mat-checkbox>
+        </div>
+        <div id="toolbar">
+          <mat-button-toggle-group #group="matButtonToggleGroup" value="rect">
+            <mat-button-toggle value="rect" matTooltip="Rectangle">
+              <mat-icon>rectangle</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="polygon" matTooltip="Polygon">
+              <mat-icon>polyline</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="circle" matTooltip="Circle">
+              <mat-icon>radio_button_unchecked</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="ellipse" matTooltip="Ellipse">
+              <mat-icon>exposure_zero</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="freehand" matTooltip="Freehand">
+              <mat-icon>gesture</mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div>
+          <img
+            alt="image"
+            cadmusImgAnnotator
+            (createAnnotation)="onCreateAnnotation($event)"
+            (updateAnnotation)="onUpdateAnnotation($event)"
+            (deleteAnnotation)="onDeleteAnnotation($event)"
+            (createSelection)="onCreateSelection($event)"
+            (selectAnnotation)="onSelectAnnotation($event)"
+            (cancelSelected)="onCancelSelected($event)"
+            (annotatorInit)="onAnnotatorInit($event)"
+            [disableEditor]="headless.value"
+            [tool]="group.value"
+            [additionalTools]="['circle', 'ellipse', 'freehand']"
+            src="assets/sample.jpg"
+          />
+        </div>
+      </div>
+      <div id="list">
+        <table *ngIf="annotations?.length">
+          <thead>
+            <tr>
+              <th></th>
+              <th>text</th>
+              <th>ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let a of annotations; let i = index"
+              [class.selected]="i === selectedAnnotationIndex"
+            >
+              <td>
+                <button
+                  type="button"
+                  mat-icon-button
+                  (click)="selectAnnotation(i)"
+                >
+                  <mat-icon>check_circle</mat-icon>
+                </button>
+                <button
+                  type="button"
+                  mat-icon-button
+                  color="warn"
+                  (click)="removeAnnotation(i)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button
+                  type="button"
+                  mat-icon-button
+                  color="primary"
+                  (click)="editAnnotation(i)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </td>
+              <td>{{ a.body![0].value }}</td>
+              <td class="muted">{{ a.id }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="message">
+        <pre>{{ message }}</pre>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

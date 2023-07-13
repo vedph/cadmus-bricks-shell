@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Edit Annotation</h1>
+<div mat-dialog-content>
+  <app-edit-annotation
+    [annotation]="data"
+    (cancel)="onCloseClick()"
+    (annotationChange)="onSaveClick($event)"
+  ></app-edit-annotation>
+</div>
+<!-- <div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div> -->

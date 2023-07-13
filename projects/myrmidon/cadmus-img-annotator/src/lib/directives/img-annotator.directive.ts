@@ -25,6 +25,7 @@ export type AnnotoriousFormatter = (
 export interface AnnotoriousConfig {
   allowEmpty?: boolean;
   crosshair?: boolean;
+  // https://annotorious.github.io/guides/headless-mode
   disableEditor?: boolean;
   disableSelect?: boolean;
   drawOnSingleClick?: boolean;
@@ -39,27 +40,40 @@ export interface AnnotoriousConfig {
 }
 
 /**
- * The annotation in the AnnotationEvent.
+ * An annotation selector in target.
  */
-export interface AnnotationEventEntry {
-  id: string;
+export interface AnnotationSelector {
+  type: string;
+  conformsTo: string;
+  value: string;
+}
+
+/**
+ * An annotation target.
+ */
+export interface AnnotationTarget {
+  source: string;
+  selector: AnnotationSelector;
+}
+
+/**
+ * An annotation body entry.
+ */
+export interface AnnotationBodyEntry {
+  type: string;
+  value: string;
+  purpose: string;
+}
+
+/**
+ * An annotation.
+ */
+export interface Annotation {
+  id?: string;
   '@context': string;
   type: string;
-  body?: [
-    {
-      type: string;
-      value: string;
-      purpose: string;
-    }
-  ];
-  target: {
-    source: string;
-    selector: {
-      type: string;
-      conformsTo: string;
-      value: string;
-    };
-  };
+  body?: AnnotationBodyEntry[];
+  target: AnnotationTarget;
 }
 
 /**
@@ -69,11 +83,11 @@ export interface AnnotationEvent {
   /**
    * The annotation involved in this event.
    */
-  annotation: AnnotationEventEntry;
+  annotation: Annotation;
   /**
    * The annotation before it was updated.
    */
-  prevAnnotation?: AnnotationEventEntry;
+  prevAnnotation?: Annotation;
   /**
    * The function to optionally override a new annotation's ID.
    */
@@ -89,6 +103,8 @@ export interface AnnotationEvent {
 })
 export class ImgAnnotatorDirective {
   private _ann?: any;
+  private _config?: AnnotoriousConfig;
+  private _disableEditor?: boolean;
   private _tool: string;
   private _annotations: any[];
   private _selectedAnnotation?: any;
@@ -98,7 +114,33 @@ export class ImgAnnotatorDirective {
    * will be overridden with the img being decorated by this directive.
    */
   @Input()
-  public config?: AnnotoriousConfig;
+  public get config(): AnnotoriousConfig | undefined {
+    return this._config;
+  }
+  public set config(value: AnnotoriousConfig | undefined) {
+    if (this._config === value) {
+      return;
+    }
+    this._config = value;
+    this._ann?.destroy();
+    this.initAnnotator();
+  }
+
+  /**
+   * Disables the editor thus toggling the headless mode.
+   */
+  @Input()
+  public get disableEditor(): boolean | undefined {
+    return this._disableEditor;
+  }
+  public set disableEditor(value: boolean | undefined) {
+    if (this._disableEditor === value) {
+      return;
+    }
+    this._disableEditor = value;
+    // https://annotorious.github.io/guides/headless-mode/
+    this._ann.disableEditor = value;
+  }
 
   /**
    * The current drawing tool. The default available tools are rect and polygon,
@@ -160,16 +202,51 @@ export class ImgAnnotatorDirective {
   public additionalTools?: string[];
 
   /**
+   * Fired when the annotator has been initialized. This is a way
+   * for passing the annotator itself to the parent component.
+   * The annotator is required in headless mode, so that your code
+   * can replace the current selection by modifying the received
+   * selection and calling annotator.updateSelected(selection, true).
+   */
+  @Output()
+  public annotatorInit: EventEmitter<any>;
+
+  /**
+   * Fired when the user has canceled a selection, by hitting Cancel in
+   * the editor, or by clicking or tapping outside the selected annotation
+   * shape.
+   */
+  @Output()
+  public cancelSelected: EventEmitter<Annotation>;
+
+  /**
+   * Fired when the shape of a newly created selection, or of a selected
+   * annotation is moved or resized. The argument is the annotation target.
+   */
+  @Output()
+  public changeSelectionTarget: EventEmitter<any>;
+
+  /**
+   * Fired every time the user clicks an annotation (regardless of whether
+   * it is already selected or not).
+   */
+  @Output()
+  public clickAnnotation: EventEmitter<AnnotationEvent>;
+
+  /**
    * Emitted when a new annotation is created.
    */
   @Output()
   public createAnnotation: EventEmitter<AnnotationEvent>;
 
   /**
-   * Emitted when an annotation is updated.
+   * Fires when the user has created a new selection (headless mode).
+   * The handler should modify the selected annotation and call
+   * updateSelected (which is an async function returning a Promise)
+   * to replace it.
    */
   @Output()
-  public updateAnnotation: EventEmitter<AnnotationEvent>;
+  public createSelection: EventEmitter<Annotation>;
 
   /**
    * Emitted when an annotation is deleted.
@@ -189,18 +266,42 @@ export class ImgAnnotatorDirective {
   @Output()
   public mouseLeaveAnnotation: EventEmitter<AnnotationEvent>;
 
+  /**
+   * Fires when the user selects an existing annotation (headless mode).
+   * The user can then move or delete the annotation; the corresponding
+   * events will be fired (after moving, the updateAnnotation event when
+   * the user clicks outside the shape, or draws another one; after
+   * deleting, the deleteAnnotation event).
+   */
+  @Output()
+  public selectAnnotation: EventEmitter<Annotation>;
+
+  /**
+   * Emitted when an annotation is updated.
+   */
+  @Output()
+  public updateAnnotation: EventEmitter<AnnotationEvent>;
+
   constructor(private _elementRef: ElementRef<HTMLImageElement>) {
     this._tool = 'rect';
     this._annotations = [];
+    this._disableEditor = true;
+    // events
+    this.annotatorInit = new EventEmitter<any>();
+    this.cancelSelected = new EventEmitter<Annotation>();
+    this.changeSelectionTarget = new EventEmitter<any>();
+    this.clickAnnotation = new EventEmitter<AnnotationEvent>();
+    this.createSelection = new EventEmitter<Annotation>();
     this.createAnnotation = new EventEmitter<AnnotationEvent>();
-    this.updateAnnotation = new EventEmitter<AnnotationEvent>();
     this.deleteAnnotation = new EventEmitter<AnnotationEvent>();
     this.mouseEnterAnnotation = new EventEmitter<AnnotationEvent>();
     this.mouseLeaveAnnotation = new EventEmitter<AnnotationEvent>();
+    this.selectAnnotation = new EventEmitter<Annotation>();
+    this.updateAnnotation = new EventEmitter<AnnotationEvent>();
   }
 
-  ngAfterViewInit() {
-    const cfg = this.config || {};
+  private initAnnotator(): void {
+    const cfg = this.config || { disableEditor: true }; //@@
     cfg.image = this._elementRef.nativeElement;
     this._ann = new Annotorious(cfg);
 
@@ -215,6 +316,19 @@ export class ImgAnnotatorDirective {
     this._ann.setAnnotations(this._annotations || []);
 
     // wrap events:
+    // createSelection
+    this._ann.on('createSelection', (selection: Annotation) => {
+      this.createSelection.emit(selection);
+    });
+    // selectAnnotation
+    this._ann.on('selectAnnotation', (selection: Annotation) => {
+      this.selectAnnotation.emit(selection);
+    });
+    // cancelSelected
+    this._ann.on('cancelSelected', (selection: Annotation) => {
+      this.cancelSelected.emit(selection);
+    });
+
     // createAnnotation
     this._ann.on(
       'createAnnotation',
@@ -251,5 +365,11 @@ export class ImgAnnotatorDirective {
     if (this._tool !== 'rect') {
       this._ann.setDrawingTool(this._tool);
     }
+
+    this.annotatorInit.emit(this._ann);
+  }
+
+  ngAfterViewInit() {
+    this.initAnnotator();
   }
 }

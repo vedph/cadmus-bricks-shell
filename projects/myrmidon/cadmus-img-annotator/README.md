@@ -4,10 +4,12 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Requirements
 
-This library uses Annotorius. The consumer app must install it as follows:
+This library uses [Annotorius](https://annotorious.github.io). The consumer app must install it as follows:
 
-(1) `npm install @recogito/annotorious`
-(2) if you want selectors other than the default rect/polygon you must also install the [selector pack plugin](https://github.com/recogito/annotorious-selector-pack): `npm i @recogito/annotorious-selector-pack`.
+(1) `npm install @recogito/annotorious`;
+
+(2) if you want selectors other than the default rect/polygon, you must also install the [selector pack plugin](https://github.com/recogito/annotorious-selector-pack): `npm i @recogito/annotorious-selector-pack`.
+
 (3) in `angular.json`, add CSS to styles:
 
 ```json

@@ -10,7 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -106,6 +109,8 @@ import { SdImgAnnotatorPgComponent } from './img/sd-img-annotator-pg/sd-img-anno
 import { SdImgGalleryPgComponent } from './img/sd-img-gallery-pg/sd-img-gallery-pg.component';
 import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-view-pg.component';
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
+import { EditAnnotationComponent } from './img/edit-annotation/edit-annotation.component';
+import { EditAnnotationDialogComponent } from './img/edit-annotation-dialog/edit-annotation-dialog.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -115,8 +120,8 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
   },
   alias_eid: {
     typeId: 'it.vedph.metadata',
-    name: 'eid'
-  }
+    name: 'eid',
+  },
 };
 
 // https://ngneat.github.io/elf/docs/dev-tools/
@@ -160,6 +165,8 @@ export function initElfDevTools(actions: Actions) {
     SdImgGalleryPgComponent,
     TextBlockViewPgComponent,
     ViafRefLookupPgComponent,
+    EditAnnotationComponent,
+    EditAnnotationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -272,6 +279,14 @@ export function initElfDevTools(actions: Actions) {
     CadmusUiNoteSetModule,
   ],
   providers: [
+    // dialog default
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        hasBackdrop: true,
+        maxHeight: '800px',
+      },
+    },
     // mocks for lookup
     {
       provide: 'indexLookupDefinitions',

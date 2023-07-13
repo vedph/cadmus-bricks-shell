@@ -96,7 +96,7 @@ export class GallerySdimgAnnotatorComponent implements OnInit, OnDestroy {
 
   private eventToAnnotation(event: AnnotationEvent): GalleryImageAnnotation {
     return {
-      id: event.annotation.id,
+      id: event.annotation.id!,
       target: this._data$.value.image!,
       selector: event.annotation.target.selector.value,
       notes: event.annotation.body

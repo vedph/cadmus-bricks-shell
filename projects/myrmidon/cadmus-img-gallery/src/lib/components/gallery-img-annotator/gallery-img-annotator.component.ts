@@ -9,9 +9,12 @@ import {
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { AnnotationEvent } from '@myrmidon/cadmus-img-annotator';
+import {
+  BarCustomAction,
+  BarCustomActionRequest,
+} from '@myrmidon/cadmus-ui-custom-action-bar';
 
 import { GalleryImage } from '../../models';
-import { BarCustomAction, BarCustomActionRequest } from '@myrmidon/cadmus-ui-custom-action-bar';
 
 /**
  * Essential metadata mostly extracted from the W3C annotation produced
@@ -129,7 +132,7 @@ export class GalleryImgAnnotatorComponent implements OnInit, OnDestroy {
 
   private eventToAnnotation(event: AnnotationEvent): GalleryImageAnnotation {
     return {
-      id: event.annotation.id,
+      id: event.annotation.id!,
       target: this._data$.value.image!,
       selector: event.annotation.target.selector.value,
       notes: event.annotation.body

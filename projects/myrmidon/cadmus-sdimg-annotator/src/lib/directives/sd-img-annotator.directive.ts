@@ -14,6 +14,8 @@ import {
 import * as OSDAnnotorious from '@recogito/annotorious-openseadragon';
 import { Viewer } from 'openseadragon';
 
+// TODO headless mode
+
 @Directive({
   selector: '[cadmusSdImgAnnotator]',
 })
