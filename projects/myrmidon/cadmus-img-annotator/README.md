@@ -79,6 +79,14 @@ export class AppComponent {
     - `selectAnnotation: Annotation`
     - `updateAnnotation: AnnotationEvent`
 
+- `ImgAnnotatorToolbar` is a dumb component used to provide a toolbar for selecting the drawing tool when using `ImgAnnotatorDirective`.
+- ➡️ input:
+  - tools: list of tools, each with its Annotorious ID, icon, and tip. Usually you won't set this but just use the default.
+- ⬅️  output:
+  - `toolChange`: emitted when the control is initialized, and whenever the tool is changed.
+
+>Toolbar consumers just handle the `toolChange` event to set a `tool` property; the annotator directive's `tool` property is bound to it.
+
 - `ImgAnnotationList<T>` (where `T` is the annotation payload type) is a list of image annotations. This list empowers an image annotations list component by maintaining a list of annotation/payload pairs for each annotation, where the payload type is defined by `T`. This list requires an instance of Annotorious `annotator`, and the type of the editor component to use for editing each annotation. It will then use the annotator to keep in synch with Annotorious, and a dialog wrapper to edit each annotation via the provided editor. Consumers should thus provide an annotation editor and a corresponding dialog component wrapper, which wires the annotation to the editor.
 
 - `ImgAnnotationListComponent<T>` (where `T` is the annotation payload type) is a base class for image annotations list components. Derive your component from this, wiring its input `annotator` and `editorComponent` properties. Once both these are set, the list is initialized and ready to be used.
