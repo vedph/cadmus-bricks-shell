@@ -18,11 +18,10 @@ tr.selected {
 }
 div#container {
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr;
   grid-template-columns: auto 1fr;
   grid-template-areas:
-    "image list"
-    "message message";
+    "image list";
   gap: 8px;
 }
 div#image {
@@ -31,15 +30,11 @@ div#image {
 div#list {
   grid-area: list;
 }
-div#message {
-  grid-area: message;
-}
 @media only screen and (max-width: 959px) {
   div#container {
     grid-template-columns: 1fr;
     grid-template-areas:
       "image"
-      "list"
-      "message";
+      "list";
   }
 }

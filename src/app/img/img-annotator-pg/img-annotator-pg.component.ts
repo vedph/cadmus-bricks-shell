@@ -41,7 +41,6 @@ export class ImgAnnotatorPgComponent implements OnInit, OnDestroy {
     disableEditor: true,
   };
 
-  public message?: string;
   public headless: FormControl<boolean>;
 
   constructor(
