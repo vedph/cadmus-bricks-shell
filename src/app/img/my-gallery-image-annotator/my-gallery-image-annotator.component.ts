@@ -8,7 +8,7 @@ import { BehaviorSubject, Subscription, take } from 'rxjs';
 import {
   Annotation,
   AnnotationEvent,
-  ImgAnnotationListComponent,
+  ImgAnnotationList,
 } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 import {
   GalleryImage,
@@ -47,16 +47,19 @@ export interface MyAnnotationPayload {
   templateUrl: './my-gallery-image-annotator.component.html',
   styleUrls: ['./my-gallery-image-annotator.component.css'],
 })
-export class MyGalleryImageAnnotatorComponent extends ImgAnnotationListComponent<MyAnnotationPayload> {
+export class MyGalleryImageAnnotatorComponent {
   private _set$: BehaviorSubject<
     TmpGalleryImageAnnotationSet<MyAnnotationPayload>
   >;
   private _sub?: Subscription;
+  private _list?: ImgAnnotationList<MyAnnotationPayload>;
 
   public imageUri?: string;
+  public entries: ThesaurusEntry[];
+  public annotator?: any;
+  public editorComponent = EditAnnotationDialogComponent;
   public tool: string = 'rect';
   public tabIndex: number = 0;
-  public entries: ThesaurusEntry[];
 
   /**
    * The gallery image to annotate.
@@ -118,8 +121,6 @@ export class MyGalleryImageAnnotatorComponent extends ImgAnnotationListComponent
     private _galleryService: GalleryService,
     private _options: GalleryOptionsService
   ) {
-    super(dialog, dlgConfig);
-
     this._set$ = new BehaviorSubject<
       TmpGalleryImageAnnotationSet<MyAnnotationPayload>
     >({ annotations: [] });
@@ -137,8 +138,6 @@ export class MyGalleryImageAnnotatorComponent extends ImgAnnotationListComponent
         value: 'description',
       },
     ];
-    // editor
-    this.editorComponent = EditAnnotationDialogComponent;
   }
 
   public ngOnInit(): void {
@@ -166,40 +165,44 @@ export class MyGalleryImageAnnotatorComponent extends ImgAnnotationListComponent
     });
   }
 
+  public onListInit(list: ImgAnnotationList<MyAnnotationPayload>) {
+    this._list = list;
+  }
+
   public onCreateSelection(annotation: Annotation) {
-    this.list?.onCreateSelection(annotation);
+    this._list?.onCreateSelection(annotation);
   }
 
   public onSelectAnnotation(annotation: Annotation) {
-    this.list?.onSelectAnnotation(annotation);
+    this._list?.onSelectAnnotation(annotation);
   }
 
   public onCancelSelected(annotation: Annotation) {
-    this.list?.onCancelSelected(annotation);
+    this._list?.onCancelSelected(annotation);
   }
 
   public editAnnotation(index: number): void {
-    this.list?.editAnnotation(index);
+    this._list?.editAnnotation(index);
   }
 
   public selectAnnotation(index: number): void {
-    this.list?.selectAnnotation(index);
+    this._list?.selectAnnotation(index);
   }
 
   public removeAnnotation(index: number): void {
-    this.list?.removeAnnotation(index);
+    this._list?.removeAnnotation(index);
   }
 
   public onCreateAnnotation(event: AnnotationEvent) {
-    this.list?.onCreateAnnotation(event);
+    this._list?.onCreateAnnotation(event);
   }
 
   public onUpdateAnnotation(event: AnnotationEvent) {
-    this.list?.onUpdateAnnotation(event);
+    this._list?.onUpdateAnnotation(event);
   }
 
   public onDeleteAnnotation(event: AnnotationEvent) {
-    this.list?.onDeleteAnnotation(event);
+    this._list?.onDeleteAnnotation(event);
   }
 
   public onImagePick(image: GalleryImage): void {
