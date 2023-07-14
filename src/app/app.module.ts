@@ -111,6 +111,7 @@ import { TextBlockViewPgComponent } from './text/text-block-view-pg/text-block-v
 import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-lookup-pg.component';
 import { EditAnnotationComponent } from './img/edit-annotation/edit-annotation.component';
 import { EditAnnotationDialogComponent } from './img/edit-annotation-dialog/edit-annotation-dialog.component';
+import { MyImgAnnotationListComponent } from './img/img-annotation-list/my-img-annotation-list.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -167,6 +168,7 @@ export function initElfDevTools(actions: Actions) {
     ViafRefLookupPgComponent,
     EditAnnotationComponent,
     EditAnnotationDialogComponent,
+    MyImgAnnotationListComponent,
   ],
   imports: [
     BrowserModule,

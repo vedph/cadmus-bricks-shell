@@ -1,14 +1,18 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  AnnotationBodyEntry,
-  Annotation,
-} from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
+import { ListAnnotation } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 
 @Component({
   selector: 'app-edit-annotation',
@@ -16,13 +20,13 @@ import {
   styleUrls: ['./edit-annotation.component.css'],
 })
 export class EditAnnotationComponent {
-  private _annotation?: Annotation;
+  private _annotation?: ListAnnotation<any>;
 
   @Input()
-  public get annotation(): Annotation | undefined {
+  public get annotation(): ListAnnotation<any> | undefined {
     return this._annotation;
   }
-  public set annotation(value: Annotation | undefined) {
+  public set annotation(value: ListAnnotation<any> | undefined) {
     if (this._annotation === value) {
       return;
     }
@@ -34,7 +38,7 @@ export class EditAnnotationComponent {
   public cancel: EventEmitter<any>;
 
   @Output()
-  public annotationChange: EventEmitter<Annotation>;
+  public annotationChange: EventEmitter<ListAnnotation<any>>;
 
   @ViewChild('txt') txtElementRef?: ElementRef<HTMLTextAreaElement>;
 
@@ -51,22 +55,43 @@ export class EditAnnotationComponent {
     });
     // events
     this.cancel = new EventEmitter<any>();
-    this.annotationChange = new EventEmitter<Annotation>();
+    this.annotationChange = new EventEmitter<ListAnnotation<any>>();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     setTimeout(() => {
       this.txtElementRef?.nativeElement.focus();
     });
   }
 
-  private updateForm(selection?: Annotation): void {
-    if (!selection) {
+  private updateForm(annotation?: ListAnnotation<any>): void {
+    if (!annotation) {
       this.form.reset();
       return;
     }
-    this.text.setValue(selection.body?.length ? selection.body[0].value : '');
+
+    this.text.setValue(
+      annotation.value.body?.length ? annotation.value.body[0].value : ''
+    );
     this.form.markAsPristine();
+  }
+
+  private getAnnotation(): ListAnnotation<any> {
+    if (this._annotation!.value.body!.length === 0) {
+      this._annotation!.value.body!.push({
+        type: 'TextualBody',
+        value: this.text.value || '',
+        purpose: 'commenting',
+      });
+    } else {
+      this._annotation!.value!.body![0].value = this.text.value || '';
+    }
+    let a: ListAnnotation<any> = {
+      id: this._annotation!.id,
+      value: this._annotation!.value,
+      payload: this._annotation!.payload,
+    };
+    return a;
   }
 
   public close(): void {
@@ -77,20 +102,7 @@ export class EditAnnotationComponent {
     if (this.form.invalid) {
       return;
     }
-    const selection = this.annotation;
-    if (!selection) {
-      return;
-    }
-    const old: AnnotationBodyEntry = selection.body?.length
-      ? selection.body[0]
-      : ({} as AnnotationBodyEntry);
-    selection.body = [
-      {
-        ...old,
-        value: this.text.value || '',
-      },
-    ];
-    this.annotation = selection;
-    this.annotationChange.emit(selection);
+    this._annotation = this.getAnnotation();
+    this.annotationChange.emit(this.annotation);
   }
 }

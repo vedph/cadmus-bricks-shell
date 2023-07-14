@@ -1,0 +1,41 @@
+<div *ngIf="list">
+  <table *ngIf="list!.annotations$ | async as annotations">
+    <thead>
+      <tr>
+        <th></th>
+        <th>annotation</th>
+        <th class="noif-lt-md">ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let a of annotations; let i = index"
+        [class.selected]="a === (list!.selectedAnnotation$ | async)"
+      >
+        <td class="fit-width">
+          <button type="button" mat-icon-button (click)="selectAnnotation(i)">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            color="warn"
+            (click)="removeAnnotation(i)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            color="primary"
+            (click)="editAnnotation(i)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+        <td>{{ a | objectToString : annotationToString }}</td>
+        <td class="muted noif-lt-md">{{ a.id }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

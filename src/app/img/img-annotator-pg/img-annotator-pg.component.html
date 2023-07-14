@@ -7,9 +7,9 @@
   <mat-card-content>
     <div id="container">
       <div id="image">
-        <div>
+        <!-- <div>
           <mat-checkbox [formControl]="headless">headless</mat-checkbox>
-        </div>
+        </div> -->
         <div id="toolbar">
           <mat-button-toggle-group #group="matButtonToggleGroup" value="rect">
             <mat-button-toggle value="rect" matTooltip="Rectangle">
@@ -48,49 +48,11 @@
         </div>
       </div>
       <div id="list">
-        <table *ngIf="annotations?.length">
-          <thead>
-            <tr>
-              <th></th>
-              <th>text</th>
-              <th>ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let a of annotations; let i = index"
-              [class.selected]="i === selectedAnnotationIndex"
-            >
-              <td>
-                <button
-                  type="button"
-                  mat-icon-button
-                  (click)="selectAnnotation(i)"
-                >
-                  <mat-icon>check_circle</mat-icon>
-                </button>
-                <button
-                  type="button"
-                  mat-icon-button
-                  color="warn"
-                  (click)="removeAnnotation(i)"
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
-                <button
-                  type="button"
-                  mat-icon-button
-                  color="primary"
-                  (click)="editAnnotation(i)"
-                >
-                  <mat-icon>edit</mat-icon>
-                </button>
-              </td>
-              <td>{{ a.body![0].value }}</td>
-              <td class="muted">{{ a.id }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <app-my-img-annotation-list
+          [annotator]="annotator"
+          [editorComponent]="editor"
+          (listInit)="onListInit($event)"
+        ></app-my-img-annotation-list>
       </div>
       <div id="message">
         <pre>{{ message }}</pre>
