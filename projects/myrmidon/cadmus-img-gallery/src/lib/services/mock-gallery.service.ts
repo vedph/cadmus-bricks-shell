@@ -5,11 +5,11 @@ import { Observable, of } from 'rxjs';
 
 import {
   GalleryFilter,
-  GalleryImage,
   GalleryOptions,
   GalleryService,
 } from '../models';
 import { LoremIpsumService } from './lorem-ipsum.service';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 
 /**
  * Options for MockGalleryService.

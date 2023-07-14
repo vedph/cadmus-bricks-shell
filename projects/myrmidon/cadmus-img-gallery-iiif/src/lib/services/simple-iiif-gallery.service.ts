@@ -4,13 +4,13 @@ import { Observable, of, switchMap, take } from 'rxjs';
 
 import {
   GalleryFilter,
-  GalleryImage,
   GalleryOptions,
   GalleryService,
 } from '@myrmidon/cadmus-img-gallery';
 import { DataPage } from '@myrmidon/ng-tools';
 
 import { IiifUri } from './iiif-uri';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 
 // ...images/resource essential metadata
 interface ManifestImageResource {

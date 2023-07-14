@@ -12,8 +12,9 @@ import { PaginationData } from '@ngneat/elf-pagination';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import { GalleryListRepository } from '../../gallery-list.repository';
-import { GalleryImage, GalleryOptions } from '../../models';
+import { GalleryOptions } from '../../models';
 import { GalleryOptionsService } from '../../services/gallery-options.service';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 
 @Component({
   selector: 'cadmus-gallery-list',

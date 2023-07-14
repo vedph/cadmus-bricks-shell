@@ -4,8 +4,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
   Annotation,
   AnnotationEvent,
+  GalleryImage,
 } from '../../directives/img-annotator.directive';
-import { GalleryImage } from '@myrmidon/cadmus-img-gallery';
 
 /**
  * An annotation included in a list. Each annotation is paired

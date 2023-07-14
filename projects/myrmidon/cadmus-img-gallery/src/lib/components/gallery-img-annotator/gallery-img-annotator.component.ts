@@ -8,13 +8,11 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
-import { AnnotationEvent } from '@myrmidon/cadmus-img-annotator';
+import { AnnotationEvent, GalleryImage } from '@myrmidon/cadmus-img-annotator';
 import {
   BarCustomAction,
   BarCustomActionRequest,
 } from '@myrmidon/cadmus-ui-custom-action-bar';
-
-import { GalleryImage } from '../../models';
 
 /**
  * Essential metadata mostly extracted from the W3C annotation produced

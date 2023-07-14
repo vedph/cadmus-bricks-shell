@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { DataPage } from '@myrmidon/ng-tools';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 
 /**
  * The key used for DI of the gallery server options.
@@ -21,17 +22,6 @@ export const IMAGE_GALLERY_OPTIONS_KEY = 'cadmusImgGalleryOptions';
  * }
  */
 export const IMAGE_GALLERY_SERVICE_KEY = 'cadmusImgGalleryService';
-
-/**
- * Essential metadata for a gallery image. You can derive your own model
- * from this one.
- */
-export interface GalleryImage {
-  id: string;
-  uri: string;
-  title: string;
-  description?: string;
-}
 
 /**
  * Essential options for a gallery image. You can derive your own model

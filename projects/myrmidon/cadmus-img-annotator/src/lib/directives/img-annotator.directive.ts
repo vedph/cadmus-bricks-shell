@@ -13,6 +13,17 @@ import SelectorPack from '@recogito/annotorious-selector-pack';
 // https://recogito.github.io/annotorious/api-docs/annotorious
 
 /**
+ * Essential metadata for a gallery image to annotate. You can derive
+ * your own model from this one.
+ */
+export interface GalleryImage {
+  id: string;
+  uri: string;
+  title: string;
+  description?: string;
+}
+
+/**
  * Annotorious formatter function.
  */
 export type AnnotoriousFormatter = (

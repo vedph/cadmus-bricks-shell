@@ -33,10 +33,10 @@ import { DataPage } from '@myrmidon/ng-tools';
 import { GalleryOptionsService } from './services/gallery-options.service';
 import {
   GalleryFilter,
-  GalleryImage,
   GalleryService,
   IMAGE_GALLERY_SERVICE_KEY,
 } from './models';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 
 const PAGE_SIZE = 10;
 
