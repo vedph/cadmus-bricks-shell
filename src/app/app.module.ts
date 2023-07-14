@@ -112,6 +112,7 @@ import { ViafRefLookupPgComponent } from './refs/viaf-ref-lookup-pg/viaf-ref-loo
 import { EditAnnotationComponent } from './img/edit-annotation/edit-annotation.component';
 import { EditAnnotationDialogComponent } from './img/edit-annotation-dialog/edit-annotation-dialog.component';
 import { MyImgAnnotationListComponent } from './img/img-annotation-list/my-img-annotation-list.component';
+import { ImgAnnotatorToolbarPgComponent } from './img/img-annotator-toolbar-pg/img-annotator-toolbar-pg.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -169,6 +170,7 @@ export function initElfDevTools(actions: Actions) {
     EditAnnotationComponent,
     EditAnnotationDialogComponent,
     MyImgAnnotationListComponent,
+    ImgAnnotatorToolbarPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -184,6 +186,7 @@ export function initElfDevTools(actions: Actions) {
         { path: 'img/sd-gallery', component: SdImgGalleryPgComponent },
         { path: 'img/annotator', component: ImgAnnotatorPgComponent },
         { path: 'img/sd-annotator', component: SdImgAnnotatorPgComponent },
+        { path: 'img/toolbar', component: ImgAnnotatorToolbarPgComponent },
         { path: 'refs/doc-references', component: DocReferencesPgComponent },
         { path: 'refs/external-ids', component: ExternalIdsPgComponent },
         {
