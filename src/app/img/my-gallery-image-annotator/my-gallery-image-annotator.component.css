@@ -2,8 +2,7 @@ div#container {
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: auto minmax(0, 1fr);
-  grid-template-areas:
-    "image list";
+  grid-template-areas: "image list";
   gap: 8px;
 }
 div#image {
@@ -12,11 +11,18 @@ div#image {
 div#list {
   grid-area: list;
 }
-#dump {
-  height: 400px;
-  overflow-y: auto;
-  min-width: 0;
-  white-space: pre-wrap;
+div#dump {
+  margin-top: 8px;
+  width: 100%;
+}
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.form-row * {
+  flex: 0 0 auto;
 }
 @media only screen and (max-width: 959px) {
   div#container {

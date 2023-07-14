@@ -31,8 +31,24 @@
           [editorComponent]="editorComponent"
           (listInit)="onListInit($event)"
         ></app-my-img-annotation-list>
-        <div id="dump" *ngIf="json">
-          <pre>{{json}}</pre>
+
+        <div id="dump">
+          <form [formGroup]="form" (submit)="setAnnotations()">
+            <mat-form-field style="width: 100%">
+              <textarea matInput rows="10" [formControl]="json"></textarea>
+            </mat-form-field>
+            <div class="form-row">
+              <mat-checkbox [formControl]="frozen">frozen</mat-checkbox>
+              <button
+                mat-flat-button
+                type="submit"
+                color="warn"
+                matTooltip="Set annotations from JSON"
+              >
+                <mat-icon>check_circle</mat-icon> set
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

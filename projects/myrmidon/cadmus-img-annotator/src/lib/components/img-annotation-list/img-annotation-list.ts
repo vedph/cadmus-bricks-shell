@@ -93,7 +93,7 @@ export class ImgAnnotationList<T> {
    */
   public setAnnotations(annotations: ListAnnotation<T>[]): void {
     this._annotations$.next(annotations);
-    this.annotator?.loadAnnotations(annotations.map((a) => a.value));
+    this.annotator?.setAnnotations(annotations.map((a) => a.value));
   }
 
   /**

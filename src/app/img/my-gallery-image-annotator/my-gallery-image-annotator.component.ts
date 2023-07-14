@@ -30,6 +30,13 @@ import {
 } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
 
 import { EditAnnotationDialogComponent } from '../edit-annotation-dialog/edit-annotation-dialog.component';
+import {
+  Form,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 /**
  * Sample image annotation payload: this just contains a note.
@@ -56,7 +63,10 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
   public editorComponent = EditAnnotationDialogComponent;
   public tool: string = 'rect';
   public tabIndex: number = 0;
-  public json?: string;
+  // dump
+  public json: FormControl<string | null>;
+  public frozen: FormControl<boolean>;
+  public form: FormGroup;
 
   /**
    * The gallery image to annotate.
@@ -104,7 +114,8 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DEFAULT_OPTIONS) public dlgConfig: MatDialogConfig,
     @Inject(IMAGE_GALLERY_SERVICE_KEY)
     private _galleryService: GalleryService,
-    private _options: GalleryOptionsService
+    private _options: GalleryOptionsService,
+    formBuilder: FormBuilder
   ) {
     this.annotationsChange = new EventEmitter<
       GalleryAnnotatedImage<MyAnnotationPayload>
@@ -121,6 +132,13 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
         value: 'description',
       },
     ];
+    // form
+    this.json = formBuilder.control(null, Validators.required);
+    this.frozen = formBuilder.control(false, { nonNullable: true });
+    this.form = formBuilder.group({
+      json: this.json,
+      frozen: this.frozen,
+    });
   }
 
   public ngOnInit(): void {
@@ -154,10 +172,19 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
           image: this._image,
           annotations: annotations,
         });
-        // diagnostic
-        this.json = JSON.stringify(annotations, null, 2);
+        if (!this.frozen.value) {
+          this.json.setValue(JSON.stringify(annotations, null, 2));
+        }
       }
     });
+  }
+
+  public setAnnotations(): void {
+    if (this.form.invalid) {
+      return;
+    }
+    const annotations = JSON.parse(this.json.value || '[]');
+    this._list?.setAnnotations(annotations);
   }
 
   public onCreateSelection(annotation: Annotation) {
