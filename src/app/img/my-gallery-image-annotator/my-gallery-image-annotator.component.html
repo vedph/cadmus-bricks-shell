@@ -1,0 +1,42 @@
+<mat-tab-group [(selectedIndex)]="tabIndex">
+  <mat-tab label="Annotator">
+    <div id="container">
+      <div id="image" *ngIf="image">
+        <div>
+          <cadmus-img-annotator-toolbar
+            (toolChange)="onToolChange($event)"
+          ></cadmus-img-annotator-toolbar>
+        </div>
+        <div>
+          <img
+            alt="image"
+            cadmusImgAnnotator
+            (createAnnotation)="onCreateAnnotation($event)"
+            (updateAnnotation)="onUpdateAnnotation($event)"
+            (deleteAnnotation)="onDeleteAnnotation($event)"
+            (createSelection)="onCreateSelection($event)"
+            (selectAnnotation)="onSelectAnnotation($event)"
+            (cancelSelected)="onCancelSelected($event)"
+            (annotatorInit)="onAnnotatorInit($event)"
+            [disableEditor]="true"
+            [tool]="tool"
+            [additionalTools]="['circle', 'ellipse', 'freehand']"
+            [src]="image!.uri"
+          />
+        </div>
+      </div>
+      <div id="list">
+        <app-my-img-annotation-list
+          [annotator]="annotator"
+          [editorComponent]="editorComponent"
+        ></app-my-img-annotation-list>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Gallery">
+    <cadmus-gallery-list
+      [entries]="entries"
+      (imagePick)="onImagePick($event)"
+    ></cadmus-gallery-list>
+  </mat-tab>
+</mat-tab-group>

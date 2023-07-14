@@ -5,10 +5,6 @@ import {
   MatDialogConfig,
 } from '@angular/material/dialog';
 
-import {
-  Annotation,
-  AnnotationEvent,
-} from '../../directives/img-annotator.directive';
 import { ImgAnnotationList, ListAnnotation } from './img-annotation-list';
 
 /**
@@ -84,7 +80,7 @@ export abstract class ImgAnnotationListComponent<T> {
     this.listInit = new EventEmitter<ImgAnnotationList<T>>();
   }
 
-  private initList(): void {
+  protected initList(): void {
     if (this._annotator && this._editorComponent) {
       this._list = new ImgAnnotationList(
         this._annotator,

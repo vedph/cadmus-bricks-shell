@@ -113,6 +113,7 @@ import { EditAnnotationComponent } from './img/edit-annotation/edit-annotation.c
 import { EditAnnotationDialogComponent } from './img/edit-annotation-dialog/edit-annotation-dialog.component';
 import { MyImgAnnotationListComponent } from './img/img-annotation-list/my-img-annotation-list.component';
 import { ImgAnnotatorToolbarPgComponent } from './img/img-annotator-toolbar-pg/img-annotator-toolbar-pg.component';
+import { MyGalleryImageAnnotatorComponent } from './img/my-gallery-image-annotator/my-gallery-image-annotator.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -171,6 +172,7 @@ export function initElfDevTools(actions: Actions) {
     EditAnnotationDialogComponent,
     MyImgAnnotationListComponent,
     ImgAnnotatorToolbarPgComponent,
+    MyGalleryImageAnnotatorComponent,
   ],
   imports: [
     BrowserModule,

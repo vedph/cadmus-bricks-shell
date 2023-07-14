@@ -1,0 +1,22 @@
+div#container {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "image list";
+  gap: 8px;
+}
+div#image {
+  grid-area: image;
+}
+div#list {
+  grid-area: list;
+}
+@media only screen and (max-width: 959px) {
+  div#container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "image"
+      "list";
+  }
+}
