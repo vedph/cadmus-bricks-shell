@@ -41,6 +41,8 @@ export class ImgAnnotatorPgComponent implements OnInit, OnDestroy {
     disableEditor: true,
   };
 
+  public tool: string;
+
   public headless: FormControl<boolean>;
 
   constructor(
@@ -50,6 +52,7 @@ export class ImgAnnotatorPgComponent implements OnInit, OnDestroy {
   ) {
     this.headless = formBuilder.control(true, { nonNullable: true });
     this.editor = EditAnnotationDialogComponent;
+    this.tool = 'rect';
   }
 
   ngOnInit(): void {
@@ -62,6 +65,10 @@ export class ImgAnnotatorPgComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this._sub?.unsubscribe();
+  }
+
+  public onToolChange(tool: string): void {
+    this.tool = tool;
   }
 
   public onListInit(list: ImgAnnotationList<any>) {

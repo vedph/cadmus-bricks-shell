@@ -11,23 +11,9 @@
           <mat-checkbox [formControl]="headless">headless</mat-checkbox>
         </div> -->
         <div id="toolbar">
-          <mat-button-toggle-group #group="matButtonToggleGroup" value="rect">
-            <mat-button-toggle value="rect" matTooltip="Rectangle">
-              <mat-icon>rectangle</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="polygon" matTooltip="Polygon">
-              <mat-icon>polyline</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="circle" matTooltip="Circle">
-              <mat-icon>radio_button_unchecked</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="ellipse" matTooltip="Ellipse">
-              <mat-icon>exposure_zero</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="freehand" matTooltip="Freehand">
-              <mat-icon>gesture</mat-icon>
-            </mat-button-toggle>
-          </mat-button-toggle-group>
+          <cadmus-img-annotator-toolbar
+          (toolChange)="onToolChange($event)"
+        ></cadmus-img-annotator-toolbar>
         </div>
         <div>
           <img
@@ -41,7 +27,7 @@
             (cancelSelected)="onCancelSelected($event)"
             (annotatorInit)="onAnnotatorInit($event)"
             [disableEditor]="headless.value"
-            [tool]="group.value"
+            [tool]="tool"
             [additionalTools]="['circle', 'ellipse', 'freehand']"
             src="assets/sample.jpg"
           />
