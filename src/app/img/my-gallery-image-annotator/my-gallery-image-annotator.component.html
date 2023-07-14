@@ -31,6 +31,9 @@
           [editorComponent]="editorComponent"
           (listInit)="onListInit($event)"
         ></app-my-img-annotation-list>
+        <div id="dump" *ngIf="json">
+          <pre>{{json}}</pre>
+        </div>
       </div>
     </div>
   </mat-tab>

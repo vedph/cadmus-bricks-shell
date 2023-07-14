@@ -56,6 +56,7 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
   public editorComponent = EditAnnotationDialogComponent;
   public tool: string = 'rect';
   public tabIndex: number = 0;
+  public json?: string;
 
   /**
    * The gallery image to annotate.
@@ -153,6 +154,8 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
           image: this._image,
           annotations: annotations,
         });
+        // diagnostic
+        this.json = JSON.stringify(annotations, null, 2);
       }
     });
   }

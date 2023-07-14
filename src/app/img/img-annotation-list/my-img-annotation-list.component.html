@@ -13,7 +13,12 @@
         [class.selected]="a === (list!.selectedAnnotation$ | async)"
       >
         <td class="fit-width">
-          <button type="button" mat-icon-button (click)="selectAnnotation(i)">
+          <button
+            type="button"
+            mat-icon-button
+            (click)="selectAnnotation(i)"
+            matTooltip="Select annotation"
+          >
             <mat-icon>check_circle</mat-icon>
           </button>
           <button
@@ -21,6 +26,7 @@
             mat-icon-button
             color="warn"
             (click)="removeAnnotation(i)"
+            matTooltip="Remove annotation"
           >
             <mat-icon>delete</mat-icon>
           </button>
@@ -29,6 +35,7 @@
             mat-icon-button
             color="primary"
             (click)="editAnnotation(i)"
+            matTooltip="Edit annotation"
           >
             <mat-icon>edit</mat-icon>
           </button>
