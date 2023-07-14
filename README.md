@@ -65,6 +65,8 @@ To add a brick:
 
 ## History
 
+- 2023-07-14: BREAKING CHANGES in image annotation, switching to Annotorious headless mode. Migration is only partially completed. Affected library versions bumped to version 3.0.0.
+
 ### 1.0.16
 
 - 2023-07-10:
