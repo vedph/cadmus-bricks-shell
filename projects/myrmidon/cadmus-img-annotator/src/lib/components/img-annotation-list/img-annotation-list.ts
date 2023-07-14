@@ -5,6 +5,7 @@ import {
   Annotation,
   AnnotationEvent,
 } from '../../directives/img-annotator.directive';
+import { GalleryImage } from '@myrmidon/cadmus-img-gallery';
 
 /**
  * An annotation included in a list. Each annotation is paired
@@ -15,6 +16,14 @@ export interface ListAnnotation<T> {
   id: string;
   value: Annotation;
   payload?: T;
+}
+
+/**
+ * An image with its annotations.
+ */
+export interface GalleryAnnotatedImage<T> {
+  image?: GalleryImage;
+  annotations: ListAnnotation<T>[];
 }
 
 /**
@@ -68,6 +77,31 @@ export class ImgAnnotationList<T> {
     this.annotationToString = (a: ListAnnotation<any>) => {
       return a.value.body?.length ? a.value.body[0].value : a.id;
     };
+  }
+
+  /**
+   * Gets the annotations.
+   * @returns The annotations in this list.
+   */
+  public getAnnotations(): ListAnnotation<T>[] {
+    return this._annotations$.value;
+  }
+
+  /**
+   * Set the annotations.
+   * @param annotations The annotations to set.
+   */
+  public setAnnotations(annotations: ListAnnotation<T>[]): void {
+    this._annotations$.next(annotations);
+    this.annotator?.loadAnnotations(annotations.map((a) => a.value));
+  }
+
+  /**
+   * Removes all the annotations.
+   */
+  public clearAnnotations(): void {
+    this._annotations$.next([]);
+    this.annotator?.clearAnnotations();
   }
 
   /**

@@ -1,14 +1,26 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialog,
   MatDialogConfig,
 } from '@angular/material/dialog';
-import { BehaviorSubject, Subscription, take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+
 import {
   Annotation,
   AnnotationEvent,
+  GalleryAnnotatedImage,
   ImgAnnotationList,
+  ListAnnotation,
 } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 import {
   GalleryImage,
@@ -16,21 +28,8 @@ import {
   GalleryService,
   IMAGE_GALLERY_SERVICE_KEY,
 } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+
 import { EditAnnotationDialogComponent } from '../edit-annotation-dialog/edit-annotation-dialog.component';
-
-// TODO: move tmp to library
-export interface TmpGalleryImageAnnotation<T> {
-  id: string;
-  target: GalleryImage;
-  selector: string;
-  payload?: T;
-}
-
-export interface TmpGalleryImageAnnotationSet<T> {
-  image?: GalleryImage;
-  annotations: TmpGalleryImageAnnotation<T>[];
-}
 
 /**
  * Sample image annotation payload: this just contains a note.
@@ -47,14 +46,11 @@ export interface MyAnnotationPayload {
   templateUrl: './my-gallery-image-annotator.component.html',
   styleUrls: ['./my-gallery-image-annotator.component.css'],
 })
-export class MyGalleryImageAnnotatorComponent {
-  private _set$: BehaviorSubject<
-    TmpGalleryImageAnnotationSet<MyAnnotationPayload>
-  >;
+export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
   private _sub?: Subscription;
+  private _image?: GalleryImage;
   private _list?: ImgAnnotationList<MyAnnotationPayload>;
 
-  public imageUri?: string;
   public entries: ThesaurusEntry[];
   public annotator?: any;
   public editorComponent = EditAnnotationDialogComponent;
@@ -66,26 +62,20 @@ export class MyGalleryImageAnnotatorComponent {
    */
   @Input()
   public get image(): GalleryImage | undefined | null {
-    return this._set$.value.image;
+    return this._image;
   }
   public set image(value: GalleryImage | undefined | null) {
-    if (this._set$.value.image === value) {
+    if (this._image === value) {
       return;
     }
-    // preserve existing annotations, unless they belong to a previously
-    // loaded different image
-    let annotations = this._set$.value.annotations;
-    if (value) {
-      if (annotations?.length && annotations[0].id !== value.id) {
-        annotations = [];
-      }
+    this._image = value || undefined;
+    // reset annotations if image URI changed
+    if (this._image?.uri !== value?.uri) {
+      this._list?.clearAnnotations();
     }
-    this._set$.next({
-      image: value || undefined,
-      annotations: annotations,
-    });
+    // switch to image tab
     setTimeout(() => {
-      this.tabIndex = 0;
+      this.tabIndex = value ? 0 : 1;
     });
   }
 
@@ -93,17 +83,11 @@ export class MyGalleryImageAnnotatorComponent {
    * The annotations being edited.
    */
   @Input()
-  public get annotations(): TmpGalleryImageAnnotation<MyAnnotationPayload>[] {
-    return this._set$.value.annotations;
+  public get annotations(): ListAnnotation<MyAnnotationPayload>[] {
+    return this._list?.getAnnotations() || [];
   }
-  public set annotations(
-    value: TmpGalleryImageAnnotation<MyAnnotationPayload>[]
-  ) {
-    if (this._set$.value.annotations === value) {
-      return;
-    }
-    // preserve existing image
-    this._set$.next({ image: this._set$.value.image, annotations: value });
+  public set annotations(value: ListAnnotation<MyAnnotationPayload>[]) {
+    this._list?.setAnnotations(value);
   }
 
   /**
@@ -111,7 +95,7 @@ export class MyGalleryImageAnnotatorComponent {
    */
   @Output()
   public annotationsChange: EventEmitter<
-    TmpGalleryImageAnnotation<MyAnnotationPayload>[]
+    GalleryAnnotatedImage<MyAnnotationPayload>
   >;
 
   constructor(
@@ -121,12 +105,10 @@ export class MyGalleryImageAnnotatorComponent {
     private _galleryService: GalleryService,
     private _options: GalleryOptionsService
   ) {
-    this._set$ = new BehaviorSubject<
-      TmpGalleryImageAnnotationSet<MyAnnotationPayload>
-    >({ annotations: [] });
     this.annotationsChange = new EventEmitter<
-      TmpGalleryImageAnnotation<MyAnnotationPayload>[]
+      GalleryAnnotatedImage<MyAnnotationPayload>
     >();
+
     // mock filter entries
     this.entries = [
       {
@@ -141,12 +123,7 @@ export class MyGalleryImageAnnotatorComponent {
   }
 
   public ngOnInit(): void {
-    // whenever data change, update the image URI and its annotations
-    // this._sub = this._set$.subscribe((d) => {
-    //   this.imageUri = d.image?.uri;
-    //   // TODO
-    // });
-    if (!this._set$.value.image) {
+    if (!this._image) {
       this.tabIndex = 1;
     }
   }
@@ -167,6 +144,17 @@ export class MyGalleryImageAnnotatorComponent {
 
   public onListInit(list: ImgAnnotationList<MyAnnotationPayload>) {
     this._list = list;
+
+    // emit annotations whenever they change
+    this._sub?.unsubscribe();
+    this._sub = this._list.annotations$.subscribe((annotations) => {
+      if (this._image) {
+        this.annotationsChange.emit({
+          image: this._image,
+          annotations: annotations,
+        });
+      }
+    });
   }
 
   public onCreateSelection(annotation: Annotation) {
