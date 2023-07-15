@@ -35,6 +35,7 @@ export class ImgAnnotationList<T> {
   private _selectedAnnotation$: BehaviorSubject<ListAnnotation<T> | null>;
   private _selectedIndex: number;
   private _currentIsNew?: boolean;
+  private _pendingAnnotation?: ListAnnotation<T>;
 
   /**
    * The annotations in this list.
@@ -127,7 +128,10 @@ export class ImgAnnotationList<T> {
   private saveAnnotation(annotation: ListAnnotation<any>): void {
     // update in annotorious
     this.annotator?.updateSelected(annotation.value, true);
-    // (local list will be updated on create event)
+    // local list will be updated on create event, but we must
+    // preserve its payload here because Annotorious knows nothing
+    // about it
+    this._pendingAnnotation = annotation;
     this.deselectAnnotation();
   }
 
@@ -177,6 +181,7 @@ export class ImgAnnotationList<T> {
    * @param annotation The annotation.
    */
   public onCreateSelection(annotation: Annotation) {
+    console.log('onCreateSelection');
     this._currentIsNew = true;
     this._selectedAnnotation$.next({
       id: annotation.id!,
@@ -191,6 +196,7 @@ export class ImgAnnotationList<T> {
    * @param annotation The annotation.
    */
   public onSelectAnnotation(annotation: Annotation) {
+    console.log('onSelectAnnotation');
     this._selectedIndex = this._annotations$.value.findIndex(
       (a) => a.id === annotation.id
     );
@@ -208,6 +214,7 @@ export class ImgAnnotationList<T> {
    * @param annotation The annotation.
    */
   public onCancelSelected(annotation: Annotation) {
+    console.log('onCancelSelected');
     this._currentIsNew = false;
     this._selectedAnnotation$.next(null);
     this._selectedIndex = -1;
@@ -262,15 +269,17 @@ export class ImgAnnotationList<T> {
    * @param event The event.
    */
   public onCreateAnnotation(event: AnnotationEvent) {
+    console.log('onCreateAnnotation');
     this._annotations$.next([
       ...this._annotations$.value,
       {
         id: event.annotation.id!,
         image: this.image!,
         value: event.annotation,
-        // no payload, it's new
+        payload: this._pendingAnnotation?.payload,
       },
     ]);
+    this._pendingAnnotation = undefined;
   }
 
   /**
@@ -278,6 +287,7 @@ export class ImgAnnotationList<T> {
    * @param event The event.
    */
   public onUpdateAnnotation(event: AnnotationEvent) {
+    console.log('onUpdateAnnotation');
     const i = this._annotations$.value.findIndex(
       (a) => a.id === event.annotation.id
     );
@@ -294,6 +304,7 @@ export class ImgAnnotationList<T> {
    * @param event The event.
    */
   public onDeleteAnnotation(event: AnnotationEvent) {
+    console.log('onDeleteAnnotation');
     const annotations = [...this._annotations$.value];
     const i = annotations.findIndex((a) => a.id === event.annotation.id);
     if (i > -1) {
