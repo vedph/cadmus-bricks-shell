@@ -87,12 +87,20 @@ export class ImgAnnotationList<T> {
   }
 
   /**
+   * Gets the W3C annotations in the Annotorious annotator.
+   * @returns The annotations in the Annotorious annotator.
+   */
+  public getW3CAnnotations(): Annotation[] {
+    return this.annotator.getAnnotations();
+  }
+
+  /**
    * Set the annotations.
    * @param annotations The annotations to set.
    */
   public setAnnotations(annotations: ListAnnotation<T>[]): void {
     this._annotations$.next(annotations);
-    this.annotator?.setAnnotations(annotations.map((a) => a.value));
+    this.annotator.setAnnotations(annotations.map((a) => a.value));
   }
 
   /**
@@ -100,7 +108,7 @@ export class ImgAnnotationList<T> {
    */
   public clearAnnotations(): void {
     this._annotations$.next([]);
-    this.annotator?.clearAnnotations();
+    this.annotator.clearAnnotations();
   }
 
   /**
@@ -112,9 +120,10 @@ export class ImgAnnotationList<T> {
     }
     // deselect in Annotorious and also delete if it was newly added
     // (user canceled the editor dialog)
-    this.annotator?.cancelSelected();
+    this.annotator.cancelSelected();
     if (this._currentIsNew) {
-      this.annotator?.removeAnnotation(this._selectedAnnotation$.value.value);
+      // remove by instance because we do not yet have an ID
+      this.annotator.removeAnnotation(this._selectedAnnotation$.value.value);
     }
     this._selectedAnnotation$.next(null);
     this._selectedIndex = -1;
@@ -127,7 +136,7 @@ export class ImgAnnotationList<T> {
    */
   private saveAnnotation(annotation: ListAnnotation<any>): void {
     // update in annotorious
-    this.annotator?.updateSelected(annotation.value, true);
+    this.annotator.updateSelected(annotation.value, true);
     // local list will be updated on create event, but we must
     // preserve its payload here because Annotorious knows nothing
     // about it
@@ -135,9 +144,7 @@ export class ImgAnnotationList<T> {
     // if instead it is not new, update the payload in the list
     if (annotation.id) {
       const annotations = [...this._annotations$.value];
-      const index = annotations.findIndex(
-        (a) => a.id === annotation.id
-      );
+      const index = annotations.findIndex((a) => a.id === annotation.id);
       if (index > -1) {
         annotations.splice(index, 1, annotation);
         this._annotations$.next(annotations);
@@ -175,7 +182,7 @@ export class ImgAnnotationList<T> {
           this.saveAnnotation(result);
         } else {
           if (this._currentIsNew) {
-            this.annotator?.removeAnnotation(
+            this.annotator.removeAnnotation(
               this._selectedAnnotation$.value!.value
             );
             this._currentIsNew = false;
@@ -250,10 +257,10 @@ export class ImgAnnotationList<T> {
     this._selectedIndex = index;
     if (index === -1) {
       this._selectedAnnotation$.next(null);
-      this.annotator?.cancelSelected();
+      this.annotator.cancelSelected();
     } else {
       this._selectedAnnotation$.next(this._annotations$.value[index]);
-      this.annotator?.selectAnnotation(this._selectedAnnotation$.value!.id);
+      this.annotator.selectAnnotation(this._selectedAnnotation$.value!.id);
     }
   }
 

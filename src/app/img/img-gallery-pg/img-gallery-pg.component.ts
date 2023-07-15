@@ -57,7 +57,7 @@ export class ImgGalleryPgComponent {
 
   public onImagePick(image: GalleryImage): void {
     // get the single image as we need the "full" size
-    const options = { ...this._options, width: 600, height: 800 };
+    // const options = { ...this._options, width: 600, height: 800 };
 
     this._galleryService
       .getImage(image.id, this._options.get())
