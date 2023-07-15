@@ -14,16 +14,9 @@ import {
  */
 export interface ListAnnotation<T> {
   id: string;
+  image: GalleryImage;
   value: Annotation;
   payload?: T;
-}
-
-/**
- * An image with its annotations.
- */
-export interface GalleryAnnotatedImage<T> {
-  image?: GalleryImage;
-  annotations: ListAnnotation<T>[];
 }
 
 /**
@@ -62,6 +55,11 @@ export class ImgAnnotationList<T> {
    * summarizing its content appropriately.
    */
   public annotationToString: (object: ListAnnotation<any>) => string | null;
+
+  /**
+   * The image to be annotated.
+   */
+  public image?: GalleryImage;
 
   constructor(
     public annotator: any,
@@ -180,7 +178,11 @@ export class ImgAnnotationList<T> {
    */
   public onCreateSelection(annotation: Annotation) {
     this._currentIsNew = true;
-    this._selectedAnnotation$.next({ id: annotation.id!, value: annotation });
+    this._selectedAnnotation$.next({
+      id: annotation.id!,
+      image: this.image!,
+      value: annotation,
+    });
     this.editSelectedAnnotation();
   }
 
@@ -264,6 +266,7 @@ export class ImgAnnotationList<T> {
       ...this._annotations$.value,
       {
         id: event.annotation.id!,
+        image: this.image!,
         value: event.annotation,
         // no payload, it's new
       },

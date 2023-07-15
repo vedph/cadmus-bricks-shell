@@ -8,11 +8,8 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
-import { AnnotationEvent } from '@myrmidon/cadmus-img-annotator';
-import {
-  GalleryImage,
-  GalleryImageAnnotation,
-} from '@myrmidon/cadmus-img-gallery';
+import { AnnotationEvent, GalleryImage } from '@myrmidon/cadmus-img-annotator';
+import { GalleryImageAnnotation } from '@myrmidon/cadmus-img-gallery';
 
 interface GalleryImgAnnotatorData {
   image?: GalleryImage;

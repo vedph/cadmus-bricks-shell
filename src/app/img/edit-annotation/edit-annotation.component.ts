@@ -89,6 +89,7 @@ export class EditAnnotationComponent {
     let a: ListAnnotation<any> = {
       id: this._annotation!.id,
       value: this._annotation!.value,
+      image: this._annotation!.image,
       payload: this._annotation!.payload,
     };
     return a;

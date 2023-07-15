@@ -13,7 +13,9 @@ import {
   AnnotationEvent,
 } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 
-import { EditAnnotationDialogComponent } from '../edit-annotation-dialog/edit-annotation-dialog.component';
+import { EditAnnotationDialogComponent }
+  from '../edit-annotation-dialog/edit-annotation-dialog.component';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 
 /**
  * Sample annotation list component, orchestrating the annotator directive,
@@ -42,6 +44,7 @@ export class ImgAnnotatorPgComponent implements OnInit, OnDestroy {
   };
 
   public tool: string;
+  public image: GalleryImage;
 
   public headless: FormControl<boolean>;
 
@@ -53,6 +56,12 @@ export class ImgAnnotatorPgComponent implements OnInit, OnDestroy {
     this.headless = formBuilder.control(true, { nonNullable: true });
     this.editor = EditAnnotationDialogComponent;
     this.tool = 'rect';
+    this.image = {
+      id: '1',
+      uri: 'assets/sample.jpg',
+      title: 'sample',
+      description: 'Sample image',
+    };
   }
 
   ngOnInit(): void {

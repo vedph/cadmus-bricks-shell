@@ -156,6 +156,7 @@ First, define the model of your annotation. This should be done both at the back
 Here, annotations are included in lists, and wrap custom payload data; their type is `ListAnnotation<T>`. This type pairs an Annotorious `Annotation` with a custom payload:
 
 - `id`: the ID as derived from Annotorious.
+- `image`: the image (`GalleryImage`) being annotated.
 - `value` (`Annotation`): the Annotorious annotation.
 - `payload`: this is up to you.
 
@@ -633,6 +634,7 @@ and its template:
       </div>
       <div id="list">
         <app-my-img-annotation-list
+          [image]="image!"
           [annotator]="annotator"
           [editorComponent]="editorComponent"
           (listInit)="onListInit($event)"

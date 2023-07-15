@@ -18,20 +18,19 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   Annotation,
   AnnotationEvent,
-  GalleryAnnotatedImage,
+  GalleryImage,
   ImgAnnotationList,
   ListAnnotation,
 } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 import {
-  GalleryImage,
   GalleryOptionsService,
   GalleryService,
   IMAGE_GALLERY_SERVICE_KEY,
 } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
 
-import { EditAnnotationDialogComponent } from '../edit-annotation-dialog/edit-annotation-dialog.component';
+import { EditAnnotationDialogComponent }
+  from '../edit-annotation-dialog/edit-annotation-dialog.component';
 import {
-  Form,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -105,9 +104,7 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
    * Emitted whenever annotations change.
    */
   @Output()
-  public annotationsChange: EventEmitter<
-    GalleryAnnotatedImage<MyAnnotationPayload>
-  >;
+  public annotationsChange: EventEmitter<ListAnnotation<MyAnnotationPayload>[]>;
 
   constructor(
     public dialog: MatDialog,
@@ -118,7 +115,7 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
     formBuilder: FormBuilder
   ) {
     this.annotationsChange = new EventEmitter<
-      GalleryAnnotatedImage<MyAnnotationPayload>
+      ListAnnotation<MyAnnotationPayload>[]
     >();
 
     // mock filter entries
@@ -168,10 +165,7 @@ export class MyGalleryImageAnnotatorComponent implements OnInit, OnDestroy {
     this._sub?.unsubscribe();
     this._sub = this._list.annotations$.subscribe((annotations) => {
       if (this._image) {
-        this.annotationsChange.emit({
-          image: this._image,
-          annotations: annotations,
-        });
+        this.annotationsChange.emit(annotations);
         if (!this.frozen.value) {
           this.json.setValue(JSON.stringify(annotations, null, 2));
         }

@@ -27,6 +27,7 @@
       </div>
       <div id="list">
         <app-my-img-annotation-list
+          [image]="image!"
           [annotator]="annotator"
           [editorComponent]="editorComponent"
           (listInit)="onListInit($event)"

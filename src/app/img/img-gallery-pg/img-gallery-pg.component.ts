@@ -4,7 +4,6 @@ import { take } from 'rxjs';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import {
-  GalleryImage,
   GalleryImageAnnotation,
   GalleryOptionsService,
   GalleryService,
@@ -15,6 +14,7 @@ import {
   BarCustomActionRequest,
 } from 'projects/myrmidon/cadmus-ui-custom-action-bar/src/public-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 
 @Component({
   selector: 'app-img-gallery-pg',

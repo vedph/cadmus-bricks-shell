@@ -12,8 +12,8 @@
         </div> -->
         <div id="toolbar">
           <cadmus-img-annotator-toolbar
-          (toolChange)="onToolChange($event)"
-        ></cadmus-img-annotator-toolbar>
+            (toolChange)="onToolChange($event)"
+          ></cadmus-img-annotator-toolbar>
         </div>
         <div>
           <img
@@ -35,6 +35,7 @@
       </div>
       <div id="list">
         <app-my-img-annotation-list
+          [image]="image"
           [annotator]="annotator"
           [editorComponent]="editor"
           (listInit)="onListInit($event)"

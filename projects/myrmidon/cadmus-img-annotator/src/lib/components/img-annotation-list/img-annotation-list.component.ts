@@ -6,16 +6,18 @@ import {
 } from '@angular/material/dialog';
 
 import { ImgAnnotationList, ListAnnotation } from './img-annotation-list';
+import { GalleryImage } from '../../directives/img-annotator.directive';
 
 /**
  * Base for image annotations list components. Derive your component from
- * this, wiring its input annotator and editorComponent properties. Once
- * both these are set, the list is initialized and ready to be used.
+ * this, wiring its input annotator, editorComponent and image properties.
+ * The inner list core is lazily instantiated when these properties are set.
  */
 @Directive()
 export abstract class ImgAnnotationListComponent<T> {
   private _annotator?: any;
   private _editorComponent?: any;
+  private _image?: GalleryImage;
   private _list?: ImgAnnotationList<T>;
 
   /**
@@ -57,6 +59,21 @@ export abstract class ImgAnnotationListComponent<T> {
   }
 
   /**
+   * The image to be annotated.
+   */
+  @Input({required: true})
+  public get image(): GalleryImage | undefined {
+    return this._image;
+  }
+  public set image(value: GalleryImage | undefined) {
+    if (this._image === value) {
+      return;
+    }
+    this._image = value;
+    this.initList();
+  }
+
+  /**
    * The function used to build a string from a list annotation object,
    * summarizing its content appropriately.
    */
@@ -88,6 +105,7 @@ export abstract class ImgAnnotationListComponent<T> {
         this.dialog,
         this.dlgConfig
       );
+      this._list.image = this.image;
       this.listInit.emit(this._list);
     }
   }

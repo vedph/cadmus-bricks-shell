@@ -3,12 +3,14 @@ import { take } from 'rxjs';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
-  GalleryImage,
   GalleryImageAnnotation,
   GalleryService,
   IMAGE_GALLERY_SERVICE_KEY,
 } from '@myrmidon/cadmus-img-gallery';
-import { GalleryOptionsService } from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
+
+import { GalleryOptionsService }
+  from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
 
 @Component({
   selector: 'app-sd-img-gallery-pg',
