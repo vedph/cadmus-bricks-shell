@@ -14,6 +14,11 @@ Since its version 3, this library has been refactored to use Annotorious _headle
 
 ## Requirements
 
+- [Annotorious API](https://annotorious.github.io/api-docs/annotorious)
+- [Annotorious Plugins](https://annotorious.github.io/plugins)
+- [Annotorious Selector Pack](https://github.com/annotorious/annotorious-v2-selector-pack)
+- [Formatters](https://observablehq.com/@rsimon/writing-annotorious-formatters-pt-1): this explains low-level coding, but a label formatter is available among plugins.
+
 This library uses [Annotorius](https://annotorious.github.io). The consumer app must install it as follows:
 
 (1) `npm install @recogito/annotorious`;
