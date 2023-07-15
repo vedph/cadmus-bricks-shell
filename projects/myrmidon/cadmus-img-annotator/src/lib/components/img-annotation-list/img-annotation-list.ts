@@ -132,6 +132,17 @@ export class ImgAnnotationList<T> {
     // preserve its payload here because Annotorious knows nothing
     // about it
     this._pendingAnnotation = annotation;
+    // if instead it is not new, update the payload in the list
+    if (annotation.id) {
+      const annotations = [...this._annotations$.value];
+      const index = annotations.findIndex(
+        (a) => a.id === annotation.id
+      );
+      if (index > -1) {
+        annotations.splice(index, 1, annotation);
+        this._annotations$.next(annotations);
+      }
+    }
     this.deselectAnnotation();
   }
 
