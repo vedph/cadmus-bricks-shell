@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+
 import { AssertedId } from 'projects/myrmidon/cadmus-refs-asserted-ids/src/public-api';
 
 @Component({

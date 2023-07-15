@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { ImgAnnotationListComponent } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 
 @Component({

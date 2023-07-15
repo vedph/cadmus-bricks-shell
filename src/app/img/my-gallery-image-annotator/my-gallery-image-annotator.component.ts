@@ -13,6 +13,7 @@ import {
   MatDialogConfig,
 } from '@angular/material/dialog';
 import { Subscription, take } from 'rxjs';
+
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import {

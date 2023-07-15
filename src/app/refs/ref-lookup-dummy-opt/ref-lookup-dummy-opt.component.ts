@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RefLookupOptionsComponent } from '@myrmidon/cadmus-refs-lookup';
-//import { CADMUS_REF_LOOKUP_OPTIONS_DATA } from '@myrmidon/cadmus-refs-lookup';
+
+import { RefLookupOptionsComponent } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
 
 @Component({
   selector: 'app-ref-lookup-dummy-opt',
@@ -17,8 +17,8 @@ export class RefLookupDummyOptComponent implements OnInit {
     formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _dialogRef: MatDialogRef<RefLookupOptionsComponent>
-    // @Inject(CADMUS_REF_LOOKUP_OPTIONS_DATA) public options: any
-  ) {
+  ) // @Inject(CADMUS_REF_LOOKUP_OPTIONS_DATA) public options: any
+  {
     this.letter = formBuilder.control('a', { nonNullable: true });
     this.form = formBuilder.group({
       letter: this.letter,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { DecoratedId } from 'projects/myrmidon/cadmus-refs-decorated-ids/src/public-api';
 
 @Component({

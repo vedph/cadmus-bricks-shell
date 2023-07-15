@@ -1,10 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import {
-  Annotation,
-  ListAnnotation,
-} from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
+import { ListAnnotation } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 
 /**
  * A dialog wrapping an annotation editor. This just wires the received

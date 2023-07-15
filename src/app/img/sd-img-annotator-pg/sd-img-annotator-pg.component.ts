@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AnnotationEvent } from '@myrmidon/cadmus-img-annotator';
+
+import { AnnotationEvent } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 
 @Component({
   selector: 'app-sd-img-annotator-pg',

@@ -12,6 +12,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+
 import { ListAnnotation } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 
 @Component({

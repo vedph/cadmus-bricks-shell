@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Flag, FlagsPickerAdapter } from '@myrmidon/cadmus-ui-flags-picker';
 import { Observable } from 'rxjs';
+
+import {
+  Flag,
+  FlagsPickerAdapter,
+} from 'projects/myrmidon/cadmus-ui-flags-picker/src/public-api';
 
 @Component({
   selector: 'app-flags-picker-pg',
@@ -45,7 +49,7 @@ export class FlagsPickerPgComponent implements OnInit {
       usrFlags: this.usrFlags,
       usrIds: this.usrIds,
       applyChecks: this.applyChecks,
-      supplyFlags: this.supplyFlags
+      supplyFlags: this.supplyFlags,
     });
   }
 

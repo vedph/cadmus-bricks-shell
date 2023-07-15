@@ -1,6 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { Component } from '@angular/core';
-import { NoteSet } from '@myrmidon/cadmus-ui-note-set';
+
+import { NoteSet } from 'projects/myrmidon/cadmus-ui-note-set/src/public-api';
 
 @Component({
   selector: 'app-note-set-pg',

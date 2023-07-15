@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+
 import { DecoratedCount } from 'projects/myrmidon/cadmus-refs-decorated-counts/src/public-api';
 
 @Component({
@@ -15,11 +16,11 @@ export class DecoratedCountsPgComponent implements OnInit {
     this.idEntries = [
       {
         id: 'sheets',
-        value: 'sheets'
+        value: 'sheets',
       },
       {
         id: 'g-sheets',
-        value: 'guard sheets'
+        value: 'guard sheets',
       },
     ];
     this.counts = [
@@ -30,7 +31,7 @@ export class DecoratedCountsPgComponent implements OnInit {
       {
         id: 'g-sheets',
         value: 4,
-      }
+      },
     ];
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { DocReference } from '@myrmidon/cadmus-refs-doc-references';
+
+import { DocReference } from 'projects/myrmidon/cadmus-refs-doc-references/src/public-api';
 
 @Component({
   selector: 'app-doc-references-pg',

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AssertedChronotope } from '@myrmidon/cadmus-refs-asserted-chronotope';
+
+import { AssertedChronotope } from 'projects/myrmidon/cadmus-refs-asserted-chronotope/src/public-api';
 
 @Component({
   selector: 'app-asserted-chronotope-set-pg',
@@ -10,11 +11,13 @@ export class AssertedChronotopeSetPgComponent implements OnInit {
   public chronotopes: AssertedChronotope[];
 
   constructor() {
-    this.chronotopes = [{
-      place: {
-        value: 'Rome'
-      }
-    }];
+    this.chronotopes = [
+      {
+        place: {
+          value: 'Rome',
+        },
+      },
+    ];
   }
 
   ngOnInit(): void {}

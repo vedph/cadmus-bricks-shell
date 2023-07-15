@@ -4,13 +4,11 @@ import { take } from 'rxjs';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   GalleryImageAnnotation,
+  GalleryOptionsService,
   GalleryService,
   IMAGE_GALLERY_SERVICE_KEY,
-} from '@myrmidon/cadmus-img-gallery';
-import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
-
-import { GalleryOptionsService }
-  from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
+} from 'projects/myrmidon/cadmus-img-gallery/src/public-api';
+import { GalleryImage } from 'projects/myrmidon/cadmus-img-annotator/src/public-api';
 
 @Component({
   selector: 'app-sd-img-gallery-pg',

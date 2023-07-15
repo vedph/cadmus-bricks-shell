@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+
 import { ExternalId } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
 
 @Component({

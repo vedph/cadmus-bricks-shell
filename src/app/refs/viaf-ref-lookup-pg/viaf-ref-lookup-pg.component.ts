@@ -5,13 +5,14 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { take } from 'rxjs/operators';
+
 import {
   ViafRefLookupService,
   ViafSearchResult,
   ViafService,
   ViafSuggestResult,
-} from '@myrmidon/cadmus-refs-viaf-lookup';
-import { take } from 'rxjs/operators';
+} from 'projects/myrmidon/cadmus-refs-viaf-lookup/src/public-api';
 
 @Component({
   selector: 'app-viaf-ref-lookup-pg',

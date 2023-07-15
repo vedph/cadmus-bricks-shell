@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
+
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { PhysicalSize } from '@myrmidon/cadmus-mat-physical-size';
+import { PhysicalSize } from 'projects/myrmidon/cadmus-mat-physical-size/src/public-api';
 
 @Component({
   selector: 'app-physical-size-pg',

@@ -6,6 +6,7 @@ import {
   MatDialogConfig,
 } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+
 import {
   AnnotoriousConfig,
   Annotation,
