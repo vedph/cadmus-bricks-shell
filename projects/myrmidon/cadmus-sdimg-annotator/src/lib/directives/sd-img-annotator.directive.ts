@@ -7,21 +7,25 @@ import {
   ElementRef,
 } from '@angular/core';
 import {
+  Annotation,
   AnnotationEvent,
   AnnotoriousConfig,
 } from '@myrmidon/cadmus-img-annotator';
 // @ts-ignore
 import * as OSDAnnotorious from '@recogito/annotorious-openseadragon';
 import { Viewer } from 'openseadragon';
-
-// TODO headless mode
+// @ts-ignore
+import SelectorPack from '@recogito/annotorious-selector-pack';
 
 @Directive({
   selector: '[cadmusSdImgAnnotator]',
 })
 export class SdImgAnnotatorDirective {
-  private _tool: string;
   private _ann?: any;
+  private _config?: AnnotoriousConfig;
+  private _disableEditor?: boolean;
+  private _tool: string;
+  private _annotations: any[];
   private _selectedAnnotation?: any;
 
   /**
@@ -36,7 +40,33 @@ export class SdImgAnnotatorDirective {
    * will be overridden with the img being decorated by this directive.
    */
   @Input()
-  public config?: AnnotoriousConfig;
+  public get config(): AnnotoriousConfig | undefined {
+    return this._config;
+  }
+  public set config(value: AnnotoriousConfig | undefined) {
+    if (this._config === value) {
+      return;
+    }
+    this._config = value;
+    this._ann?.destroy();
+    this.initAnnotator();
+  }
+
+  /**
+   * Disables the editor thus toggling the headless mode.
+   */
+  @Input()
+  public get disableEditor(): boolean | undefined {
+    return this._disableEditor;
+  }
+  public set disableEditor(value: boolean | undefined) {
+    if (this._disableEditor === value) {
+      return;
+    }
+    this._disableEditor = value;
+    // https://annotorious.github.io/guides/headless-mode/
+    this._ann.disableEditor = value;
+  }
 
   /**
    * The current drawing tool. The default available tools are rect and polygon,
@@ -58,7 +88,20 @@ export class SdImgAnnotatorDirective {
    * The optional initial annotations to show on the image.
    */
   @Input()
-  public annotations?: any[];
+  public get annotations(): any[] {
+    return this._annotations;
+  }
+  public set annotations(value: any[]) {
+    if (!value || !value.length) {
+      this._ann?.clearAnnotations();
+      return;
+    }
+    if (this._annotations === value) {
+      return;
+    }
+    this._annotations = value;
+    this._ann?.setAnnotations(this._annotations);
+  }
 
   /**
    * The selected annotation or its ID. When set, the annotator
@@ -74,16 +117,62 @@ export class SdImgAnnotatorDirective {
   }
 
   /**
+   * The IDs of all the additional selection tools to be used
+   * when the Annotorious Selector Pack plugin is loaded
+   * (see https://github.com/recogito/annotorious-selector-pack).
+   * Allowed values (besides 'rect', 'polygon'): 'point', 'circle',
+   * 'ellipse', 'freehand'. Note that this requires to add the
+   * plugins library to your app (@recogito/annotorious-selector-pack).
+   */
+  @Input()
+  public additionalTools?: string[];
+
+  /**
+   * Fired when the annotator has been initialized. This is a way
+   * for passing the annotator itself to the parent component.
+   * The annotator is required in headless mode, so that your code
+   * can replace the current selection by modifying the received
+   * selection and calling annotator.updateSelected(selection, true).
+   */
+  @Output()
+  public annotatorInit: EventEmitter<any>;
+
+  /**
+   * Fired when the user has canceled a selection, by hitting Cancel in
+   * the editor, or by clicking or tapping outside the selected annotation
+   * shape.
+   */
+  @Output()
+  public cancelSelected: EventEmitter<Annotation>;
+
+  /**
+   * Fired when the shape of a newly created selection, or of a selected
+   * annotation is moved or resized. The argument is the annotation target.
+   */
+  @Output()
+  public changeSelectionTarget: EventEmitter<any>;
+
+  /**
+   * Fired every time the user clicks an annotation (regardless of whether
+   * it is already selected or not).
+   */
+  @Output()
+  public clickAnnotation: EventEmitter<AnnotationEvent>;
+
+  /**
    * Emitted when a new annotation is created.
    */
   @Output()
   public createAnnotation: EventEmitter<AnnotationEvent>;
 
   /**
-   * Emitted when an annotation is updated.
+   * Fires when the user has created a new selection (headless mode).
+   * The handler should modify the selected annotation and call
+   * updateSelected (which is an async function returning a Promise)
+   * to replace it.
    */
   @Output()
-  public updateAnnotation: EventEmitter<AnnotationEvent>;
+  public createSelection: EventEmitter<Annotation>;
 
   /**
    * Emitted when an annotation is deleted.
@@ -103,18 +192,43 @@ export class SdImgAnnotatorDirective {
   @Output()
   public mouseLeaveAnnotation: EventEmitter<AnnotationEvent>;
 
+  /**
+   * Fires when the user selects an existing annotation (headless mode).
+   * The user can then move or delete the annotation; the corresponding
+   * events will be fired (after moving, the updateAnnotation event when
+   * the user clicks outside the shape, or draws another one; after
+   * deleting, the deleteAnnotation event).
+   */
+  @Output()
+  public selectAnnotation: EventEmitter<Annotation>;
+
+  /**
+   * Emitted when an annotation is updated.
+   */
+  @Output()
+  public updateAnnotation: EventEmitter<AnnotationEvent>;
+
   constructor(private _ngZone: NgZone, private el: ElementRef) {
     this._tool = 'rect';
+    this._annotations = [];
+    this._disableEditor = true;
     this.source = '';
+    // events
+    this.annotatorInit = new EventEmitter<any>();
+    this.cancelSelected = new EventEmitter<Annotation>();
+    this.changeSelectionTarget = new EventEmitter<any>();
+    this.clickAnnotation = new EventEmitter<AnnotationEvent>();
+    this.createSelection = new EventEmitter<Annotation>();
     this.createAnnotation = new EventEmitter<AnnotationEvent>();
-    this.updateAnnotation = new EventEmitter<AnnotationEvent>();
     this.deleteAnnotation = new EventEmitter<AnnotationEvent>();
     this.mouseEnterAnnotation = new EventEmitter<AnnotationEvent>();
     this.mouseLeaveAnnotation = new EventEmitter<AnnotationEvent>();
+    this.selectAnnotation = new EventEmitter<Annotation>();
+    this.updateAnnotation = new EventEmitter<AnnotationEvent>();
   }
 
-  ngAfterViewInit() {
-    const cfg = this.config || {};
+  private initAnnotator(): void {
+    const cfg = this.config || { disableEditor: true }; //@@
     // here we use a single image source from the target img @src:
     //   http://openseadragon.github.io/examples/tilesource-image/
     // we also have better running outside Angular zone:
@@ -132,11 +246,36 @@ export class SdImgAnnotatorDirective {
 
     this._ann = OSDAnnotorious(viewer, cfg);
 
+    // plugin
+    if (this.additionalTools?.length) {
+      SelectorPack(this._ann, {
+        tools: this.additionalTools,
+      });
+    }
+
+    // initial annotations
+    this._ann.setAnnotations(this._annotations || []);
+
+    // wrap events:
+
     // initial annotations
     if (this.annotations?.length) {
       this._ann.setAnnotations(this.annotations);
     }
     // wrap events:
+    // createSelection
+    this._ann.on('createSelection', (selection: Annotation) => {
+      this.createSelection.emit(selection);
+    });
+    // selectAnnotation
+    this._ann.on('selectAnnotation', (selection: Annotation) => {
+      this.selectAnnotation.emit(selection);
+    });
+    // cancelSelected
+    this._ann.on('cancelSelected', (selection: Annotation) => {
+      this.cancelSelected.emit(selection);
+    });
+
     // createAnnotation
     this._ann.on(
       'createAnnotation',
@@ -173,5 +312,11 @@ export class SdImgAnnotatorDirective {
     if (this._tool !== 'rect') {
       this._ann.setDrawingTool(this._tool);
     }
+
+    this.annotatorInit.emit(this._ann);
+  }
+
+  ngAfterViewInit() {
+    this.initAnnotator();
   }
 }
