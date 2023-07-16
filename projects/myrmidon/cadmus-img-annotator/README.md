@@ -3,14 +3,62 @@
 Since its version 3, this library has been refactored to use Annotorious _headless mode_. In this mode, the Annotorious library is used only for drawing, while disposing of its default popup UI. This allows for much more customization, even if at a price of higher code complexity.
 
 - [Cadmus Image Annotator Library](#cadmus-image-annotator-library)
-  - [Requirements](#requirements)
   - [Overview](#overview)
+  - [Requirements](#requirements)
+  - [Components](#components)
   - [Usage](#usage)
     - [Annotated Image](#annotated-image)
     - [Annotated Image with Gallery](#annotated-image-with-gallery)
       - [1. Modeling Annotation](#1-modeling-annotation)
       - [2. Creating Gallery Components](#2-creating-gallery-components)
       - [3. Creating Gallery](#3-creating-gallery)
+
+## Overview
+
+![architecture](annotation.png)
+
+The architecture of the image annotation subsystem is represented by these libraries:
+
+- `cadmus-img-annotator`: core components using Recogito Annotorious.
+- `cadmus-img-gallery`: gallery-specific components.
+- `cadmus-img-gallery-iiif`: IIIF-related services for galleries.
+
+>Note that since version 3, the `GalleryImgAnnotator` component found in `cadmus-img-gallery` is obsolete, and is replaced by custom implementations based on annotations list editors. In future versions, this component will be removed.
+
+At the core there is the **annotator component**, an Angular directive (=template-less component) wrapping the [Annotorious library](https://annotorious.github.io/api-docs/annotorious) used in _headless mode_.
+
+>Headless mode disallows the usage of Annotorious standard UI for editing W3C-based annotations, leaving to the consumer code the task of providing its own UI.
+
+This component is used as an `img` element attribute, and wires Annotorious to the image, while providing a number of events reporting user interaction to the outer world. Among these events, there is also one which provides an Annotorious core instance (depicted as the gray circled `A` in the above schema), to be directly used for interacting with this subsystem.
+
+The essential task of this component is providing an interface between the underlying Annotorious library, used to draw on top of images, and the rest of the system.
+
+The Cadmus bricks annotation subsystem couples the W3C compliant annotations produced by Annotorious with custom-schema metadata for each of them.
+
+As customary in Cadmus, each Cadmus-based project can provide its own schema for such metadata, and also its own editing UI. In the above scheme, yellow components are those which can be implemented for each specific project, and represent the customizable portion of the annotations subsystem.
+
+At the core of this system there is the **annotations list**, which collects annotations merging data from two sources:
+
+- the Annotorious drawing system, which provides shapes in W3C compliant annotations;
+- the Cadmus annotation metadata editor, which provides project-specific metadata entered via a custom UI. This custom UI (**annotation editor** in the above scheme) is directly popped up on top of the image whenever the user draws a shape on it, via an **annotation dialog** wrapper.
+
+The result of combining these data is a **list annotation**, including:
+
+- metadata about the target image;
+- the original W3C annotation produced by Annotorious, and optionally modified by the annotation editor;
+- the additional metadata (**payload**) produced by the annotation editor.
+
+So, the annotator, annotations list, and annotation editor work all together to provide a unified UX where users draw on top of an image and enter metadata in a custom UI.
+
+The **annotations list editor base** provides the foundation for a component orchestrating all these components. This is just a code base, whereas the UI is fully provided by a project-specific implementation (the yellow **annotations list editor** in the above scheme). Usually, the UI consists of a table listing the various annotations created by users.
+
+Finally, at the top level of this components hierarchy we find the **gallery image annotator**, which just assembles all the pieces together. Its task is providing the UI which includes:
+
+- the image being annotated with Annotorious attached;
+- the annotations list;
+- the **gallery images list**. This is a generic component whose task is fetching either a virtual page of images or a single one, with their metadata, while optionally filtering them. The gallery does not impose a specific technology as the source of these images: it just relies on an abstraction, the **gallery service**, which has different implementations according to the technology used. In the default scenario this is IIIF.
+
+Thus, the gallery image annotator provides a way of selecting an image from a set, annotating it using a custom UI, and outputting the results as a set of list annotations. This is usually consumed by a project-specific part editor, which adapts the backend annotations to the UI annotations and vice-versa, thus providing persistent storage in the context of Cadmus architecture.
 
 ## Requirements
 
@@ -71,7 +119,7 @@ export class AppComponent {
 }
 ```
 
-## Overview
+## Components
 
 This library contains the following components:
 
