@@ -50,7 +50,7 @@ Use [publish.bat](publish.bat) to publish the libraries to NPM.
 - [asserted IDs](./projects/myrmidon/cadmus-refs-asserted-ids/README.md)
 - [codicologic location](./projects/myrmidon/cadmus-cod-location/README.md)
 - [flags picker](./projects/myrmidon/cadmus-ui-flags-picker/README.md)
-- [image annotations](./projects/myrmidon/cadmus-img-gallery/README.md)
+- [image annotations](./projects/myrmidon/cadmus-img-annotator/README.md)
 - [proper name](./projects/myrmidon/cadmus-refs-proper-name/README.md)
 - [reference lookup](./projects/myrmidon/cadmus-refs-lookup/README.md)
 - [text block view](./projects/myrmidon/cadmus-text-block-view/README.md)
