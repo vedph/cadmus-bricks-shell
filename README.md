@@ -65,6 +65,7 @@ To add a brick:
 
 ## History
 
+- 2023-07-16: `@myrmidon/cadmus-refs-asserted-ids`: added `internalDefault` property to allow starting a new ID as internal rather than external.
 - 2023-07-14: BREAKING CHANGES in image annotation, switching to Annotorious headless mode. Migration is only partially completed. Affected library versions bumped to version 3.
 
 ### 1.0.16

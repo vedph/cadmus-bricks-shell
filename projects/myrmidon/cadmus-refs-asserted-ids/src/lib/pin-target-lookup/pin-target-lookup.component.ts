@@ -132,6 +132,13 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
   public lookupDefinitions?: IndexLookupDefinitions;
 
   /**
+   * True if when a new target is set it should be internal rather than
+   * external by default.
+   */
+  @Input()
+  public internalDefault: boolean | undefined;
+
+  /**
    * The target to be edited.
    */
   @Input()
@@ -478,7 +485,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
         },
       });
     } else {
-      this.external.setValue(!target.name);
+      this.external.setValue(!target.name && !this.internalDefault);
       this._noTargetUpdate = false;
       this.updateTarget();
     }

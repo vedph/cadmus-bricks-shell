@@ -14,6 +14,7 @@ export class AssertedCompositeIdsPgComponent implements OnInit {
   public pinByTypeMode: FormControl<boolean>;
   public canSwitchMode: FormControl<boolean>;
   public canEditTarget: FormControl<boolean>;
+  public internalDefault: FormControl<boolean>;
   public form: FormGroup;
   // data
   public ids?: AssertedCompositeId[];
@@ -28,10 +29,12 @@ export class AssertedCompositeIdsPgComponent implements OnInit {
     this.pinByTypeMode = formBuilder.control(false, { nonNullable: true });
     this.canSwitchMode = formBuilder.control(false, { nonNullable: true });
     this.canEditTarget = formBuilder.control(false, { nonNullable: true });
+    this.internalDefault = formBuilder.control(false, { nonNullable: true });
     this.form = formBuilder.group({
       pinByTypeMode: this.pinByTypeMode,
       canSwitchMode: this.canSwitchMode,
       canEditTarget: this.canEditTarget,
+      internalDefault: this.internalDefault,
     });
     // data
     this.idScopeEntries = [

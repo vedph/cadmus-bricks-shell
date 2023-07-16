@@ -89,6 +89,13 @@ export class AssertedCompositeIdsComponent {
   public defaultPartTypeKey?: string | null;
 
   /**
+   * True if when a new ID is set it should be internal rather than
+   * external by default.
+   */
+  @Input()
+  public internalDefault: boolean | undefined;
+
+  /**
    * Emitted whenever any ID changes.
    */
   @Output()

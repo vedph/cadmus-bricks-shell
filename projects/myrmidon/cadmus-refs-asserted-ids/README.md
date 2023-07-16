@@ -161,6 +161,7 @@ Three components are used for this brick:
   - `canEditTarget` (`boolean?`)
   - `defaultPartTypeKey` (`string?|null`)
   - `lookupDefinitions` (`IndexLookupDefinitions?`)
+  - `internalDefault` (`boolean?`): true to start a new ID as internal rather than external
 - ⚡ output:
   - `idsChange` (`AssertedId[]`)
 
@@ -180,6 +181,7 @@ Three components are used for this brick:
   - `canEditTarget` (`boolean?`)
   - `defaultPartTypeKey` (`string?|null`)
   - `lookupDefinitions` (`IndexLookupDefinitions?`)
+  - `internalDefault` (`boolean?`): true to start a new ID as internal rather than external
 - ⚡ output:
   - `idChange` (`AssertedId`)
   - `editorClose`
@@ -193,6 +195,7 @@ Three components are used for this brick:
   - `canEditTarget` (`boolean?`)
   - `defaultPartTypeKey` (`string?|null`)
   - `lookupDefinitions` (`IndexLookupDefinitions?`)
+  - `internalDefault` (`boolean?`): true to start a new ID as internal rather than external
 - ⚡ output:
   - `targetChange` (`PinTarget`)
   - `editorClose`

@@ -11,6 +11,7 @@
       >
       <mat-checkbox [formControl]="canSwitchMode">can switch mode</mat-checkbox>
       <mat-checkbox [formControl]="canEditTarget">can edit target</mat-checkbox>
+      <mat-checkbox [formControl]="internalDefault">internal default</mat-checkbox>
     </form>
     <hr />
     <cadmus-refs-asserted-composite-ids
@@ -23,6 +24,7 @@
       [pinByTypeMode]="pinByTypeMode.value"
       [canSwitchMode]="canSwitchMode.value"
       [canEditTarget]="canEditTarget.value"
+      [internalDefault]="internalDefault.value"
       (idsChange)="onIdsChange($event)"
     ></cadmus-refs-asserted-composite-ids>
     <div *ngIf="ids">

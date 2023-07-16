@@ -81,6 +81,13 @@ export class AssertedCompositeIdComponent implements OnInit {
   }
 
   /**
+   * True if when a new ID is set it should be internal rather than
+   * external by default.
+   */
+  @Input()
+  public internalDefault: boolean | undefined;
+
+  /**
    * True if the UI has a submit button.
    */
   @Input()
