@@ -38,8 +38,9 @@ export interface AssertedCompositeId {
 }
 
 /**
- * The key to be used to retrieve the lookup configs from the settings storage.
- * This is equal to the selector of AssertedCompositeIdComponent plus ".configs".
+ * The key to be used to retrieve the external lookup configs from the
+ * settings storage. This is equal to the selector of
+ * AssertedCompositeIdComponent plus ".configs".
  */
 export const ASSERTED_COMPOSITE_ID_CONFIGS_KEY =
   'cadmus-refs-asserted-composite-id.configs';
@@ -54,14 +55,13 @@ export class AssertedCompositeIdComponent implements OnInit {
   private _id: AssertedCompositeId | undefined;
 
   public extLookupConfigs: RefLookupConfig[];
-
+  public targetExpanded: boolean;
+  // form
   public target: FormControl<PinTarget | null>;
   public scope: FormControl<string | null>;
   public tag: FormControl<string | null>;
   public assertion: FormControl<Assertion | null>;
   public form: FormGroup;
-
-  public targetExpanded: boolean;
 
   // asserted-id-scopes
   @Input()

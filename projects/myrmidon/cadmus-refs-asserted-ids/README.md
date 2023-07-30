@@ -20,22 +20,24 @@ The asserted ID and asserted IDs bricks provide a way to include external or int
 
 The asserted ID brick allows editing a simple model representing such IDs, having:
 
-- a value, the ID itself.
-- a scope, representing the context the ID originates from (e.g. an ontology, a repository, a website, etc.).
-- an optional tag, eventually used to group or classify the ID.
-- an optional assertion, eventually used to define the uncertainty level of the assignment of this ID to the context it applies to.
+- a _value_, the ID itself.
+- a _scope_, representing the context the ID originates from (e.g. an ontology, a repository, a website, etc.).
+- an optional _tag_, used to group or classify the ID.
+- an optional _assertion_, used to define the uncertainty level of the assignment of this ID to the context it applies to.
 
 The asserted IDs brick is just a collection of such IDs.
 
 ### Behavior
 
-In both cases, the component provides a special mechanism for internal, pin-based lookup. In most cases, human users prefer to adopt friendly IDs, which are unique only in the context of their editing environment. Such identifiers are typically named EIDs (entity IDs), and may be found scattered among parts, or linked to items via a metadata part.
+While external IDs are just provided by users, internal IDs are linked via EIDs.
+
+In most cases, human users prefer to adopt friendly IDs, which are unique only in the context of their editing environment. Such identifiers are typically named EIDs (=_entity IDs_), and may be found scattered among parts, or linked to items via a metadata part.
+
+>Whenever we want to assign a human-friendly ID to the _item_ itself, rather than referring to it by its GUID, the conventional method relies on the generic _metadata part_, which allows users entering any number of arbitrarily defined name=value pairs. So, a user might enter a pair like e.g. `eid=vat_lat_123`, and use it as the human friendly identifier for a manuscript item corresponding to Vat. Lat. 123.
 
 For instance, a decorations part in a manuscript collects a number of decorations; for each one, it might define an arbitrary EID (like e.g. `angel1`) used to identify it among the others, in the context of that part.
 
-When filling the decorations part with data, users just ensure that this EID is unique in the context of the list they are editing. Yet, should we be in need of a non-scoped, unique ID, it would be easy to build it by assembling together the EID with its part/item IDs, which by definition are globally unique (being GUIDs). For instance, this is what can be done when mapping entities from parts into a semantic graph (via mapping rules).
-
-Also, sometimes we might also want to assign a human-friendly ID to the item itself, rather than referring to it by its GUID. In this case, the conventional method relies on the generic metadata part, which allows users entering any number of arbitrarily defined name=value pairs. So, a user might enter a pair like e.g. `eid=vat_lat_123`, and use it as the human friendly identifier for a manuscript item corresponding to Vat. Lat. 123.
+When filling the decorations part with data, users just ensure that this EID is unique in the context of the list they are editing. Yet, should we be in need of a non-scoped, unique ID, we could easily build it by assembling together the EID with its part/item IDs, which by definition are globally unique (being GUIDs). For instance, this is what can be done when mapping entities from parts into a semantic graph (via mapping rules).
 
 The asserted ID library provides a number of components which can be used to easily refer to the entities identified in this way. According to the scenario illustrated above, the basic requirements for building non-scoped, unique IDs from scoped, human-friendly identifiers are:
 
@@ -139,6 +141,8 @@ There are different options which allow to customize the lookup behavior:
 
 These options can be variously combined to force users to use a specific behavior only; for instance, if you just want by-type lookup and automatic GID/label, set `pinByTypeMode` to true and `canSwitchMode` and `canEditTarget` to false.
 
+Also, you can use any number of lookup components for external IDs. To globally configure all the asserted composite IDs components for this purpose, you can define (e.g. in your app's component constructor) an array of configuration objects keyed under `ASSERTED_COMPOSITE_ID_CONFIGS_KEY`.
+
 Three components are used for this brick:
 
 - `AssertedCompositeIdsComponent`, the top level editor for the list of IDs. This has buttons to add new internal/external IDs, and a list of existing IDs. Each existing ID has buttons for editing, moving, and deleting it. When editing, the `AssertedIdComponent` is used in an expansion panel.
@@ -164,6 +168,7 @@ Three components are used for this brick:
   - `internalDefault` (`boolean?`): true to start a new ID as internal rather than external
 - ⚡ output:
   - `idsChange` (`AssertedId[]`)
+  - `extMoreRequest` (`RefLookupSetEvent`): the user requested more about the current external lookup source.
 
 #### AssertedCompositeIdComponent
 
@@ -185,6 +190,7 @@ Three components are used for this brick:
 - ⚡ output:
   - `idChange` (`AssertedId`)
   - `editorClose`
+  - `extMoreRequest` (`RefLookupSetEvent`): the user requested more about the current external lookup source.
 
 #### PinTargetLookupComponent
 
@@ -195,6 +201,7 @@ Three components are used for this brick:
   - `canEditTarget` (`boolean?`)
   - `defaultPartTypeKey` (`string?|null`)
   - `lookupDefinitions` (`IndexLookupDefinitions?`)
+  - `extLookupConfigs` (`RefLookupConfig[]`)
   - `internalDefault` (`boolean?`): true to start a new ID as internal rather than external
 - ⚡ output:
   - `targetChange` (`PinTarget`)

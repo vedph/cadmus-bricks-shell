@@ -135,7 +135,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
    * The optional configurations for using external lookup services.
    */
   @Input()
-  public extLookupConfigs: RefLookupConfig[]
+  public extLookupConfigs: RefLookupConfig[];
 
   /**
    * True if when a new target is set it should be internal rather than
