@@ -114,6 +114,7 @@ import { EditAnnotationDialogComponent } from './img/edit-annotation-dialog/edit
 import { MyImgAnnotationListComponent } from './img/img-annotation-list/my-img-annotation-list.component';
 import { ImgAnnotatorToolbarPgComponent } from './img/img-annotator-toolbar-pg/img-annotator-toolbar-pg.component';
 import { MyGalleryImageAnnotatorComponent } from './img/my-gallery-image-annotator/my-gallery-image-annotator.component';
+import { RefLookupSetPgComponent } from './refs/ref-lookup-set-pg/ref-lookup-set-pg.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -173,6 +174,7 @@ export function initElfDevTools(actions: Actions) {
     MyImgAnnotationListComponent,
     ImgAnnotatorToolbarPgComponent,
     MyGalleryImageAnnotatorComponent,
+    RefLookupSetPgComponent,
   ],
   imports: [
     BrowserModule,
@@ -219,6 +221,7 @@ export function initElfDevTools(actions: Actions) {
         },
         { path: 'refs/historical-date', component: HistoricalDatePgComponent },
         { path: 'refs/lookup', component: RefLookupPgComponent },
+        { path: 'refs/lookup-set', component: RefLookupSetPgComponent },
         { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
         { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
         { path: 'ui/note-set', component: NoteSetPgComponent },

@@ -12,12 +12,14 @@ import { MatInputModule } from '@angular/material/input';
 import { RefLookupComponent } from './ref-lookup/ref-lookup.component';
 import { AutoFocusDirective } from './auto-focus.directive';
 import { RefLookupOptionsComponent } from './ref-lookup-options/ref-lookup-options.component';
+import { RefLookupSetComponent } from './ref-lookup-set/ref-lookup-set.component';
 
 @NgModule({
   declarations: [
     RefLookupComponent,
     AutoFocusDirective,
     RefLookupOptionsComponent,
+    RefLookupSetComponent,
   ],
   imports: [
     CommonModule,
@@ -29,8 +31,13 @@ import { RefLookupOptionsComponent } from './ref-lookup-options/ref-lookup-optio
     MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
   ],
-  exports: [RefLookupComponent, AutoFocusDirective, RefLookupOptionsComponent],
+  exports: [
+    RefLookupComponent,
+    AutoFocusDirective,
+    RefLookupOptionsComponent,
+    RefLookupSetComponent,
+  ],
 })
 export class CadmusRefsLookupModule {}
