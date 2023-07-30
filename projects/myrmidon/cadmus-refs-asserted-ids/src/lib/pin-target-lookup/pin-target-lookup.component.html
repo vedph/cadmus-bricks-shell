@@ -52,15 +52,16 @@
       <div *ngIf="!external.value && !canEditTarget && gid.value" class="info">
         <span class="label">GID</span> <span class="gid">{{ gid.value }}</span>
       </div>
-      <!-- external lookup set -->
-      <div *ngIf="external.value && extLookupConfigs?.length">
-        <cadmus-ref-lookup-set
-          [configs]="extLookupConfigs"
-          (itemChange)="onExtItemChange($event)"
-          (moreRequest)="onExtMoreRequest($event)"
-        ></cadmus-ref-lookup-set>
-      </div>
     </div>
+  </div>
+
+  <!-- external lookup set -->
+  <div *ngIf="external.value && extLookupConfigs?.length">
+    <cadmus-ref-lookup-set
+      [configs]="extLookupConfigs"
+      (itemChange)="onExtItemChange($event)"
+      (moreRequest)="onExtMoreRequest($event)"
+    ></cadmus-ref-lookup-set>
   </div>
 
   <!-- BY ITEM -->
