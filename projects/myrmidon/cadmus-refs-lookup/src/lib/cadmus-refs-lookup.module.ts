@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { RefLookupComponent } from './ref-lookup/ref-lookup.component';
 import { AutoFocusDirective } from './auto-focus.directive';
@@ -32,6 +33,7 @@ import { RefLookupSetComponent } from './ref-lookup-set/ref-lookup-set.component
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatSelectModule
   ],
   exports: [
     RefLookupComponent,

@@ -26,12 +26,14 @@ export class RefLookupSetPgComponent implements OnDestroy {
     this.configs = [
       {
         name: 'colors',
+        iconUrl: '/assets/img/colors128.png',
         description: 'Colors',
         label: 'color',
         service: new WebColorLookup(),
       },
       {
         name: 'VIAF',
+        iconUrl: '/assets/img/viaf128.png',
         description: 'Virtual International Authority File',
         label: 'ID',
         service: viafService,

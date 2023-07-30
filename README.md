@@ -66,6 +66,8 @@ To add a brick:
 
 ## History
 
+- 2023-07-30: added `RefLookupSet`.
+
 ### 2.0.0
 
 - 2023-07-16: `@myrmidon/cadmus-refs-asserted-ids`: added `internalDefault` property to allow starting a new ID as internal rather than external.

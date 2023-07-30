@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { MessageService } from '../message.service';
 import { RefLookupService } from '../ref-lookup/ref-lookup.component';
@@ -105,7 +105,7 @@ export interface IconSize {
   templateUrl: './ref-lookup-set.component.html',
   styleUrls: ['./ref-lookup-set.component.css'],
 })
-export class RefLookupSetComponent {
+export class RefLookupSetComponent implements OnInit {
   public config: FormControl<RefLookupConfig | null>;
 
   /**
@@ -134,6 +134,12 @@ export class RefLookupSetComponent {
     // events
     this.itemChange = new EventEmitter<any>();
     this.moreRequest = new EventEmitter<RefLookupConfig>();
+  }
+
+  public ngOnInit(): void {
+    if (this.configs?.length) {
+      this.config.setValue(this.configs[0]);
+    }
   }
 
   public onItemChange(item: any): void {

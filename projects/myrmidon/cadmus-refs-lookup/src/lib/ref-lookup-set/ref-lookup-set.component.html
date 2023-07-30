@@ -1,11 +1,19 @@
-<div>
+<div class="form-row">
   <!-- provider -->
   <mat-form-field *ngIf="configs?.length">
     <mat-label>provider</mat-label>
     <mat-select [formControl]="config">
       <mat-option *ngFor="let c of configs" [value]="c">
-        <img *ngIf="c.iconUrl" alt="{{ c.name }}" [src]="c.iconUrl" />
-        <span>{{ c.name }}</span>
+        <div class="form-row">
+          <img
+            *ngIf="c.iconUrl"
+            alt="{{ c.name }}"
+            [src]="c.iconUrl"
+            [width]="iconSize.width"
+            [height]="iconSize.height"
+          />
+          <span>{{ c.name }}</span>
+        </div>
       </mat-option>
     </mat-select>
     <mat-hint>{{ config.value?.description }}</mat-hint>
@@ -24,8 +32,8 @@
     [hasMore]="config.value.hasMore"
     [optDialog]="config.value.optDialog"
     [options]="config.value.options"
-    linkTemplate="config.value.linkTemplate"
-    label="config.value.label"
+    [linkTemplate]="config.value.linkTemplate"
+    [label]="config.value.label"
     (itemChange)="onItemChange($event)"
     (moreRequest)="onMoreRequest($event)"
   ></cadmus-ref-lookup>

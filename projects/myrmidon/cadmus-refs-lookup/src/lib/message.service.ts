@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * Message used by MessageService.
@@ -13,7 +13,7 @@ export interface Message {
  * A simple message service used to tunnel messages from the
  * lookup component to the parent component when using lookup set.
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class MessageService {
   private _subject = new BehaviorSubject<Message | null>(null);
 
