@@ -2,9 +2,9 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.0.
 
-## Lookup Dialog
+## Lookup
 
-The lookup dialog is a general purpose lookup where:
+The lookup component is a general purpose lookup where:
 
 - users can type some letters and get a list of matching items to pick from, thus using a quick search;
 - the picked item can be 2-way bound with a parent component;
@@ -12,11 +12,11 @@ The lookup dialog is a general purpose lookup where:
 - optionally, users can customize some quick-search options and have them passed to the search service;
 - optionally, users can click a `more` button to get to some specialized UI allowing them to pick items with more advanced search criteria.
 
-## Usage
+### Usage
 
 (1) create a **service** acting as an adapter for the quick search by implementing `RefLookupService`. This interface has a `getName` function used to retrieve a user-friendly name from the item model, and a `lookup` function getting a filter implementing `RefLookupFilter`, and returning an observable with a list of matching items. The filter is the minimum required for the lookup, i.e. has a text and a limit (=maximum count of items to return).
 
-For an example, serverless implementation see `WebColorLookup` in the demo app.
+For an example, serverless implementation see [WebColorLookup](../../../src/app/refs/ref-lookup-pg/ref-lookup-pg.component.ts) in the demo app.
 
 This service is then injected into the component hosting the lookup control, and passed to it via its `service` property.
 
@@ -64,3 +64,43 @@ Useful events:
 
 - `itemChange` fired when the user picks an item from the list resulting from a quick search.
 - `moreRequest` fired when the user requests the advanced search by clicking the *More* button. The component hosting the lookup control should handle this event and typically open some dialog with a search, lending back the item to be picked.
+
+## Lookup Set
+
+A lookup set is a combination of several lookup components, each connected to a different source.
+
+Each lookup is **configured** via an instance of `RefLookupConfig`, having these properties:
+
+- `name`: a human-friendly name for the lookup. Users will pick from a list displaying this name for each configuration.
+- `iconUrl`: an optional icon URL to be displayed next to the name in the list. Icon size is specified by the `iconSize` property of the lookup set.
+- `description`: a lookup description.
+- `label`: the label to be displayed in the lookup control.
+- `limit`: the maximum number of items to retrieve at each lookup. Default is 10.
+- `baseFilter`: the base filter object to supply when filtering data in this lookup. If you have more filtering criteria set by your client code, set this property to an object representing the filter criteria. This object will be used as the base object when invoking the lookup service.
+- `service`: the lookup service to use.
+- `item`: the current lookup item, or undefined to start the lookup blank.
+- `itemIdGetter`: the optional function to get a string ID from an item. If undefined, the `item` object will be used.
+- `itemLabelGetter`: the optional function to get a string label from an item.If undefined, the item object will be used.
+- `required`: true if a value is required.
+- `hasMore`: true to add a "More" button for more complex lookup. When the user clicks it, the corresponding `moreRequest` event will be emitted.
+- `linkTemplate`: the optional template to be used when building the URI pointing to the external resource and linked by the Link button. The ID placeholder is represented by a property path included in `{}`, e.g. `{id}` or `{some.id}`. If undefined, no link button will be displayed.
+- optDialog: when using quick options, this is a component used to customize the options bound to options.
+- `options`: the options for the lookup service.
+
+The **set component** has these properties:
+
+- `configs`: an array of configuration objects as illustrated above.
+- `iconSize`: the size of the icons to use in the lookups list. Default is 24x24.
+
+The events are:
+
+- `itemChange`: emitted when an item is picked.
+- `moreRequest`: emitted when a more request is issued.
+
+Both these events provide the picked item, wrapped into a set of metadata:
+
+- `configs`: the array of configurations used.
+- `config`: the current config.
+- `item`: the picked item.
+- `itemId`: the ID of the picked item.
+- `itemLabel`: the label of the picked item.
