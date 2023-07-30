@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { EnvService, RamStorageService } from '@myrmidon/ng-tools';
+
 import { ASSERTED_COMPOSITE_ID_CONFIGS_KEY } from 'projects/myrmidon/cadmus-refs-asserted-ids/src/public-api';
-import { WebColorLookup } from './refs/ref-lookup-pg/ref-lookup-pg.component';
-import { ViafService } from 'projects/myrmidon/cadmus-refs-viaf-lookup/src/public-api';
+import { ViafRefLookupService } from 'projects/myrmidon/cadmus-refs-viaf-lookup/src/public-api';
 import { RefLookupConfig } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
+
+import { WebColorLookup } from './refs/ref-lookup-pg/ref-lookup-pg.component';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,11 @@ import { RefLookupConfig } from 'projects/myrmidon/cadmus-refs-lookup/src/public
 export class AppComponent {
   public version: string;
 
-  constructor(env: EnvService, storage: RamStorageService, viaf: ViafService) {
+  constructor(
+    env: EnvService,
+    storage: RamStorageService,
+    viaf: ViafRefLookupService
+  ) {
     this.version = env.get('version') || '';
     // configure external lookup for asserted composite IDs
     storage.store(ASSERTED_COMPOSITE_ID_CONFIGS_KEY, [
@@ -23,8 +29,8 @@ export class AppComponent {
         description: 'Colors',
         label: 'color',
         service: new WebColorLookup(),
-        itemIdGetter: (item: any) => item.value,
-        itemLabelGetter: (item: any) => item.name,
+        itemIdGetter: (item: any) => item?.value,
+        itemLabelGetter: (item: any) => item?.name,
       },
       {
         name: 'VIAF',
@@ -32,8 +38,8 @@ export class AppComponent {
         description: 'Virtual International Authority File',
         label: 'ID',
         service: viaf,
-        itemIdGetter: (item: any) => item.viafid,
-        itemLabelGetter: (item: any) => item.term,
+        itemIdGetter: (item: any) => item?.viafid,
+        itemLabelGetter: (item: any) => item?.term,
       },
     ] as RefLookupConfig[]);
   }
