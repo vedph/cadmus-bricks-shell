@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
-import { MessageService } from '../message.service';
-import { RefLookupService } from '../ref-lookup/ref-lookup.component';
 import { FormBuilder, FormControl } from '@angular/forms';
+
+import { RefLookupService } from '../ref-lookup/ref-lookup.component';
 
 /**
  * The configuration for each lookup in a lookup set.
@@ -54,6 +53,22 @@ export interface RefLookupConfig {
   item?: any;
 
   /**
+   * The optional function to get a string ID from an item.
+   * If undefined, the item object will be used.
+   * @param item The item to get the label for.
+   * @returns The label.
+   */
+  itemIdGetter?: (item: any) => string;
+
+  /**
+   * The optional function to get a string label from an item.
+   * If undefined, the item object will be used.
+   * @param item The item to get the label for.
+   * @returns The label.
+   */
+  itemLabelGetter?: (item: any) => string;
+
+  /**
    * True if a value is required.
    */
   required?: boolean;
@@ -84,12 +99,6 @@ export interface RefLookupConfig {
    * The quick options for the lookup service.
    */
   options?: any;
-
-  /**
-   * The optional message service used to get events from
-   * a set of code-defined lookup components.
-   */
-  messageService?: MessageService;
 }
 
 /**
@@ -98,6 +107,17 @@ export interface RefLookupConfig {
 export interface IconSize {
   width: number;
   height: number;
+}
+
+/**
+ * The event emitted by the lookup set component.
+ */
+export interface RefLookupSetEvent {
+  configs: RefLookupConfig[];
+  config: RefLookupConfig;
+  item: any;
+  itemId: string;
+  itemLabel: string;
 }
 
 @Component({
@@ -121,19 +141,19 @@ export class RefLookupSetComponent implements OnInit {
   public iconSize: IconSize;
 
   @Output()
-  public itemChange: EventEmitter<any>;
+  public itemChange: EventEmitter<RefLookupSetEvent>;
 
   @Output()
-  public moreRequest: EventEmitter<RefLookupConfig>;
+  public moreRequest: EventEmitter<RefLookupSetEvent>;
 
-  constructor(formBuilder: FormBuilder, private _messenger: MessageService) {
+  constructor(formBuilder: FormBuilder) {
     this.configs = [];
     this.iconSize = { width: 24, height: 24 };
     // form
     this.config = formBuilder.control(null);
     // events
-    this.itemChange = new EventEmitter<any>();
-    this.moreRequest = new EventEmitter<RefLookupConfig>();
+    this.itemChange = new EventEmitter<RefLookupSetEvent>();
+    this.moreRequest = new EventEmitter<RefLookupSetEvent>();
   }
 
   public ngOnInit(): void {
@@ -142,25 +162,31 @@ export class RefLookupSetComponent implements OnInit {
     }
   }
 
+  private eventToItem(item: any): RefLookupSetEvent {
+    return {
+      configs: this.configs,
+      config: this.config.value!,
+      item: item,
+      itemId: this.config.value!.itemIdGetter
+        ? this.config.value!.itemIdGetter(item) || (item as string)
+        : (item as string),
+      itemLabel: this.config.value!.itemLabelGetter
+        ? this.config.value!.itemLabelGetter(item) || (item as string)
+        : (item as string),
+    };
+  }
+
   public onItemChange(item: any): void {
-    this._messenger.send({
-      id: 'ITEM-CHANGE',
-      payload: {
-        config: this.config.value,
-        item: item,
-      },
-    });
-    this.itemChange.emit(item);
+    if (!this.config.value) {
+      return;
+    }
+    this.itemChange.emit(this.eventToItem(item));
   }
 
   public onMoreRequest(item: any): void {
-    this._messenger.send({
-      id: 'MORE-REQUEST',
-      payload: {
-        config: this.config.value,
-        item: item,
-      },
-    });
-    this.moreRequest.emit(item);
+    if (!this.config.value) {
+      return;
+    }
+    this.moreRequest.emit(this.eventToItem(item));
   }
 }

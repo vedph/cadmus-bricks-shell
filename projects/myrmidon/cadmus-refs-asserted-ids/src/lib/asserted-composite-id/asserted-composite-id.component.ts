@@ -19,6 +19,11 @@ import { Assertion } from '@myrmidon/cadmus-refs-assertion';
 
 import { PinRefLookupService } from '../services/pin-ref-lookup.service';
 import { PinTarget } from '../pin-target-lookup/pin-target-lookup.component';
+import {
+  RefLookupConfig,
+  RefLookupSetEvent,
+} from '@myrmidon/cadmus-refs-lookup';
+import { RamStorageService } from '@myrmidon/ng-tools';
 
 /**
  * An asserted composite ID. This can be an external ID, having only the ID value
@@ -32,6 +37,13 @@ export interface AssertedCompositeId {
   assertion?: Assertion;
 }
 
+/**
+ * The key to be used to retrieve the lookup configs from the settings storage.
+ * This is equal to the selector of AssertedCompositeIdComponent plus ".configs".
+ */
+export const ASSERTED_COMPOSITE_ID_CONFIGS_KEY =
+  'cadmus-refs-asserted-composite-id.configs';
+
 @Component({
   selector: 'cadmus-refs-asserted-composite-id',
   templateUrl: './asserted-composite-id.component.html',
@@ -40,6 +52,8 @@ export interface AssertedCompositeId {
 export class AssertedCompositeIdComponent implements OnInit {
   private _updatingForm: boolean | undefined;
   private _id: AssertedCompositeId | undefined;
+
+  public extLookupConfigs: RefLookupConfig[];
 
   public target: FormControl<PinTarget | null>;
   public scope: FormControl<string | null>;
@@ -139,11 +153,15 @@ export class AssertedCompositeIdComponent implements OnInit {
   @Output()
   public editorClose: EventEmitter<any>;
 
+  @Output()
+  public extMoreRequest: EventEmitter<RefLookupSetEvent>;
+
   constructor(
     formBuilder: FormBuilder,
     public lookupService: PinRefLookupService,
     @Inject('indexLookupDefinitions')
-    public lookupDefs: IndexLookupDefinitions
+    public lookupDefs: IndexLookupDefinitions,
+    settings: RamStorageService
   ) {
     this.target = formBuilder.control(null, Validators.required);
     this.scope = formBuilder.control(null, Validators.maxLength(500));
@@ -156,9 +174,12 @@ export class AssertedCompositeIdComponent implements OnInit {
       assertion: this.assertion,
     });
     this.targetExpanded = false;
+    this.extLookupConfigs =
+      settings.retrieve<RefLookupConfig[]>(ASSERTED_COMPOSITE_ID_CONFIGS_KEY) || [];
     // events
     this.idChange = new EventEmitter<AssertedCompositeId>();
     this.editorClose = new EventEmitter<any>();
+    this.extMoreRequest = new EventEmitter<RefLookupSetEvent>();
   }
 
   ngOnInit(): void {
@@ -219,6 +240,10 @@ export class AssertedCompositeIdComponent implements OnInit {
 
   public onEditorClose(): void {
     this.targetExpanded = false;
+  }
+
+  public onExtMoreRequest(event: RefLookupSetEvent): void {
+    this.extMoreRequest.emit(event);
   }
 
   public cancel(): void {

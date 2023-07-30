@@ -37,6 +37,7 @@ import {
   PinRefLookupService,
 } from '../services/pin-ref-lookup.service';
 import { ItemRefLookupService } from '../services/item-ref-lookup.service';
+import { RefLookupConfig, RefLookupSetEvent } from '@myrmidon/cadmus-refs-lookup';
 
 // from Cadmus general parts
 const METADATA_PART_ID = 'it.vedph.metadata';
@@ -130,6 +131,11 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
    */
   @Input()
   public lookupDefinitions?: IndexLookupDefinitions;
+  /**
+   * The optional configurations for using external lookup services.
+   */
+  @Input()
+  public extLookupConfigs: RefLookupConfig[]
 
   /**
    * True if when a new target is set it should be internal rather than
@@ -171,6 +177,9 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
   @Output()
   public targetChange: EventEmitter<PinTarget>;
 
+  @Output()
+  public extMoreRequest: EventEmitter<RefLookupSetEvent>;
+
   // by type
   public modelEntries: ThesaurusEntry[];
   public partTypeKeys: string[];
@@ -206,6 +215,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     this.itemParts = [];
     this._subs = [];
     this.modelEntries = [];
+    this.extLookupConfigs = [];
     // this is the default filter for the pin lookup, which will
     // be merged with values provided by user here
     this.filter = {
@@ -238,6 +248,7 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
     // events
     this.targetChange = new EventEmitter<PinTarget>();
     this.editorClose = new EventEmitter<any>();
+    this.extMoreRequest = new EventEmitter<RefLookupSetEvent>();
   }
 
   private forceByItem(): void {
@@ -556,6 +567,20 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
    */
   public onPinLookupChange(info: DataPinInfo): void {
     this.loadItemInfo(info);
+  }
+
+  public onExtItemChange(event: RefLookupSetEvent): void {
+    this.gid.setValue(event.itemId);
+    this.gid.updateValueAndValidity();
+    this.gid.markAsDirty();
+
+    this.label.setValue(event.itemLabel);
+    this.label.updateValueAndValidity();
+    this.label.markAsDirty();
+  }
+
+  public onExtMoreRequest(event: RefLookupSetEvent): void {
+    this.extMoreRequest.emit(event);
   }
 
   public onCopied(): void {

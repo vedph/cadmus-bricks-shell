@@ -1,11 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import {
-  MessageService,
-  RefLookupConfig,
-} from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
-import { ViafRefLookupService } from '@myrmidon/cadmus-refs-viaf-lookup';
+import { RefLookupConfig } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
+import { ViafRefLookupService } from 'projects/myrmidon/cadmus-refs-viaf-lookup/src/public-api';
 
 import { WebColorLookup } from '../ref-lookup-pg/ref-lookup-pg.component';
 
@@ -19,10 +16,7 @@ export class RefLookupSetPgComponent implements OnDestroy {
   public item?: any;
   public configs: RefLookupConfig[];
 
-  constructor(
-    messenger: MessageService,
-    viafService: ViafRefLookupService
-  ) {
+  constructor(viafService: ViafRefLookupService) {
     this.configs = [
       {
         name: 'colors',
@@ -39,9 +33,6 @@ export class RefLookupSetPgComponent implements OnDestroy {
         service: viafService,
       },
     ];
-    this._sub = messenger.select().pipe().subscribe((m) => {
-      console.log(JSON.stringify(m));
-    });
   }
 
   public ngOnDestroy(): void {

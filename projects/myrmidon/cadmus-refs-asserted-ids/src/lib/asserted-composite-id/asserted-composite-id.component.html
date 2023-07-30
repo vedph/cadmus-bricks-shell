@@ -59,8 +59,10 @@
           [defaultPartTypeKey]="defaultPartTypeKey"
           [target]="target.value"
           [internalDefault]="internalDefault"
+          [extLookupConfigs]="extLookupConfigs"
           (targetChange)="onTargetChange($event)"
           (editorClose)="onEditorClose()"
+          (extMoreRequest)="onExtMoreRequest($event)"
         ></cadmus-pin-target-lookup>
       </mat-expansion-panel>
     </div>
