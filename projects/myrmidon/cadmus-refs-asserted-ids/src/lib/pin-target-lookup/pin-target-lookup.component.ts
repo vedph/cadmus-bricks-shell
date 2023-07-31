@@ -37,7 +37,10 @@ import {
   PinRefLookupService,
 } from '../services/pin-ref-lookup.service';
 import { ItemRefLookupService } from '../services/item-ref-lookup.service';
-import { RefLookupConfig, RefLookupSetEvent } from '@myrmidon/cadmus-refs-lookup';
+import {
+  RefLookupConfig,
+  RefLookupSetEvent,
+} from '@myrmidon/cadmus-refs-lookup';
 
 // from Cadmus general parts
 const METADATA_PART_ID = 'it.vedph.metadata';
@@ -570,13 +573,15 @@ export class PinTargetLookupComponent implements OnInit, OnDestroy {
   }
 
   public onExtItemChange(event: RefLookupSetEvent): void {
-    this.gid.setValue(event.itemId);
-    this.gid.updateValueAndValidity();
-    this.gid.markAsDirty();
+    setTimeout(() => {
+      this.gid.setValue(event.itemId);
+      this.gid.updateValueAndValidity();
+      this.gid.markAsDirty();
 
-    this.label.setValue(event.itemLabel);
-    this.label.updateValueAndValidity();
-    this.label.markAsDirty();
+      this.label.setValue(event.itemLabel);
+      this.label.updateValueAndValidity();
+      this.label.markAsDirty();
+    });
   }
 
   public onExtMoreRequest(event: RefLookupSetEvent): void {
