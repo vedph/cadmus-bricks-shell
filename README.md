@@ -67,6 +67,8 @@ To add a brick:
 
 ## History
 
+- 2023-08-29: updated Angular and packages.
+
 ### 2.0.1
 
 - 2023-07-30: added `RefLookupSet`.
