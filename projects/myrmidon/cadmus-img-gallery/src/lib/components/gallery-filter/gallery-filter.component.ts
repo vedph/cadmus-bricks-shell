@@ -1,21 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import { GalleryListRepository } from '../../gallery-list.repository';
 import { GalleryFilter } from '../../models';
-
-interface FilterData {
-  filter: GalleryFilter;
-  entries: ThesaurusEntry[];
-}
 
 interface FilterMetadatum {
   id: string;
@@ -28,10 +22,21 @@ interface FilterMetadatum {
   templateUrl: './gallery-filter.component.html',
   styleUrls: ['./gallery-filter.component.css'],
 })
-export class GalleryFilterComponent implements OnInit {
-  private _data$: BehaviorSubject<FilterData>;
+export class GalleryFilterComponent {
+  private _filter?: GalleryFilter;
+  private _entries: ThesaurusEntry[];
 
-  public loading$: Observable<boolean>;
+  @Input()
+  public get filter(): GalleryFilter | undefined | null {
+    return this._filter;
+  }
+  public set filter(value: GalleryFilter | undefined | null) {
+    if (this._filter === value) {
+      return;
+    }
+    this._filter = value || undefined;
+    this.updateForm();
+  }
 
   /**
    * The entries used to represent image gallery metadata filters.
@@ -40,14 +45,14 @@ export class GalleryFilterComponent implements OnInit {
    * than picking it from a list.
    */
   @Input()
-  public get entries(): ThesaurusEntry[] | undefined {
-    return this._data$.value.entries;
+  public get entries(): ThesaurusEntry[] {
+    return this._entries;
   }
-  public set entries(value: ThesaurusEntry[] | undefined) {
-    if (this._data$.value.entries === value) {
+  public set entries(value: ThesaurusEntry[]) {
+    if (this._entries === value) {
       return;
     }
-    this._data$.next({ ...this._data$.value, entries: value || [] });
+    this._entries = value || [];
   }
 
   public metadata: FormControl<FilterMetadatum[]>;
@@ -61,8 +66,7 @@ export class GalleryFilterComponent implements OnInit {
     formBuilder: FormBuilder,
     private _repository: GalleryListRepository
   ) {
-    this._data$ = new BehaviorSubject<FilterData>({ filter: {}, entries: [] });
-    this.loading$ = _repository.loading$;
+    this._entries = [];
     // forms
     this.metadata = formBuilder.control([], { nonNullable: true });
     this.form = formBuilder.group({
@@ -83,26 +87,19 @@ export class GalleryFilterComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // update data when filter changes
-    this._repository.filter$.subscribe((f) => {
-      this._data$.next({ ...this._data$.value, filter: f });
-    });
-    // update form when data changes
-    this._data$.subscribe((d) => {
-      this.updateForm(d);
-    });
-  }
-
-  private updateForm(data: FilterData): void {
+  private updateForm(): void {
+    if (!this._filter) {
+      this.form.reset();
+      return;
+    }
     const metadata: FilterMetadatum[] = [];
 
-    Object.keys(data.filter).forEach((key) => {
-      const entry = data.entries.find((e) => e.id === key);
+    Object.keys(this._filter).forEach((key) => {
+      const entry = this._entries.find((e) => e.id === key);
       metadata.push({
         id: key,
         label: entry?.value || key,
-        value: data.filter[key],
+        value: this._filter![key],
       });
     });
     this.metadata.setValue(metadata);
@@ -117,8 +114,8 @@ export class GalleryFilterComponent implements OnInit {
     metadata.push({
       id: this.metaId.value,
       label:
-        this._data$.value.entries.find((e) => e.id === this.metaId.value)
-          ?.value || this.metaId.value,
+        this._entries.find((e) => e.id === this.metaId.value)?.value ||
+        this.metaId.value,
       value: this.metaValue.value || '',
     });
     this.metadata.setValue(metadata);
@@ -152,7 +149,7 @@ export class GalleryFilterComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const filter = this.getFilter();
-    this._repository.setFilter(filter);
+    this._filter = this.getFilter();
+    this._repository.setFilter(this._filter);
   }
 }

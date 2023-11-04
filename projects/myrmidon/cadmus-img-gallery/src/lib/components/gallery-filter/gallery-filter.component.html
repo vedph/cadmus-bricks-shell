@@ -94,7 +94,6 @@
       (click)="reset()"
       color="warn"
       matTooltip="Reset filters"
-      [disabled]="loading$ | async"
     >
       <mat-icon>clear</mat-icon>
     </button>
@@ -102,7 +101,6 @@
       type="submit"
       mat-icon-button
       color="primary"
-      [disabled]="loading$ | async"
       matTooltip="Apply filters"
     >
       <mat-icon>check_circle</mat-icon>

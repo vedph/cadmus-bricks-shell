@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
@@ -29,8 +29,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 // vendor
-import { Actions } from '@ngneat/effects-ng';
-import { devTools } from '@ngneat/elf-devtools';
 import { MarkdownModule } from 'ngx-markdown';
 
 import {
@@ -128,16 +126,6 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
   },
 };
 
-// https://ngneat.github.io/elf/docs/dev-tools/
-export function initElfDevTools(actions: Actions) {
-  return () => {
-    devTools({
-      name: 'Sample Application',
-      actionsDispatcher: actions,
-    });
-  };
-}
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -234,11 +222,7 @@ export function initElfDevTools(actions: Actions) {
         { path: 'cod/location', component: CodLocationPgComponent },
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: '**', component: HomeComponent },
-      ],
-      {
-        initialNavigation: 'enabledBlocking',
-        useHash: true,
-      }
+      ]
     ),
     // material
     MatAutocompleteModule,
@@ -310,14 +294,6 @@ export function initElfDevTools(actions: Actions) {
       provide: ThesaurusService,
       useClass: MockThesaurusService,
     },
-    // ELF dev tools
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: initElfDevTools,
-      deps: [Actions],
-    },
-
     // if you want to use the mock gallery, uncomment these two providers
     // and comment the IIIF ones below.
     // mock image gallery

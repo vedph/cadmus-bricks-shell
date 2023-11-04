@@ -67,6 +67,7 @@ To add a brick:
 
 ## History
 
+- 2023-11-04: removed ELF dependencies from `@myrmidon/cadmus-img-gallery` and updated its version to 3.1.0.
 - 2023-11-03: updated Angular and packages.
 - 2023-09-22: updated Angular and packages.
 - 2023-08-29: updated Angular and packages.

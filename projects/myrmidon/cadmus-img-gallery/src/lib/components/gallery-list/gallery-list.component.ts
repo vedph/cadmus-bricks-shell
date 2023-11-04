@@ -8,13 +8,13 @@ import {
 import { PageEvent } from '@angular/material/paginator';
 import { Observable, Subscription, distinctUntilChanged } from 'rxjs';
 
-import { PaginationData } from '@ngneat/elf-pagination';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
+import { DataPage } from '@myrmidon/ng-tools';
 
 import { GalleryListRepository } from '../../gallery-list.repository';
 import { GalleryOptions } from '../../models';
 import { GalleryOptionsService } from '../../services/gallery-options.service';
-import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 
 @Component({
   selector: 'cadmus-gallery-list',
@@ -24,8 +24,7 @@ import { GalleryImage } from '@myrmidon/cadmus-img-annotator';
 export class GalleryListComponent implements OnDestroy {
   private _sub?: Subscription;
 
-  public pagination$: Observable<PaginationData>;
-  public data$: Observable<GalleryImage[]>;
+  public page$: Observable<DataPage<GalleryImage>>;
   public loading$: Observable<boolean>;
 
   /**
@@ -49,8 +48,7 @@ export class GalleryListComponent implements OnDestroy {
     private _repository: GalleryListRepository,
     options: GalleryOptionsService
   ) {
-    this.pagination$ = _repository.pagination$;
-    this.data$ = _repository.data$;
+    this.page$ = _repository.page$;
     this.loading$ = _repository.loading$;
     this.imagePick = new EventEmitter<GalleryImage>();
 
@@ -66,13 +64,12 @@ export class GalleryListComponent implements OnDestroy {
     this._sub?.unsubscribe();
   }
 
-  public pageChange(event: PageEvent): void {
-    this._repository.loadPage(event.pageIndex + 1, event.pageSize);
+  public onPageChange(event: PageEvent): void {
+    this._repository.setPage(event.pageIndex + 1, event.pageSize);
   }
 
-  public clearCache(): void {
-    this._repository.clearCache();
-    this._repository.loadPage(1);
+  public reset(): void {
+    this._repository.reset();
   }
 
   public pickImage(image: GalleryImage): void {

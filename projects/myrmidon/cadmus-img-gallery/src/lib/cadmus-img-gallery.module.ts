@@ -13,6 +13,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { PagedDataBrowsersModule } from '@myrmidon/paged-data-browsers';
 import { NgToolsModule } from '@myrmidon/ng-tools';
 import { CadmusCoreModule } from '@myrmidon/cadmus-core';
 import { CadmusImgAnnotatorModule } from '@myrmidon/cadmus-img-annotator';
@@ -46,6 +47,7 @@ import { GalleryImgAnnotatorComponent } from './components/gallery-img-annotator
     MatTooltipModule,
     // myrmex
     NgToolsModule,
+    PagedDataBrowsersModule,
     // Cadmus
     CadmusCoreModule,
     CadmusImgAnnotatorModule,
