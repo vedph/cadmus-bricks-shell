@@ -1,6 +1,6 @@
 {
   "name": "@myrmidon/cadmus-img-gallery-iiif",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Cadmus - IIIF components for image gallery.",
   "keywords": [
     "Cadmus",
@@ -15,8 +15,8 @@
     "name": "Daniele Fusi"
   },
   "peerDependencies": {
-    "@angular/common": "^16.0.0",
-    "@angular/core": "^16.0.0"
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0"
   },
   "dependencies": {
     "tslib": "^2.5.0"

@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "cadmus-bricks:build:production"
+              "buildTarget": "cadmus-bricks:build:production"
             },
             "development": {
-              "browserTarget": "cadmus-bricks:build:development"
+              "buildTarget": "cadmus-bricks:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cadmus-bricks:build"
+            "buildTarget": "cadmus-bricks:build"
           }
         },
         "test": {
