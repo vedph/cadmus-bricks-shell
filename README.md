@@ -3,6 +3,7 @@
 - [Cadmus Bricks Shell](#cadmus-bricks-shell)
   - [Adding a Brick](#adding-a-brick)
   - [History](#history)
+    - [3.0.0](#300)
     - [2.0.1](#201)
     - [2.0.0](#200)
     - [1.0.16](#1016)
@@ -66,6 +67,8 @@ To add a brick:
 3. add a corresponding host page in the app, with its menu and route.
 
 ## History
+
+### 3.0.0
 
 - 2023-11-09: ⚠️ upgraded to Angular 17.
 - 2023-11-04: removed ELF dependencies from `@myrmidon/cadmus-img-gallery` and updated its version to 3.1.0.
