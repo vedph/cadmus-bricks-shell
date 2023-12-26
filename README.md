@@ -68,6 +68,8 @@ To add a brick:
 
 ## History
 
+- 2023-12-26: updated packages.
+
 ### 3.0.0
 
 - 2023-11-09: ⚠️ upgraded to Angular 17.
