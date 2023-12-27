@@ -113,6 +113,7 @@ import { MyImgAnnotationListComponent } from './img/img-annotation-list/my-img-a
 import { ImgAnnotatorToolbarPgComponent } from './img/img-annotator-toolbar-pg/img-annotator-toolbar-pg.component';
 import { MyGalleryImageAnnotatorComponent } from './img/my-gallery-image-annotator/my-gallery-image-annotator.component';
 import { RefLookupSetPgComponent } from './refs/ref-lookup-set-pg/ref-lookup-set-pg.component';
+import { DbpediaRefLookupPgComponent } from './refs/dbpedia-ref-lookup-pg/dbpedia-ref-lookup-pg.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -171,59 +172,58 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
     HttpClientModule,
     HttpClientJsonpModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(
-      [
-        { path: 'home', component: HomeComponent },
-        { path: 'img/gallery', component: ImgGalleryPgComponent },
-        { path: 'img/sd-gallery', component: SdImgGalleryPgComponent },
-        { path: 'img/annotator', component: ImgAnnotatorPgComponent },
-        { path: 'img/sd-annotator', component: SdImgAnnotatorPgComponent },
-        { path: 'img/toolbar', component: ImgAnnotatorToolbarPgComponent },
-        { path: 'refs/doc-references', component: DocReferencesPgComponent },
-        { path: 'refs/external-ids', component: ExternalIdsPgComponent },
-        {
-          path: 'refs/decorated-counts',
-          component: DecoratedCountsPgComponent,
-        },
-        { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
-        { path: 'refs/proper-name', component: ProperNamePgComponent },
-        { path: 'refs/assertion', component: AssertionPgComponent },
-        { path: 'refs/asserted-id', component: AssertedIdPgComponent },
-        { path: 'refs/asserted-ids', component: AssertedIdsPgComponent },
-        {
-          path: 'refs/asserted-composite-id',
-          component: AssertedCompositeIdPgComponent,
-        },
-        {
-          path: 'refs/asserted-composite-ids',
-          component: AssertedCompositeIdsPgComponent,
-        },
-        { path: 'refs/chronotope', component: ChronotopePgComponent },
-        {
-          path: 'refs/asserted-chronotope',
-          component: AssertedChronotopePgComponent,
-        },
-        {
-          path: 'refs/asserted-chronotope-set',
-          component: AssertedChronotopeSetPgComponent,
-        },
-        { path: 'refs/historical-date', component: HistoricalDatePgComponent },
-        { path: 'refs/lookup', component: RefLookupPgComponent },
-        { path: 'refs/lookup-set', component: RefLookupSetPgComponent },
-        { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
-        { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
-        { path: 'ui/note-set', component: NoteSetPgComponent },
-        {
-          path: 'ui/custom-actions-bar',
-          component: CustomActionBarPgComponent,
-        },
-        { path: 'text/text-block-view', component: TextBlockViewPgComponent },
-        { path: 'mat/physical-size', component: PhysicalSizePgComponent },
-        { path: 'cod/location', component: CodLocationPgComponent },
-        { path: '', redirectTo: 'home', pathMatch: 'full' },
-        { path: '**', component: HomeComponent },
-      ]
-    ),
+    RouterModule.forRoot([
+      { path: 'home', component: HomeComponent },
+      { path: 'img/gallery', component: ImgGalleryPgComponent },
+      { path: 'img/sd-gallery', component: SdImgGalleryPgComponent },
+      { path: 'img/annotator', component: ImgAnnotatorPgComponent },
+      { path: 'img/sd-annotator', component: SdImgAnnotatorPgComponent },
+      { path: 'img/toolbar', component: ImgAnnotatorToolbarPgComponent },
+      { path: 'refs/doc-references', component: DocReferencesPgComponent },
+      { path: 'refs/external-ids', component: ExternalIdsPgComponent },
+      {
+        path: 'refs/decorated-counts',
+        component: DecoratedCountsPgComponent,
+      },
+      { path: 'refs/decorated-ids', component: DecoratedIdsPgComponent },
+      { path: 'refs/proper-name', component: ProperNamePgComponent },
+      { path: 'refs/assertion', component: AssertionPgComponent },
+      { path: 'refs/asserted-id', component: AssertedIdPgComponent },
+      { path: 'refs/asserted-ids', component: AssertedIdsPgComponent },
+      {
+        path: 'refs/asserted-composite-id',
+        component: AssertedCompositeIdPgComponent,
+      },
+      {
+        path: 'refs/asserted-composite-ids',
+        component: AssertedCompositeIdsPgComponent,
+      },
+      { path: 'refs/chronotope', component: ChronotopePgComponent },
+      {
+        path: 'refs/asserted-chronotope',
+        component: AssertedChronotopePgComponent,
+      },
+      {
+        path: 'refs/asserted-chronotope-set',
+        component: AssertedChronotopeSetPgComponent,
+      },
+      { path: 'refs/historical-date', component: HistoricalDatePgComponent },
+      { path: 'refs/lookup', component: RefLookupPgComponent },
+      { path: 'refs/lookup-set', component: RefLookupSetPgComponent },
+      { path: 'refs/viaf-lookup', component: ViafRefLookupPgComponent },
+      { path: 'refs/dbpedia-lookup', component: DbpediaRefLookupPgComponent },
+      { path: 'ui/flags-picker', component: FlagsPickerPgComponent },
+      { path: 'ui/note-set', component: NoteSetPgComponent },
+      {
+        path: 'ui/custom-actions-bar',
+        component: CustomActionBarPgComponent,
+      },
+      { path: 'text/text-block-view', component: TextBlockViewPgComponent },
+      { path: 'mat/physical-size', component: PhysicalSizePgComponent },
+      { path: 'cod/location', component: CodLocationPgComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '**', component: HomeComponent },
+    ]),
     // material
     MatAutocompleteModule,
     MatButtonModule,

@@ -819,6 +819,39 @@
           }
         }
       }
+    },
+    "@myrmidon/cadmus-refs-dbpedia-lookup": {
+      "projectType": "library",
+      "root": "projects/myrmidon/cadmus-refs-dbpedia-lookup",
+      "sourceRoot": "projects/myrmidon/cadmus-refs-dbpedia-lookup/src",
+      "prefix": "cadmus",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/myrmidon/cadmus-refs-dbpedia-lookup/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-dbpedia-lookup/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/myrmidon/cadmus-refs-dbpedia-lookup/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/myrmidon/cadmus-refs-dbpedia-lookup/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

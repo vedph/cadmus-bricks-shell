@@ -161,19 +161,19 @@ export class ViafService {
     sortKey = 'holdingscount'
   ): Observable<ViafSearchResult> {
     // https://www.oclc.org/developer/develop/web-services/viaf/authority-cluster.en.html
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('query', query)
       .set('httpAccept', 'application/json')
       .set('maximumRecords', max.toString());
 
     // start: startRecord
     if (start > 1) {
-      params.set('startRecord', start.toString());
+      params = params.set('startRecord', start.toString());
     }
 
     // sortKey ('holdingscount')
     if (sortKey && sortKey !== 'holdingscount') {
-      params.set('sortKey', sortKey);
+      params = params.set('sortKey', sortKey);
     }
 
     const url = `${API_BASE}/search?` + params.toString();

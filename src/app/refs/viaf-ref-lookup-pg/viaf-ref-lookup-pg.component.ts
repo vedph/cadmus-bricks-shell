@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { take } from 'rxjs/operators';
 
 import {
   ViafRefLookupService,
@@ -19,7 +18,7 @@ import {
   templateUrl: './viaf-ref-lookup-pg.component.html',
   styleUrls: ['./viaf-ref-lookup-pg.component.css'],
 })
-export class ViafRefLookupPgComponent implements OnInit {
+export class ViafRefLookupPgComponent {
   public item?: ViafSearchResult;
   public term: FormControl<string | null>;
   public form: FormGroup;
@@ -37,8 +36,6 @@ export class ViafRefLookupPgComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   public onItemChange(item: any | undefined): void {
     this.item = item;
   }
@@ -52,21 +49,18 @@ export class ViafRefLookupPgComponent implements OnInit {
       return;
     }
     this.suggesting = true;
-    this._viaf
-      .suggest(this.term.value)
-      .pipe(take(1))
-      .subscribe({
-        next: (r) => {
-          this.suggestResult = r;
-          this.suggesting = false;
-        },
-        error: (error) => {
-          console.error('Error!');
-          if (error) {
-            console.log(JSON.stringify(error));
-          }
-          this.suggesting = false;
-        },
-      });
+    this._viaf.suggest(this.term.value).subscribe({
+      next: (r) => {
+        this.suggestResult = r;
+        this.suggesting = false;
+      },
+      error: (error) => {
+        console.error('Error!');
+        if (error) {
+          console.log(JSON.stringify(error));
+        }
+        this.suggesting = false;
+      },
+    });
   }
 }

@@ -47,6 +47,9 @@
         "dist/myrmidon/cadmus-refs-chronotope/myrmidon-cadmus-refs-chronotope",
         "dist/myrmidon/cadmus-refs-chronotope"
       ],
+      "@myrmidon/cadmus-refs-dbpedia-lookup": [
+        "./dist/myrmidon/cadmus-refs-dbpedia-lookup"
+      ],
       "@myrmidon/cadmus-refs-decorated-counts": [
         "dist/myrmidon/cadmus-refs-decorated-counts/myrmidon-cadmus-refs-decorated-counts",
         "dist/myrmidon/cadmus-refs-decorated-counts"
