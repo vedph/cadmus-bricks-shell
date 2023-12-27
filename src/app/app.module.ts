@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -57,7 +57,7 @@ import { CadmusRefsDocReferencesModule } from 'projects/myrmidon/cadmus-refs-doc
 import { CadmusRefsExternalIdsModule } from 'projects/myrmidon/cadmus-refs-external-ids/src/public-api';
 import { CadmusRefsHistoricalDateModule } from 'projects/myrmidon/cadmus-refs-historical-date/src/public-api';
 import { CadmusRefsProperNameModule } from 'projects/myrmidon/cadmus-refs-proper-name/src/public-api';
-import { CadmusRefsLookupModule } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
+import { CadmusRefsLookupModule, PROXY_INTERCEPTOR_OPTIONS, ProxyInterceptor } from 'projects/myrmidon/cadmus-refs-lookup/src/public-api';
 import { CadmusRefsDecoratedCountsModule } from 'projects/myrmidon/cadmus-refs-decorated-counts/src/public-api';
 import { CadmusSdimgAnnotatorModule } from 'projects/myrmidon/cadmus-sdimg-annotator/src/public-api';
 import { CadmusTextBlockViewModule } from 'projects/myrmidon/cadmus-text-block-view/src/public-api';
@@ -280,6 +280,16 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
         hasBackdrop: true,
         maxHeight: '800px',
       },
+    },
+    // proxy interceptor
+    { provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true },
+    { provide: PROXY_INTERCEPTOR_OPTIONS, useValue: {
+        proxyUrl: 'http://localhost:5161/api/proxy',
+        urls: [
+          'http://lookup.dbpedia.org/api/search',
+          'http://lookup.dbpedia.org/api/prefix'
+        ]
+      }
     },
     // mocks for lookup
     {

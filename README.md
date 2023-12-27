@@ -68,6 +68,7 @@ To add a brick:
 
 ## History
 
+- 2023-12-27: added DBPedia lookup and proxy interceptor.
 - 2023-12-26: updated packages.
 
 ### 3.0.0

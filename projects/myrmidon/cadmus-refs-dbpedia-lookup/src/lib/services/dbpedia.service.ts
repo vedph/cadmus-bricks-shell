@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { catchError, retry } from 'rxjs';
+import { Observable, catchError, retry } from 'rxjs';
 
 import { ErrorService } from '@myrmidon/ng-tools';
 
@@ -74,7 +74,10 @@ export class DbpediaService {
    * @param options The options.
    * @returns Observable with result.
    */
-  public lookup(keyword: string, options?: DbpediaOptions) {
+  public lookup(
+    keyword: string,
+    options?: DbpediaOptions
+  ): Observable<DbpediaResult> {
     const o = Object.assign(options || {}, DBPEDIA_DEFAULT_OPTIONS, options);
 
     // query=keyword

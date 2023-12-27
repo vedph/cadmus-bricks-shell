@@ -13,6 +13,8 @@ import { DbpediaDoc, DbpediaOptions, DbpediaService } from './dbpedia.service';
   providedIn: 'root',
 })
 export class DbpediaRefLookupService implements RefLookupService {
+  private readonly _tagRegex = /<[^>]+>/g;
+
   constructor(private _dbpedia: DbpediaService) {}
 
   public lookup(
@@ -33,6 +35,7 @@ export class DbpediaRefLookupService implements RefLookupService {
   }
 
   public getName(item: DbpediaDoc): string {
-    return item?.label[0];
+    // remove any tags from item?.label[0] and return it
+    return item?.label[0]?.replace(this._tagRegex, '');
   }
 }
