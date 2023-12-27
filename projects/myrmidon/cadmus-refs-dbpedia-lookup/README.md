@@ -2,7 +2,11 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
 
-DBPedia lookup is currently limited to the DBPedia API keyword lookup.
+DBPedia lookup is currently limited to the DBPedia API _keyword_ lookup. You can configure this service via `DbediaOptions`, which provides the following properties:
+
+- `limit` (default=10): the maximum number of documents in result. AFAIK the DBPedia service does not provide paging via an offset, so this is the only available option here.
+- `prefix` (default=true): true for a prefix lookup (=match the beginning of the input string, rather than the whole input string).
+- `types`: the types filters. These are one or more DBpedia classes from the DBpedia ontology that the results should have. Using this parameter will only retrieve resources of the passed type(s). For instance, you might want to use <http://dbpedia.org/ontology/Person> for persons, <http://dbpedia.org/ontology/Place> for places, etc.
 
 Essential types from DBPedia ontology:
 
@@ -25,7 +29,7 @@ Note that all the values may include `<B></B>` for bold, and presumably also `<I
 
 To use this service, you must configure your app and use a proxy because AFAIK DBPedia does not support CORS nor JSONP.
 
-(1) create a proxy API like this:
+(1) in your backend API, add a **proxy API controller** like this (`ProxyController.cs`):
 
 ```cs
 [ApiController]
@@ -72,20 +76,23 @@ public sealed class ProxyController : ControllerBase
 }
 ```
 
-This requires CORS, and the following services:
+This requires CORS, which should already be setup for the API, and the following services:
 
 ```cs
 builder.Services.AddHttpClient();
+// for caching
 builder.Services.AddResponseCaching();
 ```
 
-and also this middleware (immediately after CORS):
+If you are not using response caching (i.e. you remove the `ResponseCacheAttribute` from the sample code above) you can remove `AddResponseCaching`.
+
+Also, if you use response caching (which is the default) add this middleware to your app's pipeline (immediately after CORS):
 
 ```cs
 app.UseResponseCaching();
 ```
 
-(2) Once you provide this proxy endpoint, configure the Angular app like this:
+(2) Once you provide this proxy endpoint, **configure the Angular app** like this:
 
 ```ts
 { provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true },
@@ -99,4 +106,4 @@ app.UseResponseCaching();
 },
 ```
 
-This configures the proxy interceptor, whose task is intercepting requests to some services and rewrite them so that they are redirected to a proxy service. Using a proxy bypasses the issues of browsers in consuming services not providing support for CORS or JSONP.
+This configures the proxy interceptor, whose task is intercepting requests to services not supporting CORS, like DBPedia, and rewrite them so that they are redirected to the proxy service endpoint shown above under (1). Using a proxy bypasses the issues of browsers in consuming services not providing support for CORS or JSONP.

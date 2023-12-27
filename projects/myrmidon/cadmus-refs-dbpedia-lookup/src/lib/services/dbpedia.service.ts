@@ -34,6 +34,7 @@ export interface DbpediaOptions {
  */
 export const DBPEDIA_DEFAULT_OPTIONS: DbpediaOptions = {
   limit: 10,
+  prefix: true
 };
 
 /**
