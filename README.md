@@ -1,35 +1,5 @@
 # Cadmus Bricks Shell
 
-- [Cadmus Bricks Shell](#cadmus-bricks-shell)
-  - [Adding a Brick](#adding-a-brick)
-  - [History](#history)
-    - [3.0.0](#300)
-    - [2.0.1](#201)
-    - [2.0.0](#200)
-    - [1.0.16](#1016)
-    - [1.0.15](#1015)
-    - [1.0.14](#1014)
-    - [1.0.13](#1013)
-    - [1.0.12](#1012)
-    - [1.0.11](#1011)
-    - [1.0.10](#1010)
-    - [1.0.9](#109)
-    - [1.0.8](#108)
-    - [1.0.7](#107)
-    - [1.0.6](#106)
-    - [1.0.5](#105)
-    - [1.0.4](#104)
-    - [1.0.3](#103)
-    - [1.0.2](#102)
-    - [1.0.1](#101)
-    - [1.0.0](#100)
-    - [0.1.3](#013)
-    - [0.1.2](#012)
-    - [0.1.1](#011)
-    - [0.1.0](#010)
-    - [0.0.8](#008)
-    - [0.0.7](#007)
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
 
 👀 [Bricks Demo](https://cadmus-bricks.fusi-soft.com): an online demo showing all the bricks in action. Just pick the desired one from the menu and play with it.
@@ -44,7 +14,7 @@ As Cadmus projects increase, the prototype code reveals more and more portions w
 
 1. `npm run build-lib`.
 2. ensure to update the version in `env.js` (and `docker-compose.yml`), and `ng build --configuration production`.
-3. `docker build . -t vedph2020/cadmus-bricks-app:2.0.1 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-bricks-app:3.0.1 -t vedph2020/cadmus-bricks-app:latest` (replace with the current version).
 
 Use [publish.bat](publish.bat) to publish the libraries to NPM.
 
@@ -68,6 +38,9 @@ To add a brick:
 
 ## History
 
+### 3.0.1
+
+- 2024-02-04: updated Angular.
 - 2023-12-27: added DBPedia lookup and proxy interceptor.
 - 2023-12-26: updated packages.
 
