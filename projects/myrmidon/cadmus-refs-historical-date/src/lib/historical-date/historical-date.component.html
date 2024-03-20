@@ -33,7 +33,7 @@
   </div>
 
   <mat-expansion-panel
-    [(expanded)]="!disabled && visualExpanded"
+    [expanded]="!disabled && visualExpanded" (expandedChange)="!disabled && (visualExpanded = $event)"
     style="max-width: 500px"
   >
     <cadmus-refs-datation
