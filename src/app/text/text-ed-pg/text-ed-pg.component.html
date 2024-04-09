@@ -8,9 +8,13 @@
     <form [formGroup]="form" class="form-row">
       <!-- selector -->
       <mat-form-field>
-        <legend>selector</legend>
-        <input matInput [formControl]="selector" />
-        <mat-hint>ID or $match-first/all</mat-hint>
+        <mat-select [formControl]="selector">
+          <mat-option value="md.bold">toggle bold</mat-option>
+          <mat-option value="md.italic">toggle italic</mat-option>
+          <mat-option value="md.emoji">emoji</mat-option>
+          <mat-option value="$match-first">match first</mat-option>
+          <mat-option value="$match-all">match all</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <!-- text -->
