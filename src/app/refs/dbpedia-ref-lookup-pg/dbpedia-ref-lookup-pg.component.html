@@ -4,6 +4,12 @@
       <h2>DBPedia Reference Lookup</h2>
     </mat-card-title>
   </mat-card-header>
+  <p style="margin: 0 16px">
+    Note that due to DBPedia not supporting CORS, this page requires a
+    <a href="https://github.com/vedph/proxy-api" target="_blank" rel="noopener"
+      >proxy</a
+    >, which is not setup in the demo website.
+  </p>
   <mat-card-content>
     <cadmus-ref-lookup
       [service]="service"

@@ -38,6 +38,8 @@ To add a brick:
 
 ## History
 
+- 2024-04-09: updated Angular and packages.
+
 ### 3.0.2
 
 - 2024-03-20: updated Angular and packages.
