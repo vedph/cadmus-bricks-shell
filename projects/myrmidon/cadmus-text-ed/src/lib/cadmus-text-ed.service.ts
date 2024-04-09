@@ -204,7 +204,7 @@ export class CadmusTextEdService {
     let r = await plugin.edit(query);
     const result: CadmusTextEdResult = {
       ids: [plugin.id],
-      text: query.text,
+      text: r.text,
       query,
       payloads: [r.payload],
       error: r.error,
