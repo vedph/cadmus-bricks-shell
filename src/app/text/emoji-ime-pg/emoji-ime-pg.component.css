@@ -1,0 +1,9 @@
+figure {
+  margin: 8px;
+  padding: 6px;
+  border: 1px solid silver;
+  border-radius: 6px;
+}
+legend {
+  color: silver;
+}

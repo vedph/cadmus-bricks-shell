@@ -1,0 +1,33 @@
+<form
+  [formGroup]="form"
+  [style.margin]="inDialog ? '16px' : '0'"
+  (submit)="pickEmoji(emojis[0])"
+>
+  <!-- name -->
+  <div>
+    <mat-form-field>
+      <input autofocus matInput placeholder="name" [formControl]="name" />
+    </mat-form-field>
+  </div>
+  <!-- list -->
+  <table>
+    <tbody>
+      @for (e of emojis; track e.code) {
+      <tr>
+        <td>{{ e.name }}</td>
+        <td>{{ e.code | uppercase }}</td>
+        <td>
+          <button type="button" mat-button (click)="pickEmoji(e)">
+            <img
+              alt="{{ e.name }}"
+              [src]="e.url"
+              [width]="size"
+              [height]="size"
+            />
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</form>

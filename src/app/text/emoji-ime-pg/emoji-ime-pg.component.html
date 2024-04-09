@@ -1,0 +1,25 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Emoji IME</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="name" [formControl]="name" />
+      </mat-form-field>
+    </div>
+    <div>
+      <button type="button" mat-flat-button (click)="openIme()">
+        open IME
+      </button>
+    </div>
+    @if (emoji) {
+    <figure>
+      <img alt="{{ emoji.name }}" [src]="emoji.url" />
+      <legend>{{ emoji.name }}</legend>
+    </figure>
+    }
+  </mat-card-content>
+</mat-card>

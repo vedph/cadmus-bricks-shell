@@ -1,16 +1,16 @@
 import {
   CadmusTextEdPlugin,
-  CadmusTextEdPluginResult,
   CadmusTextEdQuery,
-} from './cadmus-text-ed.service';
+  CadmusTextEdPluginResult,
+} from '@myrmidon/cadmus-text-ed';
 
 /**
- * Toggle Markdown bold formatting plugin.
+ * Toggle Markdown italic formatting plugin.
  */
-export class MdBoldCtePlugin implements CadmusTextEdPlugin {
-  public readonly id = 'md.bold';
-  public readonly name = 'Markdown Bold Toggle';
-  public readonly description = 'Toggle bold formatting in Markdown text.';
+export class MdItalicCtePlugin implements CadmusTextEdPlugin {
+  public readonly id = 'md.italic';
+  public readonly name = 'Markdown Italic Toggle';
+  public readonly description = 'Toggle italic formatting in Markdown text.';
   public readonly version = '1.0.0';
   public enabled = true;
 
@@ -22,9 +22,9 @@ export class MdBoldCtePlugin implements CadmusTextEdPlugin {
     return new Promise<CadmusTextEdPluginResult>((resolve, reject) => {
       const result: CadmusTextEdPluginResult = {
         id: this.id,
-        text: /\*\*(.+?)\*\*/g.test(query.text)
-          ? query.text.replace(/\*\*(.+?)\*\*/g, '$1')
-          : `**${query.text}**`,
+        text: /\*(.+?)\*/g.test(query.text)
+          ? query.text.replace(/\*(.+?)\*/g, '$1')
+          : `*${query.text}*`,
         query,
       };
       resolve(result);

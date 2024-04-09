@@ -1,16 +1,18 @@
 import {
   CadmusTextEdPlugin,
-  CadmusTextEdPluginResult,
   CadmusTextEdQuery,
-} from './cadmus-text-ed.service';
+  CadmusTextEdPluginResult,
+} from '@myrmidon/cadmus-text-ed';
 
 /**
- * Toggle Markdown italic formatting plugin.
+ * Markdown emoji inserter plugin.
+ * See https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md.
+ * List from https://api.github.com/emojis.
  */
-export class MdItalicCtePlugin implements CadmusTextEdPlugin {
-  public readonly id = 'md.italic';
-  public readonly name = 'Markdown Italic Toggle';
-  public readonly description = 'Toggle italic formatting in Markdown text.';
+export class MdEmojiCtePlugin implements CadmusTextEdPlugin {
+  public readonly id = 'md.emoji';
+  public readonly name = 'Markdown Emoji IME';
+  public readonly description = 'Insert Emoji Markdown code from its name.';
   public readonly version = '1.0.0';
   public enabled = true;
 
@@ -20,6 +22,7 @@ export class MdItalicCtePlugin implements CadmusTextEdPlugin {
 
   public edit(query: CadmusTextEdQuery): Promise<CadmusTextEdPluginResult> {
     return new Promise<CadmusTextEdPluginResult>((resolve, reject) => {
+      // TODO
       const result: CadmusTextEdPluginResult = {
         id: this.id,
         text: /\*(.+?)\*/g.test(query.text)
