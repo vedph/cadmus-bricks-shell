@@ -30,7 +30,8 @@
     "build-gal": "ng build @myrmidon/cadmus-img-gallery",
     "build-3if": "ng build @myrmidon/cadmus-img-gallery-iiif",
     "build-cab": "ng build @myrmidon/cadmus-ui-custom-action-bar",
-    "build-lib": "npm run build-doc && npm run build-ass && npm run build-lok && npm run build-his && npm run build-cab && npm run build-col && npm run build-phs && npm run build-aid && npm run build-chr && npm run build-decc && npm run build-deci && npm run build-ext && npm run build-achr && npm run build-prp && npm run build-viaf && npm run build-dbp && npm run build-blk && npm run build-flg && npm run build-img && npm run build-nts && npm run build-3if && npm run build-sdimg"
+    "build-ted": "ng build @myrmidon/cadmus-text-ed",
+    "build-lib": "npm run build-doc && npm run build-ass && npm run build-lok && npm run build-his && npm run build-cab && npm run build-col && npm run build-phs && npm run build-aid && npm run build-chr && npm run build-decc && npm run build-deci && npm run build-ext && npm run build-achr && npm run build-prp && npm run build-viaf && npm run build-dbp && npm run build-blk && npm run build-flg && npm run build-img && npm run build-nts && npm run build-3if && npm run build-sdimg && npm run build-ted"
   },
   "private": true,
   "dependencies": {

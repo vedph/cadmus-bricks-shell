@@ -128,7 +128,7 @@ When the ID is **external**, the only properties set for the target model are `g
 
 There are different **options** to customize the lookup behavior:
 
-- lookup pin without any filters, except for the always present part type ID and pin name (_by type_); or lookup pin with optional filters for the item and any of its parts (_by item_; default).
+- lookup pin without any filters, except for the always present part type ID and pin name (_by type_); or lookup pin with optional filters for the item and any of its parts (_by item_; this is the default).
 - the part type ID and pin name filter (i.e. the _index lookup definitions_) can be set from many sources:
   1. directly from the consumer code by setting `lookupDefinitions`;
   2. from injection, when (1) is not used;

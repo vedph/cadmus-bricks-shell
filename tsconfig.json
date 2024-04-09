@@ -92,6 +92,9 @@
         "dist/myrmidon/cadmus-text-block-view/myrmidon-cadmus-text-block-view",
         "dist/myrmidon/cadmus-text-block-view"
       ],
+      "@myrmidon/cadmus-text-ed": [
+        "./dist/myrmidon/cadmus-text-ed"
+      ],
       "@myrmidon/cadmus-ui-custom-action-bar": [
         "dist/myrmidon/cadmus-ui-custom-action-bar"
       ],

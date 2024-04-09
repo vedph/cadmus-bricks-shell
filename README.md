@@ -27,6 +27,7 @@ Use [publish.bat](publish.bat) to publish the libraries to NPM.
 - [proper name](./projects/myrmidon/cadmus-refs-proper-name/README.md)
 - [reference lookup](./projects/myrmidon/cadmus-refs-lookup/README.md)
 - [text block view](./projects/myrmidon/cadmus-text-block-view/README.md)
+- [text editor helpers](./projects/myrmidon/cadmus-text-ed/README.md)
 
 ## Adding a Brick
 
