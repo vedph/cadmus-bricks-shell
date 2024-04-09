@@ -16,7 +16,7 @@
     @if (emoji) {
     <figure>
       <img alt="{{ emoji.name }}" [src]="emoji.url" />
-      <legend>{{ emoji.name }}</legend>
+      <legend>{{ emoji.name }} {{ text }}</legend>
     </figure>
     }
   </mat-card-content>
