@@ -115,6 +115,7 @@ import { MyGalleryImageAnnotatorComponent } from './img/my-gallery-image-annotat
 import { RefLookupSetPgComponent } from './refs/ref-lookup-set-pg/ref-lookup-set-pg.component';
 import { DbpediaRefLookupPgComponent } from './refs/dbpedia-ref-lookup-pg/dbpedia-ref-lookup-pg.component';
 import { EmojiImePgComponent } from './text/emoji-ime-pg/emoji-ime-pg.component';
+import { TextEdPgComponent } from './text/text-ed-pg/text-ed-pg.component';
 
 // for lookup in asserted IDs - note that this would require a backend
 const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
@@ -221,6 +222,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
       },
       { path: 'text/text-block-view', component: TextBlockViewPgComponent },
       { path: 'text/emoji-ime', component: EmojiImePgComponent },
+      { path: 'text/edit', component: TextEdPgComponent },
       { path: 'mat/physical-size', component: PhysicalSizePgComponent },
       { path: 'cod/location', component: CodLocationPgComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },

@@ -1,0 +1,35 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Text Edit</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form" class="form-row">
+      <!-- selector -->
+      <mat-form-field>
+        <legend>selector</legend>
+        <input matInput [formControl]="selector" />
+        <mat-hint>ID or $match-first/all</mat-hint>
+      </mat-form-field>
+
+      <!-- text -->
+      <mat-form-field>
+        <legend>text</legend>
+        <input matInput [formControl]="text" />
+      </mat-form-field>
+
+      <!-- button -->
+      <button type="submit" color="primary" mat-flat-button>edit</button>
+    </form>
+
+    <!-- result -->
+    @if (result) {
+    <div id="result">
+      <code>
+        <pre>{{ result | json }}</pre>
+      </code>
+    </div>
+    }
+  </mat-card-content>
+</mat-card>

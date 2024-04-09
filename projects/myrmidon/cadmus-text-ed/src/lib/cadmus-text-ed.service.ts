@@ -1,10 +1,19 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 
 /**
+ * Selector special value for match-first in CadmusTextEdQuery.
+ */
+export const CADMUS_TEXT_ED_QUERY_MATCH_FIRST = '$match-first';
+/**
+ * Selector special value for match-all in CadmusTextEdQuery.
+ */
+export const CADMUS_TEXT_ED_QUERY_MATCH_ALL = '$match-all';
+
+/**
  * A query to edit text using the Cadmus text editor service.
  */
 export interface CadmusTextEdQuery {
-  selector?: 'id' | 'match-first' | 'match-all';
+  selector?: string;
   text: string;
   context?: any;
 }
@@ -174,11 +183,12 @@ export class CadmusTextEdService {
 
     // find the first applicable plugin
     switch (query.selector) {
-      case 'id':
-        plugin = this._options!.plugins.find((p) => p.id === query.selector);
-        break;
-      case 'match-first':
+      case CADMUS_TEXT_ED_QUERY_MATCH_FIRST:
+      case CADMUS_TEXT_ED_QUERY_MATCH_ALL:
         plugin = this.getPlugins().find((p) => p.matches(query));
+        break;
+      default:
+        plugin = this._options!.plugins.find((p) => p.id === query.selector);
         break;
     }
 
@@ -200,7 +210,7 @@ export class CadmusTextEdService {
       error: r.error,
     };
 
-    if (query.selector !== 'match-all' || result.error) {
+    if (query.selector !== CADMUS_TEXT_ED_QUERY_MATCH_ALL || result.error) {
       return result;
     }
 
