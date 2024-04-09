@@ -1947,8 +1947,11 @@ export class EmojiService {
       return '';
     }
     // parse emoji url to get the code(s) separated by dash
-    const codes = emoji.url.replace('.png?v8', '').split('-');
+    const text = emoji.url.substring(EMOJI_URI.length).replace('.png?v8', '');
+    const codes = text.split('-');
     // create a string with all the unicode codes in codes
-    return codes.map((code) => String.fromCodePoint(parseInt(code, 16))).join('');
+    return codes
+      .map((code) => String.fromCodePoint(parseInt(code, 16)))
+      .join('');
   }
 }

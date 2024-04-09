@@ -125,9 +125,13 @@ export class EmojiImeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.inputCtl?.nativeElement.focus();
-    if (this.name.value) {
-      this.inputCtl?.nativeElement.select();
+    if (this.inputCtl) {
+      setTimeout(() => {
+        this.inputCtl!.nativeElement.focus();
+        if (this.name.value) {
+          this.inputCtl!.nativeElement.select();
+        }
+      });
     }
   }
 

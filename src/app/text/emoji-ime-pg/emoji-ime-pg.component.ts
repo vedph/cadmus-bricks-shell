@@ -14,7 +14,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { EmojiImeComponent } from 'projects/myrmidon/cadmus-text-ed-md/src/lib/emoji-ime/emoji-ime.component';
-import { UnicodeEmoji } from 'projects/myrmidon/cadmus-text-ed-md/src/lib/emoji.service';
+import {
+  EmojiService,
+  UnicodeEmoji,
+} from 'projects/myrmidon/cadmus-text-ed-md/src/lib/emoji.service';
 
 @Component({
   selector: 'app-emoji-ime-pg',
@@ -35,8 +38,13 @@ import { UnicodeEmoji } from 'projects/myrmidon/cadmus-text-ed-md/src/lib/emoji.
 export class EmojiImePgComponent {
   public emoji?: UnicodeEmoji;
   public name: FormControl<string | null>;
+  public text?:string;
 
-  constructor(private _dialog: MatDialog, formBuilder: FormBuilder) {
+  constructor(
+    private _dialog: MatDialog,
+    private _emojiService: EmojiService,
+    formBuilder: FormBuilder
+  ) {
     this.name = formBuilder.control(null);
   }
 
@@ -49,6 +57,7 @@ export class EmojiImePgComponent {
 
     dialogRef.afterClosed().subscribe((emoji) => {
       this.emoji = emoji;
+      this.text = this._emojiService.getEmojiText(emoji);
       this.name.reset();
     });
   }
