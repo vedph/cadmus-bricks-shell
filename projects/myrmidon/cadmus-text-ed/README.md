@@ -33,3 +33,28 @@ The plugin functions are `matches`, which returns true if the plugin matches, an
 - `ids`: an optional array with the IDs of all the plugins that have been applied to the text.
 - `payloads`: an optional array with all the payload objects output by the plugin. This array has the same size of ids, so that those plugins which do not return a payload will have an undefined entry here.
 - `error`: an optional error message. When this is not falsy, this means that the plugin encountered an error and usually the result is the same as the input text. As soon as an error occurs, the editing process stops and this error is set.
+
+## Using the Service
+
+To use the text editing service in your app, you just have to configure its options (`CadmusTextEdServiceOptions`). Currently, the only property in these options is the list of plugins.
+
+The text editing service is not a singleton, so you can configure each instance of it as you prefer.
+
+To configure plugins **globally** for all the instances you inject, in your app configuration add the desired plugins to `providers` via the specified injection token:
+
+```ts
+{
+  provide: CADMUS_TEXT_ED_SERVICE_OPTIONS_TOKEN,
+  useValue: {
+    plugins: [
+      // your plugins here...
+    ]
+  },
+}
+```
+
+This injection token is optionally injected into the service, so you just have to provide it to configure all the instances of the service in the same way. This way, whenever the service is injected, you will get a separate instance, but configured in the same way.
+
+Alternatively, you can configure plugins **per consumer**. In this case, just inject into your consumer an unconfigured service, without setting the default configuration as explained above. This means that an instance of the service will be injected with no plugins; in this case, you have to add the desired plugins via its `configure` method.
+
+⚠️ As plugins might require dependencies, to allow them be provided by DI you should create them via the [inject function](https://angular.io/api/core/inject) rather than just using `new`.

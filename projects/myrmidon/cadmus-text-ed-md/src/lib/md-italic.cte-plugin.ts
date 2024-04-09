@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import {
   CadmusTextEdPlugin,
   CadmusTextEdQuery,
@@ -7,6 +8,7 @@ import {
 /**
  * Toggle Markdown italic formatting plugin.
  */
+@Injectable()
 export class MdItalicCtePlugin implements CadmusTextEdPlugin {
   public readonly id = 'md.italic';
   public readonly name = 'Markdown Italic Toggle';

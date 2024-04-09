@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import {
   CadmusTextEdPlugin,
   CadmusTextEdQuery,
@@ -7,6 +8,7 @@ import {
 /**
  * Toggle Markdown bold formatting plugin.
  */
+@Injectable()
 export class MdBoldCtePlugin implements CadmusTextEdPlugin {
   public readonly id = 'md.bold';
   public readonly name = 'Markdown Bold Toggle';

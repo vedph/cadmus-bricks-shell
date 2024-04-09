@@ -1901,11 +1901,17 @@ export interface UnicodeEmoji {
   providedIn: 'root',
 })
 export class EmojiService {
-  private getEmoji(key: string): UnicodeEmoji {
+  /**
+   * Get the emoji with the given name.
+   * @param name The full emoji name.
+   * @returns Emoji or undefined.
+   */
+  public getEmoji(name: string): UnicodeEmoji | undefined {
+    name = name.toLowerCase();
     return {
-      name: key,
-      code: EMOJIS[key].replace('.png?v8', ''),
-      url: `${EMOJI_URI}${EMOJIS[key]}`,
+      name: name,
+      code: EMOJIS[name].replace('.png?v8', ''),
+      url: `${EMOJI_URI}${EMOJIS[name]}`,
     };
   }
 
@@ -1921,7 +1927,7 @@ export class EmojiService {
 
     for (let key of Object.keys(EMOJIS)) {
       if (key.includes(name)) {
-        matches.push(this.getEmoji(key));
+        matches.push(this.getEmoji(key)!);
         if (matches.length === limit) {
           break;
         }
@@ -1929,5 +1935,20 @@ export class EmojiService {
     }
 
     return matches;
+  }
+
+  /**
+   * Get the text corresponding to the specified emoji.
+   * @param emoji The emoji to get the text for.
+   * @returns Text.
+   */
+  public getEmojiText(emoji: UnicodeEmoji): string {
+    if (!emoji) {
+      return '';
+    }
+    // parse emoji url to get the code(s) separated by dash
+    const codes = emoji.url.replace('.png?v8', '').split('-');
+    // create a string with all the unicode codes in codes
+    return codes.map((code) => String.fromCodePoint(parseInt(code, 16))).join('');
   }
 }
