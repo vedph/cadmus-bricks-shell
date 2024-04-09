@@ -1908,6 +1908,9 @@ export class EmojiService {
    */
   public getEmoji(name: string): UnicodeEmoji | undefined {
     name = name.toLowerCase();
+    if (!EMOJIS[name]) {
+      return undefined;
+    }
     return {
       name: name,
       code: EMOJIS[name].replace('.png?v8', ''),
