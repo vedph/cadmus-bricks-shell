@@ -1,5 +1,7 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Inject,
   Input,
@@ -7,6 +9,7 @@ import {
   OnInit,
   Optional,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -54,8 +57,11 @@ export interface EmojiImeComponentData {
   templateUrl: './emoji-ime.component.html',
   styleUrl: './emoji-ime.component.css',
 })
-export class EmojiImeComponent implements OnInit, OnDestroy {
+export class EmojiImeComponent implements OnInit, AfterViewInit, OnDestroy {
   private _sub?: Subscription;
+
+  @ViewChild('nameInput')
+  public inputCtl?: ElementRef;
 
   public name: FormControl<string | null>;
   public form: FormGroup;
@@ -116,6 +122,13 @@ export class EmojiImeComponent implements OnInit, OnDestroy {
       .subscribe((_) => {
         this.lookupEmoji();
       });
+  }
+
+  public ngAfterViewInit(): void {
+    this.inputCtl?.nativeElement.focus();
+    if (this.name.value) {
+      this.inputCtl?.nativeElement.select();
+    }
   }
 
   public ngOnDestroy(): void {

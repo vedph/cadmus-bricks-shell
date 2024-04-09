@@ -2,3 +2,12 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
+tr:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+.name {
+  font-weight: bold;
+}
+.code {
+  color: silver;
+}

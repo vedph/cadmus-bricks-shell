@@ -6,7 +6,7 @@
   <!-- name -->
   <div>
     <mat-form-field>
-      <input autofocus matInput placeholder="name" [formControl]="name" />
+      <input #nameInput matInput placeholder="name" [formControl]="name" />
     </mat-form-field>
   </div>
   <!-- list -->
@@ -14,8 +14,8 @@
     <tbody>
       @for (e of emojis; track e.code) {
       <tr>
-        <td>{{ e.name }}</td>
-        <td>{{ e.code | uppercase }}</td>
+        <td class="name">{{ e.name }}</td>
+        <td class="code">{{ e.code | uppercase }}</td>
         <td>
           <button type="button" mat-button (click)="pickEmoji(e)">
             <img
