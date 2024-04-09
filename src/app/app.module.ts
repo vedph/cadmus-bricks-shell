@@ -220,7 +220,7 @@ const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
         path: 'ui/custom-actions-bar',
         component: CustomActionBarPgComponent,
       },
-      { path: 'text/text-block-view', component: TextBlockViewPgComponent },
+      { path: 'text/block-view', component: TextBlockViewPgComponent },
       { path: 'text/emoji-ime', component: EmojiImePgComponent },
       { path: 'text/edit', component: TextEdPgComponent },
       { path: 'mat/physical-size', component: PhysicalSizePgComponent },

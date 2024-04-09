@@ -38,6 +38,12 @@ import {
     MatInputModule,
     MatSelectModule,
   ],
+  providers: [
+    CadmusTextEdService,
+    MdBoldCtePlugin,
+    MdItalicCtePlugin,
+    MdEmojiCtePlugin
+  ],
   templateUrl: './text-ed-pg.component.html',
   styleUrl: './text-ed-pg.component.css',
 })
